@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      /* Fix for browser extensions attempting to assign to window.fetch when it only has a getter */
+      (function() {
+        try {
+          var realFetch = window.fetch;
+          var customFetch = realFetch ? realFetch.bind(window) : undefined;
+          
+          // Define a writable and configurable fetch on window
+          Object.defineProperty(window, 'fetch', {
+            get: function() {
+              return customFetch;
+            },
+            set: function(newFetch) {
+              customFetch = newFetch;
+            },
+            configurable: true,
+            enumerable: true
+          });
+        } catch (e) {
+          // Ignore if environment forbids redefinition
+        }
+
+        // Suppress unhandled errors from injected third-party browser extensions
+        window.addEventListener('error', function(e) {
+          if (
+            (e.filename && e.filename.indexOf('chrome-extension://') !== -1) ||
+            (e.message && (
+              e.message.indexOf('Cannot set property fetch') !== -1 ||
+              e.message.indexOf('which has only a getter') !== -1
+            ))
+          ) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(e) {
+          var msg = (e.reason && (e.reason.message || e.reason.stack)) || '';
+          if (
+            msg.indexOf('chrome-extension://') !== -1 ||
+            msg.indexOf('Cannot set property fetch') !== -1
+          ) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <title>Super Crown Tools - 5000+ Free Online Tools | 100% Unlocked Daily Utilities</title>
+    <meta name="description" content="Super Crown Tools features 5000+ free online tools, financial calculators, image utilities, PDF converters, and productivity apps. 100% unlocked with zero login or paywalls." />
+    <meta name="keywords" content="Super Crown Tools, free online tools, mortgage calculator, bmi calculator, loan calculator, auto insurance, resume builder, pdf to word, unit converter, productivity tools" />
+    <meta name="author" content="Super Crown Tools" />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Super Crown Tools - 5000+ Free Online Tools | 100% Unlocked Daily Utilities" />
+    <meta property="og:description" content="Super Crown Tools features 5000+ free online tools, financial calculators, image utilities, PDF converters, and productivity apps. 100% unlocked with zero login or paywalls." />
+    <meta property="og:site_name" content="Super Crown Tools 👑" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Super Crown Tools - 5000+ Free Online Tools" />
+    <meta name="twitter:description" content="5000+ free online tools, calculators, and converters with zero lock systems and instant browser execution." />
+
+    <!-- Google Fonts for crisp Latin and Urdu rendering -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Schema.org WebApplication JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Super Crown",
+      "applicationCategory": "ProductivityApplication",
+      "operatingSystem": "All modern web browsers",
+      "description": "5000+ free, 100% legal & safe daily use tools, financial calculators, document converters, and productivity utilities for USA, UK, and Canada.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Mortgage Calculator USA",
+        "Auto Insurance Estimator",
+        "Tax Calculator 2026 USA",
+        "Loan Calculator USA",
+        "Resume Builder USA Format",
+        "Invoice Generator Pro",
+        "Live Currency Converter",
+        "PDF to Word Converter",
+        "5000+ Daily Productive Utilities"
+      ]
+    }
+    </script>
+  </head>
+  <body class="min-h-screen bg-white text-gray-900 transition-colors duration-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

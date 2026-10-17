@@ -1,0 +1,6 @@
+{
+  "name": "Super Crown - 5000+ Daily Use Tools",
+  "description": "Super Crown features 5000+ free, legal, and safe daily tools and high-CPC calculators for USA, UK, and Canada users.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
