@@ -3,7 +3,7 @@ import { X, ShieldCheck, Mail, Globe, CheckCircle2, FileText, AlertCircle, Heart
 import { LogoMark } from './LogoMark';
 
 interface LegalModalProps {
-  type: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'support' | 'legal-safe' | null;
+  type: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'legal-safe' | null;
   onClose: () => void;
 }
 
@@ -24,7 +24,6 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
                 {type === 'terms' && 'Terms of Service & Safe Usage Agreement'}
                 {type === 'contact' && 'Contact Support & Corporate Inquiries'}
                 {type === 'disclaimer' && 'Legal & Financial Disclaimers'}
-                {type === 'support' && 'Support Our Mission'}
                 {type === 'legal-safe' && '100% Legit, Safe & Verified Guarantee'}
               </h3>
               <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -204,19 +203,6 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
               <h4 className="text-base font-bold text-gray-900 dark:text-white">3. Health and Fitness Calculations (BMI & Calories)</h4>
               <p>
                 Body Mass Index (BMI) and Basal Metabolic Rate (BMR) calculators are epidemiological approximations. They do not distinguish between lean muscle mass and adipose tissue, nor do they account for specific clinical conditions, pregnancy, or metabolic disorders. Information should never supersede guidance from a qualified physician or licensed dietitian.
-              </p>
-            </div>
-          )}
-
-          {/* SUPPORT MISSION (500+ words) */}
-          {type === 'support' && (
-            <div className="space-y-4">
-              <h4 className="text-base font-bold text-gray-900 dark:text-white">Why Community Support Matters</h4>
-              <p>
-                Super Crown provides over 250 daily tools completely free of charge. Unlike competing commercial platforms that gate basic functionality behind $15/month subscriptions or blur calculated results, our philosophy is to keep essential tools accessible to everyone—from high school students drafting their first resume to small business contractors sending client invoices.
-              </p>
-              <p>
-                Maintaining cloud infrastructure with low latency across North America, Europe, Asia, and Latin America entails substantial recurring costs for domain systems, continuous integration testing, edge DNS routing, and server uptime monitoring. Your micro-contributions through Payoneer, Binance Pay, Cryptocurrency, PayPal, or Buy Me a Coffee directly fund server capacity and enable our engineering team to build new verified utilities every month.
               </p>
             </div>
           )}

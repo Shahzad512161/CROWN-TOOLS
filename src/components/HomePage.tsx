@@ -18,7 +18,6 @@ interface HomePageProps {
   onSelectTool: (slug: string) => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
-  onOpenDonationModal: () => void;
   t?: Translations;
   lang?: SupportedLanguage;
 }
@@ -282,7 +281,6 @@ export const HomePage: React.FC<HomePageProps> = ({
   onSelectTool,
   searchQuery,
   onSearchChange,
-  onOpenDonationModal,
   t = TRANSLATIONS.en,
   lang = 'en'
 }) => {
@@ -1113,43 +1111,8 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
         )}
 
-        {/* Footer Support Prompt */}
-        <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-center flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2.5 text-slate-700 dark:text-slate-200 font-medium">
-            <MessageSquare className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
-            <span>Have a technical question or feature request not answered here?</span>
-          </div>
-          <button
-            onClick={onOpenDonationModal}
-            className="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:bg-slate-700 dark:hover:bg-slate-200 transition-colors cursor-pointer shrink-0"
-          >
-            Contact Team & Support
-          </button>
-        </div>
       </section>
 
-      {/* Community Mission Banner */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="p-8 sm:p-10 rounded-[32px] bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800">
-          <div className="space-y-2 text-center md:text-left">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold bg-white/10 uppercase tracking-wide border border-white/10">
-              Community Supported Infrastructure
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black">
-              Help Keep 250+ Tools 100% Free To Start
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-normal leading-relaxed">
-              {t.supportSubtitle}
-            </p>
-          </div>
-          <button
-            onClick={onOpenDonationModal}
-            className="px-6 py-3.5 rounded-2xl bg-white text-[#0f172a] hover:bg-slate-100 font-bold text-sm shadow-xl transition-all cursor-pointer transform hover:scale-105 shrink-0"
-          >
-            {t.supportMissionBtn} →
-          </button>
-        </div>
-      </section>
     </div>
   );
 };

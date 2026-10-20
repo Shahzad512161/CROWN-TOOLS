@@ -10,7 +10,6 @@ export interface HeaderProps {
   onToggleDarkMode?: () => void;
   onNavigateHome?: () => void;
   onNavigatePage?: (page: 'home' | 'about' | 'privacy' | 'contact' | 'blog' | 'terms' | 'disclaimer') => void;
-  onOpenSupportModal?: () => void;
   currentLang?: SupportedLanguage;
   onChangeLang?: (lang: SupportedLanguage) => void;
   t?: Translations;
@@ -22,7 +21,6 @@ export default function Header({
   onToggleDarkMode,
   onNavigateHome,
   onNavigatePage,
-  onOpenSupportModal,
   currentLang = 'en',
   onChangeLang,
   t = TRANSLATIONS.en,
@@ -56,22 +54,6 @@ export default function Header({
       <div className="bg-black text-white text-[13px] h-[44px] flex items-center border-b border-white/10">
         <div className="max-w-[1500px] mx-auto w-full px-4 flex justify-between items-center">
           
-          {/* Left - Support Mission */}
-          <div className="flex items-center min-w-0">
-            <button
-              type="button"
-              onClick={onOpenSupportModal}
-              className="flex items-center gap-2 bg-[#ff2d55]/20 hover:bg-[#ff2d55]/30 border border-[#ff2d55]/30 px-4 py-1.5 rounded-full cursor-pointer transition-all text-white"
-              title="Support Mission: Help Us Grow"
-            >
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-ping shrink-0"></span>
-              <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400 shrink-0" />
-              <span className="font-semibold tracking-wide text-xs sm:text-[13px] truncate">
-                {t.missionStrip}
-              </span>
-            </button>
-          </div>
-
           {/* Right - Email + Language + Theme Toggle */}
           <div className="flex items-center gap-3">
             <a

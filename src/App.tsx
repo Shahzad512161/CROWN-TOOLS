@@ -12,7 +12,6 @@ const AboutPage = React.lazy(() => import('./components/Pages').then((m) => ({ d
 const PrivacyPage = React.lazy(() => import('./components/Pages').then((m) => ({ default: m.PrivacyPage })));
 const ContactPage = React.lazy(() => import('./components/Pages').then((m) => ({ default: m.ContactPage })));
 const LegalModal = React.lazy(() => import('./components/LegalModals').then((m) => ({ default: m.LegalModal })));
-const DonationBox = React.lazy(() => import('./components/DonationBox').then((m) => ({ default: m.DonationBox })));
 
 const ViewFallback = () => (
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-pulse" aria-busy="true">
@@ -38,8 +37,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const [currentLang, setCurrentLang] = useState<SupportedLanguage>('en');
-  const [legalModalType, setLegalModalType] = useState<'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'support' | 'legal-safe' | null>(null);
-  const [isDonationModalOpen, setIsDonationModalOpen] = useState<boolean>(false);
+  const [legalModalType, setLegalModalType] = useState<'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'legal-safe' | null>(null);
 
   // Initialize Theme, Auto Language, and URL PopState routing
   useEffect(() => {
@@ -294,7 +292,6 @@ export default function App() {
         onToggleDarkMode={toggleDarkMode}
         onNavigateHome={handleNavigateHome}
         onNavigatePage={handleNavigatePage}
-        onOpenSupportModal={() => setIsDonationModalOpen(true)}
         currentLang={currentLang}
         onChangeLang={handleChangeLanguage}
         t={t}
@@ -367,7 +364,6 @@ export default function App() {
             onSelectTool={handleSelectTool}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
-            onOpenDonationModal={() => setIsDonationModalOpen(true)}
             t={t}
             lang={currentLang}
           />
@@ -379,7 +375,6 @@ export default function App() {
       <Footer
         onOpenModal={(type) => setLegalModalType(type)}
         onNavigatePage={handleNavigatePage}
-        onOpenDonationModal={() => setIsDonationModalOpen(true)}
         t={t}
       />
 
@@ -391,22 +386,6 @@ export default function App() {
         />
       </Suspense>
 
-      {/* Support Mission Modal (Wikipedia Style) */}
-      {isDonationModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#111827] rounded-[28px] border border-gray-200 dark:border-gray-700 shadow-2xl p-6 sm:p-8">
-            <button
-              onClick={() => setIsDonationModalOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-white transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-            <Suspense fallback={null}>
-              <DonationBox t={t} />
-            </Suspense>
-          </div>
-        </div>
-      )}
     </div>
    </LangContext.Provider>
   );

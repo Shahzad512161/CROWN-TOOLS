@@ -4,16 +4,15 @@ import { Translations, TRANSLATIONS } from '../lib/i18n';
 import { LogoMark } from './LogoMark';
 
 interface FooterProps {
-  onOpenModal: (type: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'support' | 'legal-safe') => void;
+  onOpenModal: (type: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'legal-safe') => void;
   onNavigatePage?: (page: 'home' | 'about' | 'privacy' | 'contact' | 'blog' | 'terms' | 'disclaimer') => void;
-  onOpenDonationModal: () => void;
   t?: Translations;
 }
 
 export const Footer: React.FC<FooterProps> = ({ 
   onOpenModal, 
   onNavigatePage,
-  onOpenDonationModal, 
+
   t = TRANSLATIONS.en 
 }) => {
   const handleNav = (page: 'home' | 'about' | 'privacy' | 'contact' | 'blog' | 'terms' | 'disclaimer', modalFallback: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer') => {
@@ -118,15 +117,6 @@ export const Footer: React.FC<FooterProps> = ({
                   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
                 >
                   {t.navContact || 'Contact Us'}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={onOpenDonationModal}
-                  className="text-red-600 dark:text-red-400 font-semibold hover:underline cursor-pointer text-left flex items-center gap-1"
-                >
-                  <Heart className="w-3.5 h-3.5 fill-current text-red-500" />
-                  <span>Support Mission (1M People)</span>
                 </button>
               </li>
             </ul>
