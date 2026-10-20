@@ -13,6 +13,10 @@ for (const chunk of [top8, curated]) {
   for (const m of chunk.matchAll(/slug: '([^']+)'/g)) slugs.add(m[1]);
 }
 
+// English is the default locale and lives under /en; future locales
+// will add their own prefixed sitemaps when localization launches.
+const LOCALE = '/en';
+
 const staticPages = [
   { path: '', changefreq: 'daily', priority: '1.0' },
   { path: '/about', changefreq: 'monthly', priority: '0.6' },
@@ -25,8 +29,8 @@ const url = (loc, changefreq, priority) =>
   `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
 
 const entries = [
-  ...staticPages.map((p) => url(`${BASE}${p.path}`, p.changefreq, p.priority)),
-  ...[...slugs].sort().map((s) => url(`${BASE}/tool/${s}`, 'weekly', '0.9')),
+  ...staticPages.map((p) => url(`${BASE}${LOCALE}${p.path}`, p.changefreq, p.priority)),
+  ...[...slugs].sort().map((s) => url(`${BASE}${LOCALE}/tool/${s}`, 'weekly', '0.9')),
 ];
 
 writeFileSync(

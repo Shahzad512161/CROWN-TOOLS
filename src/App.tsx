@@ -8,7 +8,7 @@ import { AboutPage, PrivacyPage, ContactPage } from './components/Pages';
 import { LegalModal } from './components/LegalModals';
 import { DonationBox } from './components/DonationBox';
 import { TOOLS_BY_SLUG, ALL_TOOLS } from './lib/tools-data';
-import { SupportedLanguage, TRANSLATIONS, detectUserLanguage } from './lib/i18n';
+import { SupportedLanguage, TRANSLATIONS, detectUserLanguage, stripLocalePrefix, withLocalePrefix } from './lib/i18n';
 import { X } from 'lucide-react';
 
 export type AppView = 'home' | 'tool' | 'blog' | 'blog-post' | 'about' | 'privacy' | 'contact' | 'terms' | 'disclaimer';
@@ -42,13 +42,23 @@ export default function App() {
       document.body.classList.remove('dark');
     }
 
-    // 2. WORLDWIDE AUTO LANGUAGE DETECTION
+    // 2. LANGUAGE: English only for now (locale prefix /en; future locales
+    // will be detected here when localization launches)
     const detected = detectUserLanguage();
     setCurrentLang(detected);
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+
+    // Canonicalize to the /en-prefixed URL (domain/en/...)
+    const rawPath = window.location.pathname;
+    const stripped = stripLocalePrefix(rawPath);
+    if (rawPath !== withLocalePrefix(stripped)) {
+      window.history.replaceState({}, '', withLocalePrefix(stripped) + window.location.search);
+    }
 
     // 3. Routing Sync
     const handlePopState = () => {
-      const path = window.location.pathname;
+      const path = stripLocalePrefix(window.location.pathname);
       const params = new URLSearchParams(window.location.search);
       const queryTool = params.get('tool');
 
@@ -117,7 +127,7 @@ export default function App() {
     setCurrentView('home');
     setActiveToolSlug(null);
     setActiveBlogSlug(null);
-    window.history.pushState({}, '', '/');
+    window.history.pushState({}, '', withLocalePrefix('/'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -131,27 +141,27 @@ export default function App() {
       return;
     }
     setCurrentView(page);
-    window.history.pushState({}, '', `/${page}`);
+    window.history.pushState({}, '', withLocalePrefix(`/${page}`));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectTool = (slug: string) => {
     setActiveToolSlug(slug);
     setCurrentView('tool');
-    window.history.pushState({}, '', `/tool/${slug}`);
+    window.history.pushState({}, '', withLocalePrefix(`/tool/${slug}`));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectBlogPost = (slug: string) => {
     setActiveBlogSlug(slug);
     setCurrentView('blog-post');
-    window.history.pushState({}, '', `/blog/${slug}`);
+    window.history.pushState({}, '', withLocalePrefix(`/blog/${slug}`));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigateBlog = () => {
     setCurrentView('blog');
-    window.history.pushState({}, '', '/blog');
+    window.history.pushState({}, '', withLocalePrefix('/blog'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -165,7 +175,7 @@ export default function App() {
     >
       {/* ========================================================================= */}
       {/* DESIGN - 2 LINE TOP HEADER SYSTEM */}
-      {/* 1. Top Black Bar (36px): [🌐 30+ Languages] [❤️ Support: 10 لاکھ] [support@ + Sun/Moon] */}
+      {/* 1. Top Black Bar (36px): [❤️ Support Mission] [support@ + Sun/Moon] */}
       {/* 2. Main White Header (68px): [👑 Logo Super Crown Tools] [About | Privacy | Contact | Blog] [Social + Ad] */}
       {/* ========================================================================= */}
       <Header

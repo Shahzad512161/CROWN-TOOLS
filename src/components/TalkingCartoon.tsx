@@ -9,9 +9,8 @@ export default function TalkingCartoon({ onInteract, className = '' }: TalkingCa
   const [speaking, setSpeaking] = useState(false);
   const [hasSpokenOnce, setHasSpokenOnce] = useState(false);
 
-  const urduGreeting = "السلام علیکم! آپ کو کونسا ٹول چاہیے؟";
   const englishGreeting = "Hello! Which free tool do you need today? 👑";
-  const fullSpeechText = "السلام علیکم! آپ کو کونسا ٹول چاہیے؟ Hello! Which free tool do you need today?";
+  const fullSpeechText = "Hello! Which free tool do you need today?";
 
   const speakNow = useCallback(() => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
@@ -26,14 +25,11 @@ export default function TalkingCartoon({ onInteract, className = '' }: TalkingCa
       utterance.rate = 0.95;
       utterance.pitch = 1.05;
 
-      // Try picking an Urdu voice if available, otherwise default
+      // Prefer an English voice when one is available
       const voices = window.speechSynthesis.getVoices();
-      const urduVoice = voices.find(v => v.lang.startsWith('ur') || v.lang.includes('PK'));
       const englishVoice = voices.find(v => v.lang.startsWith('en-US') || v.lang.startsWith('en'));
 
-      if (urduVoice) {
-        utterance.voice = urduVoice;
-      } else if (englishVoice) {
+      if (englishVoice) {
         utterance.voice = englishVoice;
       }
 
@@ -76,7 +72,7 @@ export default function TalkingCartoon({ onInteract, className = '' }: TalkingCa
   return (
     <div className={`flex flex-col items-center lg:items-start gap-4 select-none ${className}`}>
       
-      {/* بات والا ببل - Speech Bubble */}
+      {/* Speech Bubble */}
       <div 
         onClick={handleCartoonClick}
         className={`relative bg-yellow-50 dark:bg-yellow-950/60 border-[3px] border-black dark:border-amber-400 rounded-[20px] p-4 sm:p-5 shadow-[6px_6px_0px_black] dark:shadow-[6px_6px_0px_#f59e0b] max-w-[360px] cursor-pointer transition-all duration-300 transform hover:scale-[1.02] ${
@@ -98,20 +94,15 @@ export default function TalkingCartoon({ onInteract, className = '' }: TalkingCa
         </div>
 
         {/* Dynamic speech status & greeting */}
-        <p className="font-black text-[18px] sm:text-[20px] leading-tight text-black dark:text-yellow-300 font-urdu tracking-wide">
-          {speaking ? '🔊 بول رہا ہوں...' : `👋 ${urduGreeting}`}
-        </p>
-
-        {/* English Greeting for international audience */}
-        <p className="font-extrabold text-[13px] sm:text-[14px] text-gray-800 dark:text-gray-200 mt-1.5 leading-snug">
-          {englishGreeting}
+        <p className="font-black text-[18px] sm:text-[20px] leading-tight text-black dark:text-yellow-300 tracking-wide">
+          {speaking ? '🔊 Speaking...' : `👋 ${englishGreeting}`}
         </p>
 
         <p className="text-[11px] text-gray-600 dark:text-gray-400 mt-1 font-medium">
           5000+ Free Online Tools • Instant Calculations
         </p>
 
-        {/* ببل کی نوک - Bubble Pointer Tail */}
+        {/* Bubble Pointer Tail */}
         <div className="absolute -bottom-3 left-10 sm:left-14 w-5 h-5 bg-yellow-50 dark:bg-yellow-950/60 border-r-[3px] border-b-[3px] border-black dark:border-amber-400 transform rotate-45 pointer-events-none"></div>
       </div>
 
@@ -218,7 +209,7 @@ export default function TalkingCartoon({ onInteract, className = '' }: TalkingCa
           </svg>
         </div>
 
-        {/* بولنے والا بٹن - Click To Speak Button & Label */}
+        {/* Click To Speak Button & Label */}
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-1">
           <button
             onClick={handleCartoonClick}
@@ -228,7 +219,7 @@ export default function TalkingCartoon({ onInteract, className = '' }: TalkingCa
             <span className={`text-base ${speaking ? 'animate-bounce' : 'group-hover/btn:scale-125 transition-transform'}`}>
               🔊
             </span>
-            <span>{speaking ? 'بول رہا ہے... (Speaking)' : 'کلک کریں تو بولے گا - Click to Speak'}</span>
+            <span>{speaking ? 'Speaking...' : 'Click to Speak'}</span>
           </button>
           <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold pl-1">
             👑 AI Royal Mascot • Voice & Audio Greeting

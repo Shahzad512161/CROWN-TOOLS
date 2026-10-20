@@ -251,7 +251,7 @@ export const Base64Tool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <DevCard
       tool={tool}
-      note="Text is encoded as UTF-8 bytes first, so Unicode (emoji, Urdu, Chinese…) survives the round trip — unlike a naive btoa() call, which throws on anything outside Latin-1. Decoding accepts both the standard and URL-safe alphabets."
+      note="Text is encoded as UTF-8 bytes first, so Unicode (emoji, accented letters, symbols…) survives the round trip — unlike a naive btoa() call, which throws on anything outside Latin-1. Decoding accepts both the standard and URL-safe alphabets."
     >
       <div className="flex flex-wrap items-center gap-3 mb-3">
         <ModeToggle

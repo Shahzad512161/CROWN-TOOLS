@@ -11,14 +11,21 @@
     background-color: #111827;
   }
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     margin: 0;
     padding: 0;
   }
+  ::selection {
+    background-color: #fde68a;
+    color: #111827;
+  }
 }
 
-.font-urdu {
-  font-family: 'Noto Nastaliq Urdu', serif;
+/* Display headings — HeyGen-style: extra-bold geometric sans, tight tracking */
+.font-display {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 @keyframes lockPulse {

@@ -8,15 +8,15 @@ interface DonationHeartProps {
 
 export const DonationHeart: React.FC<DonationHeartProps> = ({
   onClick,
-  text = 'ہمارا مشن: 10 لاکھ لوگوں کی مدد',
-  subText = 'Help 1M People'
+  text = 'Our Mission: Help 1 Million People',
+  subText = 'Support Us'
 }) => {
   return (
     <button
       onClick={onClick}
       type="button"
       className="group relative inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-0.5 rounded-full bg-gradient-to-r from-rose-500/25 via-pink-500/25 to-red-500/25 border border-rose-500/50 hover:border-rose-400 text-white transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer shadow-[0_0_12px_rgba(244,63,94,0.35)] hover:shadow-[0_0_18px_rgba(244,63,94,0.6)]"
-      title="سپورٹ مشن: ہمارا مشن 10 لاکھ لوگوں کی مدد کرنا ہے"
+      title="Support Mission: Help 1 Million People"
     >
       {/* 3D Pulsing Animated Beating Heart */}
       <span className="relative flex h-3.5 w-3.5 items-center justify-center shrink-0">
@@ -29,8 +29,8 @@ export const DonationHeart: React.FC<DonationHeartProps> = ({
         </svg>
       </span>
 
-      {/* Urdu Mission Text */}
-      <span className="font-bold text-[11px] sm:text-[12px] text-rose-100 group-hover:text-white transition-colors leading-none font-['Noto_Nastaliq_Urdu',sans-serif]">
+      {/* Mission Text */}
+      <span className="font-bold text-[11px] sm:text-[12px] text-rose-100 group-hover:text-white transition-colors leading-none">
         {text}
       </span>
 

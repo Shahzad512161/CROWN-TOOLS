@@ -1087,12 +1087,6 @@ export const MemeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
 const OCR_LANGS: { code: string; label: string }[] = [
   { code: 'eng', label: 'English' },
-  { code: 'urd', label: 'Urdu' },
-  { code: 'ara', label: 'Arabic' },
-  { code: 'hin', label: 'Hindi' },
-  { code: 'spa', label: 'Spanish' },
-  { code: 'fra', label: 'French' },
-  { code: 'deu', label: 'German' },
 ];
 
 export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -1151,7 +1145,7 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="Powered by the Tesseract OCR engine running in your browser — the first use downloads the engine and the selected language data from a CDN. Clear, straight, high-contrast scans read best. Urdu and Arabic are right-to-left scripts; their extracted text follows the original reading order."
+      note="Powered by the Tesseract OCR engine running in your browser — the first use downloads the engine and the English language data from a CDN. Clear, straight, high-contrast scans read best."
     >
       <div className="space-y-4">
         <FileDrop

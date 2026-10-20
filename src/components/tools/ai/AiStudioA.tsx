@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ArrowLeftRight } from 'lucide-react';
 import type { ToolItem } from '../../../lib/tools-data';
 import {
   AiCard,
@@ -311,103 +310,41 @@ export const AiTextSummarizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   5. AI Translator — own output block with dir="auto" for RTL
+   5. AI Translator — translates text from any language into English
    ================================================================ */
-const FROM_LANGUAGES = [
-  'Auto-detect', 'English', 'Urdu', 'Arabic', 'Hindi', 'Spanish', 'French', 'German',
-  'Chinese (Simplified)', 'Turkish', 'Punjabi', 'Bengali', 'Persian', 'Russian',
-  'Portuguese', 'Italian',
-];
-const TO_LANGUAGES = [
-  'English', 'Urdu', 'Arabic', 'Hindi', 'Spanish', 'French', 'German',
-  'Chinese (Simplified)', 'Turkish', 'Punjabi', 'Bengali', 'Persian', 'Russian',
-  'Portuguese', 'Italian', 'Dutch', 'Korean', 'Japanese', 'Pashto', 'Sindhi',
-];
-
 export const AiTranslator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const { busy, error, result, run, keyReady } = useAiText();
   const [text, setText] = useState('');
-  const [from, setFrom] = useState('Auto-detect');
-  const [to, setTo] = useState('Urdu');
   const [localError, setLocalError] = useState('');
-
-  const swap = () => {
-    if (from === 'Auto-detect') return;
-    setFrom(to);
-    setTo(from);
-  };
 
   const generate = async () => {
     if (!text.trim()) { setLocalError('Enter some text to translate first.'); return; }
-    if (from !== 'Auto-detect' && from === to) { setLocalError('Source and target languages are the same — pick a different target language.'); return; }
     setLocalError('');
-    const fromPart = from === 'Auto-detect' ? 'Detect the language of the text below automatically' : `The text below is written in ${from}`;
     await run(
-      `${fromPart}. Translate it into ${to}.\n\n` +
+      `Detect the language of the text below automatically and translate it into natural, fluent English.\n\n` +
       `Preserve the original formatting and line breaks. Keep names, numbers and formatting intact.\n` +
-      `Output ONLY the translation — no explanations, no transliteration, no quotation marks.\n\n` +
+      `Output ONLY the English translation — no explanations, no transliteration, no quotation marks.\n\n` +
       `Text:\n${text}`
     );
   };
 
   return (
-    <AiCard tool={tool} note="AI translation handles everyday text well, but idioms, poetry and legal/medical wording can come out wrong — have a native speaker review anything important. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note="Translates text from any language into English. AI translation handles everyday text well, but idioms, poetry and legal/medical wording can come out wrong — have a fluent speaker review anything important. Quality depends on the model and the site's API key quota.">
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
-        <div className="flex flex-wrap items-end gap-2">
-          <div className="flex-1 min-w-[140px]">
-            <OptLabel>From</OptLabel>
-            <OptSelect value={from} onChange={(e) => setFrom(e.target.value)}>
-              {FROM_LANGUAGES.map((l) => <option key={l}>{l}</option>)}
-            </OptSelect>
-          </div>
-          <button
-            type="button"
-            onClick={swap}
-            disabled={from === 'Auto-detect'}
-            title={from === 'Auto-detect' ? 'Choose a source language to swap' : 'Swap languages'}
-            className={`mb-0.5 p-2 rounded-xl border ${
-              from === 'Auto-detect'
-                ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 border-gray-200 dark:border-gray-700 cursor-not-allowed'
-                : 'bg-purple-600 hover:bg-purple-700 text-white border-purple-600 cursor-pointer'
-            }`}
-          >
-            <ArrowLeftRight className="w-4 h-4" />
-          </button>
-          <div className="flex-1 min-w-[140px]">
-            <OptLabel>To</OptLabel>
-            <OptSelect value={to} onChange={(e) => setTo(e.target.value)}>
-              {TO_LANGUAGES.map((l) => <option key={l}>{l}</option>)}
-            </OptSelect>
-          </div>
-        </div>
         <div>
-          <OptLabel>Text</OptLabel>
-          <AiTextarea rows={6} dir="auto" value={text} onChange={(e) => setText(e.target.value)} placeholder="Type or paste the text to translate…" />
+          <OptLabel>Text to translate into English</OptLabel>
+          <AiTextarea rows={6} value={text} onChange={(e) => setText(e.target.value)} placeholder="Type or paste text in any language…" />
           <p className="text-[11px] text-gray-500 mt-1">{countWords(text)} words · {text.length} characters</p>
         </div>
         <div>
           <PrimaryBtn disabled={!keyReady || busy} onClick={generate}>
-            {busy ? 'Generating…' : `Translate${keyReady ? '' : KEY_SUFFIX}`}
+            {busy ? 'Generating…' : `Translate to English${keyReady ? '' : KEY_SUFFIX}`}
           </PrimaryBtn>
         </div>
         {localError && <ErrorBox message={localError} />}
         {error && <ErrorBox message={error} />}
-        {result && (
-          <div className="mt-1">
-            <div
-              dir="auto"
-              className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-sm text-gray-900 dark:text-gray-100 whitespace-pre-wrap leading-relaxed max-h-[480px] overflow-auto"
-            >
-              {result}
-            </div>
-            <div className="flex flex-wrap items-center gap-2 mt-2">
-              <CopyBtn text={result} />
-              <DownloadBtn content={result} filename="translation.txt" />
-              <span className="text-[11px] text-gray-500">{countWords(result)} words · {result.length} characters</span>
-            </div>
-          </div>
-        )}
+        {result && <AiOutput text={result} filename="translation.txt" />}
       </div>
     </AiCard>
   );

@@ -221,7 +221,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-950 dark:text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display text-slate-950 dark:text-white">
             {tool.name}
           </h1>
           <p className="mt-1.5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-4xl">

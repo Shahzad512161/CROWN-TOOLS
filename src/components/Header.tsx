@@ -1,6 +1,6 @@
 // V9 Final - Complete Updated Header
 import React from 'react';
-import { SupportedLanguage, SUPPORTED_LANGUAGES, Translations, TRANSLATIONS } from '../lib/i18n';
+import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
 import { DonationHeart } from './DonationHeart';
 
 export interface HeaderProps {
@@ -34,22 +34,22 @@ export default function Header({
       <div className="bg-black text-white text-[13px] h-[44px] flex items-center border-b border-white/10">
         <div className="max-w-[1500px] mx-auto w-full px-4 flex justify-between items-center">
           
-          {/* بائیں طرف - سپورٹ مشن */}
-          <div className="flex items-center">
+          {/* Left - Support Mission */}
+          <div className="flex items-center min-w-0">
             <button
               type="button"
               onClick={onOpenSupportModal}
               className="flex items-center gap-2 bg-[#ff2d55]/20 hover:bg-[#ff2d55]/30 border border-[#ff2d55]/30 px-4 py-1.5 rounded-full cursor-pointer transition-all text-white"
-              title="سپورٹ مشن: ہماری مدد کریں"
+              title="Support Mission: Help Us Grow"
             >
               <span className="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>
-              <span className="font-semibold tracking-wide text-xs sm:text-[13px]">
-                ❤️ ہمارا مقصد: آپ کی زندگی آسان بنانا
+              <span className="font-semibold tracking-wide text-xs sm:text-[13px] truncate">
+                ❤️ Our Mission: Make Your Life Easier
               </span>
             </button>
           </div>
 
-          {/* دائیں طرف - ای میل + Language + Theme Toggle */}
+          {/* Right - Email + Theme Toggle */}
           <div className="flex items-center gap-3">
             <a
               href="mailto:support@supercrowntools.com"
@@ -58,26 +58,6 @@ export default function Header({
             >
               support@supercrowntools.com
             </a>
-
-            {/* Language Dropdown - 30+ Languages */}
-            <select
-              value={currentLang}
-              onChange={(e) => onChangeLang?.(e.target.value as SupportedLanguage)}
-              className="bg-white text-black rounded-full px-4 sm:px-5 py-1.5 sm:py-2 text-[12px] sm:text-[13px] font-bold min-w-[140px] sm:min-w-[170px] outline-none cursor-pointer shadow-xs"
-              title="Select Language"
-            >
-              <option value="en">🌐 English</option>
-              <option value="ur">🌐 اردو</option>
-              <option value="ar">🌐 العربية</option>
-              <option value="hi">🌐 Hindi</option>
-              {SUPPORTED_LANGUAGES.filter(
-                (l) => !['en', 'ur', 'ar', 'hi'].includes(l.code)
-              ).map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.flag} {lang.nativeName} ({lang.name})
-                </option>
-              ))}
-            </select>
 
             {/* Day / Night toggle button */}
             {onToggleDarkMode && (
@@ -113,7 +93,7 @@ export default function Header({
               👑
             </div>
             <div className="flex flex-col leading-none">
-              <h1 className="text-[20px] sm:text-[26px] font-black tracking-tight text-[#0f172a] dark:text-white flex items-center gap-1.5">
+              <h1 className="text-[20px] sm:text-[26px] font-display tracking-tight text-[#0f172a] dark:text-white flex items-center gap-1.5">
                 Super Crown Tools
                 <span className="text-[10px] sm:text-[11px] font-bold text-amber-500 uppercase tracking-wider bg-amber-100 dark:bg-amber-950/70 px-1.5 py-0.5 rounded border border-amber-300 dark:border-amber-700/60 hidden sm:inline-block">
                   5000+

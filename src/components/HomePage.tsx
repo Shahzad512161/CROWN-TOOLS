@@ -472,7 +472,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       
       {/* ========================================================================= */}
       {/* HERO SECTION: */}
-      {/* - Left side: Greeting Cartoon Character saying "السلام علیکم! آپ کو کونسا ٹول چاہیے؟" with waving hand animation */}
+      {/* - Left side: Greeting Cartoon Character saying "Hello! Which free tool do you need today?" with waving hand animation */}
       {/* - Right side: Big Search Bar "Search 5000+ Tools..." */}
       {/* ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -503,7 +503,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
 
               {/* Title & Tagline */}
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-[#0f172a] dark:text-white tracking-tight leading-tight">
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-display text-[#0f172a] dark:text-white leading-tight">
                 Super Crown Tools — 5000+ Free Online Tools
               </h1>
               <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -673,7 +673,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="border-l-4 border-[#3b82f6] pl-4">
             <div className="flex items-center gap-2">
               <span className="text-2xl">🔥</span>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#0f172a] dark:text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-display text-[#0f172a] dark:text-white">
                 {t.section1Title}
               </h2>
             </div>
@@ -702,7 +702,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div
                 key={tool.id}
                 onClick={() => onSelectTool(tool.slug)}
-                className={`relative group rounded-[24px] p-6 cursor-pointer border-2 ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[310px] shadow-sm`}
+                className={`relative group rounded-[28px] p-6 cursor-pointer border-2 ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[310px] shadow-sm`}
               >
                 {/* Header Row: Icon + Popular Badge */}
                 <div>
@@ -760,7 +760,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <span>Browse by Category • 5000+ Tools Organized</span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#0f172a] dark:text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-[#0f172a] dark:text-white">
             Browse by Category
           </h2>
 
@@ -1156,7 +1156,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <div
                   key={tool.id}
                   onClick={() => onSelectTool(tool.slug)}
-                  className={`rounded-[24px] p-5 cursor-pointer border-2 ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[235px] group shadow-2xs`}
+                  className={`rounded-[28px] p-5 cursor-pointer border-2 ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[235px] group shadow-2xs`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -1258,7 +1258,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400">
                 <HelpCircle className="w-5 h-5" />
               </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-[#0f172a] dark:text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-display text-[#0f172a] dark:text-white">
                 Frequently Asked Questions
               </h2>
             </div>

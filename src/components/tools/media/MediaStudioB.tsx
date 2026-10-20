@@ -1175,12 +1175,9 @@ export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const STT_LANGUAGES: { value: string; label: string }[] = [
   { value: 'en-US', label: 'English (US)' },
   { value: 'en-GB', label: 'English (UK)' },
-  { value: 'ur-PK', label: 'Urdu (Pakistan)' },
-  { value: 'hi-IN', label: 'Hindi (India)' },
-  { value: 'ar-SA', label: 'Arabic (Saudi Arabia)' },
-  { value: 'es-ES', label: 'Spanish (Spain)' },
-  { value: 'fr-FR', label: 'French (France)' },
-  { value: 'de-DE', label: 'German (Germany)' },
+  { value: 'en-AU', label: 'English (Australia)' },
+  { value: 'en-CA', label: 'English (Canada)' },
+  { value: 'en-IN', label: 'English (India)' },
 ];
 
 export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {

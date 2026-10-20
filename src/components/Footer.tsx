@@ -157,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({
           </p>
           <div className="flex items-center gap-3">
             <span className="text-slate-400">
-              ہمارا مشن: 10 لاکھ لوگوں کی مدد • Built for USA, UK, Canada & Global Users
+              Our Mission: Help 1 Million People • Built for USA, UK, Canada & Global Users
             </span>
           </div>
         </div>

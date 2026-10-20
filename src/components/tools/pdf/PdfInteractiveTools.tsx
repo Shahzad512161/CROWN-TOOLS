@@ -1987,13 +1987,12 @@ export const AiSummarizePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 const TRANSLATE_LANGUAGES = [
-  'English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese', 'Russian', 'Arabic',
-  'Urdu', 'Hindi', 'Bengali', 'Chinese (Simplified)', 'Japanese', 'Korean', 'Turkish', 'Dutch',
+  'English',
 ];
 
 export const TranslatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const apiKey = getGeminiKey();
-  const [lang, setLang] = useState('Spanish');
+  const [lang, setLang] = useState('English');
   const [result, setResult] = useState('');
 
   return (
