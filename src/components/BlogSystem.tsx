@@ -244,7 +244,7 @@ export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
             onClick={() => onSelectTool(post.toolSlug)}
             className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
           >
-            <span>👉 Open {tool.name} (Unlocked)</span>
+            <span>Open {tool.name} (Unlocked)</span>
           </button>
         </div>
 

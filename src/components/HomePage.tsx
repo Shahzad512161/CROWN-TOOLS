@@ -8,11 +8,12 @@ import {
   Scale, Home, Sparkles, Star, TrendingUp, Search, ChevronRight, 
   ShieldCheck, ArrowRight, Zap, CheckCircle2, ChevronLeft, Lock, Check,
   ChevronDown, ChevronUp, HelpCircle, ThumbsUp, ThumbsDown, MessageSquare,
-  FolderOpen, Layers
+  FolderOpen, Layers, LockOpen, X
 } from 'lucide-react';
 import { AdSenseBanner } from './AdSenseBanner';
-import { Translations, TRANSLATIONS } from '../lib/i18n';
-import TalkingCartoon from './TalkingCartoon';
+import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
+import { localizedTool, TOOLS_FR } from '../lib/tools-fr';
+import { LogoMark } from './LogoMark';
 
 interface HomePageProps {
   onSelectTool: (slug: string) => void;
@@ -20,6 +21,7 @@ interface HomePageProps {
   onSearchChange: (q: string) => void;
   onOpenDonationModal: () => void;
   t?: Translations;
+  lang?: SupportedLanguage;
 }
 
 // 6. 2PX BOLD VIBRANT CARD PALETTES & 2.5PX HOVER BORDERS
@@ -31,89 +33,56 @@ interface VibrantColorTheme {
   tagColor: string;
 }
 
-const VIBRANT_THEMES: VibrantColorTheme[] = [
-  // Sky / Ocean
-  {
-    cardBg: 'bg-[#f0f9ff] dark:bg-[#0c2438]',
-    borderColor: 'border-[#38bdf8] dark:border-[#0284c7]',
-    borderHover: 'hover:border-[#0284c7] dark:hover:border-[#38bdf8]',
-    iconBg: 'bg-[#0ea5e9] text-white',
-    tagColor: 'bg-[#e0f2fe] text-[#0369a1] dark:bg-[#075985] dark:text-[#e0f2fe]'
-  },
-  // Vibrant Pink / Rose
-  {
-    cardBg: 'bg-[#fdf2f8] dark:bg-[#2e0d1d]',
-    borderColor: 'border-[#f472b6] dark:border-[#db2777]',
-    borderHover: 'hover:border-[#db2777] dark:hover:border-[#f472b6]',
-    iconBg: 'bg-[#ec4899] text-white',
-    tagColor: 'bg-[#fce7f3] text-[#be185d] dark:bg-[#831843] dark:text-[#fce7f3]'
-  },
-  // Vibrant Sea Green / Emerald
-  {
-    cardBg: 'bg-[#f0fdf4] dark:bg-[#0a2e1d]',
-    borderColor: 'border-[#34d399] dark:border-[#059669]',
-    borderHover: 'hover:border-[#059669] dark:hover:border-[#34d399]',
-    iconBg: 'bg-[#10b981] text-white',
-    tagColor: 'bg-[#dcfce7] text-[#047857] dark:bg-[#065f46] dark:text-[#dcfce7]'
-  },
-  // Vibrant Orange / Amber
-  {
-    cardBg: 'bg-[#fff7ed] dark:bg-[#33180c]',
-    borderColor: 'border-[#fb923c] dark:border-[#ea580c]',
-    borderHover: 'hover:border-[#ea580c] dark:hover:border-[#fb923c]',
-    iconBg: 'bg-[#f97316] text-white',
-    tagColor: 'bg-[#ffedd5] text-[#c2410c] dark:bg-[#7c2d12] dark:text-[#ffedd5]'
-  },
-  // Vibrant Purple
-  {
-    cardBg: 'bg-[#faf5ff] dark:bg-[#25123d]',
-    borderColor: 'border-[#c084fc] dark:border-[#9333ea]',
-    borderHover: 'hover:border-[#9333ea] dark:hover:border-[#c084fc]',
-    iconBg: 'bg-[#a855f7] text-white',
-    tagColor: 'bg-[#f3e8ff] text-[#7e22ce] dark:bg-[#581c87] dark:text-[#f3e8ff]'
-  }
-];
+const MONO_THEME: VibrantColorTheme = {
+  cardBg: 'bg-white dark:bg-slate-900',
+  borderColor: 'border-slate-200 dark:border-slate-700',
+  borderHover: 'hover:border-slate-400 dark:hover:border-slate-500',
+  iconBg: 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100',
+  tagColor: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+};
+
+const VIBRANT_THEMES: VibrantColorTheme[] = [MONO_THEME, MONO_THEME, MONO_THEME, MONO_THEME, MONO_THEME];
 
 // Catchy & Attractive Titles
 const CATCHY_TITLES: Record<string, { title: string; catchyDesc: string }> = {
   'mortgage-calculator-usa': {
-    title: '🏠 USA Mortgage Calculator - Calculate in 3 Secs',
+    title: 'USA Mortgage Calculator - Calculate in 3 Secs',
     catchyDesc: 'Instant 2026 breakdown of principal, interest, PMI & property taxes for US homes.'
   },
   'auto-insurance-calculator': {
-    title: '🚗 Auto Insurance Calculator - Save up to $780',
+    title: 'Auto Insurance Calculator - Save up to $780',
     catchyDesc: 'Compare 50-state risk ratings, deductible discounts & realistic monthly premiums.'
   },
   'loan-calculator-usa': {
-    title: '💵 USA Loan Payoff & EMI - Cut Total Interest',
+    title: 'USA Loan Payoff & EMI - Cut Total Interest',
     catchyDesc: 'See how an extra $50/mo slashes months off your personal, auto or student loan.'
   },
   'tax-calculator-2026-usa': {
-    title: '🏛️ USA Tax Calculator 2026 - Check Take-Home Pay',
+    title: 'USA Tax Calculator 2026 - Check Take-Home Pay',
     catchyDesc: 'Updated federal IRS brackets, FICA payroll & 50-state wage calculations.'
   },
   'resume-builder-usa-format': {
-    title: '📄 US Resume Builder Pro - 100% ATS-Friendly',
+    title: 'US Resume Builder Pro - 100% ATS-Friendly',
     catchyDesc: 'Build clean, high-impact Fortune 500 resumes with instant PDF export.'
   },
   'invoice-generator-pro': {
-    title: '🧾 Invoice Generator Pro - Instant PDF & Multi-Currency',
+    title: 'Invoice Generator Pro - Instant PDF & Multi-Currency',
     catchyDesc: 'Professional freelance and contractor billing in USD, GBP, EUR & CAD with auto tax.'
   },
   'live-currency-converter': {
-    title: '💱 Live Currency Converter - Zero Bank Markup',
+    title: 'Live Currency Converter - Zero Bank Markup',
     catchyDesc: 'Mid-market interbank exchange rates with instant fee comparison matrix.'
   },
   'pdf-to-word-converter': {
-    title: '📑 PDF to Word Converter - 100% Private In-Browser',
+    title: 'PDF to Word Converter - 100% Private In-Browser',
     catchyDesc: 'Extract structured text and export editable .DOC documents with zero server uploads.'
   },
   'image-compressor-lossless': {
-    title: '⚡ Compress Image 90% - No Quality Loss',
+    title: 'Compress Image 90% - No Quality Loss',
     catchyDesc: 'Shrink WebP, PNG, and JPG files client-side in under 1 second.'
   },
   'multi-calculator-all-in-one': {
-    title: '🧮 Multi Calculator All-In-One - 6 Pro Tools in 1',
+    title: 'Multi Calculator All-In-One - 6 Pro Tools in 1',
     catchyDesc: 'Age, BMI, Loan, Mortgage, Tip Splitter, and Compound Growth in tabs.'
   }
 };
@@ -140,9 +109,9 @@ export const INTUITIVE_CATEGORY_GROUPS: IntuitiveCategoryGroup[] = [
     tagline: 'High-CPC Mortgage, Loan, Tax & Investments',
     count: 1000,
     icon: 'Calculator',
-    colorClass: 'text-blue-600 dark:text-blue-400',
-    bgLight: 'bg-[#e0f2fe] dark:bg-blue-950/40',
-    borderClass: 'border-blue-300 dark:border-blue-700',
+    colorClass: 'text-slate-700 dark:text-slate-200',
+    bgLight: 'bg-slate-50 dark:bg-slate-800/60',
+    borderClass: 'border-slate-200 dark:border-slate-700',
     description: 'Calculate mortgage amortization, loan payoffs, 2026 IRS taxes, auto insurance, retirement ROI, and compound savings.',
     popularTools: [
       { name: 'Mortgage Calculator USA', slug: 'mortgage-calculator-usa' },
@@ -158,9 +127,9 @@ export const INTUITIVE_CATEGORY_GROUPS: IntuitiveCategoryGroup[] = [
     tagline: 'Real-Time Interbank Exchange & Engineering Units',
     count: 1000,
     icon: 'Scale',
-    colorClass: 'text-emerald-600 dark:text-emerald-400',
-    bgLight: 'bg-[#dcfce7] dark:bg-emerald-950/40',
-    borderClass: 'border-emerald-300 dark:border-emerald-700',
+    colorClass: 'text-slate-700 dark:text-slate-200',
+    bgLight: 'bg-slate-50 dark:bg-slate-800/60',
+    borderClass: 'border-slate-200 dark:border-slate-700',
     description: 'Precision conversions for length, weight, temperature, area, volume, currency rates, speed, and digital storage bytes.',
     popularTools: [
       { name: 'Live Currency Converter', slug: 'live-currency-converter' },
@@ -176,9 +145,9 @@ export const INTUITIVE_CATEGORY_GROUPS: IntuitiveCategoryGroup[] = [
     tagline: 'ATS Resume, Markdown, Slugs & Word Analysis',
     count: 500,
     icon: 'Wand2',
-    colorClass: 'text-purple-600 dark:text-purple-400',
-    bgLight: 'bg-[#ede9fe] dark:bg-purple-950/40',
-    borderClass: 'border-purple-300 dark:border-purple-700',
+    colorClass: 'text-slate-700 dark:text-slate-200',
+    bgLight: 'bg-slate-50 dark:bg-slate-800/60',
+    borderClass: 'border-slate-200 dark:border-slate-700',
     description: 'Build Fortune 500 ATS-friendly resumes, inspect word and character density, format slugs, clean text, and encode base64.',
     popularTools: [
       { name: 'US Resume Builder Pro', slug: 'resume-builder-usa-format' },
@@ -194,9 +163,9 @@ export const INTUITIVE_CATEGORY_GROUPS: IntuitiveCategoryGroup[] = [
     tagline: 'Lossless Compression & Graphic Converters',
     count: 1000,
     icon: 'Image',
-    colorClass: 'text-pink-600 dark:text-pink-400',
-    bgLight: 'bg-[#fce7f3] dark:bg-pink-950/40',
-    borderClass: 'border-pink-300 dark:border-pink-700',
+    colorClass: 'text-slate-700 dark:text-slate-200',
+    bgLight: 'bg-slate-50 dark:bg-slate-800/60',
+    borderClass: 'border-slate-200 dark:border-slate-700',
     description: 'Compress photos up to 90% without visible quality loss, resize for social media, convert JPG/PNG to WebP, and crop 100% in-browser.',
     popularTools: [
       { name: 'Compress Image 90%', slug: 'image-compressor-lossless' },
@@ -212,9 +181,9 @@ export const INTUITIVE_CATEGORY_GROUPS: IntuitiveCategoryGroup[] = [
     tagline: 'Client-Side Private Conversion & Document Tools',
     count: 800,
     icon: 'FileText',
-    colorClass: 'text-amber-600 dark:text-amber-400',
-    bgLight: 'bg-[#fef9c3] dark:bg-yellow-950/40',
-    borderClass: 'border-amber-300 dark:border-amber-700',
+    colorClass: 'text-slate-700 dark:text-slate-200',
+    bgLight: 'bg-slate-50 dark:bg-slate-800/60',
+    borderClass: 'border-slate-200 dark:border-slate-700',
     description: 'Convert PDF to editable Word DOC, merge multiple PDF documents, extract text strings, and generate invoices with zero cloud storage.',
     popularTools: [
       { name: 'PDF to Word Converter', slug: 'pdf-to-word-converter' },
@@ -230,9 +199,9 @@ export const INTUITIVE_CATEGORY_GROUPS: IntuitiveCategoryGroup[] = [
     tagline: 'Health, Family, Budgeting & Math Solvers',
     count: 700,
     icon: 'Home',
-    colorClass: 'text-orange-600 dark:text-orange-400',
-    bgLight: 'bg-[#ffedd5] dark:bg-amber-950/40',
-    borderClass: 'border-orange-300 dark:border-orange-700',
+    colorClass: 'text-slate-700 dark:text-slate-200',
+    bgLight: 'bg-slate-50 dark:bg-slate-800/60',
+    borderClass: 'border-slate-200 dark:border-slate-700',
     description: 'WHO-standard BMI calculator, exact chronological Age Calculator, restaurant tip splitter, grocery budget math, and paint calculators.',
     popularTools: [
       { name: 'BMI Health Calculator', slug: 'bmi-calculator' },
@@ -315,7 +284,8 @@ export const HomePage: React.FC<HomePageProps> = ({
   searchQuery,
   onSearchChange,
   onOpenDonationModal,
-  t = TRANSLATIONS.en
+  t = TRANSLATIONS.en,
+  lang = 'en'
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -429,6 +399,13 @@ export const HomePage: React.FC<HomePageProps> = ({
       case 'Daily Calculators': return t.catDailyCalc;
       case 'Image Tools': return t.catImageTools;
       case 'PDF Tools': return t.catPdfTools;
+      case 'Word Tools': return t.catWordTools;
+      case 'SEO Tools': return t.catSeoTools;
+      case 'Developer Tools': return t.catDevTools;
+      case 'Video & Audio Tools': return t.catMediaTools;
+      case 'AI Tools': return t.catAiTools;
+      case 'Social Media Tools': return t.catSocialTools;
+      case 'Student & Everyday Tools': return t.catStudentTools;
       case 'Text & AI Tools': return t.catTextAi;
       case 'Unit Converters': return t.catUnitConv;
       case 'Home & Daily Life': return t.catHomeLife;
@@ -443,9 +420,11 @@ export const HomePage: React.FC<HomePageProps> = ({
       if (!matchesCategory) return false;
       if (!q) return true;
 
+      const frTool = TOOLS_FR[tool.slug];
       return (
         tool.name.toLowerCase().includes(q) ||
         tool.description.toLowerCase().includes(q) ||
+        (frTool ? frTool.name.toLowerCase().includes(q) || frTool.description.toLowerCase().includes(q) : false) ||
         tool.category.toLowerCase().includes(q) ||
         tool.highCPCKeywords.some((k) => k.toLowerCase().includes(q))
       );
@@ -471,186 +450,128 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="min-h-screen bg-white dark:bg-[#111827] text-slate-900 dark:text-slate-100 transition-colors duration-200">
       
       {/* ========================================================================= */}
-      {/* HERO SECTION: */}
-      {/* - Left side: Greeting Cartoon Character saying "Hello! Which free tool do you need today?" with waving hand animation */}
-      {/* - Right side: Big Search Bar "Search 5000+ Tools..." */}
+      {/* HERO SECTION — clean, centered: brand line, headline, search, chips */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-        <div className="w-full bg-gradient-to-br from-[#ffffff] via-[#f8fafc] to-[#eff6ff] dark:from-[#111827] dark:via-[#162032] dark:to-[#1e293b] border-2 border-[#e2e8f0] dark:border-slate-800 rounded-[32px] shadow-sm p-6 sm:p-10 relative overflow-hidden">
-          
-          {/* Subtle background glow */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-blue-400/10 dark:bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-400/10 dark:bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 sm:pt-16 sm:pb-12">
+        <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            
-            {/* ===================================================================== */}
-            {/* LEFT SIDE (5 Cols): Talking Cartoon Character with voice + animation */}
-            {/* ===================================================================== */}
-            <div className="lg:col-span-5 flex flex-col items-center text-center lg:items-start lg:text-left">
-              <TalkingCartoon />
+          {/* Brand line */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <LogoMark className="w-4 h-4 text-amber-500" />
+            <span>Super Crown Tools</span>
+          </div>
+
+          {/* Title & Tagline */}
+          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-display text-[#0f172a] dark:text-white leading-[1.08]">
+            {t.heroTitle}
+          </h1>
+          <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+            {t.heroSubtitle}
+          </p>
+
+          {/* Search bar */}
+          <div className="w-full mt-8">
+            <div className="relative flex items-center">
+              <Search className="w-5 h-5 absolute left-5 text-slate-400 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const section = document.getElementById('all-tools-section');
+                    if (section) section.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                placeholder={t.searchPlaceholder}
+                className="w-full h-14 sm:h-16 pl-13 sm:pl-14 pr-28 sm:pr-32 rounded-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm sm:text-base font-medium focus:outline-none focus:border-slate-900 dark:focus:border-white focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => onSearchChange('')}
+                  className="absolute right-24 sm:right-28 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer"
+                  title="Clear search"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  const section = document.getElementById('all-tools-section');
+                  if (section) section.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="absolute right-2 h-10 sm:h-12 px-5 sm:px-6 rounded-full bg-slate-900 hover:bg-slate-700 dark:bg-white dark:hover:bg-slate-200 text-white dark:text-slate-900 font-bold text-xs sm:text-sm flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+              >
+                <Search className="w-4 h-4" />
+                <span>{t.searchButton}</span>
+              </button>
             </div>
+          </div>
 
-            {/* ===================================================================== */}
-            {/* RIGHT SIDE (7 Cols): Big Search Bar "Search 5000+ Tools..." */}
-            {/* ===================================================================== */}
-            <div className="lg:col-span-7 flex flex-col justify-center space-y-4">
-              
-              {/* Category pill */}
-              <div className="inline-flex items-center gap-2 self-start px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-200 dark:border-blue-900 shadow-2xs">
-                <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                <span>Super Crown Tools • 100% Unlocked Suite</span>
-              </div>
+          {/* Popular quick tags */}
+          <div className="flex flex-wrap items-center justify-center gap-1.5 mt-5 text-xs">
+            <span className="text-slate-500 font-semibold mr-1">{t.badgePopular}:</span>
+            {[
+              { name: 'Mortgage Calculator', slug: 'mortgage-calculator-usa' },
+              { name: 'BMI Calculator', slug: 'bmi-calculator' },
+              { name: 'Age Calculator', slug: 'age-calculator' },
+              { name: 'Loan Calculator', slug: 'loan-calculator-usa' },
+              { name: 'Auto Insurance', slug: 'auto-insurance-calculator' },
+              { name: 'Tax 2026', slug: 'tax-calculator-2026-usa' },
+              { name: 'Resume Builder', slug: 'resume-builder-pro' }
+            ].map((item) => (
+              <button
+                key={item.slug}
+                onClick={() => onSelectTool(item.slug)}
+                className="px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer font-medium"
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
 
-              {/* Title & Tagline */}
-              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-display text-[#0f172a] dark:text-white leading-tight">
-                Super Crown Tools — 5000+ Free Online Tools
-              </h1>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
-                Instant calculators, document engines, image compressors, and daily utilities. No registration, no lock screens, and no blur—use every tool immediately.
-              </p>
+          {/* Category quick chips */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+            {[
+              { label: t.catDailyCalc, category: 'Daily Calculators' },
+              { label: t.catUnitConv, category: 'Unit Converters' },
+              { label: t.catTextAi, category: 'Text & AI Tools' },
+              { label: t.catImageTools, category: 'Image Tools' },
+              { label: t.catPdfTools, category: 'PDF Tools' },
+              { label: t.catWordTools, category: 'Word Tools' },
+              { label: t.catSeoTools, category: 'SEO Tools' },
+              { label: t.catDevTools, category: 'Developer Tools' },
+              { label: t.catMediaTools, category: 'Video & Audio Tools' },
+              { label: t.catAiTools, category: 'AI Tools' },
+              { label: t.catSocialTools, category: 'Social Media Tools' },
+              { label: t.catStudentTools, category: 'Student & Everyday Tools' },
+              { label: t.catHomeLife, category: 'Home & Daily Life' },
+            ].map((cat) => (
+              <button
+                key={cat.category}
+                onClick={() => handleCategoryClick(cat.category)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer border ${
+                  selectedCategory === cat.category
+                    ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-900 dark:hover:border-white'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
 
-              {/* BIG SEARCH BAR "Search 5000+ Tools..." */}
-              <div className="pt-2">
-                <div className="relative flex items-center shadow-lg rounded-full">
-                  {/* Left Search Icon */}
-                  <Search className="w-6 h-6 absolute left-5 text-blue-500 pointer-events-none" />
-
-                  {/* Input */}
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => onSearchChange(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        const section = document.getElementById('all-tools-section');
-                        if (section) section.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                    placeholder="Search 5000+ Tools... e.g. Mortgage Calculator, BMI, Insurance, Loan"
-                    className="w-full h-14 sm:h-16 pl-14 sm:pl-16 pr-28 sm:pr-36 rounded-full border-2 border-blue-400 dark:border-blue-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-sm sm:text-base font-bold shadow-inner focus:outline-hidden focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900/60 transition-all"
-                  />
-
-                  {/* Clear Button */}
-                  {searchQuery && (
-                    <button
-                      onClick={() => onSearchChange('')}
-                      className="absolute right-28 sm:right-32 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm font-bold p-1 cursor-pointer"
-                      title="Clear search"
-                    >
-                      ✕
-                    </button>
-                  )}
-
-                  {/* Search Button */}
-                  <button
-                    onClick={() => {
-                      const section = document.getElementById('all-tools-section');
-                      if (section) section.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="absolute right-2 h-10 sm:h-12 px-5 sm:px-7 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-md hover:shadow-lg active:scale-95 transition-all cursor-pointer"
-                  >
-                    <Search className="w-4 h-4" />
-                    <span>Search</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Popular Quick Search Tags */}
-              <div className="flex flex-wrap items-center gap-1.5 pt-1 text-xs">
-                <span className="text-slate-500 font-semibold mr-1">Popular:</span>
-                {[
-                  { name: 'Mortgage Calculator', slug: 'mortgage-calculator-usa' },
-                  { name: 'BMI Calculator', slug: 'bmi-calculator' },
-                  { name: 'Age Calculator', slug: 'age-calculator' },
-                  { name: 'Loan Calculator', slug: 'loan-calculator-usa' },
-                  { name: 'Auto Insurance', slug: 'auto-insurance-calculator' },
-                  { name: 'Tax 2026', slug: 'tax-calculator-2026-usa' },
-                  { name: 'Resume Builder', slug: 'resume-builder-pro' }
-                ].map((item) => (
-                  <button
-                    key={item.slug}
-                    onClick={() => onSelectTool(item.slug)}
-                    className="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/60 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer font-medium"
-                  >
-                    {item.name}
-                  </button>
-                ))}
-              </div>
-
-              {/* Browse by Category Quick Navigation */}
-              <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                    <FolderOpen className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                    Browse by Category:
-                  </span>
-                  <button 
-                    onClick={() => {
-                      const sec = document.getElementById('browse-categories-section');
-                      if (sec) sec.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-0.5 cursor-pointer"
-                  >
-                    View All Groups <ChevronRight className="w-3 h-3" />
-                  </button>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {[
-                    { label: '💰 Finance', category: 'Daily Calculators', count: '1,000+' },
-                    { label: '🔄 Converters', category: 'Unit Converters', count: '1,000+' },
-                    { label: '⚡ Productivity', category: 'Text & AI Tools', count: '500+' },
-                    { label: '🎨 Image Utilities', category: 'Image Tools', count: '1,000+' },
-                    { label: '📑 PDF & Docs', category: 'PDF Tools', count: '800+' },
-                    { label: '📝 Word Tools', category: 'Word Tools', count: '300+' },
-                    { label: '🔍 SEO Tools', category: 'SEO Tools', count: '400+' },
-                    { label: '💻 Developer Tools', category: 'Developer Tools', count: '400+' },
-                    { label: '🎬 Video & Audio Tools', category: 'Video & Audio Tools', count: '300+' },
-                    { label: '🤖 AI Tools', category: 'AI Tools', count: '300+' },
-                    { label: '📱 Social Media Tools', category: 'Social Media Tools', count: '300+' },
-                    { label: '🎓 Student & Everyday Tools', category: 'Student & Everyday Tools', count: '300+' },
-                    { label: '🏡 Daily Life', category: 'Home & Daily Life', count: '700+' },
-                  ].map((cat) => (
-                    <button
-                      key={cat.label}
-                      onClick={() => handleCategoryClick(cat.category)}
-                      className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-2xs cursor-pointer border ${
-                        selectedCategory === cat.category
-                          ? 'bg-blue-600 text-white border-blue-700 ring-2 ring-blue-300'
-                          : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400'
-                      }`}
-                    >
-                      <span>{cat.label}</span>
-                      <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
-                        selectedCategory === cat.category
-                          ? 'bg-blue-800 text-white'
-                          : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
-                      }`}>
-                        {cat.count}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Trust Badges */}
-              <div className="pt-2 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-bold">
-                  ✓ 100% Free Forever
-                </span>
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 text-xs font-bold">
-                  🔒 Zero Tracking - Private
-                </span>
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold">
-                  ⚡ Instant Results
-                </span>
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-purple-800 dark:text-purple-300 text-xs font-bold">
-                  🛡️ No Lock / No Blur
-                </span>
-              </div>
-
-            </div>
-
+          {/* Trust row */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="inline-flex items-center gap-1.5">
+              <LockOpen className="w-4 h-4 text-slate-700 dark:text-slate-200" /> {t.heroBadgeUnlocked}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-slate-700 dark:text-slate-200" /> {t.heroBadgeNoTracking}
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Zap className="w-4 h-4 text-slate-700 dark:text-slate-200" /> {t.heroBadgeInstant}
+            </span>
           </div>
 
         </div>
@@ -670,9 +591,8 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* ========================================================================= */}
       <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-          <div className="border-l-4 border-[#3b82f6] pl-4">
+          <div className="border-l-4 border-slate-900 dark:border-white pl-4">
             <div className="flex items-center gap-2">
-              <span className="text-2xl">🔥</span>
               <h2 className="text-2xl sm:text-3xl font-display text-[#0f172a] dark:text-white">
                 {t.section1Title}
               </h2>
@@ -702,7 +622,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div
                 key={tool.id}
                 onClick={() => onSelectTool(tool.slug)}
-                className={`relative group rounded-[28px] p-6 cursor-pointer border-2 ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[310px] shadow-sm`}
+                className={`relative group rounded-[28px] p-6 cursor-pointer border ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[310px] shadow-sm`}
               >
                 {/* Header Row: Icon + Popular Badge */}
                 <div>
@@ -724,18 +644,18 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </span>
 
                   {/* Catchy Title: Bold 15px, perfect contrast */}
-                  <h3 className="text-[15px] font-bold text-[#1e293b] dark:text-white leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {catchy.title}
+                  <h3 className="text-[15px] font-bold text-[#1e293b] dark:text-white leading-snug group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                    {lang === 'fr' ? localizedTool(tool, lang).name : catchy.title}
                   </h3>
 
                   {/* Catchy Description */}
                   <p className="text-xs text-[#475569] dark:text-slate-300 mt-2 line-clamp-3 leading-relaxed">
-                    {catchy.catchyDesc}
+                    {lang === 'fr' ? localizedTool(tool, lang).description : catchy.catchyDesc}
                   </p>
                 </div>
 
                 {/* Bottom Action Row */}
-                <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-[#0f172a] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                <div className="pt-4 mt-4 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-[#0f172a] dark:text-white group-hover:text-slate-900 dark:group-hover:text-white">
                   <span className="flex items-center gap-1">
                     {t.openToolNow} <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -755,17 +675,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-blue-100 text-blue-800 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-300 dark:border-blue-800 shadow-2xs">
-            <FolderOpen className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <FolderOpen className="w-4 h-4 text-slate-500 dark:text-slate-400" />
             <span>Browse by Category • 5000+ Tools Organized</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-[#0f172a] dark:text-white">
-            Browse by Category
+            {t.section2Title}
           </h2>
 
           <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-            Quickly navigate 5,000+ completely unlocked, zero-login utilities structured into intuitive collections for <strong>Finance</strong>, <strong>Converters</strong>, <strong>Productivity</strong>, and <strong>Image Utilities</strong>.
+            {t.section2Subtitle}
           </p>
 
           {/* Quick Category Navigation Pills */}
@@ -774,11 +694,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={() => handleCategoryClick('All')}
               className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-2xs cursor-pointer border ${
                 selectedCategory === 'All'
-                  ? 'bg-blue-600 text-white border-blue-700 ring-2 ring-blue-300'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-blue-500 hover:text-blue-600'
+                  ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-white hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              🌐 All 5,000+ Tools
+              {t.allCategories}
             </button>
             {INTUITIVE_CATEGORY_GROUPS.map((group) => {
               const isActive = selectedCategory === group.category;
@@ -788,8 +708,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                   onClick={() => handleCategoryClick(group.category)}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-2xs cursor-pointer border flex items-center gap-1.5 ${
                     isActive
-                      ? 'bg-blue-600 text-white border-blue-700 ring-2 ring-blue-300'
-                      : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-blue-500 hover:text-blue-600'
+                      ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
+                      : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-white hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <span>{group.groupName}</span>
@@ -813,13 +733,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             return (
               <div
                 key={group.id}
-                className={`p-6 sm:p-7 rounded-[28px] transition-all duration-300 border-2 ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-2xl hover:-translate-y-1.5 flex flex-col justify-between group relative overflow-hidden ${
-                  isSelected ? 'ring-4 ring-blue-500/40 shadow-lg' : 'shadow-xs'
+                className={`p-6 sm:p-7 rounded-[28px] transition-all duration-300 border ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-md hover:-translate-y-1.5 flex flex-col justify-between group relative overflow-hidden ${
+                  isSelected ? 'ring-2 ring-slate-400/40 shadow-none' : 'shadow-xs'
                 }`}
               >
                 {/* Active Indicator Strip */}
                 {isSelected && (
-                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-blue-600"></div>
+                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-slate-900 dark:bg-white"></div>
                 )}
 
                 <div>
@@ -839,7 +759,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                         {group.count.toLocaleString()} Free Tools
                       </span>
                       <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-1">
-                        ✓ 100% Unlocked
+                        {t.freeLabel}
                       </span>
                     </div>
                   </div>
@@ -847,14 +767,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                   {/* Group Name & Subtitle */}
                   <div className="mb-3">
                     <div className="flex items-center gap-2">
-                      <h3 className="text-xl font-black text-[#0f172a] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      <h3 className="text-xl font-black text-[#0f172a] dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
                         {group.groupName}
                       </h3>
                       <span className="text-xs text-slate-500 dark:text-slate-400 font-bold">
                         ({getCategoryTranslatedName(group.category)})
                       </span>
                     </div>
-                    <p className="text-xs font-bold text-blue-600 dark:text-blue-400 mt-0.5">
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">
                       {group.tagline}
                     </p>
                   </div>
@@ -867,8 +787,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                   {/* Quick Launch Popular Tools */}
                   <div className="mb-4 pt-3 border-t border-slate-200/70 dark:border-slate-700/60">
                     <p className="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-1">
-                      <Zap className="w-3 h-3 text-amber-500" />
-                      Popular Quick Launch:
+                      <Zap className="w-3 h-3 text-slate-400" />
+                      {t.badgePopular}:
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {group.popularTools.map((pt) => (
@@ -878,7 +798,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                             e.stopPropagation();
                             onSelectTool(pt.slug);
                           }}
-                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
+                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
                           title={`Open ${pt.name}`}
                         >
                           {pt.name}
@@ -892,7 +812,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <div className="pt-4 border-t border-slate-200/80 dark:border-slate-700/80 flex items-center justify-between">
                   <button
                     onClick={() => handleCategoryClick(group.category)}
-                    className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-slate-800 group-hover:bg-blue-600 text-[#0f172a] dark:text-white group-hover:text-white border border-slate-300 dark:border-slate-700 group-hover:border-blue-600 text-xs font-bold flex items-center justify-between transition-all shadow-2xs cursor-pointer"
+                    className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-slate-800 group-hover:bg-slate-900 dark:group-hover:bg-white text-[#0f172a] dark:text-white group-hover:text-white dark:group-hover:text-slate-900 border border-slate-300 dark:border-slate-700 group-hover:border-slate-900 dark:group-hover:border-white text-xs font-bold flex items-center justify-between transition-all shadow-2xs cursor-pointer"
                   >
                     <span>Browse all {group.count.toLocaleString()} {group.groupName} Tools</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -910,21 +830,12 @@ export const HomePage: React.FC<HomePageProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* SECTION 3: All Tools searchable grid loading from lib/tools-data.ts (5000 tools)
-          6. CATEGORY FILTER BUTTONS - BOLD, COLOURFUL, LARGE, ROUNDED FULL:
-          All Tools - Blue #3b82f6 text white
-          Daily Calculators - Green #10b981 text white
-          Image Tools - Pink #ec4899 text white
-          PDF Tools - Amber #f59e0b text white
-          Text & AI Tools - Purple #8b5cf6 text white
-          Unit Converters - Cyan #06b6d4 text white
-          Home & Daily Life - Orange #f97316 text white
+      {/* SECTION 3: All Tools searchable grid loading from lib/tools-data.ts */}
       {/* ========================================================================= */}
-      <section id="all-tools-section" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section id="all-tools-section" className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-2xl">⚡</span>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#0f172a] dark:text-white">
                 {t.section3Title}
               </h2>
@@ -937,193 +848,52 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
         </div>
 
-        {/* 4. CATEGORY FILTER BUTTONS SECTION: Background #f8fafc with left/right scroll arrow buttons */}
-        <div className="w-full bg-[#f8fafc] dark:bg-[#162032] border border-[#e2e8f0] dark:border-slate-800 rounded-2xl p-2.5 shadow-xs flex items-center gap-2 mb-8">
-          
-          {/* Scroll Left Button */}
+        {/* Category filter buttons */}
+        <div className="w-full bg-[#f8fafc] dark:bg-[#162032] border border-[#e2e8f0] dark:border-slate-800 rounded-2xl p-2.5 flex items-center gap-2 mb-8">
           <button
             onClick={() => scrollCategories('left')}
-            className="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 flex items-center justify-center shrink-0 shadow-xs cursor-pointer active:scale-95 transition-all"
+            className="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all"
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          {/* Scrollable Container */}
           <div ref={categoryScrollRef} className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-none flex-1">
-            {/* All Tools - Blue */}
-            <button
-              onClick={() => { setSelectedCategory('All'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'All'
-                  ? 'bg-[#3b82f6] text-white border-[#2563eb] shadow-md ring-2 ring-blue-300 dark:ring-blue-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#3b82f6]/40 hover:bg-[#3b82f6] hover:text-white'
-              }`}
-            >
-              🌐 {t.allCategories}
-            </button>
+            {[
+              { category: 'All', label: t.allCategories, count: '' },
+              { category: 'Daily Calculators', label: t.catDailyCalc, count: '1,000' },
+              { category: 'Image Tools', label: t.catImageTools, count: '1,000' },
+              { category: 'PDF Tools', label: t.catPdfTools, count: '800' },
+              { category: 'Text & AI Tools', label: t.catTextAi, count: '500' },
+              { category: 'Unit Converters', label: t.catUnitConv, count: '1,000' },
+              { category: 'Home & Daily Life', label: t.catHomeLife, count: '700' },
+              { category: 'Word Tools', label: t.catWordTools, count: '300' },
+              { category: 'SEO Tools', label: t.catSeoTools, count: '400' },
+              { category: 'Developer Tools', label: t.catDevTools, count: '400' },
+              { category: 'Video & Audio Tools', label: t.catMediaTools, count: '300' },
+              { category: 'AI Tools', label: t.catAiTools, count: '300' },
+              { category: 'Social Media Tools', label: t.catSocialTools, count: '300' },
+              { category: 'Student & Everyday Tools', label: t.catStudentTools, count: '300' },
+            ].map((chip) => (
+              <button
+                key={chip.category}
+                onClick={() => { setSelectedCategory(chip.category as typeof selectedCategory); setCurrentPage(1); }}
+                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-colors cursor-pointer border ${
+                  selectedCategory === chip.category
+                    ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
+                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-900 dark:hover:border-white'
+                }`}
+              >
+                {chip.label}{chip.count ? ` (${chip.count})` : ''}
+              </button>
+            ))}
 
-            {/* Daily Calculators - Green */}
-            <button
-              onClick={() => { setSelectedCategory('Daily Calculators'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Daily Calculators'
-                  ? 'bg-[#10b981] text-white border-[#059669] shadow-md ring-2 ring-emerald-300 dark:ring-emerald-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#10b981]/40 hover:bg-[#10b981] hover:text-white'
-              }`}
-            >
-              🧮 {t.catDailyCalc} (1,000)
-            </button>
-
-            {/* Image Tools - Pink */}
-            <button
-              onClick={() => { setSelectedCategory('Image Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Image Tools'
-                  ? 'bg-[#ec4899] text-white border-[#db2777] shadow-md ring-2 ring-pink-300 dark:ring-pink-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#ec4899]/40 hover:bg-[#ec4899] hover:text-white'
-              }`}
-            >
-              🖼️ {t.catImageTools} (1,000)
-            </button>
-
-            {/* PDF Tools - Amber */}
-            <button
-              onClick={() => { setSelectedCategory('PDF Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'PDF Tools'
-                  ? 'bg-[#f59e0b] text-white border-[#d97706] shadow-md ring-2 ring-amber-300 dark:ring-amber-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#f59e0b]/40 hover:bg-[#f59e0b] hover:text-white'
-              }`}
-            >
-              📄 {t.catPdfTools} (800)
-            </button>
-
-            {/* Text & AI Tools - Purple */}
-            <button
-              onClick={() => { setSelectedCategory('Text & AI Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Text & AI Tools'
-                  ? 'bg-[#8b5cf6] text-white border-[#7c3aed] shadow-md ring-2 ring-purple-300 dark:ring-purple-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#8b5cf6]/40 hover:bg-[#8b5cf6] hover:text-white'
-              }`}
-            >
-              ✨ {t.catTextAi} (500)
-            </button>
-
-            {/* Unit Converters - Cyan */}
-            <button
-              onClick={() => { setSelectedCategory('Unit Converters'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Unit Converters'
-                  ? 'bg-[#06b6d4] text-white border-[#0891b2] shadow-md ring-2 ring-cyan-300 dark:ring-cyan-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#06b6d4]/40 hover:bg-[#06b6d4] hover:text-white'
-              }`}
-            >
-              ⚖️ {t.catUnitConv} (1,000)
-            </button>
-
-            {/* Home & Daily Life - Orange */}
-            <button
-              onClick={() => { setSelectedCategory('Home & Daily Life'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Home & Daily Life'
-                  ? 'bg-[#f97316] text-white border-[#ea580c] shadow-md ring-2 ring-orange-300 dark:ring-orange-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#f97316]/40 hover:bg-[#f97316] hover:text-white'
-              }`}
-            >
-              🏡 {t.catHomeLife} (700)
-            </button>
-
-            {/* Word Tools - Blue */}
-            <button
-              onClick={() => { setSelectedCategory('Word Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Word Tools'
-                  ? 'bg-[#2563eb] text-white border-[#1d4ed8] shadow-md ring-2 ring-blue-300 dark:ring-blue-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#2563eb]/40 hover:bg-[#2563eb] hover:text-white'
-              }`}
-            >
-              📝 Word Tools (300)
-            </button>
-
-            {/* SEO Tools - Green */}
-            <button
-              onClick={() => { setSelectedCategory('SEO Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'SEO Tools'
-                  ? 'bg-[#16a34a] text-white border-[#15803d] shadow-md ring-2 ring-green-300 dark:ring-green-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#16a34a]/40 hover:bg-[#16a34a] hover:text-white'
-              }`}
-            >
-              🔍 SEO Tools (400)
-            </button>
-
-            {/* Developer Tools - Violet */}
-            <button
-              onClick={() => { setSelectedCategory('Developer Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Developer Tools'
-                  ? 'bg-[#7c3aed] text-white border-[#6d28d9] shadow-md ring-2 ring-violet-300 dark:ring-violet-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#7c3aed]/40 hover:bg-[#7c3aed] hover:text-white'
-              }`}
-            >
-              💻 Developer Tools (400)
-            </button>
-
-            {/* Video & Audio Tools - Orange */}
-            <button
-              onClick={() => { setSelectedCategory('Video & Audio Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Video & Audio Tools'
-                  ? 'bg-[#ea580c] text-white border-[#c2410c] shadow-md ring-2 ring-orange-300 dark:ring-orange-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#ea580c]/40 hover:bg-[#ea580c] hover:text-white'
-              }`}
-            >
-              🎬 Video & Audio Tools (300)
-            </button>
-
-            {/* AI Tools - Purple */}
-            <button
-              onClick={() => { setSelectedCategory('AI Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'AI Tools'
-                  ? 'bg-[#9333ea] text-white border-[#7e22ce] shadow-md ring-2 ring-purple-300 dark:ring-purple-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#9333ea]/40 hover:bg-[#9333ea] hover:text-white'
-              }`}
-            >
-              🤖 AI Tools (300)
-            </button>
-
-            {/* Social Media Tools - Pink */}
-            <button
-              onClick={() => { setSelectedCategory('Social Media Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Social Media Tools'
-                  ? 'bg-[#db2777] text-white border-[#be185d] shadow-md ring-2 ring-pink-300 dark:ring-pink-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#db2777]/40 hover:bg-[#db2777] hover:text-white'
-              }`}
-            >
-              📱 Social Media Tools (300)
-            </button>
-
-            {/* Student & Everyday Tools - Teal */}
-            <button
-              onClick={() => { setSelectedCategory('Student & Everyday Tools'); setCurrentPage(1); }}
-              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
-                selectedCategory === 'Student & Everyday Tools'
-                  ? 'bg-[#0d9488] text-white border-[#0f766e] shadow-md ring-2 ring-teal-300 dark:ring-teal-900'
-                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#0d9488]/40 hover:bg-[#0d9488] hover:text-white'
-              }`}
-            >
-              🎓 Student & Everyday Tools (300)
-            </button>
           </div>
 
           {/* Scroll Right Button */}
           <button
             onClick={() => scrollCategories('right')}
-            className="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 flex items-center justify-center shrink-0 shadow-xs cursor-pointer active:scale-95 transition-all"
+            className="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white flex items-center justify-center shrink-0 shadow-xs cursor-pointer active:scale-95 transition-all"
             aria-label="Scroll right"
           >
             <ChevronRight className="w-4 h-4" />
@@ -1138,7 +908,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <p className="text-xs text-slate-500 mt-1">"{searchQuery}"</p>
             <button
               onClick={() => { onSearchChange(''); setSelectedCategory('All'); }}
-              className="mt-4 px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-colors cursor-pointer shadow-xs"
+              className="mt-4 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-700 dark:hover:bg-slate-200 transition-colors cursor-pointer"
             >
               {t.resetFilters}
             </button>
@@ -1156,7 +926,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <div
                   key={tool.id}
                   onClick={() => onSelectTool(tool.slug)}
-                  className={`rounded-[28px] p-5 cursor-pointer border-2 ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[235px] group shadow-2xs`}
+                  className={`rounded-[28px] p-5 cursor-pointer border ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[235px] group shadow-2xs`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -1169,21 +939,21 @@ export const HomePage: React.FC<HomePageProps> = ({
                         </span>
                       ) : (
                         <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
-                          ✓ Free
+                          {t.freeLabel}
                         </span>
                       )}
                     </div>
 
-                    <h4 className="font-bold text-[15px] text-[#1e293b] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
-                      {catchy.title}
+                    <h4 className="font-bold text-[15px] text-[#1e293b] dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors line-clamp-2 leading-snug">
+                      {lang === 'fr' ? localizedTool(tool, lang).name : catchy.title}
                     </h4>
 
                     <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">
-                      {catchy.catchyDesc}
+                      {lang === 'fr' ? localizedTool(tool, lang).description : catchy.catchyDesc}
                     </p>
                   </div>
 
-                  <div className="pt-3 mt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs font-semibold text-[#0f172a] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                  <div className="pt-3 mt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs font-semibold text-[#0f172a] dark:text-white group-hover:text-slate-900 dark:group-hover:text-white">
                     <span>{t.useToolFree}</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -1223,8 +993,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                     onClick={() => setCurrentPage(pageNumber)}
                     className={`w-8 h-8 rounded-xl font-bold text-xs transition-colors cursor-pointer ${
                       currentPage === pageNumber
-                        ? 'bg-blue-600 text-white shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-blue-500'
+                        ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-xs'
+                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-slate-900 dark:hover:border-white'
                     }`}
                   >
                     {pageNumber}
@@ -1253,9 +1023,9 @@ export const HomePage: React.FC<HomePageProps> = ({
         
         {/* FAQ Header with Left Blue Accent */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-          <div className="border-l-4 border-[#3b82f6] pl-4">
+          <div className="border-l-4 border-slate-900 dark:border-white pl-4">
             <div className="flex items-center gap-2">
-              <span className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400">
+              <span className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                 <HelpCircle className="w-5 h-5" />
               </span>
               <h2 className="text-2xl sm:text-3xl font-display text-[#0f172a] dark:text-white">
@@ -1295,7 +1065,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               value={faqSearchQuery}
               onChange={(e) => setFaqSearchQuery(e.target.value)}
               placeholder="Search FAQ questions (e.g., privacy, IRS tax accuracy, free, offline, ATS resume)..."
-              className="w-full pl-10 pr-9 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#3b82f6] focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-950 transition-all"
+              className="w-full pl-10 pr-9 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all"
             />
             {faqSearchQuery && (
               <button
@@ -1303,7 +1073,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 className="absolute right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold p-1 cursor-pointer"
                 title="Clear FAQ search"
               >
-                ✕
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -1339,7 +1109,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <p className="text-xs text-slate-500 mt-1">"{faqSearchQuery}"</p>
             <button
               onClick={() => { setFaqSearchQuery(''); setSelectedFaqCategory('All'); }}
-              className="mt-3 px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-colors cursor-pointer"
+              className="mt-3 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-700 dark:hover:bg-slate-200 transition-colors cursor-pointer"
             >
               Reset FAQ Search
             </button>
@@ -1367,7 +1137,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   >
                     <div className="flex-1 space-y-1.5">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-900">
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                           {faq.category}
                         </span>
                         {faq.badge && (
@@ -1382,7 +1152,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </div>
 
                     <div className={`p-2 rounded-xl mt-0.5 transition-colors shrink-0 ${
-                      isOpen ? 'bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400' : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
+                      isOpen ? 'bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-100' : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
                     }`}>
                       {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </div>
@@ -1429,14 +1199,14 @@ export const HomePage: React.FC<HomePageProps> = ({
         )}
 
         {/* Footer Support Prompt */}
-        <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-blue-50/60 dark:bg-slate-800/60 border border-blue-200/60 dark:border-slate-700 text-center flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-center flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-2.5 text-slate-700 dark:text-slate-200 font-medium">
-            <MessageSquare className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
+            <MessageSquare className="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" />
             <span>Have a technical question or feature request not answered here?</span>
           </div>
           <button
             onClick={onOpenDonationModal}
-            className="px-4 py-2 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors cursor-pointer shrink-0 shadow-2xs"
+            className="px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:bg-slate-700 dark:hover:bg-slate-200 transition-colors cursor-pointer shrink-0"
           >
             Contact Team & Support
           </button>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, ShieldCheck, Mail, Globe, CheckCircle2, FileText, AlertCircle, Heart } from 'lucide-react';
+import { LogoMark } from './LogoMark';
 
 interface LegalModalProps {
   type: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'support' | 'legal-safe' | null;
@@ -15,7 +16,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-800/60">
           <div className="flex items-center gap-2.5">
-            <span className="text-2xl">👑</span>
+            <LogoMark className="w-7 h-7 text-amber-500" />
             <div>
               <h3 className="font-extrabold text-lg sm:text-xl text-gray-950 dark:text-white">
                 {type === 'about' && 'About Super Crown Global'}

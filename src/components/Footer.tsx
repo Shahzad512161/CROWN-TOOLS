@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Heart, Sparkles, Mail, Globe, CheckCircle2, BookOpen } from 'lucide-react';
 import { Translations, TRANSLATIONS } from '../lib/i18n';
+import { LogoMark } from './LogoMark';
 
 interface FooterProps {
   onOpenModal: (type: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'support' | 'legal-safe') => void;
@@ -31,10 +32,8 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Brand Info */}
           <div className="md:col-span-1 space-y-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 p-[1px] shadow-sm flex items-center justify-center">
-                <div className="w-full h-full rounded-[7px] bg-white dark:bg-[#0f172a] flex items-center justify-center">
-                  <span className="text-base">👑</span>
-                </div>
+              <div className="w-8 h-8 rounded-lg bg-[#0f172a] flex items-center justify-center">
+                <LogoMark className="w-5 h-5 text-amber-500" />
               </div>
               <span className="text-lg font-black text-[#0f172a] dark:text-white">
                 Super Crown Tools
@@ -157,7 +156,7 @@ export const Footer: React.FC<FooterProps> = ({
           </p>
           <div className="flex items-center gap-3">
             <span className="text-slate-400">
-              Our Mission: Help 1 Million People • Built for USA, UK, Canada & Global Users
+              {t.footerMission}
             </span>
           </div>
         </div>

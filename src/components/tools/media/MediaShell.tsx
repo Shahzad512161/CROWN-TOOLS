@@ -7,7 +7,7 @@ export { OptLabel, OptInput, OptSelect, OptCheck, CopyBtn, Stat, ErrorBox, Downl
 
 /** Card chrome shared by the Video & Audio tools. */
 export const MediaCard: React.FC<{ tool: ToolItem; children: React.ReactNode; note?: string }> = ({ tool, children, note }) => (
-  <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-sm">
+  <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-none">
     <div className="flex items-center gap-2 mb-4">
       <Clapperboard className="w-5 h-5 text-orange-600" />
       <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
