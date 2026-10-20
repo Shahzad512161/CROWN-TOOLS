@@ -1,12 +1,12 @@
 /**
- * Internationalization — English (default) and French.
+ * Internationalization — English (default), French, Arabic, Russian.
  *
- * Routing is locale-prefixed: English lives under /en, French under /fr
- * (domain/en/... and domain/fr/...). A bare path is canonicalized to the
- * default locale /en. More locales can be added by extending
- * LOCALE_PREFIXES, SUPPORTED_LANGUAGES and TRANSLATIONS.
+ * Routing is locale-prefixed: /en, /fr, /ar, /ru (domain/en/... etc.).
+ * A bare path is canonicalized to the default locale /en. Arabic is RTL.
+ * More locales can be added by extending LOCALE_PREFIXES,
+ * SUPPORTED_LANGUAGES and TRANSLATIONS.
  */
-export type SupportedLanguage = 'en' | 'fr';
+export type SupportedLanguage = 'en' | 'fr' | 'ar' | 'ru';
 
 export interface LanguageInfo {
   code: SupportedLanguage;
@@ -18,17 +18,28 @@ export interface LanguageInfo {
 export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
   { code: 'en', name: 'English', nativeName: 'English', dir: 'ltr' },
   { code: 'fr', name: 'French', nativeName: 'Français', dir: 'ltr' },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', dir: 'rtl' },
+  { code: 'ru', name: 'Russian', nativeName: 'Русский', dir: 'ltr' },
 ];
 
 export const DEFAULT_LOCALE: SupportedLanguage = 'en';
 
 /** URL path prefixes that carry a locale. */
-export const LOCALE_PREFIXES = ['/en', '/fr'] as const;
+export const LOCALE_PREFIXES = ['/en', '/fr', '/ar', '/ru'] as const;
 
-/** The locale a pathname belongs to ('/fr/...' -> 'fr', anything else -> default). */
+/** The locale a pathname belongs to ('/ar/...' -> 'ar', anything else -> default). */
 export function localeFromPath(pathname: string): SupportedLanguage {
-  if (pathname === '/fr' || pathname.startsWith('/fr/')) return 'fr';
+  for (const prefix of LOCALE_PREFIXES) {
+    if (pathname === prefix || pathname.startsWith(prefix + '/')) {
+      return prefix.slice(1) as SupportedLanguage;
+    }
+  }
   return DEFAULT_LOCALE;
+}
+
+/** Text direction for a locale (Arabic is right-to-left). */
+export function textDirection(lang: SupportedLanguage): 'ltr' | 'rtl' {
+  return SUPPORTED_LANGUAGES.find((l) => l.code === lang)?.dir ?? 'ltr';
 }
 
 /** Strip the locale prefix from a pathname: '/fr/tool/x' -> '/tool/x', '/en' -> '/'. */
@@ -317,9 +328,181 @@ export const BASE_TRANSLATION_FR: Translations = {
   bookmarkedBtn: 'Enregistré'
 };
 
+export const BASE_TRANSLATION_AR: Translations = {
+  topTrustBar: 'موثوق من أكثر من مليوني مستخدم في الولايات المتحدة والمملكة المتحدة وكندا وأوروبا | متوافق مع اللائحة العامة لحماية البيانات | منصة شرعية وآمنة 100%',
+  supportEmail: 'support@supercrowntools.com',
+  logoSubtitle: 'أكثر من 5000 أداة مجانية على الإنترنت - مفتوحة 100%',
+  searchPlaceholder: 'ابحث في أكثر من 5000 أداة... مثال: حاسبة الرهن العقاري، مؤشر كتلة الجسم، التأمين، القروض',
+  supportMissionBtn: 'ادعم مهمتنا',
+  missionStrip: 'مهمتنا: تسهيل حياتك',
+  toggleThemeLight: 'التبديل إلى الوضع الفاتح',
+  toggleThemeDark: 'التبديل إلى الوضع الداكن',
+  selectLanguage: 'اللغة',
+  navAbout: 'من نحن',
+  navPrivacy: 'سياسة الخصوصية',
+  navTerms: 'الشروط',
+  navContact: 'اتصل بنا',
+  navDisclaimer: 'إخلاء المسؤولية',
+  navBlog: 'المدونة',
+  heroTitle: 'كل أدواتك اليومية. مجانية ومفتوحة.',
+  heroSubtitle: 'حاسبات وأدوات PDF والمستندات والصور والوسائط — كل شيء يعمل في متصفحك. بدون تسجيل، بدون شاشات قفل، بدون رفع ملفات.',
+  heroGreetingSub: 'ما الأداة المجانية التي تحتاجها اليوم؟',
+  searchButton: 'بحث',
+  heroBadgeUnlocked: 'مفتوح 100% - بدون تسجيل دخول',
+  heroBadgeNoTracking: 'بدون تتبع - خصوصية تامة',
+  heroBadgeInstant: 'نتائج فورية في المتصفح',
+  badgeFreeToStart: 'مجاني 100% إلى الأبد',
+  badgeNoTracking: 'بدون تتبع - خصوصية',
+  badgeInstantResults: 'نتائج فورية',
+  badgeBrowserSafe: 'آمن في المتصفح - بدون رفع',
+  badgeLegitTrusted: 'شرعي وموثوق',
+  section1Title: 'الأدوات الأكثر شيوعًا',
+  section1Subtitle: 'مفتوحة مباشرة ومجانية للمستخدمين في جميع أنحاء العالم',
+  badgePopular: 'الأكثر شيوعًا',
+  badgeTrending: 'رائج',
+  openToolNow: 'افتح الأداة (مفتوحة)',
+  freeLabel: 'مجاني 100%',
+  section2Title: 'تصفح أكثر من 5,000 أداة حسب الفئة',
+  section2Subtitle: 'أدوات شاملة وموثقة بدون تسجيل دخول وبدون تعتيم وبدون شاشات قفل.',
+  catDailyCalc: 'حاسبات يومية',
+  catImageTools: 'أدوات الصور',
+  catPdfTools: 'أدوات PDF',
+  catWordTools: 'أدوات Word',
+  catSeoTools: 'أدوات SEO',
+  catDevTools: 'أدوات المطورين',
+  catMediaTools: 'أدوات الفيديو والصوت',
+  catAiTools: 'أدوات الذكاء الاصطناعي',
+  catSocialTools: 'أدوات التواصل الاجتماعي',
+  catStudentTools: 'أدوات الطلاب واليومية',
+  catTextAi: 'النص والذكاء الاصطناعي',
+  catUnitConv: 'محولات الوحدات',
+  catHomeLife: 'المنزل والحياة اليومية',
+  exploreCategory: 'استكشف الأدوات',
+  section3Title: 'دليل جميع الأدوات المجانية على الإنترنت +5000',
+  showingOf: 'عرض',
+  toolsWord: 'أداة',
+  allCategories: 'كل الأدوات (5,000)',
+  useToolFree: 'استخدم الأداة الآن',
+  noToolsFound: 'لم يتم العثور على أدوات مطابقة لبحثك.',
+  resetFilters: 'إعادة تعيين البحث والفلاتر',
+  pageOf: 'صفحة',
+  unlockedBannerTitle: 'ضمان مجاني ومفتوح 100%',
+  unlockedBannerSubtitle: 'بدون تسجيل، بدون بطاقة ائتمان، بدون تعتيم للنقر للفتح. جميع الأدوات الخمسة آلاف تعمل مباشرة في متصفحك.',
+  supportTitle: 'ادعم مهمتنا',
+  supportSubtitle: 'نبقي أكثر من 5000 أداة مجانية وآمنة وشرعية 100% للجميع. دعمك يساعدنا في الحفاظ على خوادم سريعة.',
+  supportIntro: 'تم بناء Super Crown Tools لتمكين أكثر من مليون طالب وعامل وأسرة حول العالم بأدوات يومية مفتوحة بالكامل.',
+  supportPayoneer: 'Payoneer (مباشرة إلى البطاقة)',
+  supportBinance: 'Binance Pay ID: 851298616',
+  supportCrypto: 'العملات الرقمية (USDT TRC20، BTC، ETH)',
+  supportPayPal: 'PayPal الدولي',
+  supportCoffee: 'ادعمني بقهوة - 3$',
+  copyAddress: 'نسخ العنوان',
+  copiedSuccess: 'تم النسخ إلى الحافظة!',
+  supportFootnote: 'بدون اشتراكات إجبارية. حتى مساهمة صغيرة بقيمة 1$ تساعدنا في إبقاء أكثر من 5,000 أداة متاحة لملايين المستخدمين.',
+  footerMission: 'مهمتنا: مساعدة مليون شخص • مصمم للمستخدمين في الولايات المتحدة والمملكة المتحدة وكندا وحول العالم',
+  howToUseStepsTitle: 'كيفية الاستخدام في 3 خطوات بسيطة:',
+  stepWord: 'الخطوة',
+  legalSafeGuaranteeTitle: 'ضمان منصة شرعية وآمنة 100%',
+  legalSafeGuaranteeDesc: 'يستبعد Super Crown بشكل صارم أدوات نسخ الفيديو المحمية بحقوق النشر والهويات المزيفة والأدوات الضارة. جميع الأدوات التي تزيد عن 5,000 تم التحقق منها وهي آمنة وشرعية وخاصة من جانب العميل بنسبة 100%.',
+  guideOverviewTitle: 'الدليل الشامل والنظرة العامة',
+  faqSectionTitle: 'الأسئلة الشائعة (FAQ)',
+  readCompleteGuideBtn: 'اقرأ الدليل الكامل',
+  relatedToolsTitle: 'أدوات ذات صلة في هذه الفئة',
+  backToAllTools: 'تصفح جميع الأدوات المجانية +5000',
+  bookmarkBtn: 'حفظ',
+  bookmarkedBtn: 'تم الحفظ'
+};
+
+export const BASE_TRANSLATION_RU: Translations = {
+  topTrustBar: 'Нам доверяют более 2 млн пользователей в США, Великобритании, Канаде и Европе | Соответствие GDPR | 100% легальная и безопасная платформа',
+  supportEmail: 'support@supercrowntools.com',
+  logoSubtitle: '5000+ бесплатных онлайн-инструментов - 100% открыто',
+  searchPlaceholder: 'Поиск среди 5000+ инструментов... например: ипотечный калькулятор, ИМТ, страхование, кредит',
+  supportMissionBtn: 'Поддержать миссию',
+  missionStrip: 'Наша миссия: сделать вашу жизнь проще',
+  toggleThemeLight: 'Светлая тема',
+  toggleThemeDark: 'Тёмная тема',
+  selectLanguage: 'Язык',
+  navAbout: 'О нас',
+  navPrivacy: 'Политика конфиденциальности',
+  navTerms: 'Условия',
+  navContact: 'Связаться с нами',
+  navDisclaimer: 'Отказ от ответственности',
+  navBlog: 'Блог',
+  heroTitle: 'Все повседневные инструменты. Бесплатно и открыто.',
+  heroSubtitle: 'Калькуляторы, инструменты для PDF и документов, изображений и медиа — всё работает прямо в вашем браузере. Без регистрации, без экранов блокировки, без загрузки файлов.',
+  heroGreetingSub: 'Какой бесплатный инструмент вам нужен сегодня?',
+  searchButton: 'Поиск',
+  heroBadgeUnlocked: '100% открыто - без входа',
+  heroBadgeNoTracking: 'Без отслеживания - приватно',
+  heroBadgeInstant: 'Мгновенные результаты в браузере',
+  badgeFreeToStart: '100% бесплатно навсегда',
+  badgeNoTracking: 'Без отслеживания - приватно',
+  badgeInstantResults: 'Мгновенные результаты',
+  badgeBrowserSafe: 'Безопасно в браузере - без загрузок',
+  badgeLegitTrusted: 'Легально и надёжно',
+  section1Title: 'Самые популярные инструменты',
+  section1Subtitle: 'Открыты напрямую и бесплатны для пользователей по всему миру',
+  badgePopular: 'Популярное',
+  badgeTrending: 'В тренде',
+  openToolNow: 'Открыть инструмент (открыто)',
+  freeLabel: '100% бесплатно',
+  section2Title: 'Более 5 000 инструментов по категориям',
+  section2Subtitle: 'Полные проверенные инструменты без регистрации, без затемнения и без экранов блокировки.',
+  catDailyCalc: 'Повседневные калькуляторы',
+  catImageTools: 'Инструменты для изображений',
+  catPdfTools: 'Инструменты PDF',
+  catWordTools: 'Инструменты Word',
+  catSeoTools: 'SEO-инструменты',
+  catDevTools: 'Инструменты разработчика',
+  catMediaTools: 'Видео- и аудиоинструменты',
+  catAiTools: 'Инструменты ИИ',
+  catSocialTools: 'Инструменты для соцсетей',
+  catStudentTools: 'Студенческие и повседневные инструменты',
+  catTextAi: 'Текст и ИИ',
+  catUnitConv: 'Конвертеры единиц',
+  catHomeLife: 'Дом и повседневная жизнь',
+  exploreCategory: 'Смотреть инструменты',
+  section3Title: 'Каталог всех 5000+ бесплатных онлайн-инструментов',
+  showingOf: 'Показано',
+  toolsWord: 'инструментов',
+  allCategories: 'Все инструменты (5 000)',
+  useToolFree: 'Использовать инструмент',
+  noToolsFound: 'По вашему запросу ничего не найдено.',
+  resetFilters: 'Сбросить поиск и фильтры',
+  pageOf: 'Страница',
+  unlockedBannerTitle: 'Гарантия 100% бесплатно и открыто',
+  unlockedBannerSubtitle: 'Без регистрации, без банковской карты, без разблокировки по клику. Все 5 000 инструментов работают прямо в вашем браузере.',
+  supportTitle: 'Поддержите нашу миссию',
+  supportSubtitle: 'Мы сохраняем более 5000 инструментов на 100% бесплатными, безопасными и легальными для всех. Ваша поддержка помогает нам держать быстрые серверы.',
+  supportIntro: 'Super Crown Tools создан, чтобы помочь более чем миллиону студентов, работников и семей по всему миру полностью открытыми повседневными инструментами.',
+  supportPayoneer: 'Payoneer (прямо на карту)',
+  supportBinance: 'Binance Pay ID: 851298616',
+  supportCrypto: 'Крипто (USDT TRC20, BTC, ETH)',
+  supportPayPal: 'PayPal International',
+  supportCoffee: 'Угостить кофе за $3',
+  copyAddress: 'Копировать адрес',
+  copiedSuccess: 'Скопировано в буфер обмена!',
+  supportFootnote: 'Никаких принудительных подписок. Даже небольшой вклад в $1 помогает нам сохранять более 5 000 инструментов доступными миллионам пользователей.',
+  footerMission: 'Наша миссия: помочь 1 миллиону человек • Создано для пользователей США, Великобритании, Канады и всего мира',
+  howToUseStepsTitle: 'Как использовать в 3 простых шага:',
+  stepWord: 'Шаг',
+  legalSafeGuaranteeTitle: 'Гарантия 100% легальной и безопасной платформы',
+  legalSafeGuaranteeDesc: 'Super Crown строго исключает загрузчики защищённого видео, поддельные документы и вредоносные утилиты. Все 5 000+ инструментов проверены, на 100% безопасны, легальны и приватны на стороне клиента.',
+  guideOverviewTitle: 'Полное руководство и обзор',
+  faqSectionTitle: 'Часто задаваемые вопросы (FAQ)',
+  readCompleteGuideBtn: 'Читать полное руководство',
+  relatedToolsTitle: 'Похожие инструменты в категории',
+  backToAllTools: 'Смотреть все 5000+ бесплатных инструментов',
+  bookmarkBtn: 'В закладки',
+  bookmarkedBtn: 'Сохранено'
+};
+
 export const TRANSLATIONS: Record<SupportedLanguage, Translations> = {
   en: BASE_TRANSLATION_EN,
   fr: BASE_TRANSLATION_FR,
+  ar: BASE_TRANSLATION_AR,
+  ru: BASE_TRANSLATION_RU,
 };
 
 /** Default-locale detection for a bare path: always the default locale (en). */

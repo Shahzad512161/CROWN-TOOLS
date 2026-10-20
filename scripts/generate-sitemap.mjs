@@ -13,9 +13,10 @@ for (const chunk of [top8, curated]) {
   for (const m of chunk.matchAll(/slug: '([^']+)'/g)) slugs.add(m[1]);
 }
 
-// Locales: English (default) under /en, French under /fr. Every URL is
-// emitted once per locale with hreflang alternates (x-default -> /en).
-const LOCALES = ['en', 'fr'];
+// Locales: English (default) /en, French /fr, Arabic /ar, Russian /ru.
+// Every URL is emitted once per locale with hreflang alternates
+// (x-default -> /en).
+const LOCALES = ['en', 'fr', 'ar', 'ru'];
 
 const staticPages = [
   { path: '', changefreq: 'daily', priority: '1.0' },

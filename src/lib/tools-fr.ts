@@ -1,6 +1,8 @@
 /** French catalog translations (tool names + descriptions), keyed by slug. */
 import type { ToolItem } from './tools-data';
 import type { SupportedLanguage } from './i18n';
+import { TOOLS_AR } from './tools-ar';
+import { TOOLS_RU } from './tools-ru';
 
 export const TOOLS_FR: Record<string, { name: string; description: string }> = {
  "auto-insurance-calculator": {
@@ -1011,9 +1013,8 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
 
 /** Display name/description for a tool in the active language (falls back to English). */
 export function localizedTool(tool: ToolItem, lang: SupportedLanguage): { name: string; description: string } {
-  if (lang === 'fr') {
-    const fr = TOOLS_FR[tool.slug];
-    if (fr) return fr;
-  }
+  if (lang === 'fr' && TOOLS_FR[tool.slug]) return TOOLS_FR[tool.slug];
+  if (lang === 'ar' && TOOLS_AR[tool.slug]) return TOOLS_AR[tool.slug];
+  if (lang === 'ru' && TOOLS_RU[tool.slug]) return TOOLS_RU[tool.slug];
   return { name: tool.name, description: tool.description };
 }

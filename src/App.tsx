@@ -8,7 +8,7 @@ import { AboutPage, PrivacyPage, ContactPage } from './components/Pages';
 import { LegalModal } from './components/LegalModals';
 import { DonationBox } from './components/DonationBox';
 import { TOOLS_BY_SLUG, ALL_TOOLS } from './lib/tools-data';
-import { SupportedLanguage, TRANSLATIONS, localeFromPath, stripLocalePrefix, withLocalePrefix } from './lib/i18n';
+import { SupportedLanguage, TRANSLATIONS, localeFromPath, stripLocalePrefix, textDirection, withLocalePrefix } from './lib/i18n';
 import { X } from 'lucide-react';
 
 export type AppView = 'home' | 'tool' | 'blog' | 'blog-post' | 'about' | 'privacy' | 'contact' | 'terms' | 'disclaimer';
@@ -47,7 +47,7 @@ export default function App() {
     const detected = localeFromPath(window.location.pathname);
     setCurrentLang(detected);
     document.documentElement.lang = detected;
-    document.documentElement.dir = 'ltr';
+    document.documentElement.dir = textDirection(detected);
 
     // Canonicalize to the locale-prefixed URL (domain/en/... or domain/fr/...)
     const rawPath = window.location.pathname;
@@ -58,7 +58,10 @@ export default function App() {
 
     // 3. Routing Sync
     const handlePopState = () => {
-      setCurrentLang(localeFromPath(window.location.pathname));
+      const loc = localeFromPath(window.location.pathname);
+      setCurrentLang(loc);
+      document.documentElement.lang = loc;
+      document.documentElement.dir = textDirection(loc);
       const path = stripLocalePrefix(window.location.pathname);
       const params = new URLSearchParams(window.location.search);
       const queryTool = params.get('tool');
@@ -122,6 +125,7 @@ export default function App() {
     setCurrentLang(lang);
     localStorage.setItem('supercrown_lang', lang);
     document.documentElement.lang = lang;
+    document.documentElement.dir = textDirection(lang);
     // Rewrite the current URL under the new locale: /en/tool/x -> /fr/tool/x
     const stripped = stripLocalePrefix(window.location.pathname);
     window.history.pushState({}, '', withLocalePrefix(stripped, lang) + window.location.search);
