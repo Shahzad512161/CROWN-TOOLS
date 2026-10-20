@@ -65,7 +65,7 @@ export default function Header({
             {/* Language switcher: EN | FR (URL prefix /en or /fr) */}
             <div className="flex items-center gap-1 bg-white/10 border border-white/15 rounded-full p-0.5" role="group" aria-label={t.selectLanguage}>
               <Globe className="w-3.5 h-3.5 text-white/60 ml-1.5" />
-              {(['en', 'fr', 'ar', 'ru'] as const).map((l) => (
+              {(['en', 'es', 'fr', 'ar', 'ru'] as const).map((l) => (
                 <button
                   key={l}
                   type="button"

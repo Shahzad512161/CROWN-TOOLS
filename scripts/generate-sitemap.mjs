@@ -16,7 +16,7 @@ for (const chunk of [top8, curated]) {
 // Locales: English (default) /en, French /fr, Arabic /ar, Russian /ru.
 // Every URL is emitted once per locale with hreflang alternates
 // (x-default -> /en).
-const LOCALES = ['en', 'fr', 'ar', 'ru'];
+const LOCALES = ['en', 'es', 'fr', 'ar', 'ru'];
 
 const staticPages = [
   { path: '', changefreq: 'daily', priority: '1.0' },

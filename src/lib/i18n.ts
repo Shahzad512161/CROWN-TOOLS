@@ -1,12 +1,12 @@
 /**
- * Internationalization — English (default), French, Arabic, Russian.
+ * Internationalization — English (default), Spanish, French, Arabic, Russian.
  *
- * Routing is locale-prefixed: /en, /fr, /ar, /ru (domain/en/... etc.).
+ * Routing is locale-prefixed: /en, /es, /fr, /ar, /ru (domain/en/... etc.).
  * A bare path is canonicalized to the default locale /en. Arabic is RTL.
  * More locales can be added by extending LOCALE_PREFIXES,
  * SUPPORTED_LANGUAGES and TRANSLATIONS.
  */
-export type SupportedLanguage = 'en' | 'fr' | 'ar' | 'ru';
+export type SupportedLanguage = 'en' | 'es' | 'fr' | 'ar' | 'ru';
 
 export interface LanguageInfo {
   code: SupportedLanguage;
@@ -17,6 +17,7 @@ export interface LanguageInfo {
 
 export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
   { code: 'en', name: 'English', nativeName: 'English', dir: 'ltr' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', dir: 'ltr' },
   { code: 'fr', name: 'French', nativeName: 'Français', dir: 'ltr' },
   { code: 'ar', name: 'Arabic', nativeName: 'العربية', dir: 'rtl' },
   { code: 'ru', name: 'Russian', nativeName: 'Русский', dir: 'ltr' },
@@ -25,7 +26,7 @@ export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
 export const DEFAULT_LOCALE: SupportedLanguage = 'en';
 
 /** URL path prefixes that carry a locale. */
-export const LOCALE_PREFIXES = ['/en', '/fr', '/ar', '/ru'] as const;
+export const LOCALE_PREFIXES = ['/en', '/es', '/fr', '/ar', '/ru'] as const;
 
 /** The locale a pathname belongs to ('/ar/...' -> 'ar', anything else -> default). */
 export function localeFromPath(pathname: string): SupportedLanguage {
@@ -498,11 +499,107 @@ export const BASE_TRANSLATION_RU: Translations = {
   bookmarkedBtn: 'Сохранено'
 };
 
+export const BASE_TRANSLATION_ES: Translations = {
+  topTrustBar:
+    'Con la confianza de más de 2 millones de usuarios en EE. UU., Reino Unido, Canadá y Europa | Compatible con el RGPD | Plataforma 100% legítima y segura',
+  supportEmail: 'support@supercrowntools.com',
+  logoSubtitle: '5000+ herramientas en línea gratuitas - 100% desbloqueadas',
+  searchPlaceholder:
+    'Busca entre más de 5000 herramientas... ej. Calculadora de hipoteca, IMC, Seguros, Préstamos',
+  supportMissionBtn: 'Apoya nuestra misión',
+  missionStrip: 'Nuestra misión: hacer tu vida más fácil',
+  toggleThemeLight: 'Cambiar a modo claro',
+  toggleThemeDark: 'Cambiar a modo oscuro',
+  selectLanguage: 'Idioma',
+  navAbout: 'Nosotros',
+  navPrivacy: 'Política de privacidad',
+  navTerms: 'Términos',
+  navContact: 'Contáctanos',
+  navDisclaimer: 'Aviso legal',
+  navBlog: 'Blog',
+  heroTitle: 'Todas las herramientas del día a día. Gratis y desbloqueadas.',
+  heroSubtitle:
+    'Calculadoras, herramientas de PDF y documentos, imágenes y medios: todo funciona en tu navegador. Sin registro, sin pantallas de bloqueo, sin subir archivos.',
+  heroGreetingSub: '¿Qué herramienta gratuita necesitas hoy?',
+  searchButton: 'Buscar',
+  heroBadgeUnlocked: '100% desbloqueado - Sin inicio de sesión',
+  heroBadgeNoTracking: 'Sin rastreo - Privado',
+  heroBadgeInstant: 'Resultados instantáneos en el navegador',
+  badgeFreeToStart: '100% gratis para siempre',
+  badgeNoTracking: 'Sin rastreo - Privado',
+  badgeInstantResults: 'Resultados instantáneos',
+  badgeBrowserSafe: 'Seguro en el navegador - Sin subidas',
+  badgeLegitTrusted: 'Legítimo y confiable',
+  section1Title: 'Herramientas más populares',
+  section1Subtitle: 'Desbloqueadas directamente y gratuitas para usuarios de todo el mundo',
+  badgePopular: 'Más popular',
+  badgeTrending: 'Tendencia',
+  openToolNow: 'Abrir herramienta (desbloqueada)',
+  freeLabel: '100% gratis',
+  section2Title: 'Explora más de 5.000 herramientas por categoría',
+  section2Subtitle:
+    'Herramientas completas y verificadas, sin registros, sin desenfoque y sin pantallas de bloqueo.',
+  catDailyCalc: 'Calculadoras diarias',
+  catImageTools: 'Herramientas de imagen',
+  catPdfTools: 'Herramientas PDF',
+  catWordTools: 'Herramientas Word',
+  catSeoTools: 'Herramientas SEO',
+  catDevTools: 'Herramientas para desarrolladores',
+  catMediaTools: 'Herramientas de video y audio',
+  catAiTools: 'Herramientas de IA',
+  catSocialTools: 'Herramientas de redes sociales',
+  catStudentTools: 'Herramientas para estudiantes y el día a día',
+  catTextAi: 'Texto e IA',
+  catUnitConv: 'Conversores de unidades',
+  catHomeLife: 'Hogar y vida diaria',
+  exploreCategory: 'Explorar herramientas',
+  section3Title: 'Directorio de las más de 5000 herramientas gratuitas en línea',
+  showingOf: 'Mostrando',
+  toolsWord: 'herramientas',
+  allCategories: 'Todas las herramientas (5.000)',
+  useToolFree: 'Usar la herramienta',
+  noToolsFound: 'Ninguna herramienta coincide con tu búsqueda.',
+  resetFilters: 'Restablecer búsqueda y filtros',
+  pageOf: 'Página',
+  unlockedBannerTitle: 'Garantía 100% gratis y desbloqueado',
+  unlockedBannerSubtitle:
+    'Sin registro, sin tarjeta de crédito, sin desenfoque por clic. Las 5.000 herramientas funcionan directamente en tu navegador.',
+  supportTitle: 'Apoya nuestra misión',
+  supportSubtitle:
+    'Mantenemos más de 5000 herramientas 100% gratuitas, seguras y legítimas para todos. Tu apoyo nos ayuda a mantener servidores rápidos.',
+  supportIntro:
+    'Super Crown Tools está hecho para ayudar a más de 1 millón de estudiantes, trabajadores y familias en todo el mundo con utilidades diarias completamente desbloqueadas.',
+  supportPayoneer: 'Payoneer (directo a la tarjeta)',
+  supportBinance: 'Binance Pay ID: 851298616',
+  supportCrypto: 'Cripto (USDT TRC20, BTC, ETH)',
+  supportPayPal: 'PayPal Internacional',
+  supportCoffee: 'Invítame a un café - $3',
+  copyAddress: 'Copiar dirección',
+  copiedSuccess: '¡Copiado al portapapeles!',
+  supportFootnote:
+    'Sin suscripciones forzadas. Incluso una pequeña contribución de $1 nos ayuda a mantener más de 5.000 utilidades disponibles para millones de usuarios.',
+  footerMission:
+    'Nuestra misión: ayudar a 1 millón de personas • Hecho para EE. UU., Reino Unido, Canadá y usuarios de todo el mundo',
+  howToUseStepsTitle: 'Cómo usar en 3 simples pasos:',
+  stepWord: 'Paso',
+  legalSafeGuaranteeTitle: 'Garantía de plataforma 100% legítima y segura',
+  legalSafeGuaranteeDesc:
+    'Super Crown excluye estrictamente los extractores de videos protegidos, las identificaciones falsas y las utilidades maliciosas. Las más de 5.000 herramientas están verificadas, son 100% seguras, legítimas y privadas del lado del cliente.',
+  guideOverviewTitle: 'Guía completa y descripción detallada',
+  faqSectionTitle: 'Preguntas frecuentes (FAQ)',
+  readCompleteGuideBtn: 'Leer la guía completa',
+  relatedToolsTitle: 'Herramientas relacionadas en esta categoría',
+  backToAllTools: 'Explorar las más de 5000 herramientas gratuitas',
+  bookmarkBtn: 'Guardar',
+  bookmarkedBtn: 'Guardado'
+};
+
 export const TRANSLATIONS: Record<SupportedLanguage, Translations> = {
   en: BASE_TRANSLATION_EN,
   fr: BASE_TRANSLATION_FR,
   ar: BASE_TRANSLATION_AR,
   ru: BASE_TRANSLATION_RU,
+  es: BASE_TRANSLATION_ES,
 };
 
 /** Default-locale detection for a bare path: always the default locale (en). */

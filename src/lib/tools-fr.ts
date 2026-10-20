@@ -3,6 +3,7 @@ import type { ToolItem } from './tools-data';
 import type { SupportedLanguage } from './i18n';
 import { TOOLS_AR } from './tools-ar';
 import { TOOLS_RU } from './tools-ru';
+import { TOOLS_ES } from './tools-es';
 
 export const TOOLS_FR: Record<string, { name: string; description: string }> = {
  "auto-insurance-calculator": {
@@ -1016,5 +1017,6 @@ export function localizedTool(tool: ToolItem, lang: SupportedLanguage): { name: 
   if (lang === 'fr' && TOOLS_FR[tool.slug]) return TOOLS_FR[tool.slug];
   if (lang === 'ar' && TOOLS_AR[tool.slug]) return TOOLS_AR[tool.slug];
   if (lang === 'ru' && TOOLS_RU[tool.slug]) return TOOLS_RU[tool.slug];
+  if (lang === 'es' && TOOLS_ES[tool.slug]) return TOOLS_ES[tool.slug];
   return { name: tool.name, description: tool.description };
 }
