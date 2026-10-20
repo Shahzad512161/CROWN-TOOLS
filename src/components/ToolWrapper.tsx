@@ -25,6 +25,7 @@ import { DEV_TOOL_COMPONENTS } from './tools/dev';
 import { IMAGE_TOOL_COMPONENTS } from './tools/image';
 import { MEDIA_TOOL_COMPONENTS } from './tools/media';
 import { AI_TOOL_COMPONENTS } from './tools/ai';
+import { SOCIAL_TOOL_COMPONENTS } from './tools/social';
 
 interface ToolWrapperProps {
   slug: string;
@@ -95,6 +96,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     const AiTool = AI_TOOL_COMPONENTS[tool.slug];
     if (AiTool) {
       return <AiTool tool={tool} />;
+    }
+    // Real Social Media suite (creators, formatting, growth)
+    const SocialTool = SOCIAL_TOOL_COMPONENTS[tool.slug];
+    if (SocialTool) {
+      return <SocialTool tool={tool} />;
     }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':

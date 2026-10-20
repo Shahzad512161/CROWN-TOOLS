@@ -607,6 +607,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     { label: '💻 Developer Tools', category: 'Developer Tools', count: '400+' },
                     { label: '🎬 Video & Audio Tools', category: 'Video & Audio Tools', count: '300+' },
                     { label: '🤖 AI Tools', category: 'AI Tools', count: '300+' },
+                    { label: '📱 Social Media Tools', category: 'Social Media Tools', count: '300+' },
                     { label: '🏡 Daily Life', category: 'Home & Daily Life', count: '700+' },
                   ].map((cat) => (
                     <button
@@ -1091,6 +1092,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               }`}
             >
               🤖 AI Tools (300)
+            </button>
+
+            {/* Social Media Tools - Pink */}
+            <button
+              onClick={() => { setSelectedCategory('Social Media Tools'); setCurrentPage(1); }}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
+                selectedCategory === 'Social Media Tools'
+                  ? 'bg-[#db2777] text-white border-[#be185d] shadow-md ring-2 ring-pink-300 dark:ring-pink-900'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#db2777]/40 hover:bg-[#db2777] hover:text-white'
+              }`}
+            >
+              📱 Social Media Tools (300)
             </button>
           </div>
 

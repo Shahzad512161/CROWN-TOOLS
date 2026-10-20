@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string;
   slug: string;
   name: string;
-  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools' | 'Video & Audio Tools' | 'AI Tools';
+  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools' | 'Video & Audio Tools' | 'AI Tools' | 'Social Media Tools';
   description: string;
   highCPCKeywords: string[];
   isTopEarning: boolean;
@@ -115,6 +115,17 @@ export const CATEGORIES_META: CategoryMeta[] = [
     borderClass: 'border-purple-200 dark:border-purple-800',
     tagline: 'Write, Create & Chat with AI',
     description: 'AI writer, paraphraser, grammar checker, translator, image generator, email and cover-letter writers, and chat — powered by Google Gemini.'
+  },
+  {
+    name: 'Social Media Tools',
+    slug: 'social-media-tools',
+    count: 300,
+    icon: 'Wand2',
+    colorClass: 'text-pink-600 dark:text-pink-400',
+    bgLight: 'bg-[#fce7f3] dark:bg-pink-950/40',
+    borderClass: 'border-pink-200 dark:border-pink-800',
+    tagline: 'Create, Format & Grow',
+    description: 'Resizers for every platform, thumbnail and post-card makers, hashtag and username generators, fancy text, engagement calculator and AI hooks.'
   },
   {
     name: 'Text & AI Tools',
@@ -2808,6 +2819,184 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     iconName: 'Wand2',
     cpcTier: 'Very High',
     estimatedCPC: '$17.90'
+  },
+
+  // Social Media Tools suite — creators, formatting and growth
+  {
+    slug: 'social-image-resizer',
+    name: 'Social Media Image Resizer',
+    category: 'Social Media Tools',
+    description: 'Resize any image to the exact size for Instagram, X, Facebook, YouTube, LinkedIn, TikTok and Pinterest — crop, fit or blur-fill.',
+    highCPCKeywords: ['social media image resizer', 'instagram image size', 'resize image for social media'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.40'
+  },
+  {
+    slug: 'youtube-thumbnail-maker',
+    name: 'YouTube Thumbnail Maker',
+    category: 'Social Media Tools',
+    description: 'Design bold 1280×720 YouTube thumbnails with your photo, big title text and an accent bar — no design skills needed.',
+    highCPCKeywords: ['youtube thumbnail maker', 'thumbnail creator', 'make a thumbnail free'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$14.80'
+  },
+  {
+    slug: 'fancy-text-generator',
+    name: 'Fancy Text Generator',
+    category: 'Social Media Tools',
+    description: 'Turn plain text into bold, script, fraktur, circled, small-caps and upside-down Unicode styles for bios and posts — tap to copy.',
+    highCPCKeywords: ['fancy text generator', 'instagram fonts', 'stylish text maker'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.20'
+  },
+  {
+    slug: 'social-post-composer',
+    name: 'Social Media Post Composer',
+    category: 'Social Media Tools',
+    description: 'Write one post and watch live character counts for X, Instagram, Threads, TikTok, LinkedIn, Facebook, YouTube and Pinterest.',
+    highCPCKeywords: ['character counter twitter', 'post length checker', 'social media composer'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$8.60'
+  },
+  {
+    slug: 'hashtag-generator',
+    name: 'Hashtag Generator',
+    category: 'Social Media Tools',
+    description: 'Generate up to 30 hashtags from your keywords plus a curated bank for 12 niches — fitness, food, travel, fashion, business and more.',
+    highCPCKeywords: ['hashtag generator', 'instagram hashtags', 'best hashtags for instagram'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.90'
+  },
+  {
+    slug: 'hashtag-counter',
+    name: 'Hashtag Counter & Cleaner',
+    category: 'Social Media Tools',
+    description: 'Count hashtags in any caption, spot duplicates, remove them, and check the Instagram 30-hashtag limit.',
+    highCPCKeywords: ['hashtag counter', 'count hashtags', 'remove duplicate hashtags'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$7.90'
+  },
+  {
+    slug: 'engagement-rate-calculator',
+    name: 'Engagement Rate Calculator',
+    category: 'Social Media Tools',
+    description: 'Calculate your Instagram, TikTok or YouTube engagement rate from followers, likes, comments, shares and saves — with a plain-English verdict.',
+    highCPCKeywords: ['engagement rate calculator', 'instagram engagement rate', 'influencer rate calculator'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.70'
+  },
+  {
+    slug: 'username-generator',
+    name: 'Username Generator',
+    category: 'Social Media Tools',
+    description: 'Generate catchy username ideas for Instagram, TikTok, X and YouTube from any keyword — prefixes, suffixes and stylish combinations.',
+    highCPCKeywords: ['username generator', 'instagram name generator', 'username ideas'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.30'
+  },
+  {
+    slug: 'social-video-resizer',
+    name: 'Social Video Resizer',
+    category: 'Social Media Tools',
+    description: 'Convert any video to 9:16 for Reels, TikTok and Shorts, 1:1 or 4:5 for feeds, or 16:9 — crop to fill or pad with a blurred background.',
+    highCPCKeywords: ['resize video for instagram', 'video resizer online', '9:16 video converter'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$14.20'
+  },
+  {
+    slug: 'post-ideas-generator',
+    name: 'Social Media Post Ideas Generator',
+    category: 'Social Media Tools',
+    description: 'Get a ready-made 30-day content calendar for your niche — a post idea and format for every day of the month.',
+    highCPCKeywords: ['content calendar generator', 'post ideas', 'social media content ideas'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.40'
+  },
+  {
+    slug: 'giveaway-picker',
+    name: 'Giveaway & Comment Picker',
+    category: 'Social Media Tools',
+    description: 'Paste your giveaway comments and pick a random winner fairly — duplicates removed, previous winners excluded.',
+    highCPCKeywords: ['comment picker', 'giveaway winner picker', 'random comment picker instagram'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.80'
+  },
+  {
+    slug: 'post-card-maker',
+    name: 'Post Card Maker',
+    category: 'Social Media Tools',
+    description: 'Design clean social post cards for thumbnails, presentations and content previews — light and dark themes, export as PNG.',
+    highCPCKeywords: ['tweet image maker', 'post card maker', 'social card generator'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$9.10'
+  },
+  {
+    slug: 'link-in-bio-builder',
+    name: 'Link in Bio Page Builder',
+    category: 'Social Media Tools',
+    description: 'Build your own link-in-bio page and download it as a single HTML file — host it free anywhere, no monthly fees.',
+    highCPCKeywords: ['link in bio builder', 'linktree alternative free', 'bio link page maker'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.10'
+  },
+  {
+    slug: 'emoji-picker',
+    name: 'Emoji Picker & Copy Board',
+    category: 'Social Media Tools',
+    description: 'Browse curated emojis by category, build your caption string in the tray, and copy it in one tap.',
+    highCPCKeywords: ['emoji picker', 'copy paste emoji', 'emoji board'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$6.80'
+  },
+  {
+    slug: 'ai-hashtag-generator',
+    name: 'AI Hashtag Generator',
+    category: 'Social Media Tools',
+    description: 'Describe your post and get 30 AI hashtags grouped by reach for Instagram, TikTok or X — niche-aware and ready to paste.',
+    highCPCKeywords: ['ai hashtag generator', 'hashtags for instagram ai', 'viral hashtags ai'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.60'
+  },
+  {
+    slug: 'ai-hook-generator',
+    name: 'AI Hook Generator',
+    category: 'Social Media Tools',
+    description: 'Generate 10 scroll-stopping opening hooks for your TikTok, Reels or Shorts — pick your tone, paste your topic.',
+    highCPCKeywords: ['hook generator', 'viral hooks', 'tiktok hooks ai'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.90'
   }
 ];
 
@@ -2888,7 +3077,8 @@ function generateFullToolsCatalog(): ToolItem[] {
     'SEO Tools': 400,
     'Developer Tools': 400,
     'Video & Audio Tools': 300,
-    'AI Tools': 300
+    'AI Tools': 300,
+    'Social Media Tools': 300
   };
 
   // Sub-domains and seeds to generate realistic legal tool titles
@@ -3022,6 +3212,15 @@ function generateFullToolsCatalog(): ToolItem[] {
         'AI Bio Generator', 'AI Caption Generator', 'AI Business Name Generator', 'AI Chat'
       ],
       suffixes: ['Tool', 'Online', 'Generator', 'Assistant', 'Maker', 'Studio'],
+      defaultIcon: 'Wand2'
+    },
+    'Social Media Tools': {
+      prefixes: ['Social', 'Viral', 'Free', 'Online', 'Pro', 'Easy', 'Smart', 'Ultimate', 'Fast', 'Insta'],
+      topics: [
+        'Hashtag Generator', 'Username Generator', 'Fancy Text Generator', 'Post Composer', 'Thumbnail Maker',
+        'Engagement Calculator', 'Giveaway Picker', 'Post Ideas Generator', 'Link in Bio Builder', 'Emoji Picker'
+      ],
+      suffixes: ['Tool', 'Online', 'Maker', 'Generator', 'Studio'],
       defaultIcon: 'Wand2'
     }
   };

@@ -73,6 +73,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/ai-hashtag-generator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/ai-hook-generator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/ai-image-generator</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -313,6 +325,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/emoji-picker</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/engagement-rate-calculator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/epub-to-pdf</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -338,6 +362,12 @@
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/extract-word-images</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/fancy-text-generator</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -373,6 +403,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/giveaway-picker</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/grayscale-pdf</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -386,6 +422,18 @@
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/hash-generator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/hashtag-counter</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/hashtag-generator</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -590,6 +638,12 @@
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/link-extractor</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/link-in-bio-builder</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -835,6 +889,18 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/post-card-maker</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/post-ideas-generator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/powerpoint-to-pdf</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -1003,6 +1069,24 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/social-image-resizer</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/social-post-composer</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/social-video-resizer</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/speech-to-text</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -1154,6 +1238,12 @@
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/user-agent-parser</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/username-generator</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -1340,6 +1430,12 @@
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/yaml-to-json-converter</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/youtube-thumbnail-maker</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
