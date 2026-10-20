@@ -608,6 +608,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     { label: '🎬 Video & Audio Tools', category: 'Video & Audio Tools', count: '300+' },
                     { label: '🤖 AI Tools', category: 'AI Tools', count: '300+' },
                     { label: '📱 Social Media Tools', category: 'Social Media Tools', count: '300+' },
+                    { label: '🎓 Student & Everyday Tools', category: 'Student & Everyday Tools', count: '300+' },
                     { label: '🏡 Daily Life', category: 'Home & Daily Life', count: '700+' },
                   ].map((cat) => (
                     <button
@@ -1104,6 +1105,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               }`}
             >
               📱 Social Media Tools (300)
+            </button>
+
+            {/* Student & Everyday Tools - Teal */}
+            <button
+              onClick={() => { setSelectedCategory('Student & Everyday Tools'); setCurrentPage(1); }}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
+                selectedCategory === 'Student & Everyday Tools'
+                  ? 'bg-[#0d9488] text-white border-[#0f766e] shadow-md ring-2 ring-teal-300 dark:ring-teal-900'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#0d9488]/40 hover:bg-[#0d9488] hover:text-white'
+              }`}
+            >
+              🎓 Student & Everyday Tools (300)
             </button>
           </div>
 

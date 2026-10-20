@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string;
   slug: string;
   name: string;
-  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools' | 'Video & Audio Tools' | 'AI Tools' | 'Social Media Tools';
+  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools' | 'Video & Audio Tools' | 'AI Tools' | 'Social Media Tools' | 'Student & Everyday Tools';
   description: string;
   highCPCKeywords: string[];
   isTopEarning: boolean;
@@ -126,6 +126,17 @@ export const CATEGORIES_META: CategoryMeta[] = [
     borderClass: 'border-pink-200 dark:border-pink-800',
     tagline: 'Create, Format & Grow',
     description: 'Resizers for every platform, thumbnail and post-card makers, hashtag and username generators, fancy text, engagement calculator and AI hooks.'
+  },
+  {
+    name: 'Student & Everyday Tools',
+    slug: 'student-everyday-tools',
+    count: 300,
+    icon: 'Wand2',
+    colorClass: 'text-teal-600 dark:text-teal-400',
+    bgLight: 'bg-[#ccfbf1] dark:bg-teal-950/40',
+    borderClass: 'border-teal-200 dark:border-teal-800',
+    tagline: 'Study Smarter, Live Easier',
+    description: 'GPA and citation tools, flashcards, a study planner, periodic table and equation solver — plus age and date calculators, timers, a typing test and text-to-handwriting.'
   },
   {
     name: 'Text & AI Tools',
@@ -2997,6 +3008,184 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     iconName: 'Wand2',
     cpcTier: 'High',
     estimatedCPC: '$12.90'
+  },
+
+  // Student & Everyday Tools suite — study help + daily utilities
+  {
+    slug: 'gpa-calculator',
+    name: 'GPA Calculator',
+    category: 'Student & Everyday Tools',
+    description: 'Calculate your semester GPA and CGPA on standard or plus/minus 4.0 scales — plus find the GPA you need to hit your target.',
+    highCPCKeywords: ['gpa calculator', 'cgpa calculator', 'calculate my gpa'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.60'
+  },
+  {
+    slug: 'citation-generator',
+    name: 'Citation Generator',
+    category: 'Student & Everyday Tools',
+    description: 'Generate perfect references in APA 7, MLA 9, Chicago and Harvard formats for books, journal articles and websites.',
+    highCPCKeywords: ['citation generator', 'apa citation generator', 'mla citation maker'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.30'
+  },
+  {
+    slug: 'essay-word-counter',
+    name: 'Essay Word Counter',
+    category: 'Student & Everyday Tools',
+    description: 'Count words, characters, sentences and reading time — track progress toward your essay target and check readability.',
+    highCPCKeywords: ['word counter', 'essay word count', 'character counter'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$9.80'
+  },
+  {
+    slug: 'flashcard-maker',
+    name: 'Flashcard Maker',
+    category: 'Student & Everyday Tools',
+    description: 'Create your own flashcards, study them with flip mode and shuffling, and export your deck — a free Quizlet alternative.',
+    highCPCKeywords: ['flashcard maker', 'make flashcards online', 'study flashcards free'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$10.90'
+  },
+  {
+    slug: 'study-planner',
+    name: 'Study Planner',
+    category: 'Student & Everyday Tools',
+    description: 'Enter your exam date and topics and get a day-by-day study plan with rest days and revision days built in.',
+    highCPCKeywords: ['study planner', 'exam study plan generator', 'study timetable maker'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$10.40'
+  },
+  {
+    slug: 'periodic-table',
+    name: 'Interactive Periodic Table',
+    category: 'Student & Everyday Tools',
+    description: 'Explore all 118 elements — click any element for its name, atomic number, mass and category, with search and color-coded groups.',
+    highCPCKeywords: ['periodic table', 'interactive periodic table', 'elements table'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$9.50'
+  },
+  {
+    slug: 'equation-solver',
+    name: 'Equation Solver with Steps',
+    category: 'Student & Everyday Tools',
+    description: 'Solve quadratic and linear equations with full worked steps — discriminant, formula substitution and roots explained.',
+    highCPCKeywords: ['quadratic equation solver', 'equation solver with steps', 'solve for x'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$10.10'
+  },
+  {
+    slug: 'ai-quiz-generator',
+    name: 'AI Quiz Generator',
+    category: 'Student & Everyday Tools',
+    description: 'Paste your study notes and get an instant multiple-choice quiz with an answer key — then take it and see your score.',
+    highCPCKeywords: ['ai quiz generator', 'quiz maker from notes', 'mcq generator'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.80'
+  },
+  {
+    slug: 'age-calculator',
+    name: 'Age Calculator',
+    category: 'Student & Everyday Tools',
+    description: 'Find your exact age in years, months and days — plus total days lived, the weekday you were born, your zodiac sign and your next birthday countdown.',
+    highCPCKeywords: ['age calculator', 'how old am i', 'date of birth calculator'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$10.70'
+  },
+  {
+    slug: 'date-calculator',
+    name: 'Date Calculator',
+    category: 'Student & Everyday Tools',
+    description: 'Count the days between two dates (including business days) or add and subtract days from any date.',
+    highCPCKeywords: ['date calculator', 'days between dates', 'add days to date'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$9.90'
+  },
+  {
+    slug: 'random-number-generator',
+    name: 'Random Number Generator',
+    category: 'Student & Everyday Tools',
+    description: 'Generate random numbers in any range, roll dice from d4 to d100, and flip a coin — for draws, games and decisions.',
+    highCPCKeywords: ['random number generator', 'dice roller', 'coin flip'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$9.20'
+  },
+  {
+    slug: 'love-calculator',
+    name: 'Love Calculator',
+    category: 'Student & Everyday Tools',
+    description: 'Enter two names and get your love percentage — a just-for-fun name game where the same names always give the same score.',
+    highCPCKeywords: ['love calculator', 'love percentage calculator', 'name compatibility test'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$8.90'
+  },
+  {
+    slug: 'stopwatch-timer',
+    name: 'Stopwatch & Countdown Timer',
+    category: 'Student & Everyday Tools',
+    description: 'A precision stopwatch with laps plus a countdown timer with an alarm — for workouts, cooking, exams and presentations.',
+    highCPCKeywords: ['online stopwatch', 'countdown timer', 'stopwatch with laps'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$8.50'
+  },
+  {
+    slug: 'pomodoro-timer',
+    name: 'Pomodoro Focus Timer',
+    category: 'Student & Everyday Tools',
+    description: 'Study and work in focused 25-minute sprints with automatic breaks — customizable timings and session tracking.',
+    highCPCKeywords: ['pomodoro timer', 'focus timer', 'study timer 25 minutes'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$10.20'
+  },
+  {
+    slug: 'typing-speed-test',
+    name: 'Typing Speed Test',
+    category: 'Student & Everyday Tools',
+    description: 'Test your typing speed in 30 or 60 seconds — real WPM and accuracy scores with live per-character feedback.',
+    highCPCKeywords: ['typing test', 'typing speed test', 'wpm test'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.10'
+  },
+  {
+    slug: 'text-to-handwriting',
+    name: 'Text to Handwriting Converter',
+    category: 'Student & Everyday Tools',
+    description: 'Turn typed text into realistic handwritten pages on ruled A4 paper — pick your ink color and download print-ready pages.',
+    highCPCKeywords: ['text to handwriting', 'handwriting converter', 'assignment handwriting maker'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.10'
   }
 ];
 
@@ -3078,7 +3267,8 @@ function generateFullToolsCatalog(): ToolItem[] {
     'Developer Tools': 400,
     'Video & Audio Tools': 300,
     'AI Tools': 300,
-    'Social Media Tools': 300
+    'Social Media Tools': 300,
+    'Student & Everyday Tools': 300
   };
 
   // Sub-domains and seeds to generate realistic legal tool titles
@@ -3221,6 +3411,15 @@ function generateFullToolsCatalog(): ToolItem[] {
         'Engagement Calculator', 'Giveaway Picker', 'Post Ideas Generator', 'Link in Bio Builder', 'Emoji Picker'
       ],
       suffixes: ['Tool', 'Online', 'Maker', 'Generator', 'Studio'],
+      defaultIcon: 'Wand2'
+    },
+    'Student & Everyday Tools': {
+      prefixes: ['Study', 'Smart', 'Free', 'Online', 'Easy', 'Quick', 'Pro', 'Daily', 'Ultimate', 'Simple'],
+      topics: [
+        'GPA Calculator', 'Citation Generator', 'Flashcard Maker', 'Study Planner', 'Age Calculator',
+        'Typing Test', 'Pomodoro Timer', 'Equation Solver', 'Periodic Table', 'Love Calculator'
+      ],
+      suffixes: ['Tool', 'Online', 'Maker', 'Generator', 'Calculator'],
       defaultIcon: 'Wand2'
     }
   };

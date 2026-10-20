@@ -26,6 +26,7 @@ import { IMAGE_TOOL_COMPONENTS } from './tools/image';
 import { MEDIA_TOOL_COMPONENTS } from './tools/media';
 import { AI_TOOL_COMPONENTS } from './tools/ai';
 import { SOCIAL_TOOL_COMPONENTS } from './tools/social';
+import { STUDENT_TOOL_COMPONENTS } from './tools/student';
 
 interface ToolWrapperProps {
   slug: string;
@@ -101,6 +102,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     const SocialTool = SOCIAL_TOOL_COMPONENTS[tool.slug];
     if (SocialTool) {
       return <SocialTool tool={tool} />;
+    }
+    // Real Student & Everyday suite (study help + daily utilities)
+    const StudentTool = STUDENT_TOOL_COMPONENTS[tool.slug];
+    if (StudentTool) {
+      return <StudentTool tool={tool} />;
     }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':
