@@ -27,6 +27,71 @@ import {
   generateUsernames,
 } from '../../../lib/social/core';
 import { fileToImage, canvasToBlobP, centeredCropRect } from '../../../lib/image/core';
+import { useStrings, COMMON } from '../../../lib/LangContext';
+import { SOCIAL_STRINGS } from '../../../lib/strings/social';
+
+// core.ts data-table labels -> SOCIAL_STRINGS keys (core stays data/logic only)
+const SIZE_NAME_KEYS: Record<string, string> = {
+  'Square post': 'sizeSquarePost',
+  'Portrait post': 'sizePortraitPost',
+  'Story / Reel cover': 'sizeStoryReelCover',
+  'Profile picture': 'sizeProfilePicture',
+  'Post image': 'sizePostImage',
+  Header: 'sizeHeader',
+  'Cover photo': 'sizeCoverPhoto',
+  Thumbnail: 'sizeThumbnail',
+  'Channel banner': 'sizeChannelBanner',
+  'Personal cover': 'sizePersonalCover',
+  'Video / cover': 'sizeVideoCover',
+  Pin: 'sizePin',
+  Status: 'sizeStatus',
+};
+const FANCY_NAME_KEYS: Record<string, string> = {
+  bold: 'fancyBold',
+  italic: 'fancyItalic',
+  boldItalic: 'fancyBoldItalic',
+  script: 'fancyScript',
+  boldScript: 'fancyBoldScript',
+  fraktur: 'fancyFraktur',
+  doubleStruck: 'fancyDoubleStruck',
+  monospace: 'fancyMonospace',
+  sansBold: 'fancySansBold',
+  circled: 'fancyCircled',
+  smallCaps: 'fancySmallCaps',
+  fullwidth: 'fancyFullwidth',
+  upsideDown: 'fancyUpsideDown',
+  strikethrough: 'fancyStrikethrough',
+  underline: 'fancyUnderline',
+};
+const LIMIT_NOTE_KEYS: Record<string, string> = {
+  x: 'limitNoteX',
+  instagram: 'limitNoteInstagram',
+  threads: 'limitNoteThreads',
+  tiktok: 'limitNoteTiktok',
+  linkedin: 'limitNoteLinkedin',
+  facebook: 'limitNoteFacebook',
+  'youtube-title': 'limitNoteYoutubeTitle',
+  'youtube-desc': 'limitNoteYoutubeDesc',
+  pinterest: 'limitNotePinterest',
+};
+const PLATFORM_NAME_KEYS: Record<string, string> = {
+  'youtube-title': 'platformYoutubeTitle',
+  'youtube-desc': 'platformYoutubeDesc',
+};
+const NICHE_LABEL_KEYS: Record<string, string> = {
+  general: 'nicheGeneral',
+  fitness: 'nicheFitness',
+  food: 'nicheFood',
+  travel: 'nicheTravel',
+  fashion: 'nicheFashion',
+  business: 'nicheBusiness',
+  photography: 'nichePhotography',
+  tech: 'nicheTech',
+  pets: 'nichePets',
+  music: 'nicheMusic',
+  gaming: 'nicheGaming',
+  beauty: 'nicheBeauty',
+};
 
 const TEXTAREA_CLS =
   'w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg text-sm text-slate-800 dark:text-slate-100';
@@ -39,6 +104,7 @@ const SMALL_TEXT = 'text-xs text-slate-500 dark:text-slate-400';
 type ResizeMode = 'cover' | 'fit' | 'blur';
 
 export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [error, setError] = useState('');
@@ -58,7 +124,7 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setImg(image);
       setFileName(file.name);
     } catch {
-      setError('That file could not be read as an image.');
+      setError(s('errNotImage'));
     }
   };
 
@@ -110,7 +176,7 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         setPreviewUrl(url);
       })
       .catch(() => {
-        if (!cancelled) setError('Could not render the resized image.');
+        if (!cancelled) setError(s('errRenderFailed'));
       });
     return () => {
       cancelled = true;
@@ -119,23 +185,23 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [img, preset, mode, bgColor, format]);
 
   return (
-    <SocialCard tool={tool} note="Resize and crop any image to the exact size each platform expects.">
+    <SocialCard tool={tool} note={s('resizerNote')}>
       <FileDrop onFile={onFile} accept="image/*" fileName={fileName} />
       {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <OptLabel>Platform size preset</OptLabel>
+          <OptLabel>{s('platformSizePreset')}</OptLabel>
           <OptSelect value={presetIdx} onChange={(e) => setPresetIdx(Number(e.target.value))}>
-            {SOCIAL_IMAGE_SIZES.map((s, i) => (
-              <option key={`${s.platform}-${s.name}`} value={i}>
-                {s.platform} — {s.name} ({s.width}×{s.height})
+            {SOCIAL_IMAGE_SIZES.map((sz, i) => (
+              <option key={`${sz.platform}-${sz.name}`} value={i}>
+                {sz.platform} — {SIZE_NAME_KEYS[sz.name] ? s(SIZE_NAME_KEYS[sz.name]) : sz.name} ({sz.width}×{sz.height})
               </option>
             ))}
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Output format</OptLabel>
+          <OptLabel>{s('outputFormat')}</OptLabel>
           <OptSelect value={format} onChange={(e) => setFormat(e.target.value as 'png' | 'jpeg')}>
             <option value="png">PNG</option>
             <option value="jpeg">JPG</option>
@@ -144,18 +210,18 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <div>
-        <OptLabel>How the image fills the frame</OptLabel>
+        <OptLabel>{s('fillFrameLabel')}</OptLabel>
         <div className="flex flex-wrap gap-4 mt-1">
           {(
             [
-              ['cover', 'Cover — fill & center-crop'],
-              ['fit', 'Fit — whole image on a solid background'],
-              ['blur', 'Blur — blurred backdrop behind the image'],
+              ['cover', 'modeCover'],
+              ['fit', 'modeFit'],
+              ['blur', 'modeBlur'],
             ] as [ResizeMode, string][]
-          ).map(([value, label]) => (
+          ).map(([value, labelKey]) => (
             <label key={value} className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-200 cursor-pointer">
               <input type="radio" name="resize-mode" checked={mode === value} onChange={() => setMode(value)} className="accent-pink-600" />
-              {label}
+              {s(labelKey)}
             </label>
           ))}
         </div>
@@ -163,7 +229,7 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       {mode === 'fit' && (
         <div className="flex items-center gap-3">
-          <OptLabel>Background color</OptLabel>
+          <OptLabel>{s('backgroundColor')}</OptLabel>
           <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-10 h-8 rounded cursor-pointer" />
           <span className="text-sm text-slate-600 dark:text-slate-300">{bgColor}</span>
         </div>
@@ -171,14 +237,14 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       {img && previewUrl && (
         <div className="space-y-3">
-          <img src={previewUrl} alt="Resized preview" className="max-w-full max-h-96 rounded-lg border border-slate-200 dark:border-slate-700 mx-auto" />
+          <img src={previewUrl} alt={s('resizedPreviewAlt')} className="max-w-full max-h-96 rounded-lg border border-slate-200 dark:border-slate-700 mx-auto" />
           <div className="flex flex-wrap items-center gap-3">
-            <Stat label="Output size" value={`${preset.width}×${preset.height}`} />
-            <BlobDownloadBtn blob={blob} filename={`resized-${preset.width}x${preset.height}.${format === 'png' ? 'png' : 'jpg'}`} label="Download resized image" />
+            <Stat label={s('outputSize')} value={`${preset.width}×${preset.height}`} />
+            <BlobDownloadBtn blob={blob} filename={`resized-${preset.width}x${preset.height}.${format === 'png' ? 'png' : 'jpg'}`} label={s('downloadResizedImage')} />
           </div>
         </div>
       )}
-      {!img && <p className={SMALL_TEXT}>Upload an image to see the resized result here.</p>}
+      {!img && <p className={SMALL_TEXT}>{s('resizerEmpty')}</p>}
     </SocialCard>
   );
 };
@@ -188,6 +254,7 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const YoutubeThumbnailMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [bgImg, setBgImg] = useState<HTMLImageElement | null>(null);
   const [bgColor, setBgColor] = useState('#0f172a');
@@ -207,7 +274,7 @@ export const YoutubeThumbnailMaker: React.FC<{ tool: ToolItem }> = ({ tool }) =>
     try {
       setBgImg(await fileToImage(file));
     } catch {
-      setError('That file could not be read as an image.');
+      setError(s('errNotImage'));
     }
   };
 
@@ -281,57 +348,57 @@ export const YoutubeThumbnailMaker: React.FC<{ tool: ToolItem }> = ({ tool }) =>
   }, [bgImg, bgColor, title, subtitle, fontSize, textColor, accentOn, accentColor, outline, position]);
 
   return (
-    <SocialCard tool={tool} note="Design a 1280×720 YouTube thumbnail right in your browser.">
+    <SocialCard tool={tool} note={s('thumbnailNote')}>
       <div className="grid lg:grid-cols-[1fr_320px] gap-5">
         <div className="space-y-3">
           <canvas ref={canvasRef} width={1280} height={720} className="w-full h-auto rounded-lg border border-slate-200 dark:border-slate-700" />
-          <BlobDownloadBtn blob={blob} filename="youtube-thumbnail.png" label="Download thumbnail (PNG)" />
+          <BlobDownloadBtn blob={blob} filename="youtube-thumbnail.png" label={s('downloadThumbnail')} />
         </div>
         <div className="space-y-4">
           <div>
-            <OptLabel>Background image (optional)</OptLabel>
-            <FileDrop onFile={onBgFile} accept="image/*" label="Drop a background image or click to browse" />
+            <OptLabel>{s('bgImageOptional')}</OptLabel>
+            <FileDrop onFile={onBgFile} accept="image/*" label={s('dropBgImage')} />
             {error && <p className="text-sm text-red-600 dark:text-red-400 mt-1">{error}</p>}
             {bgImg && (
               <button type="button" onClick={() => setBgImg(null)} className="text-xs font-semibold text-pink-600 hover:text-pink-700 mt-1">
-                Remove background image
+                {s('removeBgImage')}
               </button>
             )}
           </div>
           <div className="flex items-center gap-3">
-            <OptLabel>Background color</OptLabel>
+            <OptLabel>{s('backgroundColor')}</OptLabel>
             <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-10 h-8 rounded cursor-pointer" />
             <span className="text-sm text-slate-600 dark:text-slate-300">{bgColor}</span>
           </div>
           <div>
-            <OptLabel>Title (one line per row)</OptLabel>
+            <OptLabel>{s('thumbnailTitleLabel')}</OptLabel>
             <textarea value={title} onChange={(e) => setTitle(e.target.value)} rows={3} className={TEXTAREA_CLS} />
           </div>
           <div>
-            <OptLabel>Subtitle (optional)</OptLabel>
-            <OptInput value={subtitle} onChange={(e) => setSubtitle(e.target.value)} placeholder="Smaller line under the title" />
+            <OptLabel>{s('subtitleOptional')}</OptLabel>
+            <OptInput value={subtitle} onChange={(e) => setSubtitle(e.target.value)} placeholder={s('subtitlePlaceholder')} />
           </div>
           <div>
-            <OptLabel>Title size: {fontSize}px</OptLabel>
+            <OptLabel>{s('titleSizeLabel').replace('{size}', String(fontSize))}</OptLabel>
             <input type="range" min={48} max={140} value={fontSize} onChange={(e) => setFontSize(Number(e.target.value))} className="w-full accent-pink-600" />
           </div>
           <div className="flex items-center gap-3">
-            <OptLabel>Text color</OptLabel>
+            <OptLabel>{s('textColor')}</OptLabel>
             <input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} className="w-10 h-8 rounded cursor-pointer" />
             <span className="text-sm text-slate-600 dark:text-slate-300">{textColor}</span>
           </div>
           <div>
-            <OptLabel>Text position</OptLabel>
+            <OptLabel>{s('textPosition')}</OptLabel>
             <OptSelect value={position} onChange={(e) => setPosition(e.target.value as 'left' | 'center')}>
-              <option value="left">Left</option>
-              <option value="center">Center</option>
+              <option value="left">{s('positionLeft')}</option>
+              <option value="center">{s('positionCenter')}</option>
             </OptSelect>
           </div>
-          <OptCheck label="Dark outline around text" checked={outline} onChange={setOutline} />
-          <OptCheck label="Accent bar at the bottom" checked={accentOn} onChange={setAccentOn} />
+          <OptCheck label={s('outlineLabel')} checked={outline} onChange={setOutline} />
+          <OptCheck label={s('accentBarLabel')} checked={accentOn} onChange={setAccentOn} />
           {accentOn && (
             <div className="flex items-center gap-3">
-              <OptLabel>Accent color</OptLabel>
+              <OptLabel>{s('accentColor')}</OptLabel>
               <input type="color" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} className="w-10 h-8 rounded cursor-pointer" />
               <span className="text-sm text-slate-600 dark:text-slate-300">{accentColor}</span>
             </div>
@@ -347,32 +414,32 @@ export const YoutubeThumbnailMaker: React.FC<{ tool: ToolItem }> = ({ tool }) =>
 // ---------------------------------------------------------------------------
 
 export const FancyTextGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
+  const c = useStrings(COMMON);
   const [text, setText] = useState('Your name');
   const hasText = text.trim().length > 0;
 
   return (
-    <SocialCard tool={tool} note="Turn plain text into stylish Unicode lettering for bios and profiles.">
+    <SocialCard tool={tool} note={s('fancyNote')}>
       <div>
-        <OptLabel>Your text</OptLabel>
-        <OptInput value={text} onChange={(e) => setText(e.target.value)} placeholder="Type something…" maxLength={80} />
+        <OptLabel>{c('yourText')}</OptLabel>
+        <OptInput value={text} onChange={(e) => setText(e.target.value)} placeholder={s('typeSomething')} maxLength={80} />
       </div>
       <div className="divide-y divide-slate-100 dark:divide-slate-800">
         {FANCY_STYLES.map((style) => {
           const converted = hasText ? convertFancy(text, style.id) : '';
           return (
             <div key={style.id} className="flex items-center gap-3 py-2.5">
-              <span className="w-32 shrink-0 text-xs font-semibold text-slate-500 dark:text-slate-400">{style.name}</span>
+              <span className="w-32 shrink-0 text-xs font-semibold text-slate-500 dark:text-slate-400">{FANCY_NAME_KEYS[style.id] ? s(FANCY_NAME_KEYS[style.id]) : style.name}</span>
               <span className="flex-1 min-w-0 break-all text-base text-slate-800 dark:text-slate-100">
-                {hasText ? converted : <span className="text-slate-400">Type something above</span>}
+                {hasText ? converted : <span className="text-slate-400">{s('typeSomethingAbove')}</span>}
               </span>
               <CopyBtn text={converted} />
             </div>
           );
         })}
       </div>
-      <p className={SMALL_TEXT}>
-        These styles use special Unicode characters, so they paste almost anywhere — but screen readers may read them letter by letter, and a few apps strip them.
-      </p>
+      <p className={SMALL_TEXT}>{s('fancyFootnote')}</p>
     </SocialCard>
   );
 };
@@ -382,23 +449,24 @@ export const FancyTextGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const SocialPostComposer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [text, setText] = useState('');
   const words = useMemo(() => (text.trim() ? text.trim().split(/\s+/).length : 0), [text]);
   const hashtagCount = useMemo(() => parseHashtags(text).length, [text]);
 
   return (
-    <SocialCard tool={tool} note="Draft once and see exactly how your post fits every platform's limits.">
+    <SocialCard tool={tool} note={s('composerNote')}>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows={6}
-        placeholder="Write your post here…"
+        placeholder={s('writePostPlaceholder')}
         className={TEXTAREA_CLS}
       />
       <div className="flex flex-wrap items-center gap-3">
-        <Stat label="Words" value={words} />
-        <Stat label="Characters" value={countChars(text)} />
-        <CopyBtn text={text} label="Copy post" />
+        <Stat label={s('wordsLabel')} value={words} />
+        <Stat label={s('charactersLabel')} value={countChars(text)} />
+        <CopyBtn text={text} label={s('copyPost')} />
       </div>
       <div className="space-y-3">
         {POST_LIMITS.map((entry) => {
@@ -409,10 +477,12 @@ export const SocialPostComposer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           return (
             <div key={entry.id} className="border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5">
               <div className="flex items-baseline justify-between gap-3">
-                <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{entry.platform}</span>
+                <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{PLATFORM_NAME_KEYS[entry.id] ? s(PLATFORM_NAME_KEYS[entry.id]) : entry.platform}</span>
                 <span className={`text-xs font-semibold ${over ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}>
                   {used.toLocaleString()} / {entry.charLimit.toLocaleString()}
-                  {over ? ` — ${used - entry.charLimit} over` : ` · ${entry.charLimit - used} left`}
+                  {over
+                    ? ` — ${s('charsOver').replace('{n}', String(used - entry.charLimit))}`
+                    : ` · ${s('charsLeft').replace('{n}', String(entry.charLimit - used))}`}
                 </span>
               </div>
               <div className="h-1.5 mt-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
@@ -420,10 +490,10 @@ export const SocialPostComposer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
               {entry.id === 'instagram' && (
                 <p className={`text-xs mt-1.5 ${hashtagCount > (entry.hashtagLimit ?? 30) ? 'text-red-600 dark:text-red-400 font-semibold' : 'text-slate-500 dark:text-slate-400'}`}>
-                  Hashtags: {hashtagCount} / {entry.hashtagLimit ?? 30}
+                  {s('hashtagsCount').replace('{used}', String(hashtagCount)).replace('{limit}', String(entry.hashtagLimit ?? 30))}
                 </p>
               )}
-              {showNote && <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">{entry.note}</p>}
+              {showNote && <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">{LIMIT_NOTE_KEYS[entry.id] ? s(LIMIT_NOTE_KEYS[entry.id]) : entry.note}</p>}
             </div>
           );
         })}
@@ -437,6 +507,7 @@ export const SocialPostComposer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const HashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [keywordsText, setKeywordsText] = useState('');
   const [nicheId, setNicheId] = useState(HASHTAG_NICHES[0]?.id ?? '');
   const [count, setCount] = useState(30);
@@ -448,9 +519,9 @@ export const HashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <SocialCard tool={tool} note="Build a ready-to-paste hashtag set from your keywords and niche.">
+    <SocialCard tool={tool} note={s('hashtagGenNote')}>
       <div>
-        <OptLabel>Keywords (one per line, or comma separated)</OptLabel>
+        <OptLabel>{s('keywordsLabel')}</OptLabel>
         <textarea
           value={keywordsText}
           onChange={(e) => setKeywordsText(e.target.value)}
@@ -461,17 +532,17 @@ export const HashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <OptLabel>Niche</OptLabel>
+          <OptLabel>{s('nicheLabel')}</OptLabel>
           <OptSelect value={nicheId} onChange={(e) => setNicheId(e.target.value)}>
             {HASHTAG_NICHES.map((n) => (
               <option key={n.id} value={n.id}>
-                {n.label}
+                {NICHE_LABEL_KEYS[n.id] ? s(NICHE_LABEL_KEYS[n.id]) : n.label}
               </option>
             ))}
           </OptSelect>
         </div>
         <div>
-          <OptLabel>How many hashtags</OptLabel>
+          <OptLabel>{s('howManyHashtags')}</OptLabel>
           <OptSelect value={count} onChange={(e) => setCount(Number(e.target.value))}>
             <option value={10}>10</option>
             <option value={20}>20</option>
@@ -479,7 +550,7 @@ export const HashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </OptSelect>
         </div>
       </div>
-      <PrimaryBtn onClick={generate}>Generate hashtags</PrimaryBtn>
+      <PrimaryBtn onClick={generate}>{s('generateHashtags')}</PrimaryBtn>
 
       {tags.length > 0 && (
         <div className="space-y-3">
@@ -493,15 +564,13 @@ export const HashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
             <p className="text-sm break-all text-slate-800 dark:text-slate-100">{tags.join(' ')}</p>
             <div className="mt-2">
-              <CopyBtn text={tags.join(' ')} label="Copy all hashtags" />
+              <CopyBtn text={tags.join(' ')} label={s('copyAllHashtags')} />
             </div>
           </div>
-          <Stat label="Hashtags generated" value={tags.length} />
+          <Stat label={s('hashtagsGenerated')} value={tags.length} />
         </div>
       )}
-      <p className={SMALL_TEXT}>
-        Tags are built from your keywords plus a curated bank for the chosen niche. Popularity is not live data — check a tag's recent posts on the platform before relying on it.
-      </p>
+      <p className={SMALL_TEXT}>{s('hashtagGenFootnote')}</p>
     </SocialCard>
   );
 };
@@ -511,47 +580,48 @@ export const HashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const HashtagCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [text, setText] = useState('');
   const analysis = useMemo(() => analyzeHashtags(text), [text]);
 
   return (
-    <SocialCard tool={tool} note="Count hashtags, remove duplicates and clean up a caption.">
+    <SocialCard tool={tool} note={s('hashtagCounterNote')}>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows={5}
-        placeholder="Paste your caption or hashtag list here…"
+        placeholder={s('pasteCaptionPlaceholder')}
         className={TEXTAREA_CLS}
       />
       <div className="grid grid-cols-3 gap-3">
-        <Stat label="Total hashtags" value={analysis.total} />
-        <Stat label="Unique" value={analysis.unique.length} />
-        <Stat label="Duplicated tags" value={analysis.duplicates.length} />
+        <Stat label={s('totalHashtags')} value={analysis.total} />
+        <Stat label={s('uniqueLabel')} value={analysis.unique.length} />
+        <Stat label={s('duplicatedTags')} value={analysis.duplicates.length} />
       </div>
       {analysis.duplicates.length > 0 && (
         <p className="text-sm text-slate-600 dark:text-slate-300">
-          <span className="font-semibold">Duplicates found:</span> {analysis.duplicates.map((d) => `#${d}`).join(' ')}
+          <span className="font-semibold">{s('duplicatesFound')}</span> {analysis.duplicates.map((d) => `#${d}`).join(' ')}
         </p>
       )}
       {analysis.overInstagramLimit && (
         <div className="rounded-lg border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 px-3 py-2.5 text-sm text-amber-800 dark:text-amber-200">
-          You have {analysis.unique.length} unique hashtags — Instagram allows at most 30 per post, so trim the set before posting.
+          {s('overLimitWarning').replace('{n}', String(analysis.unique.length))}
         </div>
       )}
       {text.trim() && (
         <div className="space-y-3">
           <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">Cleaned hashtags (deduplicated)</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">{s('cleanedHashtagsLabel')}</p>
             <p className="text-sm break-all text-slate-800 dark:text-slate-100">{analysis.cleaned || '—'}</p>
             <div className="mt-2">
-              <CopyBtn text={analysis.cleaned} label="Copy cleaned hashtags" />
+              <CopyBtn text={analysis.cleaned} label={s('copyCleanedHashtags')} />
             </div>
           </div>
           <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">Text without hashtags</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">{s('textWithoutHashtags')}</p>
             <p className="text-sm whitespace-pre-wrap text-slate-800 dark:text-slate-100">{analysis.textWithoutHashtags || '—'}</p>
             <div className="mt-2">
-              <CopyBtn text={analysis.textWithoutHashtags} label="Copy text" />
+              <CopyBtn text={analysis.textWithoutHashtags} label={s('copyText')} />
             </div>
           </div>
         </div>
@@ -565,6 +635,7 @@ export const HashtagCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const EngagementCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [followers, setFollowers] = useState('');
   const [likes, setLikes] = useState('');
   const [comments, setComments] = useState('');
@@ -595,29 +666,27 @@ export const EngagementCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => 
   );
 
   return (
-    <SocialCard tool={tool} note="Engagement rate = average interactions per post ÷ followers × 100.">
+    <SocialCard tool={tool} note={s('engagementNote')}>
       <div className="grid sm:grid-cols-2 gap-4">
-        {field('Followers / subscribers', followers, setFollowers, 'e.g. 25000')}
-        {field('Average likes per post', likes, setLikes, 'e.g. 1200')}
-        {field('Average comments per post', comments, setComments, 'e.g. 85')}
-        {field('Average shares per post (optional)', shares, setShares, 'e.g. 40')}
-        {field('Average saves per post (optional)', saves, setSaves, 'e.g. 150')}
+        {field(s('followersLabel'), followers, setFollowers, 'e.g. 25000')}
+        {field(s('avgLikesLabel'), likes, setLikes, 'e.g. 1200')}
+        {field(s('avgCommentsLabel'), comments, setComments, 'e.g. 85')}
+        {field(s('avgSharesLabel'), shares, setShares, 'e.g. 40')}
+        {field(s('avgSavesLabel'), saves, setSaves, 'e.g. 150')}
       </div>
       {result ? (
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-4">
             <span className="text-4xl font-extrabold text-slate-900 dark:text-white">{result.rate.toFixed(2)}%</span>
-            <span className="px-3 py-1 rounded-full bg-pink-600 text-white text-xs font-bold">{result.label}</span>
-            <Stat label="Avg interactions / post" value={result.totalInteractions.toLocaleString()} />
+            <span className="px-3 py-1 rounded-full bg-pink-600 text-white text-xs font-bold">{s(`engLabel${result.label}`)}</span>
+            <Stat label={s('avgInteractions')} value={result.totalInteractions.toLocaleString()} />
           </div>
-          <p className="text-sm text-slate-600 dark:text-slate-300">{result.advice}</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">{s(`engAdvice${result.label}`)}</p>
         </div>
       ) : (
-        <p className={SMALL_TEXT}>Enter your follower count (above zero) plus your average likes and comments to see the rate.</p>
+        <p className={SMALL_TEXT}>{s('engagementHint')}</p>
       )}
-      <p className={SMALL_TEXT}>
-        Benchmarks vary by platform and niche; as a rough guide on Instagram, 1–3% is typical for mid-size accounts and smaller accounts often score higher.
-      </p>
+      <p className={SMALL_TEXT}>{s('engagementFootnote')}</p>
     </SocialCard>
   );
 };
@@ -627,6 +696,7 @@ export const EngagementCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => 
 // ---------------------------------------------------------------------------
 
 export const UsernameGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [keyword, setKeyword] = useState('');
   const [names, setNames] = useState<string[]>([]);
 
@@ -636,11 +706,12 @@ export const UsernameGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <SocialCard tool={tool} note="Username ideas built from your keyword — prefixes, suffixes and clean combinations.">
+    <SocialCard tool={tool} note={s('usernameNote')}>
       <div className="flex flex-wrap items-end gap-3">
         <div className="flex-1 min-w-52">
-          <OptLabel>Keyword (brand, name or topic)</OptLabel>
+          <OptLabel>{s('keywordLabel')}</OptLabel>
           <OptInput
+            dir="ltr"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onKeyDown={(e) => {
@@ -650,7 +721,7 @@ export const UsernameGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           />
         </div>
         <PrimaryBtn onClick={generate} disabled={!keyword.trim()}>
-          Generate usernames
+          {s('generateUsernames')}
         </PrimaryBtn>
       </div>
       {names.length > 0 && (
@@ -663,9 +734,7 @@ export const UsernameGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           ))}
         </div>
       )}
-      <p className={SMALL_TEXT}>
-        Availability is NOT checked — a name shown here may already be taken. Confirm it on Instagram, TikTok, X or whichever platform you plan to use before printing it anywhere.
-      </p>
+      <p className={SMALL_TEXT}>{s('usernameFootnote')}</p>
     </SocialCard>
   );
 };

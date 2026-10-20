@@ -14,7 +14,6 @@ import {
   BlobDownloadBtn,
 } from './StudentShell';
 import {
-  MONTH_NAMES,
   computeAge,
   addDaysToDate,
   dateDifference,
@@ -27,6 +26,39 @@ import {
   wrapTextLines,
 } from '../../../lib/student/core';
 import { canvasToBlobP } from '../../../lib/image/core';
+import { useLang, useStrings, COMMON } from '../../../lib/LangContext';
+import { STUDENT_STRINGS } from '../../../lib/strings/student';
+import type { SupportedLanguage } from '../../../lib/i18n';
+
+// Lib returns English weekday / zodiac names; map them to dictionary keys.
+const WEEKDAY_KEYS: Record<string, string> = {
+  Sunday: 'weekdaySunday',
+  Monday: 'weekdayMonday',
+  Tuesday: 'weekdayTuesday',
+  Wednesday: 'weekdayWednesday',
+  Thursday: 'weekdayThursday',
+  Friday: 'weekdayFriday',
+  Saturday: 'weekdaySaturday',
+};
+const ZODIAC_KEYS: Record<string, string> = {
+  Aries: 'zodiacAries',
+  Taurus: 'zodiacTaurus',
+  Gemini: 'zodiacGemini',
+  Cancer: 'zodiacCancer',
+  Leo: 'zodiacLeo',
+  Virgo: 'zodiacVirgo',
+  Libra: 'zodiacLibra',
+  Scorpio: 'zodiacScorpio',
+  Sagittarius: 'zodiacSagittarius',
+  Capricorn: 'zodiacCapricorn',
+  Aquarius: 'zodiacAquarius',
+  Pisces: 'zodiacPisces',
+};
+const FONT_LABEL_KEYS: Record<string, string> = {
+  Caveat: 'fontCaveat',
+  'Shadows Into Light': 'fontShadows',
+  'Patrick Hand': 'fontPatrick',
+};
 
 // ---------------------------------------------------------------------------
 // Shared helpers
@@ -34,10 +66,12 @@ import { canvasToBlobP } from '../../../lib/image/core';
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
-function fmtDate(iso: string): string {
+function fmtDate(iso: string, lang: SupportedLanguage): string {
   const [y, m, d] = iso.split('-').map(Number);
   if (!y || !m || !d) return iso;
-  return `${MONTH_NAMES[m - 1]} ${d}, ${y}`;
+  return new Intl.DateTimeFormat(lang, { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(
+    new Date(Date.UTC(y, m - 1, d)),
+  );
 }
 
 function fmtClock(totalSeconds: number): string {
@@ -80,6 +114,8 @@ const inputCls =
 // ---------------------------------------------------------------------------
 
 export const AgeCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(STUDENT_STRINGS);
   const [dob, setDob] = useState('');
   const [atDate, setAtDate] = useState('');
 
@@ -88,25 +124,25 @@ export const AgeCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   let result: ReturnType<typeof computeAge> | null = null;
   if (dob) {
     if (dob > reference) {
-      error = 'The date of birth is after the reference date — pick an earlier birthday or a later "age on" date.';
+      error = s('errDobAfterRef');
     } else {
       try {
         result = computeAge(dob, reference);
       } catch {
-        error = 'Could not read that date. Please use the date picker.';
+        error = s('errDateUnreadable');
       }
     }
   }
 
   return (
-    <StudentCard tool={tool} note="Exact age down to the day, plus totals and your next birthday.">
+    <StudentCard tool={tool} note={s('ageNote')}>
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <OptLabel>Date of birth</OptLabel>
+          <OptLabel>{s('dateOfBirth')}</OptLabel>
           <OptInput type="date" value={dob} max={todayISO()} onChange={(e) => setDob(e.target.value)} />
         </div>
         <div>
-          <OptLabel>Age on this date (optional — defaults to today)</OptLabel>
+          <OptLabel>{s('ageOnDate')}</OptLabel>
           <OptInput type="date" value={atDate} onChange={(e) => setAtDate(e.target.value)} />
         </div>
       </div>
@@ -115,26 +151,26 @@ export const AgeCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <>
           <div className="rounded-xl bg-teal-50 dark:bg-teal-950/40 p-4 text-center">
             <p className="text-3xl font-extrabold text-teal-700 dark:text-teal-300">
-              {result.years} <span className="text-base font-semibold">years</span> {result.months}{' '}
-              <span className="text-base font-semibold">months</span> {result.days}{' '}
-              <span className="text-base font-semibold">days</span>
+              {result.years} <span className="text-base font-semibold">{s('unitYears')}</span> {result.months}{' '}
+              <span className="text-base font-semibold">{s('unitMonths')}</span> {result.days}{' '}
+              <span className="text-base font-semibold">{s('unitDays')}</span>
             </p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">as of {fmtDate(reference)}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{s('asOf').replace('{date}', fmtDate(reference, lang))}</p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <Stat label="Total days" value={result.totalDays.toLocaleString()} />
-            <Stat label="Total weeks" value={result.totalWeeks.toLocaleString()} />
-            <Stat label="Total hours" value={result.totalHours.toLocaleString()} />
-            <Stat label="Born on" value={result.bornWeekday} />
-            <Stat label="Zodiac sign" value={result.zodiac} />
+            <Stat label={s('totalDays')} value={result.totalDays.toLocaleString(lang)} />
+            <Stat label={s('totalWeeks')} value={result.totalWeeks.toLocaleString(lang)} />
+            <Stat label={s('totalHours')} value={result.totalHours.toLocaleString(lang)} />
+            <Stat label={s('bornOn')} value={WEEKDAY_KEYS[result.bornWeekday] ? s(WEEKDAY_KEYS[result.bornWeekday]) : result.bornWeekday} />
+            <Stat label={s('zodiacSign')} value={ZODIAC_KEYS[result.zodiac] ? s(ZODIAC_KEYS[result.zodiac]) : result.zodiac} />
             <Stat
-              label="Next birthday"
-              value={`${fmtDate(result.nextBirthdayISO)} (${result.daysToNextBirthday === 0 ? 'today!' : `in ${result.daysToNextBirthday} days`})`}
+              label={s('nextBirthday')}
+              value={`${fmtDate(result.nextBirthdayISO, lang)} (${result.daysToNextBirthday === 0 ? s('birthdayToday') : s('birthdayInDays').replace('{n}', String(result.daysToNextBirthday))})`}
             />
           </div>
         </>
       )}
-      {!result && !error && <p className="text-sm text-slate-400">Pick a date of birth to see the breakdown.</p>}
+      {!result && !error && <p className="text-sm text-slate-400">{s('pickDob')}</p>}
     </StudentCard>
   );
 };
@@ -144,6 +180,9 @@ export const AgeCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const DateCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(STUDENT_STRINGS);
+  const c = useStrings(COMMON);
   const [a, setA] = useState(todayISO());
   const [b, setB] = useState(todayISO());
   const [base, setBase] = useState(todayISO());
@@ -155,51 +194,52 @@ export const DateCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const shifted = base ? addDaysToDate(base, mode === 'add' ? days : -days) : null;
 
   return (
-    <StudentCard tool={tool} note="Days between dates, business days, and date arithmetic.">
+    <StudentCard tool={tool} note={s('dateNote')}>
       <div>
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">Difference between two dates</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('diffTitle')}</h3>
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <OptLabel>Start date</OptLabel>
+            <OptLabel>{s('startDate')}</OptLabel>
             <OptInput type="date" value={a} onChange={(e) => setA(e.target.value)} />
           </div>
           <div>
-            <OptLabel>End date</OptLabel>
+            <OptLabel>{s('endDate')}</OptLabel>
             <OptInput type="date" value={b} onChange={(e) => setB(e.target.value)} />
           </div>
         </div>
         {diff && (
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-3">
-            <Stat label="Days" value={diff.days.toLocaleString()} />
-            <Stat label="Weeks" value={diff.weeks.toLocaleString()} />
-            <Stat label="Months (approx)" value={diff.monthsApprox} />
-            <Stat label="Years (approx)" value={diff.yearsApprox} />
-            <Stat label="Business days" value={(biz ?? 0).toLocaleString()} />
+            <Stat label={s('statDays')} value={diff.days.toLocaleString(lang)} />
+            <Stat label={s('statWeeks')} value={diff.weeks.toLocaleString(lang)} />
+            <Stat label={s('monthsApprox')} value={diff.monthsApprox} />
+            <Stat label={s('yearsApprox')} value={diff.yearsApprox} />
+            <Stat label={s('businessDays')} value={(biz ?? 0).toLocaleString(lang)} />
           </div>
         )}
       </div>
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">Add or subtract days</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('addSubTitle')}</h3>
         <div className="grid sm:grid-cols-3 gap-4">
           <div>
-            <OptLabel>From date</OptLabel>
+            <OptLabel>{s('fromDate')}</OptLabel>
             <OptInput type="date" value={base} onChange={(e) => setBase(e.target.value)} />
           </div>
           <div>
-            <OptLabel>Days</OptLabel>
+            <OptLabel>{s('statDays')}</OptLabel>
             <OptInput type="number" min={0} value={days} onChange={(e) => setDays(Math.max(0, Number(e.target.value) || 0))} />
           </div>
           <div>
-            <OptLabel>Operation</OptLabel>
+            <OptLabel>{s('operation')}</OptLabel>
             <OptSelect value={mode} onChange={(e) => setMode(e.target.value as 'add' | 'subtract')}>
-              <option value="add">Add days</option>
-              <option value="subtract">Subtract days</option>
+              <option value="add">{s('addDays')}</option>
+              <option value="subtract">{s('subtractDays')}</option>
             </OptSelect>
           </div>
         </div>
         {shifted && (
           <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            Result: <strong className="text-teal-700 dark:text-teal-300">{fmtDate(shifted.iso)}</strong> — a {shifted.weekday}
+            {c('result')}: <strong className="text-teal-700 dark:text-teal-300">{fmtDate(shifted.iso, lang)}</strong>{' '}
+            {s('dateResultSuffix').replace('{weekday}', WEEKDAY_KEYS[shifted.weekday] ? s(WEEKDAY_KEYS[shifted.weekday]) : shifted.weekday)}
           </p>
         )}
       </div>
@@ -214,6 +254,8 @@ export const DateCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const D6_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
+  const c = useStrings(COMMON);
   // Numbers
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(100);
@@ -225,15 +267,15 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const generateNumbers = () => {
     if (min > max) {
-      setNumError('Minimum must be less than or equal to maximum.');
+      setNumError(s('errMinMax'));
       return;
     }
     if (count < 1 || count > 1000) {
-      setNumError('Pick a count between 1 and 1000.');
+      setNumError(s('errCountRange'));
       return;
     }
     if (unique && count > max - min + 1) {
-      setNumError(`Only ${max - min + 1} unique numbers exist in that range — lower the count or widen the range.`);
+      setNumError(s('errUniqueRange').replace('{n}', String(max - min + 1)));
       return;
     }
     setNumError('');
@@ -256,27 +298,27 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <StudentCard tool={tool} note="Random numbers, dice rolls and coin flips — generated locally in your browser.">
+    <StudentCard tool={tool} note={s('randomNote')}>
       <div>
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">Random numbers</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('randomNumbers')}</h3>
         <div className="grid grid-cols-3 gap-3">
           <div>
-            <OptLabel>Min</OptLabel>
+            <OptLabel>{s('minLabel')}</OptLabel>
             <OptInput type="number" value={min} onChange={(e) => setMin(Number(e.target.value) || 0)} />
           </div>
           <div>
-            <OptLabel>Max</OptLabel>
+            <OptLabel>{s('maxLabel')}</OptLabel>
             <OptInput type="number" value={max} onChange={(e) => setMax(Number(e.target.value) || 0)} />
           </div>
           <div>
-            <OptLabel>How many</OptLabel>
+            <OptLabel>{s('howMany')}</OptLabel>
             <OptInput type="number" min={1} max={1000} value={count} onChange={(e) => setCount(Number(e.target.value) || 1)} />
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-4 mt-3">
-          <OptCheck checked={unique} onChange={setUnique} label="No repeats" />
-          <OptCheck checked={sorted} onChange={setSorted} label="Sort results" />
-          <PrimaryBtn onClick={generateNumbers}>Generate</PrimaryBtn>
+          <OptCheck checked={unique} onChange={setUnique} label={s('noRepeats')} />
+          <OptCheck checked={sorted} onChange={setSorted} label={s('sortResults')} />
+          <PrimaryBtn onClick={generateNumbers}>{c('generate')}</PrimaryBtn>
           {numbers.length > 0 && <CopyBtn text={numbers.join(', ')} />}
         </div>
         {numError && <ErrorBox message={numError} />}
@@ -292,10 +334,10 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">Dice roller</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('diceRoller')}</h3>
         <div className="flex flex-wrap items-end gap-3">
           <div>
-            <OptLabel>Dice type</OptLabel>
+            <OptLabel>{s('diceType')}</OptLabel>
             <OptSelect value={sides} onChange={(e) => setSides(Number(e.target.value))}>
               {[4, 6, 8, 10, 12, 20, 100].map((s) => (
                 <option key={s} value={s}>
@@ -305,7 +347,7 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Number of dice</OptLabel>
+            <OptLabel>{s('numberOfDice')}</OptLabel>
             <OptSelect value={diceCount} onChange={(e) => setDiceCount(Number(e.target.value))}>
               {[1, 2, 3, 4, 5].map((c) => (
                 <option key={c} value={c}>
@@ -314,7 +356,7 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               ))}
             </OptSelect>
           </div>
-          <PrimaryBtn onClick={() => setDice(rollDice(sides, diceCount))}>Roll dice</PrimaryBtn>
+          <PrimaryBtn onClick={() => setDice(rollDice(sides, diceCount))}>{s('rollDice')}</PrimaryBtn>
         </div>
         {dice && (
           <div className="flex flex-wrap items-center gap-3 mt-3">
@@ -326,19 +368,19 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 {sides === 6 ? D6_FACES[r - 1] : r}
               </span>
             ))}
-            <Stat label="Total" value={dice.total} />
+            <Stat label={c('total')} value={dice.total} />
           </div>
         )}
       </div>
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">Coin flip</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('coinFlip')}</h3>
         <div className="flex flex-wrap items-center gap-4">
-          <PrimaryBtn onClick={flipCoin}>Flip coin</PrimaryBtn>
-          {coin && <span className="text-3xl font-extrabold text-teal-700 dark:text-teal-300">{coin === 'Heads' ? '🪙 Heads' : '🪙 Tails'}</span>}
-          <Stat label="Heads" value={coinStats.heads} />
-          <Stat label="Tails" value={coinStats.tails} />
-          <Stat label="Total flips" value={coinStats.heads + coinStats.tails} />
+          <PrimaryBtn onClick={flipCoin}>{s('flipCoin')}</PrimaryBtn>
+          {coin && <span className="text-3xl font-extrabold text-teal-700 dark:text-teal-300">{coin === 'Heads' ? `🪙 ${s('heads')}` : `🪙 ${s('tails')}`}</span>}
+          <Stat label={s('heads')} value={coinStats.heads} />
+          <Stat label={s('tails')} value={coinStats.tails} />
+          <Stat label={s('totalFlips')} value={coinStats.heads + coinStats.tails} />
         </div>
       </div>
     </StudentCard>
@@ -350,6 +392,8 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const LoveCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
+  const c = useStrings(COMMON);
   const [nameA, setNameA] = useState('');
   const [nameB, setNameB] = useState('');
   const [result, setResult] = useState<ReturnType<typeof loveScore> | null>(null);
@@ -357,7 +401,7 @@ export const LoveCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const calculate = () => {
     if (!nameA.trim() || !nameB.trim()) {
-      setError('Enter both names first.');
+      setError(s('errBothNames'));
       setResult(null);
       return;
     }
@@ -365,22 +409,25 @@ export const LoveCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setResult(loveScore(nameA, nameB));
   };
 
+  // Verdict band, mirroring the score thresholds in lib loveScore (which returns English text).
+  const loveBand = result ? (result.score >= 90 ? '90' : result.score >= 75 ? '75' : result.score >= 55 ? '55' : result.score >= 40 ? '40' : '0') : '0';
+
   return (
     <StudentCard
       tool={tool}
-      note="Just for fun — a deterministic name game, not a real compatibility measure. Same names always give the same score."
+      note={s('loveNote')}
     >
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <OptLabel>Your name</OptLabel>
+          <OptLabel>{s('yourName')}</OptLabel>
           <OptInput type="text" value={nameA} onChange={(e) => setNameA(e.target.value)} placeholder="e.g. Alex" />
         </div>
         <div>
-          <OptLabel>Their name</OptLabel>
+          <OptLabel>{s('theirName')}</OptLabel>
           <OptInput type="text" value={nameB} onChange={(e) => setNameB(e.target.value)} placeholder="e.g. Sam" />
         </div>
       </div>
-      <PrimaryBtn onClick={calculate}>Calculate ❤</PrimaryBtn>
+      <PrimaryBtn onClick={calculate}>{c('calculate')} ❤</PrimaryBtn>
       {error && <ErrorBox message={error} />}
       {result && (
         <div className="flex flex-col items-center text-center gap-2 py-2">
@@ -390,10 +437,10 @@ export const LoveCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <p className="text-lg font-bold text-slate-800 dark:text-slate-100">
             {nameA.trim()} ❤ {nameB.trim()}
           </p>
-          <p className="font-semibold text-rose-600 dark:text-rose-400">{result.label}</p>
-          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md">{result.message}</p>
+          <p className="font-semibold text-rose-600 dark:text-rose-400">{s(`love${loveBand}Label`)}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md">{s(`love${loveBand}Msg`)}</p>
           <p className="text-xs text-slate-400">
-            Just for fun — this score comes from the letters in the names only. It says nothing about a real relationship.
+            {s('loveDisclaimer')}
           </p>
         </div>
       )}
@@ -406,6 +453,8 @@ export const LoveCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const StopwatchTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
+  const c = useStrings(COMMON);
   // Stopwatch
   const [swElapsed, setSwElapsed] = useState(0);
   const [swRunning, setSwRunning] = useState(false);
@@ -511,24 +560,24 @@ export const StopwatchTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <StudentCard tool={tool} note="A precision stopwatch with laps, plus a countdown timer with an audible finish beep.">
+    <StudentCard tool={tool} note={s('swNote')}>
       <div>
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">Stopwatch</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('stopwatchTitle')}</h3>
         <p className="text-center text-5xl font-extrabold tabular-nums text-slate-800 dark:text-slate-100 py-2">{fmtStopwatch(swElapsed)}</p>
         <div className="flex justify-center gap-2">
-          <PrimaryBtn onClick={swToggle}>{swRunning ? 'Pause' : 'Start'}</PrimaryBtn>
+          <PrimaryBtn onClick={swToggle}>{swRunning ? c('pause') : c('start')}</PrimaryBtn>
           <PrimaryBtn onClick={swLap} disabled={swElapsed === 0 && !swRunning} className="!bg-slate-600 hover:!bg-slate-700">
-            Lap
+            {s('lap')}
           </PrimaryBtn>
           <PrimaryBtn onClick={swReset} className="!bg-slate-600 hover:!bg-slate-700">
-            Reset
+            {c('reset')}
           </PrimaryBtn>
         </div>
         {laps.length > 0 && (
           <ul className="mt-3 max-h-40 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800 text-sm">
             {laps.map((l, i) => (
               <li key={i} className="flex justify-between py-1.5 text-slate-600 dark:text-slate-300">
-                <span className="font-semibold">Lap {i + 1}</span>
+                <span className="font-semibold">{s('lapN').replace('{n}', String(i + 1))}</span>
                 <span className="tabular-nums">{fmtStopwatch(l.lap)}</span>
                 <span className="tabular-nums text-slate-400">{fmtStopwatch(l.total)}</span>
               </li>
@@ -538,14 +587,14 @@ export const StopwatchTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
-        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">Countdown timer</h3>
+        <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('countdownTitle')}</h3>
         <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
           <div>
-            <OptLabel>Minutes</OptLabel>
+            <OptLabel>{s('minutesLabel')}</OptLabel>
             <OptInput type="number" min={0} max={999} value={cdMin} onChange={(e) => cdSetDuration(Math.max(0, Number(e.target.value) || 0), cdSec)} />
           </div>
           <div>
-            <OptLabel>Seconds</OptLabel>
+            <OptLabel>{s('secondsLabel')}</OptLabel>
             <OptInput type="number" min={0} max={59} value={cdSec} onChange={(e) => cdSetDuration(cdMin, Math.min(59, Math.max(0, Number(e.target.value) || 0)))} />
           </div>
         </div>
@@ -555,11 +604,11 @@ export const StopwatchTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden max-w-md mx-auto">
           <div className="h-full bg-teal-600 transition-all duration-100" style={{ width: `${cdTotalMs > 0 ? (cdLeft / cdTotalMs) * 100 : 0}%` }} />
         </div>
-        {cdDone && <p className="text-center text-sm font-bold text-red-500 mt-2">Time's up!</p>}
+        {cdDone && <p className="text-center text-sm font-bold text-red-500 mt-2">{s('timesUp')}</p>}
         <div className="flex justify-center gap-2 mt-3">
-          <PrimaryBtn onClick={cdToggle}>{cdRunning ? 'Pause' : 'Start'}</PrimaryBtn>
+          <PrimaryBtn onClick={cdToggle}>{cdRunning ? c('pause') : c('start')}</PrimaryBtn>
           <PrimaryBtn onClick={cdReset} className="!bg-slate-600 hover:!bg-slate-700">
-            Reset
+            {c('reset')}
           </PrimaryBtn>
         </div>
       </div>
@@ -579,6 +628,8 @@ interface PomodoroCfg {
 }
 
 export const PomodoroTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
+  const c = useStrings(COMMON);
   const [focusIn, setFocusIn] = useState(25);
   const [shortIn, setShortIn] = useState(5);
   const [longIn, setLongIn] = useState(15);
@@ -594,7 +645,7 @@ export const PomodoroTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const endRef = useRef(0);
   const remainRef = useRef(25 * 60);
 
-  const phaseLabel = phase === 'focus' ? 'Focus' : sessionsDone > 0 && sessionsDone % cfg.cycles === 0 ? 'Long break' : 'Short break';
+  const phaseLabel = phase === 'focus' ? s('phaseFocus') : sessionsDone > 0 && sessionsDone % cfg.cycles === 0 ? s('phaseLongBreak') : s('phaseShortBreak');
 
   const advanceRef = useRef<() => void>(() => {});
   advanceRef.current = () => {
@@ -656,47 +707,47 @@ export const PomodoroTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <StudentCard tool={tool} note="Focus in timed sprints with automatic breaks. Timings run in this tab — keep it open while you study.">
+    <StudentCard tool={tool} note={s('pomNote')}>
       <div className="text-center">
         <p className={`text-sm font-bold uppercase tracking-wide ${phase === 'focus' ? 'text-teal-600 dark:text-teal-400' : 'text-amber-600 dark:text-amber-400'}`}>
           {phaseLabel}
-          {phase === 'focus' && ` — session ${sessionsDone % cfg.cycles + 1} of ${cfg.cycles}`}
+          {phase === 'focus' && s('sessionSuffix').replace('{n}', String(sessionsDone % cfg.cycles + 1)).replace('{total}', String(cfg.cycles))}
         </p>
         <p className="text-6xl font-extrabold tabular-nums text-slate-800 dark:text-slate-100 py-2">{fmtClock(secondsLeft)}</p>
-        {task && <p className="text-sm text-slate-500 dark:text-slate-400">Working on: <span className="font-semibold text-slate-700 dark:text-slate-200">{task}</span></p>}
+        {task && <p className="text-sm text-slate-500 dark:text-slate-400">{s('workingOnLabel')}: <span className="font-semibold text-slate-700 dark:text-slate-200">{task}</span></p>}
         <div className="flex justify-center gap-2 mt-2">
-          <PrimaryBtn onClick={toggle}>{running ? 'Pause' : 'Start'}</PrimaryBtn>
+          <PrimaryBtn onClick={toggle}>{running ? c('pause') : c('start')}</PrimaryBtn>
           <PrimaryBtn onClick={reset} className="!bg-slate-600 hover:!bg-slate-700">
-            Reset
+            {c('reset')}
           </PrimaryBtn>
         </div>
       </div>
       <div>
-        <OptLabel>Current task (optional)</OptLabel>
+        <OptLabel>{s('currentTaskLabel')}</OptLabel>
         <OptInput type="text" value={task} onChange={(e) => setTask(e.target.value)} placeholder="e.g. Revise chemistry chapter 4" />
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div>
-          <OptLabel>Focus (min)</OptLabel>
+          <OptLabel>{s('focusMin')}</OptLabel>
           <OptInput type="number" min={1} value={focusIn} onChange={(e) => setFocusIn(Number(e.target.value) || 0)} />
         </div>
         <div>
-          <OptLabel>Short break (min)</OptLabel>
+          <OptLabel>{s('shortBreakMin')}</OptLabel>
           <OptInput type="number" min={1} value={shortIn} onChange={(e) => setShortIn(Number(e.target.value) || 0)} />
         </div>
         <div>
-          <OptLabel>Long break (min)</OptLabel>
+          <OptLabel>{s('longBreakMin')}</OptLabel>
           <OptInput type="number" min={1} value={longIn} onChange={(e) => setLongIn(Number(e.target.value) || 0)} />
         </div>
         <div>
-          <OptLabel>Sessions per set</OptLabel>
+          <OptLabel>{s('sessionsPerSet')}</OptLabel>
           <OptInput type="number" min={1} value={cyclesIn} onChange={(e) => setCyclesIn(Number(e.target.value) || 0)} />
         </div>
       </div>
-      <p className="text-xs text-slate-400">New timings apply when you press Reset.</p>
+      <p className="text-xs text-slate-400">{s('timingsApplyNote')}</p>
       <div className="grid grid-cols-2 gap-3">
-        <Stat label="Focus sessions completed" value={sessionsDone} />
-        <Stat label="Total focus time" value={`${sessionsDone * cfg.focus} min`} />
+        <Stat label={s('focusSessionsCompleted')} value={sessionsDone} />
+        <Stat label={s('totalFocusTime')} value={s('minutesValue').replace('{n}', String(sessionsDone * cfg.focus))} />
       </div>
     </StudentCard>
   );
@@ -707,6 +758,7 @@ export const PomodoroTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const TypingTest: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const [duration, setDuration] = useState(60);
   const [target, setTarget] = useState(() => TYPING_TEXTS[Math.floor(Math.random() * TYPING_TEXTS.length)]);
   const [typed, setTyped] = useState('');
@@ -751,26 +803,26 @@ export const TypingTest: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <StudentCard tool={tool} note="The timer starts on your first keystroke. Pasting is disabled — type it yourself for a true score.">
+    <StudentCard tool={tool} note={s('typingNote')}>
       <div className="flex flex-wrap items-center gap-3">
         <div>
-          <OptLabel>Duration</OptLabel>
+          <OptLabel>{s('durationLabel')}</OptLabel>
           <OptSelect value={duration} onChange={(e) => changeDuration(Number(e.target.value))}>
-            <option value={30}>30 seconds</option>
-            <option value={60}>60 seconds</option>
+            <option value={30}>{s('seconds30')}</option>
+            <option value={60}>{s('seconds60')}</option>
           </OptSelect>
         </div>
-        <Stat label="Time left" value={`${timeLeft}s`} />
-        <Stat label="Characters typed" value={typed.length} />
+        <Stat label={s('timeLeft')} value={`${timeLeft}s`} />
+        <Stat label={s('charsTyped')} value={typed.length} />
         <PrimaryBtn onClick={() => restart(false)} className="!bg-slate-600 hover:!bg-slate-700">
-          Restart
+          {s('restart')}
         </PrimaryBtn>
         <PrimaryBtn onClick={() => restart(true)} className="!bg-slate-600 hover:!bg-slate-700">
-          New text
+          {s('newText')}
         </PrimaryBtn>
       </div>
       <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-4">
-        <p className="font-mono text-base leading-8 whitespace-pre-wrap break-words select-none">
+        <p dir="ltr" className="font-mono text-base leading-8 whitespace-pre-wrap break-words select-none text-left">
           {target.split('').map((ch, i) => {
             let cls = 'text-slate-400 dark:text-slate-500';
             if (i < typed.length) {
@@ -790,13 +842,14 @@ export const TypingTest: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         </p>
       </div>
       <textarea
-        className={`${inputCls} font-mono`}
+        dir="ltr"
+        className={`${inputCls} font-mono text-left`}
         rows={3}
         value={typed}
         disabled={finished}
         onChange={(e) => onType(e.target.value)}
         onPaste={(e) => e.preventDefault()}
-        placeholder={finished ? 'Test finished — restart to try again.' : 'Click here and start typing the text above…'}
+        placeholder={finished ? s('typingPhFinished') : s('typingPhStart')}
       />
       {result && (
         <div className="rounded-xl bg-teal-50 dark:bg-teal-950/40 p-4">
@@ -804,10 +857,10 @@ export const TypingTest: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             {result.wpm} <span className="text-base font-semibold">WPM</span>
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
-            <Stat label="Raw WPM" value={result.rawWpm} />
-            <Stat label="Accuracy" value={`${result.accuracy}%`} />
-            <Stat label="Correct characters" value={result.correctChars} />
-            <Stat label="Mistakes" value={result.incorrectChars} />
+            <Stat label={s('rawWpm')} value={result.rawWpm} />
+            <Stat label={s('accuracy')} value={`${result.accuracy}%`} />
+            <Stat label={s('correctChars')} value={result.correctChars} />
+            <Stat label={s('mistakes')} value={result.incorrectChars} />
           </div>
         </div>
       )}
@@ -843,6 +896,8 @@ function ensureHwFontSheet() {
 }
 
 export const TextToHandwriting: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
+  const c = useStrings(COMMON);
   const [text, setText] = useState('');
   const [fontId, setFontId] = useState('Caveat');
   const [ink, setInk] = useState('#1e40af');
@@ -854,7 +909,7 @@ export const TextToHandwriting: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const generate = async () => {
     if (!text.trim()) {
-      setError('Type or paste some text first.');
+      setError(s('errTypeText'));
       return;
     }
     setError('');
@@ -885,7 +940,7 @@ export const TextToHandwriting: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         canvas.width = HW_W;
         canvas.height = HW_H;
         const ctx = canvas.getContext('2d');
-        if (!ctx) throw new Error('Canvas is not supported in this browser.');
+        if (!ctx) throw new Error('canvas-unsupported');
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, HW_W, HW_H);
         ctx.strokeStyle = '#93c5fd';
@@ -920,7 +975,7 @@ export const TextToHandwriting: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         setZipBlob(null);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong while rendering the pages.');
+      setError(err instanceof Error && err.message === 'canvas-unsupported' ? s('errCanvasUnsupported') : s('errRenderGeneric'));
     } finally {
       setGenerating(false);
     }
@@ -929,59 +984,59 @@ export const TextToHandwriting: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <StudentCard
       tool={tool}
-      note="Turns typed text into handwritten-style pages on ruled A4 paper. The handwriting fonts are real fonts loaded from Google Fonts; if you are offline, a generic cursive fallback is used instead."
+      note={s('hwNote')}
     >
       <textarea
         className={inputCls}
         rows={6}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Type or paste your assignment text here…"
+        placeholder={s('hwPlaceholder')}
       />
       <div className="grid grid-cols-3 gap-3">
         <div>
-          <OptLabel>Handwriting style</OptLabel>
+          <OptLabel>{s('hwStyleLabel')}</OptLabel>
           <OptSelect value={fontId} onChange={(e) => setFontId(e.target.value)}>
             {HW_FONTS.map((f) => (
               <option key={f.id} value={f.id}>
-                {f.label}
+                {FONT_LABEL_KEYS[f.id] ? s(FONT_LABEL_KEYS[f.id]) : f.label}
               </option>
             ))}
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Ink color</OptLabel>
+          <OptLabel>{s('inkColor')}</OptLabel>
           <OptSelect value={ink} onChange={(e) => setInk(e.target.value)}>
-            <option value="#1e40af">Blue pen</option>
-            <option value="#111827">Black pen</option>
-            <option value="#b91c1c">Red pen</option>
+            <option value="#1e40af">{s('inkBlue')}</option>
+            <option value="#111827">{s('inkBlack')}</option>
+            <option value="#b91c1c">{s('inkRed')}</option>
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Writing size</OptLabel>
+          <OptLabel>{s('writingSize')}</OptLabel>
           <OptSelect value={size} onChange={(e) => setSize(Number(e.target.value))}>
-            <option value={28}>Small</option>
-            <option value={32}>Medium</option>
-            <option value={36}>Large</option>
+            <option value={28}>{s('sizeSmall')}</option>
+            <option value={32}>{s('sizeMedium')}</option>
+            <option value={36}>{s('sizeLarge')}</option>
           </OptSelect>
         </div>
       </div>
       <PrimaryBtn onClick={() => void generate()} disabled={generating}>
-        {generating ? 'Writing your pages…' : 'Generate handwritten pages'}
+        {generating ? s('writingPages') : s('generatePages')}
       </PrimaryBtn>
       {error && <ErrorBox message={error} />}
       {pages.length > 0 && (
         <div className="space-y-3">
           <div className="flex flex-wrap items-center gap-3">
-            <Stat label="Pages" value={pages.length} />
+            <Stat label={c('pages')} value={pages.length} />
             {pages.length === 1 ? (
-              <BlobDownloadBtn blob={pages[0].blob} filename="handwriting.png" label="Download PNG" />
+              <BlobDownloadBtn blob={pages[0].blob} filename="handwriting.png" label={s('downloadPng')} />
             ) : (
-              <BlobDownloadBtn blob={zipBlob} filename="handwriting-pages.zip" label="Download all pages (ZIP)" />
+              <BlobDownloadBtn blob={zipBlob} filename="handwriting-pages.zip" label={s('downloadZip')} />
             )}
           </div>
           {pages.map((p, i) => (
-            <img key={i} src={p.url} alt={`Handwritten page ${i + 1}`} className="w-full rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm" />
+            <img key={i} src={p.url} alt={s('hwPageAlt').replace('{n}', String(i + 1))} className="w-full rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm" />
           ))}
         </div>
       )}

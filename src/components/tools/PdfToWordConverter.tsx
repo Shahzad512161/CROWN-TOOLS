@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { FileText, Download, Copy, Check, UploadCloud, FileCode, ShieldCheck, RefreshCw } from 'lucide-react';
+import { useLang, useStrings, COMMON } from '../../lib/LangContext';
+import { CALC_STRINGS } from '../../lib/strings/calculators';
 
 export const PdfToWordConverter: React.FC = () => {
+  const lang = useLang();
+  const s = useStrings(CALC_STRINGS);
+  const c = useStrings(COMMON);
   const [extractedText, setExtractedText] = useState<string>(
     `CONSULTING SERVICES AGREEMENT (USA STANDARD)
 
@@ -50,12 +55,12 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
           setExtractedText(cleanContent);
         } else {
           setExtractedText(
-            `Extracted Content from "${file.name}":\n\n` +
-            `Document Header: ${file.name.toUpperCase()}\n` +
-            `File Size: ${(file.size / 1024).toFixed(1)} KB\n` +
-            `Processing Timestamp: ${new Date().toLocaleDateString()}\n\n` +
-            `[Summary of Document]\n` +
-            `This document has been safely parsed in-browser. You can now edit all paragraphs directly in this workspace, add formatting, and export as a standard Word (.doc) document.`
+            `${s('extractedFrom').replace('{name}', file.name)}\n\n` +
+            `${s('docHeaderLine').replace('{name}', file.name.toUpperCase())}\n` +
+            `${s('fileSizeLine').replace('{size}', (file.size / 1024).toFixed(1))}\n` +
+            `${s('timestampLine').replace('{date}', new Date().toLocaleDateString(lang))}\n\n` +
+            `${s('summaryHeading')}\n` +
+            `${s('summaryText')}`
           );
         }
         setIsProcessing(false);
@@ -120,10 +125,10 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <span>📄</span> PDF to Word Converter (100% Safe & Private)
+            <span>📄</span> {s('pdfTitle')}
           </h2>
           <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Converts and extracts document content completely in-browser. Zero server uploads.
+            {s('pdfSubtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -132,14 +137,14 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 cursor-pointer"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'Copied' : 'Copy Text'}</span>
+            <span>{copied ? c('copied') : s('copyText')}</span>
           </button>
           <button
             onClick={handleDownloadWordDoc}
             className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-[#f97316] text-white hover:bg-orange-600 shadow-md cursor-pointer transition-colors"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>Download .Doc</span>
+            <span>{s('downloadDocBtn')}</span>
           </button>
         </div>
       </div>
@@ -157,10 +162,10 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
             />
             <UploadCloud className="w-10 h-10 text-orange-500 mx-auto mb-2" />
             <span className="text-xs font-bold text-gray-900 dark:text-white block">
-              Choose PDF or Text File
+              {s('chooseFileLabel')}
             </span>
             <span className="text-[11px] text-gray-500 dark:text-gray-400 block mt-1">
-              Drag & drop or browse from your computer (Max 25MB)
+              {s('dragDropHint')}
             </span>
             <span className="mt-3 inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-orange-100 text-orange-700 dark:bg-orange-900/60 dark:text-orange-300">
               {fileName}
@@ -169,7 +174,7 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
 
           <div>
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              Document Export Title
+              {s('exportTitleLabel')}
             </label>
             <input
               type="text"
@@ -182,25 +187,25 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-2">
             <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
-              <span className="text-[10px] text-gray-500 block">Words</span>
-              <span className="text-sm font-bold text-gray-900 dark:text-white">{wordsCount}</span>
+              <span className="text-[10px] text-gray-500 block">{s('wordsLabel')}</span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white">{wordsCount.toLocaleString(lang)}</span>
             </div>
             <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
-              <span className="text-[10px] text-gray-500 block">Characters</span>
-              <span className="text-sm font-bold text-gray-900 dark:text-white">{charsCount}</span>
+              <span className="text-[10px] text-gray-500 block">{s('charactersLabel')}</span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white">{charsCount.toLocaleString(lang)}</span>
             </div>
             <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
-              <span className="text-[10px] text-gray-500 block">Read Time</span>
-              <span className="text-sm font-bold text-gray-900 dark:text-white">{readingTimeMin} min</span>
+              <span className="text-[10px] text-gray-500 block">{s('readTimeLabel')}</span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white">{s('readTimeValue').replace('{n}', String(readingTimeMin))}</span>
             </div>
           </div>
 
           <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300 flex items-start gap-2">
             <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-600 mt-0.5" />
             <div>
-              <span className="font-bold">100% Client-Side Privacy:</span>
+              <span className="font-bold">{s('privacyTitle')}</span>
               <p className="text-[11px] mt-0.5 opacity-90">
-                Your files are processed directly in your browser memory. We never transmit or store your files on external cloud servers.
+                {s('privacyText')}
               </p>
             </div>
           </div>
@@ -211,7 +216,7 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
               className="flex-1 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow transition-colors cursor-pointer"
             >
               <FileCode className="w-3.5 h-3.5" />
-              <span>Export Word (.doc)</span>
+              <span>{s('exportWordBtn')}</span>
             </button>
             <button
               onClick={handleDownloadTxt}
@@ -227,16 +232,16 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
         <div className="lg:col-span-7 flex flex-col">
           <div className="flex justify-between items-center mb-2">
             <label className="text-xs font-bold text-gray-800 dark:text-gray-200">
-              Editable Document Content (Live Preview):
+              {s('editableLabel')}
             </label>
-            <span className="text-[11px] text-gray-400">Directly editable</span>
+            <span className="text-[11px] text-gray-400">{s('directlyEditable')}</span>
           </div>
           <textarea
             rows={15}
             value={extractedText}
             onChange={(e) => setExtractedText(e.target.value)}
             className="w-full flex-1 p-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs text-gray-900 dark:text-white font-mono leading-relaxed focus:ring-2 focus:ring-orange-500"
-            placeholder="Document text will appear here..."
+            placeholder={s('editorPlaceholder')}
           />
         </div>
       </div>

@@ -1,15 +1,30 @@
 import React, { useState, useRef } from 'react';
 import { ToolItem } from '../../lib/tools-data';
-import { 
-  Calculator, Image as ImageIcon, FileText, Wand2, Scale, Home, 
-  Copy, Check, Download, RefreshCw, Upload, Play, Sliders, Sparkles 
+import {
+  Calculator, Image as ImageIcon, FileText, Wand2, Scale, Home,
+  Copy, Check, Download, RefreshCw, Upload, Play, Sliders, Sparkles
 } from 'lucide-react';
+import { useLang, useStrings, COMMON } from '../../lib/LangContext';
+import { CALC_STRINGS } from '../../lib/strings/calculators';
 
 interface GenericToolEngineProps {
   tool: ToolItem;
 }
 
+const UNIT_KEYS: Record<string, string> = {
+  meter: 'unitMeter', feet: 'unitFeet', inch: 'unitInch', km: 'unitKm', mile: 'unitMile',
+  kg: 'unitKg', lbs: 'unitLbs', oz: 'unitOz', gram: 'unitGram',
+  celsius: 'unitCelsius', fahrenheit: 'unitFahrenheit',
+  kb: 'unitKb', mb: 'unitMb', gb: 'unitGb', tb: 'unitTb'
+};
+
 export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(CALC_STRINGS);
+  const c = useStrings(COMMON);
+
+  const unitLabel = (id: string): string => (UNIT_KEYS[id] ? s(UNIT_KEYS[id]) : id);
+
   const [copied, setCopied] = useState(false);
 
   // General text state
@@ -184,7 +199,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
             <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 text-[#f97316] dark:bg-orange-950 dark:text-orange-400">
               {tool.category}
             </span>
-            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">✓ 100% Free & Verified</span>
+            <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">✓ {s('genFreeVerified')}</span>
           </div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-950 dark:text-white mt-1">
             {tool.name}
@@ -195,7 +210,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 cursor-pointer"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-          <span>{copied ? 'Copied' : 'Share'}</span>
+          <span>{copied ? c('copied') : s('genShare')}</span>
         </button>
       </div>
 
@@ -206,14 +221,14 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
             <label className="block border-2 border-dashed border-orange-300 dark:border-orange-800 hover:border-orange-500 rounded-2xl p-6 text-center bg-orange-50/30 dark:bg-orange-950/20 cursor-pointer">
               <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
               <Upload className="w-8 h-8 text-orange-500 mx-auto mb-2" />
-              <span className="text-xs font-bold text-gray-900 dark:text-white block">Upload Image to Process</span>
-              <span className="text-[11px] text-gray-500 block">PNG, JPG, WebP, GIF (Processed 100% in browser)</span>
+              <span className="text-xs font-bold text-gray-900 dark:text-white block">{s('genUploadImage')}</span>
+              <span className="text-[11px] text-gray-500 block">{s('genImageHint')}</span>
             </label>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                  Format
+                  {c('format')}
                 </label>
                 <select
                   value={imageFormat}
@@ -224,14 +239,14 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
                   }}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs font-semibold"
                 >
-                  <option value="image/webp">WebP (Smallest Size)</option>
-                  <option value="image/jpeg">JPEG (Universal)</option>
-                  <option value="image/png">PNG (Lossless)</option>
+                  <option value="image/webp">{s('genFormatWebP')}</option>
+                  <option value="image/jpeg">{s('genFormatJpeg')}</option>
+                  <option value="image/png">{s('genFormatPng')}</option>
                 </select>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                  Quality: {imageQuality}%
+                  {s('genQuality').replace('{v}', String(imageQuality))}
                 </label>
                 <input
                   type="range"
@@ -250,7 +265,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                Resize Scale: {imageScale}%
+                {s('genResizeScale').replace('{v}', String(imageScale))}
               </label>
               <input
                 type="range"
@@ -269,23 +284,23 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
           <div className="lg:col-span-6 flex flex-col justify-between bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl border border-gray-200 dark:border-gray-700">
             <div>
-              <span className="text-xs font-bold text-gray-800 dark:text-gray-200 block mb-2">Live Output Preview</span>
+              <span className="text-xs font-bold text-gray-800 dark:text-gray-200 block mb-2">{s('genLivePreview')}</span>
               {imagePreview ? (
                 <div className="flex flex-col items-center">
                   <img
                     src={imagePreview}
-                    alt="Preview"
+                    alt={c('preview')}
                     className="max-h-56 rounded-xl object-contain border border-gray-300 dark:border-gray-700 shadow-sm"
                   />
                   <div className="flex justify-between w-full text-xs text-gray-600 dark:text-gray-400 mt-3 pt-2 border-t border-gray-200 dark:border-gray-700">
-                    <span>Original: <strong>{originalSize || '1.2 MB'}</strong></span>
-                    <span>Processed: <strong className="text-emerald-500">{compressedSize || '280 KB'}</strong></span>
+                    <span>{s('genOriginal')} <strong>{originalSize || '1.2 MB'}</strong></span>
+                    <span>{s('genProcessed')} <strong className="text-emerald-500">{compressedSize || '280 KB'}</strong></span>
                   </div>
                 </div>
               ) : (
                 <div className="h-44 flex flex-col items-center justify-center text-gray-400 text-xs">
                   <ImageIcon className="w-10 h-10 mb-2 opacity-50" />
-                  <span>Upload an image to see live preview & savings</span>
+                  <span>{s('genUploadPlaceholder')}</span>
                 </div>
               )}
             </div>
@@ -298,43 +313,43 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
               }`}
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Download Processed Image</span>
+              <span>{s('genDownloadProcessed')}</span>
             </button>
           </div>
         </div>
       ) : tool.category === 'Text & AI Tools' || tool.category === 'PDF Tools' ? (
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-bold text-gray-700 dark:text-gray-300 mr-2">Quick Actions:</span>
+            <span className="text-xs font-bold text-gray-700 dark:text-gray-300 me-2">{s('genQuickActions')}</span>
             <button
               onClick={() => handleCaseTransform('upper')}
               className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer"
             >
-              UPPERCASE
+              {s('genUppercase')}
             </button>
             <button
               onClick={() => handleCaseTransform('lower')}
               className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer"
             >
-              lowercase
+              {s('genLowercase')}
             </button>
             <button
               onClick={() => handleCaseTransform('title')}
               className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 cursor-pointer"
             >
-              Title Case
+              {s('genTitleCase')}
             </button>
             <button
               onClick={() => handleCaseTransform('slug')}
               className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-400 hover:bg-orange-200 cursor-pointer"
             >
-              URL-Slugify
+              {s('genSlugify')}
             </button>
             <button
               onClick={() => handleCaseTransform('clean')}
               className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 hover:bg-emerald-200 cursor-pointer"
             >
-              Remove Duplicates
+              {s('genRemoveDup')}
             </button>
           </div>
 
@@ -343,21 +358,21 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
             value={textContent}
             onChange={(e) => setTextContent(e.target.value)}
             className="w-full p-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm leading-relaxed text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500 font-mono"
-            placeholder="Type or paste text here..."
+            placeholder={s('genTextPlaceholder')}
           />
 
           <div className="flex flex-wrap items-center justify-between gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-xs">
             <div className="flex gap-4">
-              <span>Words: <strong className="text-gray-900 dark:text-white">{textContent.trim() ? textContent.trim().split(/\s+/).length : 0}</strong></span>
-              <span>Characters: <strong className="text-gray-900 dark:text-white">{textContent.length}</strong></span>
-              <span>Lines: <strong className="text-gray-900 dark:text-white">{textContent.split('\n').length}</strong></span>
+              <span>{s('genWords')} <strong className="text-gray-900 dark:text-white">{(textContent.trim() ? textContent.trim().split(/\s+/).length : 0).toLocaleString(lang)}</strong></span>
+              <span>{s('genCharacters')} <strong className="text-gray-900 dark:text-white">{textContent.length.toLocaleString(lang)}</strong></span>
+              <span>{s('genLines')} <strong className="text-gray-900 dark:text-white">{textContent.split('\n').length.toLocaleString(lang)}</strong></span>
             </div>
             <button
               onClick={() => copyText(textContent)}
               className="px-3 py-1.5 rounded-lg bg-[#f97316] text-white font-bold hover:bg-orange-600 transition-colors flex items-center gap-1 cursor-pointer"
             >
               <Copy className="w-3.5 h-3.5" />
-              <span>Copy Processed Text</span>
+              <span>{s('genCopyProcessedText')}</span>
             </button>
           </div>
         </div>
@@ -366,10 +381,10 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
           <div className="md:col-span-6 space-y-4">
             <div className="flex gap-2">
               {[
-                { id: 'length', label: 'Length' },
-                { id: 'weight', label: 'Weight' },
-                { id: 'temp', label: 'Temperature' },
-                { id: 'data', label: 'Digital Data' }
+                { id: 'length', label: s('genTabLength') },
+                { id: 'weight', label: s('genTabWeight') },
+                { id: 'temp', label: s('genTabTemp') },
+                { id: 'data', label: s('genTabData') }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -393,7 +408,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                Input Value
+                {s('genInputValue')}
               </label>
               <input
                 type="number"
@@ -405,7 +420,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">From</label>
+                <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('genFrom')}</label>
                 <select
                   value={fromUnit}
                   onChange={(e) => setFromUnit(e.target.value)}
@@ -413,40 +428,40 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
                 >
                   {unitType === 'length' && (
                     <>
-                      <option value="meter">Meters (m)</option>
-                      <option value="feet">Feet (ft)</option>
-                      <option value="inch">Inches (in)</option>
-                      <option value="km">Kilometers (km)</option>
-                      <option value="mile">Miles (mi)</option>
+                      <option value="meter">{s('unitMeter')}</option>
+                      <option value="feet">{s('unitFeet')}</option>
+                      <option value="inch">{s('unitInch')}</option>
+                      <option value="km">{s('unitKm')}</option>
+                      <option value="mile">{s('unitMile')}</option>
                     </>
                   )}
                   {unitType === 'weight' && (
                     <>
-                      <option value="kg">Kilograms (kg)</option>
-                      <option value="lbs">Pounds (lbs)</option>
-                      <option value="oz">Ounces (oz)</option>
-                      <option value="gram">Grams (g)</option>
+                      <option value="kg">{s('unitKg')}</option>
+                      <option value="lbs">{s('unitLbs')}</option>
+                      <option value="oz">{s('unitOz')}</option>
+                      <option value="gram">{s('unitGram')}</option>
                     </>
                   )}
                   {unitType === 'temp' && (
                     <>
-                      <option value="celsius">Celsius (°C)</option>
-                      <option value="fahrenheit">Fahrenheit (°F)</option>
+                      <option value="celsius">{s('unitCelsius')}</option>
+                      <option value="fahrenheit">{s('unitFahrenheit')}</option>
                     </>
                   )}
                   {unitType === 'data' && (
                     <>
-                      <option value="kb">Kilobytes (KB)</option>
-                      <option value="mb">Megabytes (MB)</option>
-                      <option value="gb">Gigabytes (GB)</option>
-                      <option value="tb">Terabytes (TB)</option>
+                      <option value="kb">{s('unitKb')}</option>
+                      <option value="mb">{s('unitMb')}</option>
+                      <option value="gb">{s('unitGb')}</option>
+                      <option value="tb">{s('unitTb')}</option>
                     </>
                   )}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">To</label>
+                <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('genTo')}</label>
                 <select
                   value={toUnit}
                   onChange={(e) => setToUnit(e.target.value)}
@@ -454,33 +469,33 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
                 >
                   {unitType === 'length' && (
                     <>
-                      <option value="feet">Feet (ft)</option>
-                      <option value="meter">Meters (m)</option>
-                      <option value="inch">Inches (in)</option>
-                      <option value="km">Kilometers (km)</option>
-                      <option value="mile">Miles (mi)</option>
+                      <option value="feet">{s('unitFeet')}</option>
+                      <option value="meter">{s('unitMeter')}</option>
+                      <option value="inch">{s('unitInch')}</option>
+                      <option value="km">{s('unitKm')}</option>
+                      <option value="mile">{s('unitMile')}</option>
                     </>
                   )}
                   {unitType === 'weight' && (
                     <>
-                      <option value="lbs">Pounds (lbs)</option>
-                      <option value="kg">Kilograms (kg)</option>
-                      <option value="oz">Ounces (oz)</option>
-                      <option value="gram">Grams (g)</option>
+                      <option value="lbs">{s('unitLbs')}</option>
+                      <option value="kg">{s('unitKg')}</option>
+                      <option value="oz">{s('unitOz')}</option>
+                      <option value="gram">{s('unitGram')}</option>
                     </>
                   )}
                   {unitType === 'temp' && (
                     <>
-                      <option value="fahrenheit">Fahrenheit (°F)</option>
-                      <option value="celsius">Celsius (°C)</option>
+                      <option value="fahrenheit">{s('unitFahrenheit')}</option>
+                      <option value="celsius">{s('unitCelsius')}</option>
                     </>
                   )}
                   {unitType === 'data' && (
                     <>
-                      <option value="gb">Gigabytes (GB)</option>
-                      <option value="mb">Megabytes (MB)</option>
-                      <option value="tb">Terabytes (TB)</option>
-                      <option value="kb">Kilobytes (KB)</option>
+                      <option value="gb">{s('unitGb')}</option>
+                      <option value="mb">{s('unitMb')}</option>
+                      <option value="tb">{s('unitTb')}</option>
+                      <option value="kb">{s('unitKb')}</option>
                     </>
                   )}
                 </select>
@@ -490,21 +505,21 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
           <div className="md:col-span-6 flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 p-6 rounded-2xl border-2 border-emerald-400/40 text-center">
             <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400">
-              Converted Result
+              {s('genConvertedResult')}
             </span>
             <div className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white my-3">
-              {convertUnit().toLocaleString(undefined, { maximumFractionDigits: 4 })}
-              <span className="text-sm font-semibold text-gray-500 ml-1.5 uppercase">{toUnit}</span>
+              {convertUnit().toLocaleString(lang, { maximumFractionDigits: 4 })}
+              <span className="text-sm font-semibold text-gray-500 ms-1.5">{unitLabel(toUnit)}</span>
             </div>
             <p className="text-xs text-gray-600 dark:text-gray-300 font-medium">
-              {unitValue} {fromUnit} = {convertUnit().toLocaleString(undefined, { maximumFractionDigits: 4 })} {toUnit}
+              {unitValue.toLocaleString(lang)} {unitLabel(fromUnit)} = {convertUnit().toLocaleString(lang, { maximumFractionDigits: 4 })} {unitLabel(toUnit)}
             </p>
             <button
-              onClick={() => copyText(`${unitValue} ${fromUnit} = ${convertUnit().toFixed(4)} ${toUnit}`)}
+              onClick={() => copyText(`${unitValue} ${unitLabel(fromUnit)} = ${convertUnit().toFixed(4)} ${unitLabel(toUnit)}`)}
               className="mt-4 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 flex items-center gap-1 hover:border-emerald-500 cursor-pointer"
             >
               <Copy className="w-3.5 h-3.5" />
-              <span>Copy Result</span>
+              <span>{s('copyResult')}</span>
             </button>
           </div>
         </div>
@@ -515,7 +530,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                  Primary Input Value
+                  {s('genPrimaryInput')}
                 </label>
                 <input
                   type="number"
@@ -526,7 +541,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                  Rate / Percentage / Factor
+                  {s('genRateFactor')}
                 </label>
                 <input
                   type="number"
@@ -539,16 +554,16 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-                Calculation Mode
+                {s('genCalcMode')}
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {[
-                  { id: 'percent', label: 'Percentage %' },
-                  { id: 'compound', label: '5-Yr Growth' },
-                  { id: 'multiply', label: 'Multiply (x)' },
-                  { id: 'divide', label: 'Divide (/)' },
-                  { id: 'add', label: 'Sum (+)' },
-                  { id: 'subtract', label: 'Difference (-)' }
+                  { id: 'percent', label: s('genOpPercent') },
+                  { id: 'compound', label: s('genOpCompound') },
+                  { id: 'multiply', label: s('genOpMultiply') },
+                  { id: 'divide', label: s('genOpDivide') },
+                  { id: 'add', label: s('genOpAdd') },
+                  { id: 'subtract', label: s('genOpSubtract') }
                 ].map((op) => (
                   <button
                     key={op.id}
@@ -568,20 +583,20 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
           <div className="md:col-span-5 flex flex-col justify-center items-center bg-gradient-to-br from-orange-50 to-amber-50 dark:from-gray-900 dark:to-gray-800 p-6 rounded-2xl border-2 border-orange-400/40 text-center">
             <span className="text-xs uppercase font-bold text-orange-600 dark:text-orange-400">
-              Calculated Value
+              {s('genCalculatedValue')}
             </span>
             <div className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white my-3">
-              {calculateResult().toLocaleString(undefined, { maximumFractionDigits: 2 })}
+              {calculateResult().toLocaleString(lang, { maximumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-gray-600 dark:text-gray-300">
-              Computed based on {tool.name} mathematical parameters.
+              {s('genComputedBasedOn').replace('{name}', tool.name)}
             </p>
             <button
               onClick={() => copyText(`${calculateResult()}`)}
               className="mt-4 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 flex items-center gap-1 hover:border-orange-500 cursor-pointer"
             >
               <Copy className="w-3.5 h-3.5" />
-              <span>Copy Value</span>
+              <span>{s('copyValue')}</span>
             </button>
           </div>
         </div>

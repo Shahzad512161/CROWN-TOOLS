@@ -6,11 +6,44 @@ import {
 } from './StudentShell';
 import {
   GRADE_SCALES, computeGpa, combineCgpa, neededGpa, formatCitation, analyzeEssay,
-  parseFlashcardText, flashcardsToText, buildStudyPlan, ELEMENTS, CATEGORY_LABELS,
+  parseFlashcardText, flashcardsToText, buildStudyPlan, ELEMENTS,
   solveQuadratic, solveLinear,
 } from '../../../lib/student/core';
 import type { CitationInput, Flashcard, ChemElement, ElementCategory } from '../../../lib/student/core';
 import { useAiText, MissingKeyNotice, AiTextarea } from '../ai/AiShell';
+import { useStrings, COMMON } from '../../../lib/LangContext';
+import { STUDENT_STRINGS } from '../../../lib/strings/student';
+
+// Lib data keys -> dictionary keys (labels for scales / element categories / result kinds)
+const SCALE_LABEL_KEYS: Record<string, string> = { standard: 'scaleStandard', plusminus: 'scalePlusMinus' };
+const CAT_KEYS: Record<ElementCategory, string> = {
+  alkali: 'catAlkali',
+  alkaline: 'catAlkaline',
+  transition: 'catTransition',
+  'post-transition': 'catPostTransition',
+  metalloid: 'catMetalloid',
+  nonmetal: 'catNonmetal',
+  halogen: 'catHalogen',
+  noble: 'catNoble',
+  lanthanide: 'catLanthanide',
+  actinide: 'catActinide',
+};
+const WEEKDAY_KEYS: Record<string, string> = {
+  Sunday: 'weekdaySunday',
+  Monday: 'weekdayMonday',
+  Tuesday: 'weekdayTuesday',
+  Wednesday: 'weekdayWednesday',
+  Thursday: 'weekdayThursday',
+  Friday: 'weekdayFriday',
+  Saturday: 'weekdaySaturday',
+};
+const QUAD_KIND_KEYS: Record<string, string> = {
+  'two-real': 'quadTwoReal',
+  'one-real': 'quadOneReal',
+  complex: 'quadComplex',
+  linear: 'quadLinear',
+  invalid: 'quadInvalid',
+};
 
 // ---------------------------------------------------------------------------
 // Shared local helpers
@@ -46,6 +79,7 @@ interface CourseInput {
 }
 
 export const GpaCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const [scaleId, setScaleId] = useState('plusminus');
   const [courses, setCourses] = useState<CourseInput[]>([
     { name: '', grade: 'A', credits: '3' },
@@ -85,25 +119,25 @@ export const GpaCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setCourses((prev) => prev.map((c, idx) => (idx === i ? { ...c, ...patch } : c)));
 
   return (
-    <StudentCard tool={tool} note="Semester GPA, cumulative CGPA and target planner">
+    <StudentCard tool={tool} note={s('gpaNote')}>
       <div className="max-w-xs">
-        <OptLabel>Grading scale</OptLabel>
+        <OptLabel>{s('gradingScale')}</OptLabel>
         <OptSelect value={scaleId} onChange={(e) => changeScale(e.target.value)}>
-          {Object.entries(GRADE_SCALES).map(([id, s]) => (
-            <option key={id} value={id}>{s.label}</option>
+          {Object.entries(GRADE_SCALES).map(([id, sc]) => (
+            <option key={id} value={id}>{SCALE_LABEL_KEYS[id] ? s(SCALE_LABEL_KEYS[id]) : sc.label}</option>
           ))}
         </OptSelect>
       </div>
 
       <div className="space-y-2">
         <div className="hidden sm:grid grid-cols-[1fr_110px_110px_36px] gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400 px-0.5">
-          <span>Course (optional)</span><span>Grade</span><span>Credits</span><span />
+          <span>{s('colCourseOptional')}</span><span>{s('colGrade')}</span><span>{s('colCredits')}</span><span />
         </div>
         {courses.map((c, i) => (
           <div key={i} className="grid grid-cols-[1fr_96px_84px_36px] sm:grid-cols-[1fr_110px_110px_36px] gap-2 items-center">
             <input
               className={inputCls}
-              placeholder={`Course ${i + 1}`}
+              placeholder={s('coursePlaceholder').replace('{n}', String(i + 1))}
               value={c.name}
               onChange={(e) => updateCourse(i, { name: e.target.value })}
             />
@@ -126,7 +160,7 @@ export const GpaCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
             <button
               type="button"
-              aria-label="Remove course"
+              aria-label={s('removeCourse')}
               disabled={courses.length <= 1}
               onClick={() => setCourses((prev) => prev.filter((_, idx) => idx !== i))}
               className="p-2 rounded-lg text-slate-400 hover:text-red-500 disabled:opacity-30"
@@ -140,70 +174,82 @@ export const GpaCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           onClick={() => setCourses((prev) => [...prev, { name: '', grade: scale.entries[0].grade, credits: '3' }])}
           className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 dark:text-teal-300 hover:underline"
         >
-          <Plus className="w-3.5 h-3.5" /> Add course
+          <Plus className="w-3.5 h-3.5" /> {s('addCourse')}
         </button>
       </div>
 
       <div className="rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 px-4 py-3 text-center">
         <div className="text-3xl font-extrabold text-teal-700 dark:text-teal-300">{semester.gpa.toFixed(2)}</div>
-        <div className="text-[11px] font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-400">Semester GPA</div>
+        <div className="text-[11px] font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-400">{s('semesterGpa')}</div>
       </div>
       <div className="grid grid-cols-3 gap-2">
-        <Stat label="Total credits" value={semester.totalCredits} />
-        <Stat label="Quality points" value={Math.round(semester.qualityPoints * 100) / 100} />
-        <Stat label="Courses counted" value={semester.counted} />
+        <Stat label={s('totalCredits')} value={semester.totalCredits} />
+        <Stat label={s('qualityPoints')} value={Math.round(semester.qualityPoints * 100) / 100} />
+        <Stat label={s('coursesCounted')} value={semester.counted} />
       </div>
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-3">
-        <SectionTitle>Cumulative CGPA</SectionTitle>
+        <SectionTitle>{s('cumulativeCgpa')}</SectionTitle>
         <div className="grid grid-cols-2 gap-3 max-w-md">
           <div>
-            <OptLabel>Previous CGPA</OptLabel>
+            <OptLabel>{s('prevCgpa')}</OptLabel>
             <input className={inputCls} type="number" step="0.01" min="0" placeholder="e.g. 3.40" value={prevGpa} onChange={(e) => setPrevGpa(e.target.value)} />
           </div>
           <div>
-            <OptLabel>Previous credits</OptLabel>
+            <OptLabel>{s('prevCredits')}</OptLabel>
             <input className={inputCls} type="number" step="0.5" min="0" placeholder="e.g. 60" value={prevCredits} onChange={(e) => setPrevCredits(e.target.value)} />
           </div>
         </div>
         {combined ? (
           <div className="grid grid-cols-3 gap-2 max-w-md">
-            <Stat label="New CGPA" value={combined.gpa.toFixed(2)} />
-            <Stat label="Total credits" value={combined.totalCredits} />
-            <Stat label="Quality points" value={Math.round(combined.qualityPoints * 100) / 100} />
+            <Stat label={s('newCgpa')} value={combined.gpa.toFixed(2)} />
+            <Stat label={s('totalCredits')} value={combined.totalCredits} />
+            <Stat label={s('qualityPoints')} value={Math.round(combined.qualityPoints * 100) / 100} />
           </div>
         ) : (
-          <p className="text-xs text-slate-400">Enter your previous CGPA and credits to see your updated cumulative GPA including this semester.</p>
+          <p className="text-xs text-slate-400">{s('cgpaHint')}</p>
         )}
       </div>
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-3">
-        <SectionTitle>Target planner</SectionTitle>
+        <SectionTitle>{s('targetPlanner')}</SectionTitle>
         <div className="grid grid-cols-2 gap-3 max-w-md">
           <div>
-            <OptLabel>Target CGPA</OptLabel>
+            <OptLabel>{s('targetCgpa')}</OptLabel>
             <input className={inputCls} type="number" step="0.01" min="0" placeholder="e.g. 3.50" value={targetGpa} onChange={(e) => setTargetGpa(e.target.value)} />
           </div>
           <div>
-            <OptLabel>Remaining credits</OptLabel>
+            <OptLabel>{s('remainingCredits')}</OptLabel>
             <input className={inputCls} type="number" step="0.5" min="0" placeholder="e.g. 30" value={remainingCredits} onChange={(e) => setRemainingCredits(e.target.value)} />
           </div>
         </div>
         {!targetGpa || !remainingCredits ? (
-          <p className="text-xs text-slate-400">Enter a target CGPA and how many credits you still have to take, and this will show the GPA you need to average.</p>
+          <p className="text-xs text-slate-400">{s('targetHint')}</p>
         ) : needed === null ? (
-          <p className="text-xs text-slate-400">Add remaining credits above 0 to calculate what you need.</p>
+          <p className="text-xs text-slate-400">{s('targetZeroHint')}</p>
         ) : needed > 4.0 ? (
           <div className="text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2.5">
-            Not reachable on a 4.0 scale — you would need a {needed.toFixed(2)} GPA across your remaining {num(remainingCredits)} credits, which is above the maximum. A lower target or extra credits would be needed.
+            {s('targetUnreachable').replace('{needed}', needed.toFixed(2)).replace('{credits}', String(num(remainingCredits)))}
           </div>
         ) : needed <= 0 ? (
           <div className="text-xs font-semibold text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 rounded-xl px-3 py-2.5">
-            Already secured — your current record keeps you at or above a {num(targetGpa).toFixed(2)} CGPA even before the remaining credits.
+            {s('targetSecured').replace('{target}', num(targetGpa).toFixed(2))}
           </div>
         ) : (
           <div className="text-xs font-semibold text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 rounded-xl px-3 py-2.5">
-            You need to average at least a <span className="font-extrabold">{needed.toFixed(2)} GPA</span> across your remaining {num(remainingCredits)} credits to reach a {num(targetGpa).toFixed(2)} CGPA.
+            {(() => {
+              const parts = s('targetNeeded')
+                .replace('{credits}', String(num(remainingCredits)))
+                .replace('{target}', num(targetGpa).toFixed(2))
+                .split('{needed}');
+              return (
+                <>
+                  {parts[0]}
+                  <span className="font-extrabold">{needed.toFixed(2)} GPA</span>
+                  {parts[1]}
+                </>
+              );
+            })()}
           </div>
         )}
       </div>
@@ -224,6 +270,8 @@ const CITE_STYLES: { id: CiteStyle; label: string }[] = [
 ];
 
 export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
+  const c = useStrings(COMMON);
   const [type, setType] = useState<CitationInput['type']>('book');
   const [authors, setAuthors] = useState([{ first: '', last: '' }]);
   const [year, setYear] = useState('');
@@ -251,24 +299,24 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setAuthors((prev) => prev.map((a, idx) => (idx === i ? { ...a, ...patch } : a)));
 
   return (
-    <StudentCard tool={tool} note="APA 7, MLA 9, Chicago and Harvard reference formats">
+    <StudentCard tool={tool} note={s('citeNote')}>
       <div className="flex flex-wrap gap-2">
         {(['book', 'journal', 'website'] as const).map((t) => (
           <button key={t} type="button" className={tabCls(type === t)} onClick={() => setType(t)}>
-            {t === 'book' ? 'Book' : t === 'journal' ? 'Journal article' : 'Website'}
+            {t === 'book' ? s('sourceBook') : t === 'journal' ? s('sourceJournal') : s('sourceWebsite')}
           </button>
         ))}
       </div>
 
       <div className="space-y-2">
-        <OptLabel>Authors</OptLabel>
+        <OptLabel>{s('authors')}</OptLabel>
         {authors.map((a, i) => (
           <div key={i} className="grid grid-cols-[1fr_1fr_36px] gap-2 items-center">
-            <input className={inputCls} placeholder="First name" value={a.first} onChange={(e) => updateAuthor(i, { first: e.target.value })} />
-            <input className={inputCls} placeholder="Last name" value={a.last} onChange={(e) => updateAuthor(i, { last: e.target.value })} />
+            <input className={inputCls} placeholder={s('firstName')} value={a.first} onChange={(e) => updateAuthor(i, { first: e.target.value })} />
+            <input className={inputCls} placeholder={s('lastName')} value={a.last} onChange={(e) => updateAuthor(i, { last: e.target.value })} />
             <button
               type="button"
-              aria-label="Remove author"
+              aria-label={s('removeAuthor')}
               disabled={authors.length <= 1}
               onClick={() => setAuthors((prev) => prev.filter((_, idx) => idx !== i))}
               className="p-2 rounded-lg text-slate-400 hover:text-red-500 disabled:opacity-30"
@@ -282,29 +330,29 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           onClick={() => setAuthors((prev) => [...prev, { first: '', last: '' }])}
           className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 dark:text-teal-300 hover:underline"
         >
-          <Plus className="w-3.5 h-3.5" /> Add author
+          <Plus className="w-3.5 h-3.5" /> {s('addAuthor')}
         </button>
       </div>
 
       <div className="grid sm:grid-cols-[140px_1fr] gap-3">
         <div>
-          <OptLabel>Year</OptLabel>
+          <OptLabel>{s('year')}</OptLabel>
           <input className={inputCls} placeholder="2023" value={year} onChange={(e) => setYear(e.target.value)} />
         </div>
         <div>
-          <OptLabel>{type === 'journal' ? 'Article title' : 'Title'}</OptLabel>
-          <input className={inputCls} placeholder="Title of the work" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <OptLabel>{type === 'journal' ? s('articleTitle') : s('titleLabel')}</OptLabel>
+          <input className={inputCls} placeholder={s('titlePlaceholder')} value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
       </div>
 
       {type === 'book' && (
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <OptLabel>Publisher</OptLabel>
+            <OptLabel>{s('publisher')}</OptLabel>
             <input className={inputCls} placeholder="e.g. Pearson" value={publisher} onChange={(e) => setPublisher(e.target.value)} />
           </div>
           <div>
-            <OptLabel>Edition (optional)</OptLabel>
+            <OptLabel>{s('editionOptional')}</OptLabel>
             <input className={inputCls} placeholder="e.g. 3rd ed." value={edition} onChange={(e) => setEdition(e.target.value)} />
           </div>
         </div>
@@ -313,26 +361,26 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {type === 'journal' && (
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <OptLabel>Journal name</OptLabel>
+            <OptLabel>{s('journalName')}</OptLabel>
             <input className={inputCls} placeholder="e.g. Nature" value={journal} onChange={(e) => setJournal(e.target.value)} />
           </div>
           <div className="grid grid-cols-3 gap-2">
             <div>
-              <OptLabel>Volume</OptLabel>
+              <OptLabel>{s('volume')}</OptLabel>
               <input className={inputCls} placeholder="12" value={volume} onChange={(e) => setVolume(e.target.value)} />
             </div>
             <div>
-              <OptLabel>Issue</OptLabel>
+              <OptLabel>{s('issue')}</OptLabel>
               <input className={inputCls} placeholder="3" value={issue} onChange={(e) => setIssue(e.target.value)} />
             </div>
             <div>
-              <OptLabel>Pages</OptLabel>
+              <OptLabel>{c('pages')}</OptLabel>
               <input className={inputCls} placeholder="45-61" value={pages} onChange={(e) => setPages(e.target.value)} />
             </div>
           </div>
           <div className="sm:col-span-2">
-            <OptLabel>DOI (optional)</OptLabel>
-            <input className={inputCls} placeholder="10.1038/s41586-023-00001-1" value={doi} onChange={(e) => setDoi(e.target.value)} />
+            <OptLabel>{s('doiOptional')}</OptLabel>
+            <input className={inputCls} dir="ltr" placeholder="10.1038/s41586-023-00001-1" value={doi} onChange={(e) => setDoi(e.target.value)} />
           </div>
         </div>
       )}
@@ -340,16 +388,16 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {type === 'website' && (
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <OptLabel>Site name</OptLabel>
+            <OptLabel>{s('siteName')}</OptLabel>
             <input className={inputCls} placeholder="e.g. BBC News" value={siteName} onChange={(e) => setSiteName(e.target.value)} />
           </div>
           <div>
-            <OptLabel>Date accessed</OptLabel>
+            <OptLabel>{s('dateAccessed')}</OptLabel>
             <input className={inputCls} placeholder="e.g. 20 October 2026" value={accessDate} onChange={(e) => setAccessDate(e.target.value)} />
           </div>
           <div className="sm:col-span-2">
-            <OptLabel>URL</OptLabel>
-            <input className={inputCls} placeholder="https://example.com/article" value={url} onChange={(e) => setUrl(e.target.value)} />
+            <OptLabel>{s('urlLabel')}</OptLabel>
+            <input className={inputCls} dir="ltr" placeholder="https://example.com/article" value={url} onChange={(e) => setUrl(e.target.value)} />
           </div>
         </div>
       )}
@@ -364,13 +412,13 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3">
         <div className="flex items-start justify-between gap-3">
-          <p className="text-sm text-slate-800 dark:text-slate-100 leading-relaxed break-words">{formatted(style) || 'Fill in the fields above to build your citation.'}</p>
+          <p className="text-sm text-slate-800 dark:text-slate-100 leading-relaxed break-words">{formatted(style) || s('citationEmpty')}</p>
           <CopyBtn text={formatted(style)} />
         </div>
       </div>
 
       <div className="space-y-2">
-        <SectionTitle>All styles</SectionTitle>
+        <SectionTitle>{s('allStyles')}</SectionTitle>
         {CITE_STYLES.map((s) => (
           <div key={s.id} className="flex items-start justify-between gap-3 rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-2">
             <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed break-words">
@@ -383,8 +431,7 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <p className="text-xs text-slate-400 leading-relaxed">
-        Note: in a finished reference list, book and journal titles are italicized in APA, MLA, Chicago and Harvard styles. This
-        plain-text output cannot carry italics — italicize the titles yourself after pasting the citation into your document.
+        {s('citationNote')}
       </p>
     </StudentCard>
   );
@@ -395,6 +442,7 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const EssayWordCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const [text, setText] = useState('');
   const [target, setTarget] = useState('');
   const stats = useMemo(() => analyzeEssay(text), [text]);
@@ -403,17 +451,23 @@ export const EssayWordCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const pct = targetNum > 0 ? Math.min(100, Math.round((stats.words / targetNum) * 100)) : 0;
   const diff = targetNum - stats.words;
 
+  // Readability verdict band, recomputed from the Flesch score (lib returns an English string).
+  const gradeKey =
+    stats.flesch >= 90 ? 'gradeVeryEasy' : stats.flesch >= 80 ? 'gradeEasy' : stats.flesch >= 70 ? 'gradeFairlyEasy'
+    : stats.flesch >= 60 ? 'gradeStandard' : stats.flesch >= 50 ? 'gradeFairlyDifficult'
+    : stats.flesch >= 30 ? 'gradeDifficult' : 'gradeVeryDifficult';
+
   return (
-    <StudentCard tool={tool} note="Word count, readability and reading time — counted live">
+    <StudentCard tool={tool} note={s('essayNote')}>
       <textarea
         className={`${inputCls} min-h-[180px] resize-y`}
-        placeholder="Paste or type your essay here…"
+        placeholder={s('essayPlaceholder')}
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
 
       <div className="max-w-xs">
-        <OptLabel>Target word count (optional)</OptLabel>
+        <OptLabel>{s('targetWordCount')}</OptLabel>
         <input className={inputCls} type="number" min="0" placeholder="e.g. 1500" value={target} onChange={(e) => setTarget(e.target.value)} />
       </div>
       {targetNum > 0 && (
@@ -425,31 +479,31 @@ export const EssayWordCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
           </div>
           <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-            {stats.words} of {targetNum} words ({pct}%) — {diff > 0 ? `${diff} words to go` : diff < 0 ? `${Math.abs(diff)} words over` : 'exactly on target'}
+            {s('progressOf').replace('{words}', String(stats.words)).replace('{target}', String(targetNum)).replace('{pct}', String(pct))} — {diff > 0 ? s('wordsToGo').replace('{n}', String(diff)) : diff < 0 ? s('wordsOver').replace('{n}', String(Math.abs(diff))) : s('exactlyOnTarget')}
           </p>
         </div>
       )}
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <Stat label="Words" value={stats.words} />
-        <Stat label="Characters" value={stats.characters} />
-        <Stat label="Chars (no spaces)" value={stats.charactersNoSpaces} />
-        <Stat label="Sentences" value={stats.sentences} />
-        <Stat label="Paragraphs" value={stats.paragraphs} />
-        <Stat label="Reading time (min)" value={stats.readingMinutes} />
-        <Stat label="Speaking time (min)" value={stats.speakingMinutes} />
-        <Stat label="Longest sentence (words)" value={stats.longestSentenceWords} />
+        <Stat label={s('words')} value={stats.words} />
+        <Stat label={s('characters')} value={stats.characters} />
+        <Stat label={s('charsNoSpaces')} value={stats.charactersNoSpaces} />
+        <Stat label={s('sentences')} value={stats.sentences} />
+        <Stat label={s('paragraphs')} value={stats.paragraphs} />
+        <Stat label={s('readingTimeMin')} value={stats.readingMinutes} />
+        <Stat label={s('speakingTimeMin')} value={stats.speakingMinutes} />
+        <Stat label={s('longestSentence')} value={stats.longestSentenceWords} />
       </div>
 
       {stats.words > 0 && (
         <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 text-sm text-slate-700 dark:text-slate-200">
-          Flesch Reading Ease: <span className="font-extrabold">{stats.flesch}</span> — {stats.gradeLevel}
+          Flesch Reading Ease: <span className="font-extrabold">{stats.flesch}</span> — {s(gradeKey)}
         </div>
       )}
 
       {stats.topWords.length > 0 && (
         <div className="space-y-2">
-          <SectionTitle>Most used words</SectionTitle>
+          <SectionTitle>{s('mostUsedWords')}</SectionTitle>
           <div className="flex flex-wrap gap-1.5">
             {stats.topWords.map((w) => (
               <span key={w.word} className="px-2.5 py-1 rounded-full bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 text-xs font-semibold text-teal-800 dark:text-teal-200">
@@ -468,6 +522,7 @@ export const EssayWordCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const [cards, setCards] = useState<Flashcard[]>([
     { front: 'Capital of France', back: 'Paris' },
     { front: 'Chemical symbol for gold', back: 'Au' },
@@ -506,7 +561,7 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const doImport = () => {
     const parsed = parseFlashcardText(importText);
     if (parsed.length === 0) {
-      setImportError('No valid cards found. Use one card per line in the format: front :: back');
+      setImportError(s('importError'));
       return;
     }
     setImportError('');
@@ -540,25 +595,25 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const finished = validCards.length > 0 && pos >= order.length;
 
   return (
-    <StudentCard tool={tool} note="Create, import, export and study flashcards">
+    <StudentCard tool={tool} note={s('flashNote')}>
       <div className="flex flex-wrap gap-2">
-        <button type="button" className={tabCls(mode === 'edit')} onClick={() => setMode('edit')}>Edit cards</button>
-        <button type="button" className={tabCls(mode === 'study')} onClick={() => setMode('study')}>Study mode</button>
+        <button type="button" className={tabCls(mode === 'edit')} onClick={() => setMode('edit')}>{s('editCards')}</button>
+        <button type="button" className={tabCls(mode === 'study')} onClick={() => setMode('study')}>{s('studyMode')}</button>
       </div>
 
       {mode === 'edit' && (
         <div className="space-y-4">
           <div className="space-y-2">
             <div className="hidden sm:grid grid-cols-[1fr_1fr_36px] gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-400 px-0.5">
-              <span>Front (question)</span><span>Back (answer)</span><span />
+              <span>{s('colFront')}</span><span>{s('colBack')}</span><span />
             </div>
             {cards.map((c, i) => (
               <div key={i} className="grid grid-cols-[1fr_1fr_36px] gap-2 items-center">
-                <input className={inputCls} placeholder="Front" value={c.front} onChange={(e) => updateCard(i, { front: e.target.value })} />
-                <input className={inputCls} placeholder="Back" value={c.back} onChange={(e) => updateCard(i, { back: e.target.value })} />
+                <input className={inputCls} placeholder={s('frontPlaceholder')} value={c.front} onChange={(e) => updateCard(i, { front: e.target.value })} />
+                <input className={inputCls} placeholder={s('backPlaceholder')} value={c.back} onChange={(e) => updateCard(i, { back: e.target.value })} />
                 <button
                   type="button"
-                  aria-label="Remove card"
+                  aria-label={s('removeCard')}
                   disabled={cards.length <= 1}
                   onClick={() => removeCard(i)}
                   className="p-2 rounded-lg text-slate-400 hover:text-red-500 disabled:opacity-30"
@@ -572,26 +627,26 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               onClick={() => setCards((prev) => [...prev, { front: '', back: '' }])}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 dark:text-teal-300 hover:underline"
             >
-              <Plus className="w-3.5 h-3.5" /> Add card
+              <Plus className="w-3.5 h-3.5" /> {s('addCard')}
             </button>
           </div>
 
           <div className="space-y-2 border-t border-slate-200 dark:border-slate-700 pt-4">
-            <SectionTitle>Import cards</SectionTitle>
+            <SectionTitle>{s('importCards')}</SectionTitle>
             <textarea
               className={`${inputCls} min-h-[90px] resize-y`}
-              placeholder={'One card per line:\ncapital of Japan :: Tokyo\nH2O is :: water'}
+              placeholder={s('importPlaceholder')}
               value={importText}
               onChange={(e) => setImportText(e.target.value)}
             />
             {importError && <ErrorBox message={importError} />}
-            <PrimaryBtn type="button" onClick={doImport} disabled={!importText.trim()}>Import &amp; replace deck</PrimaryBtn>
+            <PrimaryBtn type="button" onClick={doImport} disabled={!importText.trim()}>{s('importReplace')}</PrimaryBtn>
           </div>
 
           <div className="flex flex-wrap gap-2 border-t border-slate-200 dark:border-slate-700 pt-4">
-            <DownloadBtn content={flashcardsToText(validCards)} filename="flashcards.txt" label="Export .txt" />
-            <DownloadBtn content={JSON.stringify(validCards, null, 2)} filename="flashcards.json" mime="application/json" label="Export .json" />
-            <span className="text-xs text-slate-400 self-center">{validCards.length} complete card{validCards.length === 1 ? '' : 's'}</span>
+            <DownloadBtn content={flashcardsToText(validCards)} filename="flashcards.txt" label={s('exportTxt')} />
+            <DownloadBtn content={JSON.stringify(validCards, null, 2)} filename="flashcards.json" mime="application/json" label={s('exportJson')} />
+            <span className="text-xs text-slate-400 self-center">{s(validCards.length === 1 ? 'cardsCountOne' : 'cardsCountMany').replace('{n}', String(validCards.length))}</span>
           </div>
         </div>
       )}
@@ -599,21 +654,21 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {mode === 'study' && (
         <div className="space-y-4">
           {validCards.length === 0 ? (
-            <p className="text-sm text-slate-500 dark:text-slate-400">Your deck is empty. Switch to Edit cards and add at least one card with both a front and a back.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{s('deckEmpty')}</p>
           ) : finished ? (
             <div className="space-y-3 text-center py-4">
-              <p className="text-lg font-extrabold text-slate-800 dark:text-slate-100">Deck finished</p>
+              <p className="text-lg font-extrabold text-slate-800 dark:text-slate-100">{s('deckFinished')}</p>
               <div className="grid grid-cols-2 gap-2 max-w-xs mx-auto">
-                <Stat label="Know it" value={known} />
-                <Stat label="Still learning" value={learning} />
+                <Stat label={s('knowIt')} value={known} />
+                <Stat label={s('stillLearning')} value={learning} />
               </div>
               <PrimaryBtn type="button" onClick={() => { setPos(0); setFlipped(false); setKnown(0); setLearning(0); }}>
-                <RotateCcw className="w-4 h-4" /> Study again
+                <RotateCcw className="w-4 h-4" /> {s('studyAgain')}
               </PrimaryBtn>
             </div>
           ) : current ? (
             <div className="space-y-3">
-              <p className="text-xs font-semibold text-slate-400 text-center">Card {Math.min(pos + 1, order.length)} / {order.length}</p>
+              <p className="text-xs font-semibold text-slate-400 text-center">{s('cardProgress').replace('{n}', String(Math.min(pos + 1, order.length))).replace('{total}', String(order.length))}</p>
               <button
                 type="button"
                 onClick={() => setFlipped((f) => !f)}
@@ -623,7 +678,7 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     : 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-teal-400'
                 }`}
               >
-                <span className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">{flipped ? 'Answer' : 'Question — click to flip'}</span>
+                <span className="block text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2">{flipped ? s('answerLabel') : s('questionFlip')}</span>
                 <span className="block text-xl font-bold text-slate-800 dark:text-slate-100 leading-relaxed">{flipped ? current.back : current.front}</span>
               </button>
               <div className="flex flex-wrap items-center justify-center gap-2">
@@ -633,7 +688,7 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onClick={() => { setPos((p) => Math.max(0, p - 1)); setFlipped(false); }}
                   className="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 disabled:opacity-40"
                 >
-                  <ChevronLeft className="w-3.5 h-3.5" /> Prev
+                  <ChevronLeft className="w-3.5 h-3.5 rtl:-scale-x-100" /> {s('prev')}
                 </button>
                 <button
                   type="button"
@@ -641,14 +696,14 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onClick={() => { setPos((p) => Math.min(order.length - 1, p + 1)); setFlipped(false); }}
                   className="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 disabled:opacity-40"
                 >
-                  Next <ChevronRight className="w-3.5 h-3.5" />
+                  {s('next')} <ChevronRight className="w-3.5 h-3.5 rtl:-scale-x-100" />
                 </button>
                 <button
                   type="button"
                   onClick={shuffle}
                   className="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200"
                 >
-                  <Shuffle className="w-3.5 h-3.5" /> Shuffle
+                  <Shuffle className="w-3.5 h-3.5" /> {s('shuffle')}
                 </button>
               </div>
               <div className="flex flex-wrap justify-center gap-2">
@@ -657,14 +712,14 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onClick={() => mark(false)}
                   className="px-4 py-2.5 rounded-xl text-sm font-bold bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-800"
                 >
-                  Still learning ({learning})
+                  {s('stillLearningBtn').replace('{n}', String(learning))}
                 </button>
                 <button
                   type="button"
                   onClick={() => mark(true)}
                   className="px-4 py-2.5 rounded-xl text-sm font-bold bg-teal-600 hover:bg-teal-700 text-white"
                 >
-                  Know it ({known})
+                  {s('knowItBtn').replace('{n}', String(known))}
                 </button>
               </div>
             </div>
@@ -679,18 +734,11 @@ export const FlashcardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // 5. Study Planner
 // ---------------------------------------------------------------------------
 
-const REST_DAYS: { value: string; label: string }[] = [
-  { value: '-1', label: 'No rest day' },
-  { value: '0', label: 'Sunday' },
-  { value: '1', label: 'Monday' },
-  { value: '2', label: 'Tuesday' },
-  { value: '3', label: 'Wednesday' },
-  { value: '4', label: 'Thursday' },
-  { value: '5', label: 'Friday' },
-  { value: '6', label: 'Saturday' },
-];
+const REST_DAY_VALUES = ['-1', '0', '1', '2', '3', '4', '5', '6'];
+const REST_DAY_KEYS = ['restNone', 'weekdaySunday', 'weekdayMonday', 'weekdayTuesday', 'weekdayWednesday', 'weekdayThursday', 'weekdayFriday', 'weekdaySaturday'];
 
 export const StudyPlanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const todayISO = new Date().toISOString().slice(0, 10);
   const [startISO, setStartISO] = useState(todayISO);
   const [examISO, setExamISO] = useState(() => {
@@ -707,12 +755,12 @@ export const StudyPlanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const generate = () => {
     const topics = topicsText.split(/\r?\n/).map((t) => t.trim()).filter(Boolean);
     if (!startISO || !examISO || examISO <= startISO) {
-      setError('The exam date must be after the start date.');
+      setError(s('errExamAfterStart'));
       setPlan(null);
       return;
     }
     if (topics.length === 0) {
-      setError('Add at least one topic (one per line).');
+      setError(s('errAddTopic'));
       setPlan(null);
       return;
     }
@@ -726,8 +774,11 @@ export const StudyPlanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     }));
   };
 
+  const kindLabel = (kind: string) => (kind === 'study' ? s('kindStudy') : kind === 'revision' ? s('kindRevision') : s('kindRest'));
+  const weekdayLabel = (name: string) => (WEEKDAY_KEYS[name] ? s(WEEKDAY_KEYS[name]) : name);
+
   const planText = plan
-    ? plan.map((d) => `${d.date} (${d.weekday}) — ${d.kind.toUpperCase()}\n${d.items.map((i) => `  - ${i}`).join('\n') || '  - Rest day'}`).join('\n\n')
+    ? plan.map((d) => `${d.date} (${weekdayLabel(d.weekday)}) — ${kindLabel(d.kind).toUpperCase()}\n${d.items.map((i) => `  - ${i}`).join('\n') || `  - ${s('planRestLine')}`}`).join('\n\n')
     : '';
 
   const kindChip = (kind: string) =>
@@ -738,31 +789,31 @@ export const StudyPlanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-600';
 
   return (
-    <StudentCard tool={tool} note="A day-by-day plan from today to exam day">
+    <StudentCard tool={tool} note={s('planNote')}>
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Start date</OptLabel>
+          <OptLabel>{s('startDate')}</OptLabel>
           <input className={inputCls} type="date" value={startISO} onChange={(e) => setStartISO(e.target.value)} />
         </div>
         <div>
-          <OptLabel>Exam date</OptLabel>
+          <OptLabel>{s('examDate')}</OptLabel>
           <input className={inputCls} type="date" value={examISO} onChange={(e) => setExamISO(e.target.value)} />
         </div>
         <div>
-          <OptLabel>Weekly rest day</OptLabel>
+          <OptLabel>{s('weeklyRestDay')}</OptLabel>
           <OptSelect value={restDay} onChange={(e) => setRestDay(e.target.value)}>
-            {REST_DAYS.map((d) => (
-              <option key={d.value} value={d.value}>{d.label}</option>
+            {REST_DAY_VALUES.map((v, i) => (
+              <option key={v} value={v}>{s(REST_DAY_KEYS[i])}</option>
             ))}
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Revision days before exam</OptLabel>
+          <OptLabel>{s('revisionDaysLabel')}</OptLabel>
           <input className={inputCls} type="number" min="0" step="1" value={revisionDays} onChange={(e) => setRevisionDays(e.target.value)} />
         </div>
       </div>
       <div>
-        <OptLabel>Topics (one per line)</OptLabel>
+        <OptLabel>{s('topicsLabel')}</OptLabel>
         <textarea
           className={`${inputCls} min-h-[110px] resize-y`}
           placeholder={'Algebra basics\nCell biology\nWorld War II causes'}
@@ -772,8 +823,8 @@ export const StudyPlanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
       {error && <ErrorBox message={error} />}
       <div className="flex flex-wrap gap-2 items-center">
-        <PrimaryBtn type="button" onClick={generate}>Generate plan</PrimaryBtn>
-        {plan && <DownloadBtn content={planText} filename="study-plan.txt" label="Download plan (.txt)" />}
+        <PrimaryBtn type="button" onClick={generate}>{s('generatePlan')}</PrimaryBtn>
+        {plan && <DownloadBtn content={planText} filename="study-plan.txt" label={s('downloadPlan')} />}
       </div>
 
       {plan && (
@@ -782,19 +833,19 @@ export const StudyPlanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <div key={d.date} className="rounded-xl border border-slate-200 dark:border-slate-700 px-4 py-3">
               <div className="flex flex-wrap items-center gap-2 mb-1.5">
                 <span className="text-sm font-bold text-slate-800 dark:text-slate-100">{d.date}</span>
-                <span className="text-xs text-slate-400">{d.weekday}</span>
+                <span className="text-xs text-slate-400">{weekdayLabel(d.weekday)}</span>
                 <span className={`px-2 py-0.5 rounded-full border text-[10px] font-bold uppercase tracking-wide ${kindChip(d.kind)}`}>
-                  {d.kind === 'study' ? 'Study' : d.kind === 'revision' ? 'Revision' : 'Rest'}
+                  {kindLabel(d.kind)}
                 </span>
               </div>
               {d.items.length > 0 ? (
-                <ul className="list-disc pl-5 space-y-0.5 text-sm text-slate-600 dark:text-slate-300">
+                <ul className="list-disc ps-5 space-y-0.5 text-sm text-slate-600 dark:text-slate-300">
                   {d.items.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-slate-400">Rest day — no studying scheduled.</p>
+                <p className="text-sm text-slate-400">{s('planRestText')}</p>
               )}
             </div>
           ))}
@@ -822,6 +873,7 @@ const CATEGORY_STYLES: Record<ElementCategory, string> = {
 };
 
 export const PeriodicTable: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<ChemElement>(() => ELEMENTS.find((e) => e.n === 26) ?? ELEMENTS[0]);
 
@@ -832,16 +884,16 @@ export const PeriodicTable: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const byNumber = (n: number) => ELEMENTS.find((e) => e.n === n);
 
   return (
-    <StudentCard tool={tool} note="All 118 elements — click any element for details">
+    <StudentCard tool={tool} note={s('ptNote')}>
       <div className="max-w-sm">
-        <OptLabel>Search by name, symbol or atomic number</OptLabel>
+        <OptLabel>{s('ptSearchLabel')}</OptLabel>
         <input className={inputCls} placeholder="e.g. iron, Fe, 26" value={query} onChange={(e) => setQuery(e.target.value)} />
       </div>
 
       <div className="flex flex-wrap gap-1.5">
-        {(Object.keys(CATEGORY_LABELS) as ElementCategory[]).map((cat) => (
+        {(Object.keys(CAT_KEYS) as ElementCategory[]).map((cat) => (
           <span key={cat} className={`px-2 py-0.5 rounded-full border text-[10px] font-bold ${CATEGORY_STYLES[cat]}`}>
-            {CATEGORY_LABELS[cat]}
+            {s(CAT_KEYS[cat])}
           </span>
         ))}
       </div>
@@ -856,14 +908,14 @@ export const PeriodicTable: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             style={{ gridColumn: 3, gridRow: 6 }}
           >
             <span className="text-[10px] font-extrabold">57–71</span>
-            <span className="text-[8px] truncate w-full text-center">Lanthanides</span>
+            <span className="text-[8px] truncate w-full text-center">{s('lanthanidesPlural')}</span>
           </div>
           <div
             className={`rounded-md border flex flex-col items-center justify-center p-1 leading-tight ${CATEGORY_STYLES.actinide}`}
             style={{ gridColumn: 3, gridRow: 7 }}
           >
             <span className="text-[10px] font-extrabold">89–103</span>
-            <span className="text-[8px] truncate w-full text-center">Actinides</span>
+            <span className="text-[8px] truncate w-full text-center">{s('actinidesPlural')}</span>
           </div>
           {ELEMENTS.map((el) => (
             <button
@@ -886,7 +938,7 @@ export const PeriodicTable: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       <div className="rounded-xl border border-slate-200 dark:border-slate-700 px-4 py-4">
         <div className="flex flex-wrap items-center gap-4">
           <div className={`w-20 h-20 shrink-0 rounded-xl border flex flex-col items-center justify-center ${CATEGORY_STYLES[selected.category]}`}>
-            <span className="text-[10px] font-semibold self-start pl-2">{selected.n}</span>
+            <span className="text-[10px] font-semibold self-start ps-2">{selected.n}</span>
             <span className="text-3xl font-extrabold leading-none">{selected.symbol}</span>
             <span className="text-[9px] mt-0.5">{selected.mass}</span>
           </div>
@@ -896,33 +948,33 @@ export const PeriodicTable: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               <div className="flex gap-1">
                 <button
                   type="button"
-                  aria-label="Previous element"
+                  aria-label={s('prevElement')}
                   disabled={selected.n <= 1}
                   onClick={() => { const prev = byNumber(selected.n - 1); if (prev) setSelected(prev); }}
                   className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-500 disabled:opacity-30"
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-4 h-4 rtl:-scale-x-100" />
                 </button>
                 <button
                   type="button"
-                  aria-label="Next element"
+                  aria-label={s('nextElement')}
                   disabled={selected.n >= 118}
                   onClick={() => { const next = byNumber(selected.n + 1); if (next) setSelected(next); }}
                   className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-500 disabled:opacity-30"
                 >
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4 rtl:-scale-x-100" />
                 </button>
               </div>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <Stat label="Atomic number" value={selected.n} />
-              <Stat label="Atomic mass" value={selected.mass} />
-              <Stat label="Group" value={selected.period >= 9 ? 'f-block' : selected.group} />
-              <Stat label="Period" value={selected.period >= 9 ? (selected.period === 9 ? 6 : 7) : selected.period} />
+              <Stat label={s('atomicNumber')} value={selected.n} />
+              <Stat label={s('atomicMass')} value={selected.mass} />
+              <Stat label={s('groupLabel')} value={selected.period >= 9 ? 'f-block' : selected.group} />
+              <Stat label={s('periodLabel')} value={selected.period >= 9 ? (selected.period === 9 ? 6 : 7) : selected.period} />
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Category: <span className="font-bold text-slate-700 dark:text-slate-200">{CATEGORY_LABELS[selected.category]}</span>
-              {selected.period >= 9 ? ' — shown in the f-block rows below the main table.' : ''}
+              {s('categoryLabel')}: <span className="font-bold text-slate-700 dark:text-slate-200">{s(CAT_KEYS[selected.category])}</span>
+              {selected.period >= 9 ? s('fBlockShown') : ''}
             </p>
           </div>
         </div>
@@ -935,15 +987,8 @@ export const PeriodicTable: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // 7. Equation Solver
 // ---------------------------------------------------------------------------
 
-const QUAD_KIND_LABELS: Record<string, string> = {
-  'two-real': 'Two real roots',
-  'one-real': 'One repeated root',
-  complex: 'Complex roots',
-  linear: 'Linear equation (a = 0)',
-  invalid: 'Not an equation in x',
-};
-
 export const EquationSolver: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const [qa, setQa] = useState('1');
   const [qb, setQb] = useState('-3');
   const [qc, setQc] = useState('2');
@@ -956,9 +1001,9 @@ export const EquationSolver: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const lin = useMemo(() => solveLinear(num(la), num(lb), num(lc), num(ld)), [la, lb, lc, ld]);
 
   const stepsList = (steps: string[]) => (
-    <ol className="list-decimal pl-5 space-y-1 text-sm text-slate-600 dark:text-slate-300">
-      {steps.map((s, i) => (
-        <li key={i}>{s}</li>
+    <ol dir="ltr" className="list-decimal ps-5 space-y-1 text-sm text-slate-600 dark:text-slate-300">
+      {steps.map((step, i) => (
+        <li key={i}>{step}</li>
       ))}
     </ol>
   );
@@ -971,23 +1016,23 @@ export const EquationSolver: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   );
 
   return (
-    <StudentCard tool={tool} note="Quadratic and linear equations with worked steps">
+    <StudentCard tool={tool} note={s('eqNote')}>
       <div className="space-y-3">
-        <SectionTitle>Quadratic: ax² + bx + c = 0</SectionTitle>
+        <SectionTitle><span dir="ltr">{s('quadTitle')}</span></SectionTitle>
         <div className="grid grid-cols-3 gap-3 max-w-md">
           {coefInput(qa, setQa, 'a')}
           {coefInput(qb, setQb, 'b')}
           {coefInput(qc, setQc, 'c')}
         </div>
-        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+        <p dir="ltr" className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-start">
           {num(qa)}x² + {num(qb)}x + {num(qc)} = 0
         </p>
         <div className="grid grid-cols-2 gap-2 max-w-md">
-          <Stat label="Discriminant" value={Math.round(quad.discriminant * 1e6) / 1e6} />
-          <Stat label="Type" value={QUAD_KIND_LABELS[quad.kind]} />
+          <Stat label={s('discriminant')} value={Math.round(quad.discriminant * 1e6) / 1e6} />
+          <Stat label={s('typeLabel')} value={QUAD_KIND_KEYS[quad.kind] ? s(QUAD_KIND_KEYS[quad.kind]) : quad.kind} />
         </div>
         {quad.x1 !== undefined && (
-          <div className="rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 px-4 py-3 text-sm font-bold text-teal-800 dark:text-teal-200">
+          <div dir="ltr" className="rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 px-4 py-3 text-sm font-bold text-teal-800 dark:text-teal-200 text-left">
             x₁ = {quad.x1}{quad.x2 !== undefined ? `   ·   x₂ = ${quad.x2}` : ''}
           </div>
         )}
@@ -995,20 +1040,20 @@ export const EquationSolver: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <div className="space-y-3 border-t border-slate-200 dark:border-slate-700 pt-4">
-        <SectionTitle>Linear: ax + b = cx + d</SectionTitle>
+        <SectionTitle><span dir="ltr">{s('linTitle')}</span></SectionTitle>
         <div className="grid grid-cols-4 gap-3 max-w-lg">
           {coefInput(la, setLa, 'a')}
           {coefInput(lb, setLb, 'b')}
           {coefInput(lc, setLc, 'c')}
           {coefInput(ld, setLd, 'd')}
         </div>
-        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+        <p dir="ltr" className="text-sm font-semibold text-slate-700 dark:text-slate-200 text-start">
           {num(la)}x + {num(lb)} = {num(lc)}x + {num(ld)}
         </p>
         <div className="rounded-xl bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 px-4 py-3 text-sm font-bold text-teal-800 dark:text-teal-200">
-          {lin.kind === 'one' && `x = ${lin.x}`}
-          {lin.kind === 'none' && 'No solution — the equation can never be true.'}
-          {lin.kind === 'infinite' && 'Infinitely many solutions — both sides are always equal.'}
+          {lin.kind === 'one' && <span dir="ltr">x = {lin.x}</span>}
+          {lin.kind === 'none' && s('linNoSolution')}
+          {lin.kind === 'infinite' && s('linInfinite')}
         </div>
         {stepsList(lin.steps)}
       </div>
@@ -1052,6 +1097,7 @@ function parseQuiz(raw: string): ParsedQuestion[] {
 const LETTERS = ['A', 'B', 'C', 'D'];
 
 export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(STUDENT_STRINGS);
   const { busy, error, result, run, keyReady } = useAiText();
   const [material, setMaterial] = useState('');
   const [count, setCount] = useState('10');
@@ -1092,13 +1138,13 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     : 0;
 
   return (
-    <StudentCard tool={tool} note="Turn your notes into a practice quiz with AI">
+    <StudentCard tool={tool} note={s('quizNote')}>
       {!keyReady && <MissingKeyNotice />}
       <div>
-        <OptLabel>Your study material (notes, a chapter, an article…)</OptLabel>
+        <OptLabel>{s('studyMaterialLabel')}</OptLabel>
         <AiTextarea
           rows={8}
-          placeholder="Paste the text you want to be quizzed on…"
+          placeholder={s('quizMaterialPlaceholder')}
           value={material}
           onChange={(e) => setMaterial(e.target.value)}
           disabled={!keyReady}
@@ -1106,7 +1152,7 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
       <div className="grid grid-cols-2 gap-3 max-w-md">
         <div>
-          <OptLabel>Questions</OptLabel>
+          <OptLabel>{s('questionsLabel')}</OptLabel>
           <OptSelect value={count} onChange={(e) => setCount(e.target.value)} disabled={!keyReady}>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -1114,22 +1160,22 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Difficulty</OptLabel>
+          <OptLabel>{s('difficultyLabel')}</OptLabel>
           <OptSelect value={difficulty} onChange={(e) => setDifficulty(e.target.value)} disabled={!keyReady}>
-            <option>Easy</option>
-            <option>Medium</option>
-            <option>Hard</option>
+            <option value="Easy">{s('diffEasy')}</option>
+            <option value="Medium">{s('diffMedium')}</option>
+            <option value="Hard">{s('diffHard')}</option>
           </OptSelect>
         </div>
       </div>
       <PrimaryBtn type="button" onClick={generate} disabled={busy || !keyReady || !material.trim()}>
-        {busy ? 'Generating…' : 'Generate quiz'}
+        {busy ? s('generating') : s('generateQuiz')}
       </PrimaryBtn>
       {error && <ErrorBox message={error} />}
 
       {parseFailed && (
         <div className="space-y-2">
-          <ErrorBox message="The AI reply could not be turned into a quiz automatically. Here is the raw output — you can still study from it, or generate again." />
+          <ErrorBox message={s('parseFailedMsg')} />
           <pre className="whitespace-pre-wrap text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 max-h-80 overflow-y-auto">{result}</pre>
         </div>
       )}
@@ -1142,7 +1188,7 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 {score} / {questions.length}
               </span>
               <span className="block text-xs font-semibold text-teal-600 dark:text-teal-400">
-                {Math.round((score / questions.length) * 100)}% correct
+                {s('pctCorrect').replace('{pct}', String(Math.round((score / questions.length) * 100)))}
               </span>
             </div>
           )}
@@ -1173,7 +1219,7 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                         type="button"
                         disabled={checked}
                         onClick={() => setAnswers((prev) => ({ ...prev, [qi]: letter }))}
-                        className={`w-full text-left px-3 py-2 rounded-lg border text-sm font-semibold transition-colors ${cls}`}
+                        className={`w-full text-start px-3 py-2 rounded-lg border text-sm font-semibold transition-colors ${cls}`}
                       >
                         {letter}) {opt}
                       </button>
@@ -1183,8 +1229,8 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 {checked && (
                   <p className={`text-xs font-bold ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                     {isCorrect
-                      ? 'Correct'
-                      : `Wrong — correct answer: ${q.answer}) ${q.options[LETTERS.indexOf(q.answer)]}`}
+                      ? s('correctLabel')
+                      : s('wrongCorrect').replace('{letter}', q.answer).replace('{option}', q.options[LETTERS.indexOf(q.answer)])}
                   </p>
                 )}
               </div>
@@ -1192,13 +1238,13 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           })}
           <div className="flex flex-wrap gap-2">
             {!checked ? (
-              <PrimaryBtn type="button" onClick={() => setChecked(true)}>Check answers</PrimaryBtn>
+              <PrimaryBtn type="button" onClick={() => setChecked(true)}>{s('checkAnswers')}</PrimaryBtn>
             ) : (
               <PrimaryBtn
                 type="button"
                 onClick={() => { setAnswers({}); setChecked(false); }}
               >
-                <RotateCcw className="w-4 h-4" /> Retake quiz
+                <RotateCcw className="w-4 h-4" /> {s('retakeQuiz')}
               </PrimaryBtn>
             )}
           </div>

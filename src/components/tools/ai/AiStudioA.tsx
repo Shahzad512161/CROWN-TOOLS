@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import type { ToolItem } from '../../../lib/tools-data';
+import { useStrings, COMMON } from '../../../lib/LangContext';
+import { AI_STRINGS } from '../../../lib/strings/ai';
 import {
   AiCard,
   AiOutput,
@@ -19,12 +21,12 @@ import {
 
 const countWords = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
 
-const KEY_SUFFIX = ' — add API key first';
-
 /* ================================================================
    1. AI Writer — generate content from a topic
    ================================================================ */
 export const AiWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(AI_STRINGS);
+  const c = useStrings(COMMON);
   const { busy, error, result, run, keyReady } = useAiText();
   const [topic, setTopic] = useState('');
   const [type, setType] = useState('Blog intro');
@@ -43,7 +45,7 @@ export const AiWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   const generate = async () => {
-    if (!topic.trim()) { setLocalError('Enter a topic first.'); return; }
+    if (!topic.trim()) { setLocalError(s('enterTopicFirst')); return; }
     setLocalError('');
     const headingsRule = type === 'Full blog post'
       ? 'You may use a short title on the first line and short plain-text section headings on their own lines.'
@@ -59,47 +61,47 @@ export const AiWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <AiCard tool={tool} note="Drafts come from Google Gemini and can contain factual errors — review and edit before publishing. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note={s('writerNote')}>
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
         <div>
-          <OptLabel>Topic</OptLabel>
-          <OptInput value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. Benefits of rooftop gardening for beginners" />
+          <OptLabel>{s('topic')}</OptLabel>
+          <OptInput value={topic} onChange={(e) => setTopic(e.target.value)} placeholder={s('writerTopicPlaceholder')} />
         </div>
         <div className="grid sm:grid-cols-3 gap-3">
           <div>
-            <OptLabel>Content type</OptLabel>
+            <OptLabel>{s('contentType')}</OptLabel>
             <OptSelect value={type} onChange={(e) => setType(e.target.value)}>
-              <option>Blog intro</option>
-              <option>Full blog post</option>
-              <option>Product description</option>
-              <option>Social post</option>
-              <option>Essay paragraph</option>
-              <option>Story opening</option>
+              <option value="Blog intro">{s('writerTypeBlogIntro')}</option>
+              <option value="Full blog post">{s('writerTypeFullPost')}</option>
+              <option value="Product description">{s('writerTypeProductDesc')}</option>
+              <option value="Social post">{s('writerTypeSocialPost')}</option>
+              <option value="Essay paragraph">{s('writerTypeEssay')}</option>
+              <option value="Story opening">{s('writerTypeStoryOpening')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Tone</OptLabel>
+            <OptLabel>{s('tone')}</OptLabel>
             <OptSelect value={tone} onChange={(e) => setTone(e.target.value)}>
-              <option>Professional</option>
-              <option>Friendly</option>
-              <option>Persuasive</option>
-              <option>Casual</option>
-              <option>Formal</option>
+              <option value="Professional">{s('toneProfessional')}</option>
+              <option value="Friendly">{s('toneFriendly')}</option>
+              <option value="Persuasive">{s('tonePersuasive')}</option>
+              <option value="Casual">{s('toneCasual')}</option>
+              <option value="Formal">{s('toneFormal')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Length</OptLabel>
+            <OptLabel>{s('length')}</OptLabel>
             <OptSelect value={length} onChange={(e) => setLength(e.target.value)}>
-              <option>Short (~100 words)</option>
-              <option>Medium (~250 words)</option>
-              <option>Long (~500 words)</option>
+              <option value="Short (~100 words)">{s('writerLenShort')}</option>
+              <option value="Medium (~250 words)">{s('writerLenMedium')}</option>
+              <option value="Long (~500 words)">{s('writerLenLong')}</option>
             </OptSelect>
           </div>
         </div>
         <div>
           <PrimaryBtn disabled={!keyReady || busy} onClick={generate}>
-            {busy ? 'Generating…' : `Generate${keyReady ? '' : KEY_SUFFIX}`}
+            {busy ? s('generating') : `${c('generate')}${keyReady ? '' : s('addKeySuffix')}`}
           </PrimaryBtn>
         </div>
         {localError && <ErrorBox message={localError} />}
@@ -114,6 +116,8 @@ export const AiWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    2. AI Paraphraser — rewrite text in a chosen mode
    ================================================================ */
 export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(AI_STRINGS);
+  const c = useStrings(COMMON);
   const { busy, error, result, run, keyReady } = useAiText();
   const [text, setText] = useState('');
   const [mode, setMode] = useState('Standard rewrite');
@@ -130,7 +134,7 @@ export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   const generate = async () => {
-    if (!text.trim()) { setLocalError('Paste some text to paraphrase first.'); return; }
+    if (!text.trim()) { setLocalError(s('paraphraseEmpty')); return; }
     setLocalError('');
     await run(
       `Paraphrase the text below. ${modeInstruction[mode]}\n\n` +
@@ -141,30 +145,32 @@ export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <AiCard tool={tool} note="The AI preserves meaning and facts, but always re-read the rewrite — nuanced or technical wording can shift slightly. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note={s('paraphraserNote')}>
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
         <div>
-          <OptLabel>Your text</OptLabel>
-          <AiTextarea rows={7} value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the text you want rewritten…" />
-          <p className="text-[11px] text-gray-500 mt-1">{countWords(text)} words · {text.length} characters</p>
+          <OptLabel>{c('yourText')}</OptLabel>
+          <AiTextarea rows={7} value={text} onChange={(e) => setText(e.target.value)} placeholder={s('paraphrasePlaceholder')} />
+          <p className="text-[11px] text-gray-500 mt-1">
+            {s('wordsChars').replace('{words}', String(countWords(text))).replace('{chars}', String(text.length))}
+          </p>
         </div>
         <div className="grid sm:grid-cols-2 gap-3 items-end">
           <div>
-            <OptLabel>Rewrite mode</OptLabel>
+            <OptLabel>{s('rewriteMode')}</OptLabel>
             <OptSelect value={mode} onChange={(e) => setMode(e.target.value)}>
-              <option>Standard rewrite</option>
-              <option>Fluency</option>
-              <option>Formal</option>
-              <option>Simple</option>
-              <option>Creative</option>
-              <option>Shorten</option>
-              <option>Expand</option>
+              <option value="Standard rewrite">{s('modeStandard')}</option>
+              <option value="Fluency">{s('modeFluency')}</option>
+              <option value="Formal">{s('modeFormal')}</option>
+              <option value="Simple">{s('modeSimple')}</option>
+              <option value="Creative">{s('modeCreative')}</option>
+              <option value="Shorten">{s('modeShorten')}</option>
+              <option value="Expand">{s('modeExpand')}</option>
             </OptSelect>
           </div>
           <div>
             <PrimaryBtn disabled={!keyReady || busy} onClick={generate} className="w-full sm:w-auto">
-              {busy ? 'Generating…' : `Paraphrase${keyReady ? '' : KEY_SUFFIX}`}
+              {busy ? s('generating') : `${s('paraphraseBtn')}${keyReady ? '' : s('addKeySuffix')}`}
             </PrimaryBtn>
           </div>
         </div>
@@ -173,8 +179,8 @@ export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {result && (
           <>
             <div className="grid grid-cols-2 gap-3 mt-1">
-              <Stat label="Input words" value={countWords(text)} />
-              <Stat label="Output words" value={countWords(result)} />
+              <Stat label={s('inputWords')} value={countWords(text)} />
+              <Stat label={s('outputWords')} value={countWords(result)} />
             </div>
             <AiOutput text={result} filename="paraphrased.txt" />
           </>
@@ -188,12 +194,14 @@ export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    3. AI Grammar Checker — corrected text + list of changes
    ================================================================ */
 export const AiGrammarChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(AI_STRINGS);
+  const c = useStrings(COMMON);
   const { busy, error, result, run, keyReady } = useAiText();
   const [text, setText] = useState('');
   const [localError, setLocalError] = useState('');
 
   const generate = async () => {
-    if (!text.trim()) { setLocalError('Paste some text to check first.'); return; }
+    if (!text.trim()) { setLocalError(s('grammarEmpty')); return; }
     setLocalError('');
     await run(
       'Correct the grammar, spelling and punctuation of the text below. ' +
@@ -211,17 +219,19 @@ export const AiGrammarChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     : [];
 
   return (
-    <AiCard tool={tool} note="The checker fixes clear errors and lists the big changes, but it may occasionally 'correct' an intentional style choice — keep the final say yourself. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note={s('grammarNote')}>
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
         <div>
-          <OptLabel>Your text</OptLabel>
-          <AiTextarea rows={7} value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste the text you want checked…" />
-          <p className="text-[11px] text-gray-500 mt-1">{countWords(text)} words · {text.length} characters</p>
+          <OptLabel>{c('yourText')}</OptLabel>
+          <AiTextarea rows={7} value={text} onChange={(e) => setText(e.target.value)} placeholder={s('grammarPlaceholder')} />
+          <p className="text-[11px] text-gray-500 mt-1">
+            {s('wordsChars').replace('{words}', String(countWords(text))).replace('{chars}', String(text.length))}
+          </p>
         </div>
         <div>
           <PrimaryBtn disabled={!keyReady || busy} onClick={generate}>
-            {busy ? 'Generating…' : `Check grammar${keyReady ? '' : KEY_SUFFIX}`}
+            {busy ? s('generating') : `${s('checkGrammar')}${keyReady ? '' : s('addKeySuffix')}`}
           </PrimaryBtn>
         </div>
         {localError && <ErrorBox message={localError} />}
@@ -232,7 +242,7 @@ export const AiGrammarChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <AiOutput text={corrected} filename="corrected.txt" />
             {changes.length > 0 && (
               <div className="mt-3">
-                <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">What changed</p>
+                <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('whatChanged')}</p>
                 <ul className="bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 rounded-xl px-4 py-3 space-y-1">
                   {changes.map((c, i) => (
                     <li key={i} className="text-xs text-gray-800 dark:text-gray-200 leading-relaxed">{c}</li>
@@ -251,6 +261,7 @@ export const AiGrammarChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    4. AI Text Summarizer
    ================================================================ */
 export const AiTextSummarizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(AI_STRINGS);
   const { busy, error, result, run, keyReady } = useAiText();
   const [text, setText] = useState('');
   const [style, setStyle] = useState('Short paragraph');
@@ -265,7 +276,7 @@ export const AiTextSummarizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   const generate = async () => {
-    if (!text.trim()) { setLocalError('Paste some text to summarize first.'); return; }
+    if (!text.trim()) { setLocalError(s('summarizeEmpty')); return; }
     setLocalError('');
     await run(
       `Summarize the text below. ${styleInstruction[style]}\n\n` +
@@ -276,28 +287,30 @@ export const AiTextSummarizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <AiCard tool={tool} note="Summaries compress aggressively and can drop nuance or caveats from the source — check the original before acting on details. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note={s('summarizerNote')}>
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
         <div>
-          <OptLabel>Text to summarize</OptLabel>
-          <AiTextarea rows={8} value={text} onChange={(e) => setText(e.target.value)} placeholder="Paste an article, report, notes…" />
-          <p className="text-[11px] text-gray-500 mt-1">{countWords(text)} words · {text.length} characters</p>
+          <OptLabel>{s('textToSummarize')}</OptLabel>
+          <AiTextarea rows={8} value={text} onChange={(e) => setText(e.target.value)} placeholder={s('summarizePlaceholder')} />
+          <p className="text-[11px] text-gray-500 mt-1">
+            {s('wordsChars').replace('{words}', String(countWords(text))).replace('{chars}', String(text.length))}
+          </p>
         </div>
         <div className="grid sm:grid-cols-2 gap-3 items-end">
           <div>
-            <OptLabel>Summary style</OptLabel>
+            <OptLabel>{s('summaryStyle')}</OptLabel>
             <OptSelect value={style} onChange={(e) => setStyle(e.target.value)}>
-              <option>Short paragraph</option>
-              <option>Detailed summary</option>
-              <option>Bullet points</option>
-              <option>Key takeaways</option>
-              <option>Explain simply</option>
+              <option value="Short paragraph">{s('styleShortPara')}</option>
+              <option value="Detailed summary">{s('styleDetailed')}</option>
+              <option value="Bullet points">{s('styleBullets')}</option>
+              <option value="Key takeaways">{s('styleTakeaways')}</option>
+              <option value="Explain simply">{s('styleExplainSimply')}</option>
             </OptSelect>
           </div>
           <div>
             <PrimaryBtn disabled={!keyReady || busy} onClick={generate} className="w-full sm:w-auto">
-              {busy ? 'Generating…' : `Summarize${keyReady ? '' : KEY_SUFFIX}`}
+              {busy ? s('generating') : `${s('summarizeBtn')}${keyReady ? '' : s('addKeySuffix')}`}
             </PrimaryBtn>
           </div>
         </div>
@@ -313,12 +326,13 @@ export const AiTextSummarizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    5. AI Translator — translates text from any language into English
    ================================================================ */
 export const AiTranslator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(AI_STRINGS);
   const { busy, error, result, run, keyReady } = useAiText();
   const [text, setText] = useState('');
   const [localError, setLocalError] = useState('');
 
   const generate = async () => {
-    if (!text.trim()) { setLocalError('Enter some text to translate first.'); return; }
+    if (!text.trim()) { setLocalError(s('translatorEmpty')); return; }
     setLocalError('');
     await run(
       `Detect the language of the text below automatically and translate it into natural, fluent English.\n\n` +
@@ -329,17 +343,19 @@ export const AiTranslator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <AiCard tool={tool} note="Translates text from any language into English. AI translation handles everyday text well, but idioms, poetry and legal/medical wording can come out wrong — have a fluent speaker review anything important. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note={s('translatorNote')}>
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
         <div>
-          <OptLabel>Text to translate into English</OptLabel>
-          <AiTextarea rows={6} value={text} onChange={(e) => setText(e.target.value)} placeholder="Type or paste text in any language…" />
-          <p className="text-[11px] text-gray-500 mt-1">{countWords(text)} words · {text.length} characters</p>
+          <OptLabel>{s('textToTranslate')}</OptLabel>
+          <AiTextarea rows={6} value={text} onChange={(e) => setText(e.target.value)} placeholder={s('translatorPlaceholder')} />
+          <p className="text-[11px] text-gray-500 mt-1">
+            {s('wordsChars').replace('{words}', String(countWords(text))).replace('{chars}', String(text.length))}
+          </p>
         </div>
         <div>
           <PrimaryBtn disabled={!keyReady || busy} onClick={generate}>
-            {busy ? 'Generating…' : `Translate to English${keyReady ? '' : KEY_SUFFIX}`}
+            {busy ? s('generating') : `${s('translateToEnglish')}${keyReady ? '' : s('addKeySuffix')}`}
           </PrimaryBtn>
         </div>
         {localError && <ErrorBox message={localError} />}
@@ -354,6 +370,7 @@ export const AiTranslator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    6. AI Story Generator
    ================================================================ */
 export const AiStoryGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(AI_STRINGS);
   const { busy, error, result, run, keyReady } = useAiText();
   const [genre, setGenre] = useState('Fantasy');
   const [hero, setHero] = useState('');
@@ -365,7 +382,7 @@ export const AiStoryGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const wordTarget = length.startsWith('Flash') ? 300 : length.startsWith('Longer') ? 1200 : 700;
 
   const generate = async () => {
-    if (!hero.trim()) { setLocalError("Enter your hero's name first."); return; }
+    if (!hero.trim()) { setLocalError(s('storyHeroEmpty')); return; }
     setLocalError('');
     await run(
       `Write a ${genre} story.\n\n` +
@@ -379,44 +396,44 @@ export const AiStoryGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <AiCard tool={tool} note="Stories are original AI drafts — great for inspiration and first drafts, but characters and plots can feel familiar; make them your own in the edit. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note={s('storyNote')}>
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <OptLabel>Genre</OptLabel>
+            <OptLabel>{s('genre')}</OptLabel>
             <OptSelect value={genre} onChange={(e) => setGenre(e.target.value)}>
-              <option>Fantasy</option>
-              <option>Sci-Fi</option>
-              <option>Mystery</option>
-              <option>Romance</option>
-              <option>Horror</option>
-              <option>Adventure</option>
-              <option>Comedy</option>
-              <option>Children's</option>
+              <option value="Fantasy">{s('genreFantasy')}</option>
+              <option value="Sci-Fi">{s('genreSciFi')}</option>
+              <option value="Mystery">{s('genreMystery')}</option>
+              <option value="Romance">{s('genreRomance')}</option>
+              <option value="Horror">{s('genreHorror')}</option>
+              <option value="Adventure">{s('genreAdventure')}</option>
+              <option value="Comedy">{s('genreComedy')}</option>
+              <option value="Children's">{s('genreChildrens')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Length</OptLabel>
+            <OptLabel>{s('length')}</OptLabel>
             <OptSelect value={length} onChange={(e) => setLength(e.target.value)}>
-              <option>Flash (~300 words)</option>
-              <option>Short story (~700 words)</option>
-              <option>Longer (~1200 words)</option>
+              <option value="Flash (~300 words)">{s('storyLenFlash')}</option>
+              <option value="Short story (~700 words)">{s('storyLenShort')}</option>
+              <option value="Longer (~1200 words)">{s('storyLenLonger')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Hero's name</OptLabel>
-            <OptInput value={hero} onChange={(e) => setHero(e.target.value)} placeholder="e.g. Zara Ahmed" />
+            <OptLabel>{s('heroName')}</OptLabel>
+            <OptInput value={hero} onChange={(e) => setHero(e.target.value)} placeholder={s('heroNamePlaceholder')} />
           </div>
           <div>
-            <OptLabel>Setting (optional)</OptLabel>
-            <OptInput value={setting} onChange={(e) => setSetting(e.target.value)} placeholder="e.g. A floating city above the Karakoram mountains" />
+            <OptLabel>{s('settingOptional')}</OptLabel>
+            <OptInput value={setting} onChange={(e) => setSetting(e.target.value)} placeholder={s('settingPlaceholder')} />
           </div>
         </div>
-        <OptCheck label="Add a plot twist" checked={twist} onChange={setTwist} />
+        <OptCheck label={s('addPlotTwist')} checked={twist} onChange={setTwist} />
         <div>
           <PrimaryBtn disabled={!keyReady || busy} onClick={generate}>
-            {busy ? 'Generating…' : `Write story${keyReady ? '' : KEY_SUFFIX}`}
+            {busy ? s('generating') : `${s('writeStory')}${keyReady ? '' : s('addKeySuffix')}`}
           </PrimaryBtn>
         </div>
         {localError && <ErrorBox message={localError} />}
@@ -431,6 +448,7 @@ export const AiStoryGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    7. AI Poem Generator
    ================================================================ */
 export const AiPoemGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(AI_STRINGS);
   const { busy, error, result, run, keyReady } = useAiText();
   const [topic, setTopic] = useState('');
   const [form, setForm] = useState('Free verse');
@@ -448,8 +466,8 @@ export const AiPoemGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   const generate = async () => {
-    if (!topic.trim()) { setLocalError('Enter a topic for the poem first.'); return; }
-    if (form === 'Acrostic' && !acrosticWord.trim()) { setLocalError('Enter the word for the acrostic first.'); return; }
+    if (!topic.trim()) { setLocalError(s('poemTopicEmpty')); return; }
+    if (form === 'Acrostic' && !acrosticWord.trim()) { setLocalError(s('poemAcrosticEmpty')); return; }
     setLocalError('');
     await run(
       `Write a poem about: ${topic.trim()}.\n\n` +
@@ -460,45 +478,45 @@ export const AiPoemGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <AiCard tool={tool} note="The AI follows classic forms closely, but strict syllable counts (haiku, sonnets) can occasionally slip by a syllable — count before submitting anywhere formal. Quality depends on the model and the site's API key quota.">
+    <AiCard tool={tool} note={s('poemNote')}>
       {!keyReady && <div className="mb-4"><MissingKeyNotice /></div>}
       <div className="grid gap-3">
         <div>
-          <OptLabel>Topic</OptLabel>
-          <OptInput value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. Rain over the old city at dawn" />
+          <OptLabel>{s('topic')}</OptLabel>
+          <OptInput value={topic} onChange={(e) => setTopic(e.target.value)} placeholder={s('poemTopicPlaceholder')} />
         </div>
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <OptLabel>Form</OptLabel>
+            <OptLabel>{s('poemForm')}</OptLabel>
             <OptSelect value={form} onChange={(e) => setForm(e.target.value)}>
-              <option>Free verse</option>
-              <option>Haiku (5-7-5)</option>
-              <option>Sonnet (14 lines)</option>
-              <option>Limerick</option>
-              <option>Ballad</option>
-              <option>Acrostic</option>
+              <option value="Free verse">{s('formFreeVerse')}</option>
+              <option value="Haiku (5-7-5)">{s('formHaiku')}</option>
+              <option value="Sonnet (14 lines)">{s('formSonnet')}</option>
+              <option value="Limerick">{s('formLimerick')}</option>
+              <option value="Ballad">{s('formBallad')}</option>
+              <option value="Acrostic">{s('formAcrostic')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Mood</OptLabel>
+            <OptLabel>{s('mood')}</OptLabel>
             <OptSelect value={mood} onChange={(e) => setMood(e.target.value)}>
-              <option>Joyful</option>
-              <option>Melancholic</option>
-              <option>Romantic</option>
-              <option>Hopeful</option>
-              <option>Dark</option>
+              <option value="Joyful">{s('moodJoyful')}</option>
+              <option value="Melancholic">{s('moodMelancholic')}</option>
+              <option value="Romantic">{s('moodRomantic')}</option>
+              <option value="Hopeful">{s('moodHopeful')}</option>
+              <option value="Dark">{s('moodDark')}</option>
             </OptSelect>
           </div>
         </div>
         {form === 'Acrostic' && (
           <div>
-            <OptLabel>Acrostic word</OptLabel>
-            <OptInput value={acrosticWord} onChange={(e) => setAcrosticWord(e.target.value)} placeholder="e.g. HOPE" maxLength={14} />
+            <OptLabel>{s('acrosticWord')}</OptLabel>
+            <OptInput value={acrosticWord} onChange={(e) => setAcrosticWord(e.target.value)} placeholder={s('acrosticPlaceholder')} maxLength={14} />
           </div>
         )}
         <div>
           <PrimaryBtn disabled={!keyReady || busy} onClick={generate}>
-            {busy ? 'Generating…' : `Write poem${keyReady ? '' : KEY_SUFFIX}`}
+            {busy ? s('generating') : `${s('writePoem')}${keyReady ? '' : s('addKeySuffix')}`}
           </PrimaryBtn>
         </div>
         {localError && <ErrorBox message={localError} />}

@@ -6,6 +6,8 @@ import React, { useState } from 'react';
 import { Document as DocxDocument, Packer, Paragraph, PageBreak } from 'docx';
 import { ArrowLeftRight, BarChart3 } from 'lucide-react';
 import type { ToolItem } from '../../../lib/tools-data';
+import { useLang, useStrings } from '../../../lib/LangContext';
+import { WORD_STRINGS } from '../../../lib/strings/word';
 import {
   docxToHtml,
   docxToText,
@@ -125,21 +127,23 @@ async function ensureContentTypeOverride(zip: JSZip, partName: string, contentTy
 // 1. Merge Word — content-level merge of several .docx files
 // ---------------------------------------------------------------------------
 
-export const MergeWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
+export const MergeWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
+  return (
   <PdfToolShell
     tool={tool}
     accept={ACCEPT}
     multiple
     minFiles={2}
-    actionLabel="Merge documents"
-    dropzoneHint="Add 2 or more Word documents · they are merged in the order shown below"
+    actionLabel={s('mergeDocuments')}
+    dropzoneHint={s('mergeHint')}
     onProcess={async (files) => {
       const groups: Paragraph[][] = [];
       for (const f of files) {
         try {
           groups.push(htmlToDocxParagraphs(await docxToHtml(f)));
         } catch {
-          throw new Error(`Could not read ${f.name} — it may be corrupt or password-protected.`);
+          throw new Error(s('mergeReadError').replace('{name}', f.name));
         }
       }
       const children: Paragraph[] = [];
@@ -150,14 +154,14 @@ export const MergeWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
       const doc = new DocxDocument({ sections: [{ properties: {}, children }] });
       const blob = await Packer.toBlob(doc);
       downloadDocx(new Uint8Array(await blob.arrayBuffer()), 'merged.docx');
-      return `Merged ${files.length} documents into merged.docx, separated by page breaks.`;
+      return s('mergedDone').replace('{count}', String(files.length));
     }}
   >
     {(ctx) => (
       <div>
         {ctx.files.length > 1 && (
           <div className="mt-4">
-            <OptLabel>Merge order — the first file's content comes first</OptLabel>
+            <OptLabel>{s('mergeOrder')}</OptLabel>
             <ul className="space-y-1.5">
               {ctx.files.map((f, i) => (
                 <li
@@ -171,20 +175,19 @@ export const MergeWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
             </ul>
           </div>
         )}
-        <Note>
-          Content-level merge: text, headings, bold/italic and lists are carried over; page headers/footers and
-          embedded images from the source files are not.
-        </Note>
+        <Note>{s('mergeNote')}</Note>
       </div>
     )}
   </PdfToolShell>
-);
+  );
+};
 
 // ---------------------------------------------------------------------------
 // 2. Split Word — by Heading 1 sections or every N paragraphs
 // ---------------------------------------------------------------------------
 
 export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [mode, setMode] = useState<'headings' | 'paragraphs'>('headings');
   const [countText, setCountText] = useState('10');
 
@@ -192,12 +195,12 @@ export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Split document"
+      actionLabel={s('splitDocument')}
       onProcess={async (files) => {
         const html = await docxToHtml(files[0]);
         const parsed = new DOMParser().parseFromString(html, 'text/html');
         const blocks = Array.from(parsed.body.children) as HTMLElement[];
-        if (!blocks.length) throw new Error('No content found in this document.');
+        if (!blocks.length) throw new Error(s('noContentFound'));
         const groups: string[][] = [];
         let current: string[] = [];
         const flush = () => {
@@ -220,7 +223,7 @@ export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           }
           flush();
         }
-        if (!groups.length) throw new Error('Nothing to split — the document appears to be empty.');
+        if (!groups.length) throw new Error(s('nothingToSplit'));
         const base = stripExt(files[0].name);
         const zip = new JSZip();
         for (let i = 0; i < groups.length; i++) {
@@ -229,21 +232,21 @@ export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         }
         const zipBytes = await zip.generateAsync({ type: 'uint8array' });
         downloadBytes(zipBytes, 'split-word.zip', 'application/zip');
-        return `Split into ${groups.length} section(s) — downloaded as split-word.zip.`;
+        return s('splitDone').replace('{count}', String(groups.length));
       }}
     >
       {() => (
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <OptLabel>Split by</OptLabel>
+            <OptLabel>{s('splitBy')}</OptLabel>
             <OptSelect value={mode} onChange={(e) => setMode(e.target.value as 'headings' | 'paragraphs')}>
-              <option value="headings">Top-level headings (Heading 1)</option>
-              <option value="paragraphs">Every N paragraphs</option>
+              <option value="headings">{s('splitByHeadings')}</option>
+              <option value="paragraphs">{s('splitByParagraphsOpt')}</option>
             </OptSelect>
           </div>
           {mode === 'paragraphs' && (
             <div>
-              <OptLabel>Paragraphs per file</OptLabel>
+              <OptLabel>{s('paragraphsPerFile')}</OptLabel>
               <OptInput type="number" min={1} value={countText} onChange={(e) => setCountText(e.target.value)} />
             </div>
           )}
@@ -257,11 +260,13 @@ export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // 3. Extract Word Images — pull every file out of word/media/
 // ---------------------------------------------------------------------------
 
-export const ExtractWordImages: React.FC<{ tool: ToolItem }> = ({ tool }) => (
+export const ExtractWordImages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
+  return (
   <PdfToolShell
     tool={tool}
     accept={ACCEPT}
-    actionLabel="Extract images"
+    actionLabel={s('extractImages')}
     onProcess={async (files) => {
       const zip = await loadDocxZip(files[0]);
       const media: { path: string; entry: JSZip.JSZipObject }[] = [];
@@ -270,7 +275,7 @@ export const ExtractWordImages: React.FC<{ tool: ToolItem }> = ({ tool }) => (
           media.push({ path: relPath, entry });
         }
       });
-      if (!media.length) return 'No embedded images found in this document.';
+      if (!media.length) return s('noImagesFound');
       const out = new JSZip();
       const used = new Set<string>();
       let total = 0;
@@ -290,10 +295,11 @@ export const ExtractWordImages: React.FC<{ tool: ToolItem }> = ({ tool }) => (
       }
       const zipBytes = await out.generateAsync({ type: 'uint8array' });
       downloadBytes(zipBytes, `${stripExt(files[0].name)}-images.zip`, 'application/zip');
-      return `Extracted ${media.length} image(s), ${humanize(total)} in total — downloaded as a ZIP.`;
+      return s('extractedDone').replace('{count}', String(media.length)).replace('{size}', humanize(total));
     }}
   />
-);
+  );
+};
 
 // ---------------------------------------------------------------------------
 // 4. Word Analyzer — document statistics from text + XML structure
@@ -315,6 +321,8 @@ interface WordStats {
 }
 
 export const WordAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(WORD_STRINGS);
   const [stats, setStats] = useState<WordStats | null>(null);
 
   return (
@@ -323,12 +331,12 @@ export const WordAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         const analyze = async () => {
           const file = ctx.files[0];
           if (!file) {
-            ctx.setStatus('error', 'Choose a Word document first.');
+            ctx.setStatus('error', s('chooseDocumentFirst'));
             return;
           }
           try {
             setStats(null);
-            ctx.setStatus('working', 'Analyzing document…');
+            ctx.setStatus('working', s('analyzing'));
             const text = await docxToText(file);
             const wordsArr = text.split(/\s+/).filter(Boolean);
             const words = wordsArr.length;
@@ -376,28 +384,28 @@ export const WordAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               headings,
               images,
               mediaFiles,
-              readingTime: mins < 1 ? '< 1 min' : `${Math.round(mins)} min`,
+              readingTime: mins < 1 ? s('readingUnderMin') : s('readingMinutes').replace('{n}', String(Math.round(mins))),
               topWords,
             });
-            ctx.setStatus('done', 'Analysis complete — statistics are shown below.');
+            ctx.setStatus('done', s('analysisDone'));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not analyze this document.');
+            ctx.setStatus('error', e?.message || s('analyzeFailed'));
           }
         };
 
         const cards: { label: string; value: string }[] = stats
           ? [
-              { label: 'Words', value: stats.words.toLocaleString() },
-              { label: 'Characters', value: stats.chars.toLocaleString() },
-              { label: 'Characters (no spaces)', value: stats.charsNoSpaces.toLocaleString() },
-              { label: 'Sentences', value: stats.sentences.toLocaleString() },
-              { label: 'Paragraphs', value: stats.paragraphs.toLocaleString() },
-              { label: 'Headings', value: stats.headings.toLocaleString() },
-              { label: 'Tables', value: stats.tables.toLocaleString() },
-              { label: 'Inline images', value: stats.images.toLocaleString() },
-              { label: 'Media files', value: stats.mediaFiles.toLocaleString() },
-              { label: 'File size', value: humanize(stats.fileSize) },
-              { label: 'Reading time', value: stats.readingTime },
+              { label: s('statWords'), value: stats.words.toLocaleString(lang) },
+              { label: s('statCharacters'), value: stats.chars.toLocaleString(lang) },
+              { label: s('statCharactersNoSpaces'), value: stats.charsNoSpaces.toLocaleString(lang) },
+              { label: s('statSentences'), value: stats.sentences.toLocaleString(lang) },
+              { label: s('statParagraphs'), value: stats.paragraphs.toLocaleString(lang) },
+              { label: s('statHeadings'), value: stats.headings.toLocaleString(lang) },
+              { label: s('statTables'), value: stats.tables.toLocaleString(lang) },
+              { label: s('statInlineImages'), value: stats.images.toLocaleString(lang) },
+              { label: s('statMediaFiles'), value: stats.mediaFiles.toLocaleString(lang) },
+              { label: s('statFileSize'), value: humanize(stats.fileSize) },
+              { label: s('statReadingTime'), value: stats.readingTime },
             ]
           : [];
 
@@ -409,7 +417,7 @@ export const WordAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               disabled={!ctx.files.length || ctx.status === 'working'}
               onClick={() => void analyze()}
             >
-              <BarChart3 className="w-4 h-4" /> Analyze document
+              <BarChart3 className="w-4 h-4" /> {s('analyzeDocument')}
             </button>
 
             {stats && (
@@ -429,7 +437,7 @@ export const WordAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 {stats.topWords.length > 0 && (
                   <div className="mt-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
                     <span className="block text-xs font-bold text-gray-800 dark:text-gray-100 mb-3">
-                      Most frequent words
+                      {s('mostFrequentWords')}
                     </span>
                     <div className="space-y-2">
                       {stats.topWords.map((t) => (
@@ -441,7 +449,7 @@ export const WordAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                               style={{ width: `${Math.max(4, (t.count / stats.topWords[0].count) * 100)}%` }}
                             />
                           </div>
-                          <span className="w-10 text-right font-bold text-gray-600 dark:text-gray-300">{t.count}</span>
+                          <span className="w-10 text-end font-bold text-gray-600 dark:text-gray-300">{t.count}</span>
                         </div>
                       ))}
                     </div>
@@ -542,6 +550,7 @@ async function createCorePropsPart(zip: JSZip): Promise<string> {
 }
 
 export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [meta, setMeta] = useState<MetaFields | null>(null);
   const [loadedFor, setLoadedFor] = useState('');
   const [createdOn, setCreatedOn] = useState('');
@@ -557,11 +566,11 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         const load = async () => {
           if (!file) {
-            ctx.setStatus('error', 'Choose a Word document first.');
+            ctx.setStatus('error', s('chooseDocumentFirst'));
             return;
           }
           try {
-            ctx.setStatus('working', 'Reading metadata…');
+            ctx.setStatus('working', s('readingMetadata'));
             const zip = await loadDocxZip(file);
             const coreXml = await getZipText(zip, 'docProps/core.xml');
             if (coreXml) {
@@ -592,19 +601,19 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               setCompany('');
             }
             setLoadedFor(`${file.name}:${file.size}`);
-            ctx.setStatus('done', coreXml ? 'Metadata loaded.' : 'This document has no metadata part yet — saving will create one.');
+            ctx.setStatus('done', coreXml ? s('metadataLoaded') : s('metadataNoneYet'));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not read this document.');
+            ctx.setStatus('error', e?.message || s('readDocumentFailed'));
           }
         };
 
         const apply = async (fields: MetaFields, message: string) => {
           if (!file) {
-            ctx.setStatus('error', 'Choose a Word document first.');
+            ctx.setStatus('error', s('chooseDocumentFirst'));
             return;
           }
           try {
-            ctx.setStatus('working', 'Writing metadata…');
+            ctx.setStatus('working', s('writingMetadata'));
             const zip = await loadDocxZip(file);
             let coreXml = await getZipText(zip, 'docProps/core.xml');
             if (!coreXml) coreXml = await createCorePropsPart(zip);
@@ -622,7 +631,7 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             downloadDocx(bytes, file.name);
             ctx.setStatus('done', message);
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not write the metadata.');
+            ctx.setStatus('error', e?.message || s('metadataWriteFailed'));
           }
         };
 
@@ -645,29 +654,29 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 disabled={!file || ctx.status === 'working'}
                 onClick={() => void load()}
               >
-                Load metadata
+                {s('loadMetadata')}
               </button>
             ) : (
               <>
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {field('title', 'Title')}
-                  {field('creator', 'Author (creator)')}
-                  {field('lastModifiedBy', 'Last modified by')}
-                  {field('subject', 'Subject')}
-                  {field('keywords', 'Keywords')}
-                  {field('category', 'Category')}
+                  {field('title', s('metaTitle'))}
+                  {field('creator', s('metaAuthor'))}
+                  {field('lastModifiedBy', s('metaLastModifiedBy'))}
+                  {field('subject', s('metaSubject'))}
+                  {field('keywords', s('metaKeywords'))}
+                  {field('category', s('metaCategory'))}
                 </div>
                 <div className="mt-3">
-                  {field('description', 'Description / comments')}
+                  {field('description', s('metaDescription'))}
                 </div>
 
                 {(createdOn || modifiedOn || application || company) && (
                   <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                     {[
-                      { label: 'Created', value: createdOn },
-                      { label: 'Modified', value: modifiedOn },
-                      { label: 'Application', value: application },
-                      { label: 'Company', value: company },
+                      { label: s('metaCreated'), value: createdOn },
+                      { label: s('metaModified'), value: modifiedOn },
+                      { label: s('metaApplication'), value: application },
+                      { label: s('metaCompany'), value: company },
                     ]
                       .filter((r) => r.value)
                       .map((r) => (
@@ -690,9 +699,9 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   type="button"
                   className={btnPrimary}
                   disabled={ctx.status === 'working'}
-                  onClick={() => meta && void apply(meta, 'Metadata saved — download started.')}
+                  onClick={() => meta && void apply(meta, s('metadataSaved'))}
                 >
-                  Save metadata
+                  {s('saveMetadata')}
                 </button>
                 <div className="mt-3 flex justify-end">
                   <button
@@ -701,10 +710,10 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     disabled={ctx.status === 'working'}
                     onClick={() => {
                       setMeta({ ...EMPTY_META });
-                      void apply({ ...EMPTY_META }, 'All editable metadata fields cleared — download started.');
+                      void apply({ ...EMPTY_META }, s('metadataCleared'));
                     }}
                   >
-                    Remove all metadata
+                    {s('removeAllMetadata')}
                   </button>
                 </div>
               </>
@@ -720,11 +729,13 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // 6. Unlock Word — strip w:documentProtection + range permissions
 // ---------------------------------------------------------------------------
 
-export const UnlockWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
+export const UnlockWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
+  return (
   <PdfToolShell
     tool={tool}
     accept={ACCEPT}
-    actionLabel="Remove restrictions"
+    actionLabel={s('removeRestrictions')}
     onProcess={async (files) => {
       const file = files[0];
       const zip = await loadDocxZip(file);
@@ -753,38 +764,35 @@ export const UnlockWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
 
       const bytes = await saveDocxZip(zip);
       downloadDocx(bytes, `${stripExt(file.name)}-unlocked.docx`);
-      if (removedProtection || removedPerms) return 'Editing restrictions removed.';
-      return 'This document had no editing restrictions (nothing to remove).';
+      if (removedProtection || removedPerms) return s('restrictionsRemoved');
+      return s('noRestrictions');
     }}
   >
-    {() => (
-      <Note>
-        Removes editing restrictions (read-only/forms protection). It cannot open password-encrypted documents —
-        those never load as a zip.
-      </Note>
-    )}
+    {() => <Note>{s('unlockNote')}</Note>}
   </PdfToolShell>
-);
+  );
+};
 
 // ---------------------------------------------------------------------------
 // 7. Protect Word — add w:documentProtection to word/settings.xml
 // ---------------------------------------------------------------------------
 
-const PROTECT_OPTIONS: { value: string; label: string }[] = [
-  { value: 'readOnly', label: 'Read only — no edits allowed' },
-  { value: 'comments', label: 'Comments only' },
-  { value: 'trackedChanges', label: 'Tracked changes only' },
-  { value: 'forms', label: 'Forms — filling in form fields only' },
+const PROTECT_OPTIONS: { value: string; labelKey: string }[] = [
+  { value: 'readOnly', labelKey: 'protectReadOnly' },
+  { value: 'comments', labelKey: 'protectComments' },
+  { value: 'trackedChanges', labelKey: 'protectTracked' },
+  { value: 'forms', labelKey: 'protectForms' },
 ];
 
 export const ProtectWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [editType, setEditType] = useState('readOnly');
 
   return (
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Protect document"
+      actionLabel={s('protectDocument')}
       onProcess={async (files) => {
         const file = files[0];
         const zip = await loadDocxZip(file);
@@ -823,23 +831,24 @@ export const ProtectWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         setZipText(zip, 'word/settings.xml', withDecl(serializeXml(doc)));
         const bytes = await saveDocxZip(zip);
         downloadDocx(bytes, `${stripExt(file.name)}-protected.docx`);
-        const label = PROTECT_OPTIONS.find((o) => o.value === editType)?.label || editType;
-        return `Document protected: ${label}.`;
+        const opt = PROTECT_OPTIONS.find((o) => o.value === editType);
+        const label = opt ? s(opt.labelKey) : editType;
+        return s('protectDoneMsg').replace('{label}', label);
       }}
     >
       {() => (
         <div className="mt-4">
           <div className="max-w-sm">
-            <OptLabel>Restriction type</OptLabel>
+            <OptLabel>{s('restrictionType')}</OptLabel>
             <OptSelect value={editType} onChange={(e) => setEditType(e.target.value)}>
               {PROTECT_OPTIONS.map((o) => (
                 <option key={o.value} value={o.value}>
-                  {o.label}
+                  {s(o.labelKey)}
                 </option>
               ))}
             </OptSelect>
           </div>
-          <Note>Restriction is enforced by Word; it stops casual editing. It is not encryption.</Note>
+          <Note>{s('protectNote')}</Note>
         </div>
       )}
     </PdfToolShell>
@@ -879,6 +888,7 @@ function relTargetToPath(target: string): string {
 }
 
 export const WordWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [wmText, setWmText] = useState('CONFIDENTIAL');
   const [wmColor, setWmColor] = useState('C0C0C0');
   const [wmSize, setWmSize] = useState('54');
@@ -887,7 +897,7 @@ export const WordWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Add watermark"
+      actionLabel={s('addWatermark')}
       onProcess={async (files) => {
         const file = files[0];
         const text = wmText.trim() || 'CONFIDENTIAL';
@@ -896,7 +906,7 @@ export const WordWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         const zip = await loadDocxZip(file);
         const docXml = await getZipText(zip, 'word/document.xml');
-        if (!docXml) throw new Error('word/document.xml not found — this does not look like a valid Word document.');
+        if (!docXml) throw new Error(s('wmNoDocumentXml'));
         const doc = parseXml(docXml);
         const body = wAll(doc, 'body')[0];
         let sectPr: Element | undefined;
@@ -909,7 +919,7 @@ export const WordWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           const all = wAll(doc, 'sectPr');
           sectPr = all[all.length - 1];
         }
-        if (!sectPr) throw new Error('Could not find section properties in this document.');
+        if (!sectPr) throw new Error(s('wmNoSectionProps'));
 
         // Resolve an existing default header part, if the section has one.
         const relsPath = 'word/_rels/document.xml.rels';
@@ -974,29 +984,26 @@ export const WordWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         const bytes = await saveDocxZip(zip);
         downloadDocx(bytes, `${stripExt(file.name)}-watermarked.docx`);
-        return `Watermark “${text}” added to every page via the section header.`;
+        return s('watermarkAdded').replace('{text}', text);
       }}
     >
       {() => (
         <div className="mt-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <OptLabel>Watermark text</OptLabel>
+              <OptLabel>{s('watermarkText')}</OptLabel>
               <OptInput value={wmText} onChange={(e) => setWmText(e.target.value)} />
             </div>
             <div>
-              <OptLabel>Color (hex)</OptLabel>
-              <OptInput value={wmColor} onChange={(e) => setWmColor(e.target.value)} placeholder="C0C0C0" />
+              <OptLabel>{s('colorHex')}</OptLabel>
+              <OptInput dir="ltr" value={wmColor} onChange={(e) => setWmColor(e.target.value)} placeholder="C0C0C0" />
             </div>
             <div>
-              <OptLabel>Font size (pt)</OptLabel>
+              <OptLabel>{s('fontSizePt')}</OptLabel>
               <OptInput type="number" min={10} max={200} value={wmSize} onChange={(e) => setWmSize(e.target.value)} />
             </div>
           </div>
-          <Note>
-            The watermark is placed in the section header as a diagonal VML text shape — the same structure
-            Microsoft Word itself writes — so it appears behind the text on every page of the section.
-          </Note>
+          <Note>{s('watermarkNote')}</Note>
         </div>
       )}
     </PdfToolShell>
@@ -1007,11 +1014,13 @@ export const WordWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // 9. Compress Word — recompress embedded PNG/JPEG images via canvas
 // ---------------------------------------------------------------------------
 
-export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
+export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
+  return (
   <PdfToolShell
     tool={tool}
     accept={ACCEPT}
-    actionLabel="Compress document"
+    actionLabel={s('compressDocument')}
     onProcess={async (files) => {
       const file = files[0];
       const zip = await loadDocxZip(file);
@@ -1020,7 +1029,7 @@ export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
         if (!e.dir && /^word\/media\/.+\.(png|jpe?g)$/i.test(p)) mediaPaths.push(p);
       });
       if (!mediaPaths.length) {
-        return 'This document contains no PNG or JPEG images to compress — nothing was downloaded.';
+        return s('compressNoImages');
       }
       let replaced = 0;
       for (const path of mediaPaths) {
@@ -1063,36 +1072,38 @@ export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
         }
       }
       if (!replaced) {
-        return 'No image could be made smaller — the document was left unchanged (no download).';
+        return s('compressNoSmaller');
       }
       const bytes = await saveDocxZip(zip);
       if (bytes.length >= file.size) {
-        return 'The recompressed images did not shrink the overall file — the document was left unchanged (no download).';
+        return s('compressNoShrink');
       }
       downloadDocx(bytes, `${stripExt(file.name)}-compressed.docx`);
       const pct = ((1 - bytes.length / file.size) * 100).toFixed(1);
-      return `Compressed ${replaced} image(s): ${humanize(file.size)} → ${humanize(bytes.length)} (${pct}% smaller).`;
+      return s('compressedDone')
+        .replace('{count}', String(replaced))
+        .replace('{from}', humanize(file.size))
+        .replace('{to}', humanize(bytes.length))
+        .replace('{pct}', pct);
     }}
   >
-    {() => (
-      <Note>
-        JPEGs are re-encoded at 78% quality and any image larger than 1600px is scaled down to fit. PNGs keep
-        their format and are only rewritten when they are downscaled. Images that would not get smaller are left
-        exactly as they are.
-      </Note>
-    )}
+    {() => <Note>{s('compressNote')}</Note>}
   </PdfToolShell>
-);
+  );
+};
 
 // ---------------------------------------------------------------------------
 // 10. Repair Word — validate + rezip, or recover raw text into a clean file
 // ---------------------------------------------------------------------------
 
-export const RepairWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
+export const RepairWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(WORD_STRINGS);
+  return (
   <PdfToolShell
     tool={tool}
     accept={ACCEPT}
-    actionLabel="Repair document"
+    actionLabel={s('repairDocument')}
     onProcess={async (files) => {
       const file = files[0];
       let validZip: JSZip | null = null;
@@ -1110,7 +1121,7 @@ export const RepairWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
       if (validZip) {
         const bytes = await saveDocxZip(validZip);
         downloadDocx(bytes, `${stripExt(file.name)}-repaired.docx`);
-        return 'Structure was valid — the document was rebuilt cleanly (rezipped).';
+        return s('repairValid');
       }
       try {
         const text = await docxToText(file);
@@ -1118,22 +1129,18 @@ export const RepairWord: React.FC<{ tool: ToolItem }> = ({ tool }) => (
         if (wordCount > 0) {
           const bytes = await textToDocxBytes(text, stripExt(file.name));
           downloadDocx(bytes, `${stripExt(file.name)}-repaired.docx`);
-          return `The document structure was damaged; recovered ${wordCount.toLocaleString()} words of text into a clean document (formatting could not be saved).`;
+          return s('repairRecovered').replace('{count}', wordCount.toLocaleString(lang));
         }
       } catch {
         // fall through to the error below
       }
-      throw new Error('This file could not be opened as a Word document.');
+      throw new Error(s('repairFailed'));
     }}
   >
-    {() => (
-      <Note>
-        Repair first checks that the zip and word/document.xml are structurally valid and rebuilds the package
-        cleanly. If the structure is damaged, it falls back to recovering the raw text into a fresh document.
-      </Note>
-    )}
+    {() => <Note>{s('repairNote')}</Note>}
   </PdfToolShell>
-);
+  );
+};
 
 // ---------------------------------------------------------------------------
 // 11. Compare Word — word-level (or paragraph-level) LCS diff of two docs
@@ -1201,6 +1208,7 @@ function diffTokens(a: string[], b: string[]): { aOut: DiffToken[]; bOut: DiffTo
 }
 
 export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [result, setResult] = useState<CompareWordResult | null>(null);
 
   return (
@@ -1210,12 +1218,12 @@ export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           const fileA = ctx.files[0];
           const fileB = ctx.files[1];
           if (!fileA || !fileB) {
-            ctx.setStatus('error', 'Add two documents first — the first is the original (A), the second the revised copy (B).');
+            ctx.setStatus('error', s('compareNeedTwo'));
             return;
           }
           try {
             setResult(null);
-            ctx.setStatus('working', 'Extracting text from both documents and comparing…');
+            ctx.setStatus('working', s('compareWorking'));
             const [textA, textB] = await Promise.all([docxToText(fileA), docxToText(fileB)]);
             const paragraphMode = textA.length > 60000 || textB.length > 60000;
             const aTokens = paragraphMode
@@ -1237,13 +1245,15 @@ export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               aTokens: aOut,
               bTokens: bOut,
             });
-            const unit = paragraphMode ? 'paragraph(s)' : 'word(s)';
             ctx.setStatus(
               'done',
-              `Compared both documents (${paragraphMode ? 'paragraph' : 'word'} level): ${added} ${unit} added, ${removed} removed, ${Math.round((unchanged / denom) * 100)}% unchanged.`
+              s(paragraphMode ? 'compareDoneParagraphs' : 'compareDoneWords')
+                .replace('{added}', String(added))
+                .replace('{removed}', String(removed))
+                .replace('{pct}', String(Math.round((unchanged / denom) * 100)))
             );
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not compare these documents. One of them may be corrupted or password-protected.');
+            ctx.setStatus('error', e?.message || s('compareFailed'));
           }
         };
 
@@ -1268,8 +1278,8 @@ export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     <span key={i}>{tk.t} </span>
                   )
                 )}
-                {tokens.length > 4000 && <span className="text-gray-400">… (truncated for display)</span>}
-                {tokens.length === 0 && <span className="text-gray-400 italic">No extractable text.</span>}
+                {tokens.length > 4000 && <span className="text-gray-400">{s('truncatedForDisplay')}</span>}
+                {tokens.length === 0 && <span className="text-gray-400 italic">{s('noExtractableText')}</span>}
               </p>
             );
           }
@@ -1289,8 +1299,8 @@ export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   {tk.t}
                 </p>
               ))}
-              {tokens.length > 4000 && <p className="text-gray-400 text-xs">… (truncated for display)</p>}
-              {tokens.length === 0 && <p className="text-gray-400 italic text-xs">No extractable text.</p>}
+              {tokens.length > 4000 && <p className="text-gray-400 text-xs">{s('truncatedForDisplay')}</p>}
+              {tokens.length === 0 && <p className="text-gray-400 italic text-xs">{s('noExtractableText')}</p>}
             </div>
           );
         };
@@ -1298,13 +1308,15 @@ export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         return (
           <div className="mt-2">
             <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-              The <strong>first file added is the original (A)</strong> and the{' '}
-              <strong>second is the revised copy (B)</strong>. Words removed from A are struck through in red;
-              words added in B are highlighted in green.
+              {s('compareIntroThe')}
+              <strong>{s('compareIntroStrong1')}</strong>
+              {s('compareIntroMid')}
+              <strong>{s('compareIntroStrong2')}</strong>
+              {s('compareIntroRest')}
             </p>
             {ctx.files.length < 2 && (
               <p className="mt-2 text-[11px] font-semibold text-gray-500">
-                Add two .docx files above to enable comparison ({ctx.files.length}/2 added).
+                {s('compareAddTwo').replace('{count}', String(ctx.files.length))}
               </p>
             )}
             {ctx.files.length >= 2 && (
@@ -1319,39 +1331,39 @@ export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               disabled={ctx.files.length < 2 || ctx.status === 'working'}
               onClick={() => void compare()}
             >
-              <ArrowLeftRight className="w-4 h-4" /> Compare documents
+              <ArrowLeftRight className="w-4 h-4" /> {s('compareDocuments')}
             </button>
 
             {result && (
               <div className="mt-5 space-y-3">
                 <div className="flex flex-wrap gap-2 text-[11px] font-bold">
                   <span className="px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
-                    {result.unchangedPct}% unchanged
+                    {s('pctUnchanged').replace('{pct}', String(result.unchangedPct))}
                   </span>
                   <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                    +{result.added} {result.mode === 'words' ? 'words' : 'paragraphs'} added in B
+                    {s(result.mode === 'words' ? 'addedInBWords' : 'addedInBParagraphs').replace('{count}', String(result.added))}
                   </span>
                   <span className="px-2.5 py-1 rounded-full bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800">
-                    −{result.removed} {result.mode === 'words' ? 'words' : 'paragraphs'} removed from A
+                    {s(result.mode === 'words' ? 'removedFromAWords' : 'removedFromAParagraphs').replace('{count}', String(result.removed))}
                   </span>
                   {result.mode === 'paragraphs' && (
                     <span className="px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
-                      Large document — compared paragraph by paragraph
+                      {s('compareLargeDoc')}
                     </span>
                   )}
                 </div>
 
                 <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                   <div className="grid grid-cols-1 md:grid-cols-2">
-                    <div className="p-3 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700">
+                    <div className="p-3 border-b md:border-b-0 md:border-e border-gray-200 dark:border-gray-700">
                       <span className="block text-[10px] font-bold uppercase tracking-wider text-red-500 mb-1.5">
-                        A — original
+                        {s('compareAOriginal')}
                       </span>
                       {renderSide(result.aTokens, 'a', result.mode === 'paragraphs')}
                     </div>
                     <div className="p-3">
                       <span className="block text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1.5">
-                        B — revised
+                        {s('compareBRevised')}
                       </span>
                       {renderSide(result.bTokens, 'b', result.mode === 'paragraphs')}
                     </div>
@@ -1375,6 +1387,7 @@ function escapeRegExp(s: string): string {
 }
 
 export const WordFindReplace: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [findText, setFindText] = useState('');
   const [replaceText, setReplaceText] = useState('');
   const [caseSensitive, setCaseSensitive] = useState(false);
@@ -1384,9 +1397,9 @@ export const WordFindReplace: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Find & replace"
+      actionLabel={s('findReplace')}
       onProcess={async (files) => {
-        if (!findText) throw new Error('Enter the text to find first.');
+        if (!findText) throw new Error(s('findEmptyError'));
         const file = files[0];
         const zip = await loadDocxZip(file);
         const parts: string[] = ['word/document.xml'];
@@ -1429,32 +1442,31 @@ export const WordFindReplace: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           if (partChanged) setZipText(zip, part, withDecl(serializeXml(doc)));
         }
 
-        if (totalOccurrences === 0) return 'No matches found.';
+        if (totalOccurrences === 0) return s('noMatches');
         const bytes = await saveDocxZip(zip);
         downloadDocx(bytes, `${stripExt(file.name)}-edited.docx`);
-        return `Replaced ${totalOccurrences} occurrence(s) in ${touchedParagraphs} paragraph(s).`;
+        return s('replacedDone')
+          .replace('{count}', String(totalOccurrences))
+          .replace('{paragraphs}', String(touchedParagraphs));
       }}
     >
       {() => (
         <div className="mt-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <OptLabel>Find</OptLabel>
-              <OptInput value={findText} onChange={(e) => setFindText(e.target.value)} placeholder="Text to find" />
+              <OptLabel>{s('findLabel')}</OptLabel>
+              <OptInput value={findText} onChange={(e) => setFindText(e.target.value)} placeholder={s('findPlaceholder')} />
             </div>
             <div>
-              <OptLabel>Replace with</OptLabel>
-              <OptInput value={replaceText} onChange={(e) => setReplaceText(e.target.value)} placeholder="Replacement text" />
+              <OptLabel>{s('replaceWithLabel')}</OptLabel>
+              <OptInput value={replaceText} onChange={(e) => setReplaceText(e.target.value)} placeholder={s('replacePlaceholder')} />
             </div>
           </div>
           <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-            <OptCheck label="Case sensitive" checked={caseSensitive} onChange={setCaseSensitive} />
-            <OptCheck label="Search headers & footers" checked={includeHF} onChange={setIncludeHF} />
+            <OptCheck label={s('caseSensitive')} checked={caseSensitive} onChange={setCaseSensitive} />
+            <OptCheck label={s('searchHeadersFooters')} checked={includeHF} onChange={setIncludeHF} />
           </div>
-          <Note>
-            Matches are found even when a word is split across several runs; the replacement takes the first
-            run's formatting and the rest of the paragraph keeps its own styling.
-          </Note>
+          <Note>{s('findReplaceNote')}</Note>
         </div>
       )}
     </PdfToolShell>

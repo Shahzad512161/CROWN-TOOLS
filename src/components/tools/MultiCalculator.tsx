@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { MortgageCalculator } from './MortgageCalculator';
 import { LoanCalculator } from './LoanCalculator';
 import { Calculator, Calendar, Activity, DollarSign, Percent, Split, PieChart, Sparkles } from 'lucide-react';
+import { useLang, useStrings, COMMON } from '../../lib/LangContext';
+import { CALC_STRINGS } from '../../lib/strings/calculators';
 
 interface MultiCalculatorProps {
   initialTab?: 'mortgage' | 'loan' | 'bmi' | 'age' | 'tip' | 'compound';
@@ -9,6 +11,9 @@ interface MultiCalculatorProps {
 }
 
 export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, toolSlug }) => {
+  const lang = useLang();
+  const s = useStrings(CALC_STRINGS);
+  const c = useStrings(COMMON);
   const getStartingTab = (): 'mortgage' | 'loan' | 'bmi' | 'age' | 'tip' | 'compound' => {
     if (initialTab) return initialTab;
     if (toolSlug === 'bmi-calculator' || toolSlug === 'bmi-calorie-deficit-calculator') return 'bmi';
@@ -64,10 +69,10 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
 
   const bmiValue = heightCm > 0 ? weightKg / Math.pow(heightCm / 100, 2) : 0;
   const getBmiCategory = (bmi: number) => {
-    if (bmi < 18.5) return { label: 'Underweight', color: 'text-amber-500' };
-    if (bmi < 24.9) return { label: 'Normal Weight (Optimal)', color: 'text-emerald-500' };
-    if (bmi < 29.9) return { label: 'Overweight', color: 'text-amber-600' };
-    return { label: 'Obese Tier', color: 'text-red-500' };
+    if (bmi < 18.5) return { label: s('bmiUnderweight'), color: 'text-amber-500' };
+    if (bmi < 24.9) return { label: s('bmiNormal'), color: 'text-emerald-500' };
+    if (bmi < 29.9) return { label: s('bmiOverweight'), color: 'text-amber-600' };
+    return { label: s('bmiObese'), color: 'text-red-500' };
   };
 
   // BMR (Mifflin-St Jeor)
@@ -107,28 +112,28 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
               <Calculator className="w-5 h-5" />
             </span>
             <h2 className="text-xl sm:text-2xl font-black text-gray-950 dark:text-white">
-              Multi Calculator Suite (All-In-One)
+              {s('multiTitle')}
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Access 6 essential daily calculators seamlessly in one unified interface.
+            {s('multiSubtitle').replace('{n}', '6')}
           </p>
         </div>
 
         <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 w-fit">
-          ✓ All Calculators Active
+          ✓ {s('allActive')}
         </span>
       </div>
 
       {/* Tabs Navigation */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-gray-100 dark:border-gray-700">
         {[
-          { id: 'age', label: 'Age & Birthday', icon: <Calendar className="w-4 h-4" /> },
-          { id: 'bmi', label: 'BMI & Calories', icon: <Activity className="w-4 h-4" /> },
-          { id: 'mortgage', label: 'Mortgage USA', icon: <DollarSign className="w-4 h-4" /> },
-          { id: 'loan', label: 'Loan & EMI', icon: <PieChart className="w-4 h-4" /> },
-          { id: 'tip', label: 'Tip & Split Check', icon: <Split className="w-4 h-4" /> },
-          { id: 'compound', label: 'Compound Growth', icon: <Percent className="w-4 h-4" /> }
+          { id: 'age', label: s('tabAge'), icon: <Calendar className="w-4 h-4" /> },
+          { id: 'bmi', label: s('tabBmi'), icon: <Activity className="w-4 h-4" /> },
+          { id: 'mortgage', label: s('tabMortgage'), icon: <DollarSign className="w-4 h-4" /> },
+          { id: 'loan', label: s('tabLoan'), icon: <PieChart className="w-4 h-4" /> },
+          { id: 'tip', label: s('tabTip'), icon: <Split className="w-4 h-4" /> },
+          { id: 'compound', label: s('tabCompound'), icon: <Percent className="w-4 h-4" /> }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -151,7 +156,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
           <div className="md:col-span-5 space-y-4">
             <div>
               <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1.5">
-                Select Your Date of Birth
+                {s('selectDob')}
               </label>
               <input
                 type="date"
@@ -161,29 +166,34 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
               />
             </div>
             <div className="p-4 rounded-2xl bg-orange-50/60 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 text-xs space-y-1">
-              <span className="font-bold text-orange-700 dark:text-orange-400">Next Birthday Countdown:</span>
+              <span className="font-bold text-orange-700 dark:text-orange-400">{s('nextBdayTitle')}</span>
               <p className="text-gray-700 dark:text-gray-300">
-                Only <strong>{ageData.daysUntilNext} days</strong> remaining until your next celebration! 🎉
+                {s('nextBdayText').split('{days}')[0]}
+                <strong>{ageData.daysUntilNext}</strong>
+                {s('nextBdayText').split('{days}')[1]}
               </p>
             </div>
           </div>
 
           <div className="md:col-span-7 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 p-6 rounded-2xl border border-orange-200 dark:border-gray-700 flex flex-col justify-between">
             <div>
-              <span className="text-xs uppercase font-bold text-orange-600 dark:text-orange-400">Exact Chronological Age</span>
+              <span className="text-xs uppercase font-bold text-orange-600 dark:text-orange-400">{s('exactAgeLabel')}</span>
               <div className="text-3xl sm:text-4xl font-black text-gray-950 dark:text-white my-2">
-                {ageData.years} Years, {ageData.months} Months, {ageData.days} Days
+                {s('ageResult')
+                  .replace('{years}', String(ageData.years))
+                  .replace('{months}', String(ageData.months))
+                  .replace('{days}', String(ageData.days))}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-4 border-t border-orange-200 dark:border-gray-700 text-xs">
               <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl">
-                <span className="text-gray-500 block text-[11px]">Total Days Lived:</span>
-                <strong className="text-base text-gray-900 dark:text-white">{ageData.totalDays.toLocaleString()}</strong>
+                <span className="text-gray-500 block text-[11px]">{s('totalDaysLived')}</span>
+                <strong className="text-base text-gray-900 dark:text-white">{ageData.totalDays.toLocaleString(lang)}</strong>
               </div>
               <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl">
-                <span className="text-gray-500 block text-[11px]">Total Hours Lived:</span>
-                <strong className="text-base text-gray-900 dark:text-white">{ageData.totalHours.toLocaleString()}</strong>
+                <span className="text-gray-500 block text-[11px]">{s('totalHoursLived')}</span>
+                <strong className="text-base text-gray-900 dark:text-white">{ageData.totalHours.toLocaleString(lang)}</strong>
               </div>
             </div>
           </div>
@@ -196,7 +206,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
           <div className="md:col-span-6 space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Weight (kg)</label>
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('weightLabel')}</label>
                 <input
                   type="number"
                   value={weightKg}
@@ -205,7 +215,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Height (cm)</label>
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('heightLabel')}</label>
                 <input
                   type="number"
                   value={heightCm}
@@ -217,7 +227,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Age</label>
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('ageFieldLabel')}</label>
                 <input
                   type="number"
                   value={userAge}
@@ -226,36 +236,36 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Biological Sex</label>
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('sexLabel')}</label>
                 <select
                   value={gender}
                   onChange={(e) => setGender(e.target.value as any)}
                   className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs font-semibold"
                 >
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                  <option value="male">{s('male')}</option>
+                  <option value="female">{s('female')}</option>
                 </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Daily Activity Level</label>
+              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('activityLabel')}</label>
               <select
                 value={activityFactor}
                 onChange={(e) => setActivityFactor(Number(e.target.value))}
                 className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs font-semibold"
               >
-                <option value={1.2}>Sedentary (Desk job, little exercise)</option>
-                <option value={1.375}>Light Active (1-3 days exercise)</option>
-                <option value={1.55}>Moderately Active (3-5 days workout)</option>
-                <option value={1.725}>Very Active (6-7 days heavy training)</option>
+                <option value={1.2}>{s('actSedentary')}</option>
+                <option value={1.375}>{s('actLight')}</option>
+                <option value={1.55}>{s('actModerate')}</option>
+                <option value={1.725}>{s('actVery')}</option>
               </select>
             </div>
           </div>
 
           <div className="md:col-span-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 p-6 rounded-2xl border border-emerald-300 dark:border-gray-700 flex flex-col justify-between">
             <div>
-              <span className="text-xs uppercase font-bold text-emerald-700 dark:text-emerald-400">Body Mass Index (BMI)</span>
+              <span className="text-xs uppercase font-bold text-emerald-700 dark:text-emerald-400">{s('bmiTitle')}</span>
               <div className="text-4xl font-black text-gray-950 dark:text-white my-1">
                 {bmiValue.toFixed(1)}
               </div>
@@ -264,12 +274,12 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
 
             <div className="space-y-2 pt-4 border-t border-emerald-200 dark:border-gray-700 text-xs">
               <div className="flex justify-between">
-                <span>Daily Maintenance Calories (TDEE):</span>
-                <strong className="text-gray-900 dark:text-white">{tdee} kcal/day</strong>
+                <span>{s('tdeeLabel')}</span>
+                <strong className="text-gray-900 dark:text-white">{s('kcalDay').replace('{v}', tdee.toLocaleString(lang))}</strong>
               </div>
               <div className="flex justify-between text-emerald-700 dark:text-emerald-400">
-                <span>Fat Loss Calorie Goal (-500 kcal):</span>
-                <strong>{Math.max(1200, tdee - 500)} kcal/day</strong>
+                <span>{s('fatLossLabel')}</span>
+                <strong>{s('kcalDay').replace('{v}', Math.max(1200, tdee - 500).toLocaleString(lang))}</strong>
               </div>
             </div>
           </div>
@@ -295,7 +305,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-2">
           <div className="md:col-span-6 space-y-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Total Bill Amount ($)</label>
+              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('billAmountLabel')}</label>
               <input
                 type="number"
                 value={billAmount}
@@ -305,7 +315,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Tip Percentage (%)</label>
+              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('tipPctLabel')}</label>
               <div className="grid grid-cols-4 gap-2">
                 {[15, 18, 20, 25].map((t) => (
                   <button
@@ -324,7 +334,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Split Between (People)</label>
+              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('splitLabel')}</label>
               <input
                 type="number"
                 min="1"
@@ -338,22 +348,22 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
 
           <div className="md:col-span-6 bg-gradient-to-br from-blue-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col justify-between">
             <div>
-              <span className="text-xs uppercase font-bold text-blue-600 dark:text-blue-400">Total Per Person</span>
+              <span className="text-xs uppercase font-bold text-blue-600 dark:text-blue-400">{s('totalPerPersonLabel')}</span>
               <div className="text-4xl font-black text-gray-950 dark:text-white my-1">
                 ${perPersonTotal.toFixed(2)}
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                Includes ${perPersonTip.toFixed(2)} tip per person
+                {s('includesTip').replace('{v}', `$${perPersonTip.toFixed(2)}`)}
               </p>
             </div>
 
             <div className="space-y-1.5 pt-4 border-t border-gray-200 dark:border-gray-700 text-xs">
               <div className="flex justify-between">
-                <span>Total Tip ({tipPercent}%):</span>
+                <span>{s('totalTipLabel').replace('{p}', String(tipPercent))}</span>
                 <strong>${tipTotal.toFixed(2)}</strong>
               </div>
               <div className="flex justify-between text-base font-bold text-orange-600">
-                <span>Grand Total:</span>
+                <span>{s('grandTotalLabel')}</span>
                 <span>${grandTotal.toFixed(2)}</span>
               </div>
             </div>
@@ -366,7 +376,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-2">
           <div className="md:col-span-6 space-y-4">
             <div>
-              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Initial Deposit ($)</label>
+              <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('depositLabel')}</label>
               <input
                 type="number"
                 value={principal}
@@ -376,7 +386,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Annual Return (APR %)</label>
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('annualReturnLabel')}</label>
                 <input
                   type="number"
                   step="0.5"
@@ -386,7 +396,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">Time Horizon (Years)</label>
+                <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('horizonLabel')}</label>
                 <input
                   type="number"
                   min="1"
@@ -401,23 +411,23 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
 
           <div className="md:col-span-6 bg-gradient-to-br from-amber-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 p-6 rounded-2xl border border-gray-200 dark:border-gray-700 flex flex-col justify-between">
             <div>
-              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400">Future Balance</span>
+              <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400">{s('futureBalanceLabel')}</span>
               <div className="text-4xl font-black text-gray-950 dark:text-white my-1">
-                ${Math.round(futureCompound).toLocaleString()}
+                ${Math.round(futureCompound).toLocaleString(lang)}
               </div>
               <p className="text-xs text-gray-500">
-                After {compoundYears} years of compound interest at {compoundRate}%
+                {s('afterYearsText').replace('{years}', String(compoundYears)).replace('{rate}', String(compoundRate))}
               </p>
             </div>
 
             <div className="space-y-1.5 pt-4 border-t border-gray-200 dark:border-gray-700 text-xs">
               <div className="flex justify-between">
-                <span>Principal Invested:</span>
-                <strong>${principal.toLocaleString()}</strong>
+                <span>{s('principalInvestedLabel')}</span>
+                <strong>${principal.toLocaleString(lang)}</strong>
               </div>
               <div className="flex justify-between text-emerald-600 font-bold">
-                <span>Total Compounded Gains:</span>
-                <span>+${Math.round(totalCompoundInterest).toLocaleString()}</span>
+                <span>{s('totalGainsLabel')}</span>
+                <span>+${Math.round(totalCompoundInterest).toLocaleString(lang)}</span>
               </div>
             </div>
           </div>

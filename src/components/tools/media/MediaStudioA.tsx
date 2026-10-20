@@ -9,13 +9,14 @@ import {
   ProgressBar,
   SampleVideoBtn,
   SampleAudioBtn,
-  ENGINE_NOTE,
   OptLabel,
   OptInput,
   OptSelect,
   Stat,
   ErrorBox,
 } from './MediaShell';
+import { useStrings, COMMON } from '../../../lib/LangContext';
+import { MEDIA_STRINGS } from '../../../lib/strings/media';
 import {
   parseTimecode,
   formatTimecode,
@@ -80,6 +81,7 @@ function useFileDuration(file: File | null, kind: 'video' | 'audio'): number | n
 
 /** Shared busy/progress/error/result state + runner for one-input FFmpeg tools. */
 function useFfmpegJob() {
+  const s = useStrings(MEDIA_STRINGS);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -107,7 +109,7 @@ function useFfmpegJob() {
       return blob;
     } catch (e) {
       resetFfmpeg();
-      setError(e instanceof Error ? e.message : 'Processing failed — please try again.');
+      setError(e instanceof Error ? e.message : s('processingFailed'));
       return null;
     } finally {
       setBusy(false);
@@ -150,6 +152,7 @@ const TimecodeInput: React.FC<{
   };
   return (
     <OptInput
+      dir="ltr"
       value={text}
       disabled={disabled}
       placeholder="0:00"
@@ -163,16 +166,21 @@ const TimecodeInput: React.FC<{
   );
 };
 
-const SourceStats: React.FC<{ file: File; extra?: React.ReactNode }> = ({ file, extra }) => (
-  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-    <Stat label="File size" value={formatBytes(file.size)} />
-    {extra}
-  </div>
-);
+const SourceStats: React.FC<{ file: File; extra?: React.ReactNode }> = ({ file, extra }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      <Stat label={s('fileSize')} value={formatBytes(file.size)} />
+      {extra}
+    </div>
+  );
+};
 
 // ---------------- 1. Video to GIF ----------------
 
 export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [start, setStart] = useState(0);
   const [clipLen, setClipLen] = useState(5);
@@ -196,11 +204,11 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const convert = async () => {
     if (!file) return;
     if (duration !== null && start >= duration) {
-      job.setError('The start time is beyond the end of the video.');
+      job.setError(s('startBeyondEnd'));
       return;
     }
     if (effectiveDur <= 0) {
-      job.setError('Nothing left to capture — lower the start time.');
+      job.setError(s('nothingToCapture'));
       return;
     }
     await job.run(
@@ -212,11 +220,11 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard tool={tool} note={`GIFs balloon fast — keep clips short and narrow for a sensible file size. ${ENGINE_NOTE}`}>
+    <MediaCard tool={tool} note={`${s('gifNote')} ${s('engineNote')}`}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="video/*" label="Drop a video here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="video/*" label={s('dropVideo')} fileName={file?.name} />
           </div>
           <SampleVideoBtn onFile={handleFile} />
         </div>
@@ -226,11 +234,11 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <video ref={videoRef} src={fileUrl} controls className="w-full max-h-64 rounded-xl bg-black" />
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
               <div>
-                <OptLabel>Start</OptLabel>
+                <OptLabel>{c('start')}</OptLabel>
                 <TimecodeInput value={start} onChange={(v) => setStart(Math.max(0, v))} disabled={job.busy} />
               </div>
               <div>
-                <OptLabel>Clip length (seconds)</OptLabel>
+                <OptLabel>{s('clipLengthSeconds')}</OptLabel>
                 <OptInput
                   type="number"
                   min={1}
@@ -242,7 +250,7 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
               </div>
               <div>
-                <OptLabel>Width</OptLabel>
+                <OptLabel>{c('width')}</OptLabel>
                 <OptSelect value={width} disabled={job.busy} onChange={(e) => setWidth(parseInt(e.target.value, 10))}>
                   <option value={320}>320 px</option>
                   <option value={480}>480 px</option>
@@ -251,7 +259,7 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Frame rate</OptLabel>
+                <OptLabel>{s('frameRate')}</OptLabel>
                 <OptSelect value={fps} disabled={job.busy} onChange={(e) => setFps(parseInt(e.target.value, 10))}>
                   <option value={10}>10 fps</option>
                   <option value={15}>15 fps</option>
@@ -262,7 +270,7 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <PrimaryBtn disabled={job.busy} onClick={convert}>
-                {job.busy ? 'Creating GIF…' : 'Create GIF'}
+                {job.busy ? s('creatingGif') : s('createGif')}
               </PrimaryBtn>
               <button
                 type="button"
@@ -270,15 +278,18 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 disabled={job.busy}
                 onClick={() => videoRef.current && setStart(Math.floor(videoRef.current.currentTime * 10) / 10)}
               >
-                Use playhead as start
+                {s('usePlayheadAsStart')}
               </button>
               {duration !== null && (
                 <span className="text-xs text-gray-500">
-                  Capturing {formatTcPrecise(start)} → {formatTcPrecise(start + effectiveDur)} of {formatTcPrecise(duration)}
+                  {s('capturingRange')
+                    .replace('{from}', formatTcPrecise(start))
+                    .replace('{to}', formatTcPrecise(start + effectiveDur))
+                    .replace('{total}', formatTcPrecise(duration))}
                 </span>
               )}
             </div>
-            <ProgressBar ratio={job.progress} label="Building GIF…" />
+            <ProgressBar ratio={job.progress} label={s('buildingGif')} />
           </>
         )}
 
@@ -286,17 +297,17 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         {job.result && gifUrl && file && (
           <div className="space-y-3">
-            <img src={gifUrl} alt="Generated GIF" className="max-w-full rounded-xl border border-gray-200 dark:border-gray-700" />
+            <img src={gifUrl} alt={s('generatedGifAlt')} className="max-w-full rounded-xl border border-gray-200 dark:border-gray-700" />
             <SourceStats
               file={file}
               extra={
                 <>
-                  <Stat label="GIF size" value={formatBytes(job.result.size)} />
-                  <Stat label="Clip length" value={`${effectiveDur.toFixed(1)}s`} />
+                  <Stat label={s('gifSize')} value={formatBytes(job.result.size)} />
+                  <Stat label={s('clipLength')} value={`${effectiveDur.toFixed(1)}s`} />
                 </>
               }
             />
-            <BlobDownloadBtn blob={job.result} filename="video-clip.gif" label="Download GIF" />
+            <BlobDownloadBtn blob={job.result} filename="video-clip.gif" label={s('downloadFormat').replace('{format}', 'GIF')} />
           </div>
         )}
       </div>
@@ -307,6 +318,8 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 2. Video Compressor ----------------
 
 export const VideoCompressor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [crf, setCrf] = useState(28);
   const [maxHeight, setMaxHeight] = useState('');
@@ -338,11 +351,11 @@ export const VideoCompressor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     job.result && file ? Math.round((1 - job.result.size / file.size) * 100) : 0;
 
   return (
-    <MediaCard tool={tool} note={ENGINE_NOTE}>
+    <MediaCard tool={tool} note={s('engineNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="video/*" label="Drop a video here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="video/*" label={s('dropVideo')} fileName={file?.name} />
           </div>
           <SampleVideoBtn onFile={handleFile} />
         </div>
@@ -351,18 +364,18 @@ export const VideoCompressor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <OptLabel>Quality</OptLabel>
+                <OptLabel>{c('quality')}</OptLabel>
                 <OptSelect value={crf} disabled={job.busy} onChange={(e) => setCrf(parseInt(e.target.value, 10))}>
-                  <option value={23}>High quality (CRF 23)</option>
-                  <option value={28}>Balanced (CRF 28)</option>
-                  <option value={34}>Small file (CRF 34)</option>
-                  <option value={40}>Tiny file (CRF 40)</option>
+                  <option value={23}>{s('qualityHigh')}</option>
+                  <option value={28}>{s('qualityBalanced')}</option>
+                  <option value={34}>{s('qualitySmall')}</option>
+                  <option value={40}>{s('qualityTiny')}</option>
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Max height</OptLabel>
+                <OptLabel>{s('maxHeight')}</OptLabel>
                 <OptSelect value={maxHeight} disabled={job.busy} onChange={(e) => setMaxHeight(e.target.value)}>
-                  <option value="">Original</option>
+                  <option value="">{c('original')}</option>
                   <option value="1080">1080p</option>
                   <option value="720">720p</option>
                   <option value="480">480p</option>
@@ -370,17 +383,17 @@ export const VideoCompressor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Speed</OptLabel>
+                <OptLabel>{s('speedLabel')}</OptLabel>
                 <OptSelect value={preset} disabled={job.busy} onChange={(e) => setPreset(e.target.value)}>
-                  <option value="fast">Faster (fast)</option>
-                  <option value="medium">Better quality (medium)</option>
+                  <option value="fast">{s('speedFaster')}</option>
+                  <option value="medium">{s('speedBetterQuality')}</option>
                 </OptSelect>
               </div>
             </div>
             <PrimaryBtn disabled={job.busy} onClick={compress}>
-              {job.busy ? 'Compressing…' : 'Compress video'}
+              {job.busy ? s('compressing') : s('compressVideo')}
             </PrimaryBtn>
-            <ProgressBar ratio={job.progress} label="Compressing…" />
+            <ProgressBar ratio={job.progress} label={s('compressing')} />
           </>
         )}
 
@@ -390,11 +403,11 @@ export const VideoCompressor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="space-y-3">
             <video src={resultUrl} controls className="w-full max-h-80 rounded-xl bg-black" />
             <div className="grid grid-cols-3 gap-2">
-              <Stat label="Original" value={formatBytes(file.size)} />
-              <Stat label="Compressed" value={formatBytes(job.result.size)} />
-              <Stat label="Size change" value={savedPct >= 0 ? `-${savedPct}%` : `+${-savedPct}%`} />
+              <Stat label={c('original')} value={formatBytes(file.size)} />
+              <Stat label={s('compressed')} value={formatBytes(job.result.size)} />
+              <Stat label={s('sizeChange')} value={savedPct >= 0 ? `-${savedPct}%` : `+${-savedPct}%`} />
             </div>
-            <BlobDownloadBtn blob={job.result} filename="compressed-video.mp4" label="Download MP4" />
+            <BlobDownloadBtn blob={job.result} filename="compressed-video.mp4" label={s('downloadFormat').replace('{format}', 'MP4')} />
           </div>
         )}
       </div>
@@ -405,6 +418,8 @@ export const VideoCompressor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 3. Video Trimmer ----------------
 
 export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [start, setStart] = useState(0);
   const [end, setEnd] = useState<number | null>(null);
@@ -428,7 +443,7 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const trim = async () => {
     if (!file) return;
     if (selDuration < 0.1) {
-      job.setError('Select at least a fraction of a second to keep.');
+      job.setError(s('selectAtLeast'));
       return;
     }
     await job.run(
@@ -442,14 +457,11 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const playhead = () => (videoRef.current ? videoRef.current.currentTime : 0);
 
   return (
-    <MediaCard
-      tool={tool}
-      note={`Fast mode copies the stream without re-encoding, but cuts can only land on keyframes, so the edges may shift by a second or two. Precise mode re-encodes for frame-accurate cuts. ${ENGINE_NOTE}`}
-    >
+    <MediaCard tool={tool} note={`${s('trimVideoNote')} ${s('engineNote')}`}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="video/*" label="Drop a video here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="video/*" label={s('dropVideo')} fileName={file?.name} />
           </div>
           <SampleVideoBtn onFile={handleFile} />
         </div>
@@ -459,7 +471,7 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <video ref={videoRef} src={fileUrl} controls className="w-full max-h-80 rounded-xl bg-black" />
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-end">
               <div>
-                <OptLabel>Start</OptLabel>
+                <OptLabel>{c('start')}</OptLabel>
                 <TimecodeInput
                   value={start}
                   disabled={job.busy}
@@ -467,7 +479,7 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
               </div>
               <div>
-                <OptLabel>End</OptLabel>
+                <OptLabel>{s('endLabel')}</OptLabel>
                 <TimecodeInput
                   value={endVal}
                   disabled={job.busy}
@@ -475,20 +487,20 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
               </div>
               <div>
-                <OptLabel>Mode</OptLabel>
+                <OptLabel>{s('modeLabel')}</OptLabel>
                 <OptSelect value={mode} disabled={job.busy} onChange={(e) => setMode(e.target.value as 'reencode' | 'copy')}>
-                  <option value="reencode">Precise (re-encode)</option>
-                  <option value="copy">Fast (stream copy)</option>
+                  <option value="reencode">{s('modePrecise')}</option>
+                  <option value="copy">{s('modeFast')}</option>
                 </OptSelect>
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300 pb-1">
-                Keeping <span className="font-bold text-gray-900 dark:text-white">{selDuration.toFixed(1)}s</span>
-                {duration !== null && <> of {formatTcPrecise(duration)}</>}
+                {s('keeping')} <span className="font-bold text-gray-900 dark:text-white">{selDuration.toFixed(1)}s</span>
+                {duration !== null && <> {c('of')} {formatTcPrecise(duration)}</>}
               </div>
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-semibold text-gray-500 w-10">Start</span>
+                <span className="text-[11px] font-semibold text-gray-500 w-10">{c('start')}</span>
                 <input
                   type="range"
                   min={0}
@@ -499,10 +511,10 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onChange={(e) => setStart(Math.min(parseFloat(e.target.value), endVal - 0.1))}
                   className="flex-1 accent-orange-600 cursor-pointer"
                 />
-                <span className="text-[11px] font-mono text-gray-500 w-12 text-right">{formatTcPrecise(start)}</span>
+                <span className="text-[11px] font-mono text-gray-500 w-12 text-end">{formatTcPrecise(start)}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-semibold text-gray-500 w-10">End</span>
+                <span className="text-[11px] font-semibold text-gray-500 w-10">{s('endLabel')}</span>
                 <input
                   type="range"
                   min={0}
@@ -513,27 +525,27 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onChange={(e) => setEnd(Math.max(parseFloat(e.target.value), start + 0.1))}
                   className="flex-1 accent-orange-600 cursor-pointer"
                 />
-                <span className="text-[11px] font-mono text-gray-500 w-12 text-right">{formatTcPrecise(endVal)}</span>
+                <span className="text-[11px] font-mono text-gray-500 w-12 text-end">{formatTcPrecise(endVal)}</span>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <PrimaryBtn disabled={job.busy} onClick={trim}>
-                <Scissors className="w-4 h-4 inline -mt-0.5 mr-1.5" />
-                {job.busy ? 'Trimming…' : 'Trim video'}
+                <Scissors className="w-4 h-4 inline -mt-0.5 me-1.5" />
+                {job.busy ? s('trimming') : s('trimVideo')}
               </PrimaryBtn>
               <button type="button" className={ghostBtnCls} disabled={job.busy} onClick={() => setStart(Math.max(0, Math.min(playhead(), endVal - 0.1)))}>
-                Start = playhead
+                {s('startEqPlayhead')}
               </button>
               <button type="button" className={ghostBtnCls} disabled={job.busy} onClick={() => setEnd(Math.max(playhead(), start + 0.1))}>
-                End = playhead
+                {s('endEqPlayhead')}
               </button>
               {mode === 'copy' && (
                 <span className="text-[11px] text-amber-600 dark:text-amber-400">
-                  Fast mode cuts at keyframes — edges can shift slightly.
+                  {s('fastModeHint')}
                 </span>
               )}
             </div>
-            <ProgressBar ratio={job.progress} label="Trimming…" />
+            <ProgressBar ratio={job.progress} label={s('trimming')} />
           </>
         )}
 
@@ -542,8 +554,8 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {job.result && resultUrl && file && (
           <div className="space-y-3">
             <video src={resultUrl} controls className="w-full max-h-80 rounded-xl bg-black" />
-            <SourceStats file={file} extra={<Stat label="Trimmed size" value={formatBytes(job.result.size)} />} />
-            <BlobDownloadBtn blob={job.result} filename="trimmed-video.mp4" label="Download MP4" />
+            <SourceStats file={file} extra={<Stat label={s('trimmedSize')} value={formatBytes(job.result.size)} />} />
+            <BlobDownloadBtn blob={job.result} filename="trimmed-video.mp4" label={s('downloadFormat').replace('{format}', 'MP4')} />
           </div>
         )}
       </div>
@@ -560,6 +572,7 @@ const VIDEO_FORMATS: { id: VideoFormat; label: string; mime: string }[] = [
 ];
 
 export const VideoConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
   const [file, setFile] = useState<File | null>(null);
   const [format, setFormat] = useState<VideoFormat>('mp4');
   const job = useFfmpegJob();
@@ -584,11 +597,11 @@ export const VideoConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const srcExt = file ? file.name.split('.').pop()?.toLowerCase() : null;
 
   return (
-    <MediaCard tool={tool} note={ENGINE_NOTE}>
+    <MediaCard tool={tool} note={s('engineNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="video/*" label="Drop a video here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="video/*" label={s('dropVideo')} fileName={file?.name} />
           </div>
           <SampleVideoBtn onFile={handleFile} />
         </div>
@@ -596,11 +609,11 @@ export const VideoConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {file && (
           <>
             <p className="text-xs text-gray-500">
-              Source: <span className="font-semibold text-gray-700 dark:text-gray-300">.{srcExt || '?'}</span>
+              {s('sourceLabel')}: <span className="font-semibold text-gray-700 dark:text-gray-300" dir="ltr">.{srcExt || '?'}</span>
               {file.type && <> ({file.type})</>} · {formatBytes(file.size)}
             </p>
             <div>
-              <OptLabel>Convert to</OptLabel>
+              <OptLabel>{s('convertTo')}</OptLabel>
               <div className="flex flex-wrap gap-2">
                 {VIDEO_FORMATS.map((f) => (
                   <button
@@ -620,9 +633,9 @@ export const VideoConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
             </div>
             <PrimaryBtn disabled={job.busy} onClick={convert}>
-              {job.busy ? 'Converting…' : `Convert to ${format.toUpperCase()}`}
+              {job.busy ? s('converting') : s('convertToFormat').replace('{format}', format.toUpperCase())}
             </PrimaryBtn>
-            <ProgressBar ratio={job.progress} label="Converting…" />
+            <ProgressBar ratio={job.progress} label={s('converting')} />
           </>
         )}
 
@@ -631,8 +644,8 @@ export const VideoConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {job.result && resultUrl && file && (
           <div className="space-y-3">
             <video src={resultUrl} controls className="w-full max-h-80 rounded-xl bg-black" />
-            <SourceStats file={file} extra={<Stat label="Converted size" value={formatBytes(job.result.size)} />} />
-            <BlobDownloadBtn blob={job.result} filename={`converted-video.${format}`} label={`Download ${format.toUpperCase()}`} />
+            <SourceStats file={file} extra={<Stat label={s('convertedSize')} value={formatBytes(job.result.size)} />} />
+            <BlobDownloadBtn blob={job.result} filename={`converted-video.${format}`} label={s('downloadFormat').replace('{format}', format.toUpperCase())} />
           </div>
         )}
       </div>
@@ -643,6 +656,7 @@ export const VideoConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 5. Video to MP3 (audio extractor) ----------------
 
 export const VideoToMp3: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
   const [file, setFile] = useState<File | null>(null);
   const [format, setFormat] = useState<AudioFormat>('mp3');
   const [bitrate, setBitrate] = useState(192);
@@ -665,11 +679,11 @@ export const VideoToMp3: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard tool={tool} note={ENGINE_NOTE}>
+    <MediaCard tool={tool} note={s('engineNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="video/*" label="Drop a video here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="video/*" label={s('dropVideo')} fileName={file?.name} />
           </div>
           <SampleVideoBtn onFile={handleFile} />
         </div>
@@ -678,16 +692,16 @@ export const VideoToMp3: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <OptLabel>Audio format</OptLabel>
+                <OptLabel>{s('audioFormat')}</OptLabel>
                 <OptSelect value={format} disabled={job.busy} onChange={(e) => setFormat(e.target.value as AudioFormat)}>
                   <option value="mp3">MP3</option>
-                  <option value="wav">WAV (lossless)</option>
+                  <option value="wav">{s('wavLossless')}</option>
                   <option value="m4a">M4A (AAC)</option>
                   <option value="ogg">OGG (Vorbis)</option>
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Bitrate</OptLabel>
+                <OptLabel>{s('bitrate')}</OptLabel>
                 <OptSelect
                   value={bitrate}
                   disabled={job.busy || format === 'wav' || format === 'ogg'}
@@ -699,15 +713,15 @@ export const VideoToMp3: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 </OptSelect>
                 {(format === 'wav' || format === 'ogg') && (
                   <p className="text-[11px] text-gray-500 mt-1">
-                    {format === 'wav' ? 'WAV is uncompressed — no bitrate setting.' : 'OGG uses a fixed quality level instead.'}
+                    {format === 'wav' ? s('wavNote') : s('oggNote')}
                   </p>
                 )}
               </div>
             </div>
             <PrimaryBtn disabled={job.busy} onClick={extract}>
-              {job.busy ? 'Extracting…' : 'Extract audio'}
+              {job.busy ? s('extracting') : s('extractAudio')}
             </PrimaryBtn>
-            <ProgressBar ratio={job.progress} label="Extracting audio…" />
+            <ProgressBar ratio={job.progress} label={s('extractingAudio')} />
           </>
         )}
 
@@ -716,8 +730,8 @@ export const VideoToMp3: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {job.result && resultUrl && file && (
           <div className="space-y-3">
             <audio src={resultUrl} controls className="w-full" />
-            <SourceStats file={file} extra={<Stat label="Audio size" value={formatBytes(job.result.size)} />} />
-            <BlobDownloadBtn blob={job.result} filename={`audio.${format}`} label={`Download ${format.toUpperCase()}`} />
+            <SourceStats file={file} extra={<Stat label={s('audioSize')} value={formatBytes(job.result.size)} />} />
+            <BlobDownloadBtn blob={job.result} filename={`audio.${format}`} label={s('downloadFormat').replace('{format}', format.toUpperCase())} />
           </div>
         )}
       </div>
@@ -734,22 +748,24 @@ interface Capture {
 }
 
 const CaptureItem: React.FC<{ capture: Capture; ext: string; onRemove: () => void }> = ({ capture, ext, onRemove }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const url = useObjectUrl(capture.blob);
   return (
     <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-gray-50 dark:bg-gray-800">
-      {url && <img src={url} alt={`Frame at ${formatTimecode(capture.time)}`} className="w-full h-28 object-cover" />}
+      {url && <img src={url} alt={s('frameAt').replace('{time}', formatTimecode(capture.time))} className="w-full h-28 object-cover" />}
       <div className="flex items-center justify-between px-2 py-1.5">
         <span className="text-[11px] font-semibold text-gray-600 dark:text-gray-300">{formatTimecode(capture.time)}</span>
         <span className="flex items-center gap-1">
           <BlobDownloadBtn
             blob={capture.blob}
             filename={`frame-${formatTimecode(capture.time).replace(/:/g, '-')}.${ext}`}
-            label="Save"
+            label={c('save')}
           />
           <button
             type="button"
             onClick={onRemove}
-            aria-label="Remove frame"
+            aria-label={s('removeFrame')}
             className="p-1.5 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/40 cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
@@ -761,6 +777,8 @@ const CaptureItem: React.FC<{ capture: Capture; ext: string; onRemove: () => voi
 };
 
 export const VideoFrameCapture: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [format, setFormat] = useState<'png' | 'jpg'>('png');
   const [captures, setCaptures] = useState<Capture[]>([]);
@@ -780,7 +798,7 @@ export const VideoFrameCapture: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     const video = videoRef.current;
     if (!video) return;
     if (video.readyState < 2 || !video.videoWidth) {
-      setError('The video is not ready yet — give it a moment to load, then try again.');
+      setError(s('videoNotReady'));
       return;
     }
     setError(null);
@@ -807,7 +825,7 @@ export const VideoFrameCapture: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       t = parseTimecode(jumpText);
     } catch {
-      setError('Enter a valid time — seconds, mm:ss or hh:mm:ss.');
+      setError(s('invalidTime'));
       return;
     }
     setError(null);
@@ -820,14 +838,11 @@ export const VideoFrameCapture: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard
-      tool={tool}
-      note="Frames are grabbed natively by the browser at the video's full resolution — no processing engine is loaded for this tool. Seek to the exact moment (pause and use the player's controls for precision), then capture as many frames as you like."
-    >
+    <MediaCard tool={tool} note={s('frameCaptureNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="video/*" label="Drop a video here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="video/*" label={s('dropVideo')} fileName={file?.name} />
           </div>
           <SampleVideoBtn onFile={handleFile} />
         </div>
@@ -837,18 +852,18 @@ export const VideoFrameCapture: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <video ref={videoRef} src={fileUrl} controls className="w-full max-h-80 rounded-xl bg-black" />
             <div className="flex flex-wrap items-end gap-3">
               <PrimaryBtn onClick={captureFrame}>
-                <Camera className="w-4 h-4 inline -mt-0.5 mr-1.5" />
-                Capture frame
+                <Camera className="w-4 h-4 inline -mt-0.5 me-1.5" />
+                {s('captureFrame')}
               </PrimaryBtn>
               <div className="w-36">
-                <OptLabel>Jump to time</OptLabel>
-                <OptInput value={jumpText} placeholder="1:23" onChange={(e) => setJumpText(e.target.value)} />
+                <OptLabel>{s('jumpToTime')}</OptLabel>
+                <OptInput dir="ltr" value={jumpText} placeholder="1:23" onChange={(e) => setJumpText(e.target.value)} />
               </div>
               <button type="button" className={ghostBtnCls} onClick={jumpAndCapture}>
-                Jump &amp; capture
+                {s('jumpAndCapture')}
               </button>
               <div className="w-32">
-                <OptLabel>Format</OptLabel>
+                <OptLabel>{c('format')}</OptLabel>
                 <OptSelect value={format} onChange={(e) => setFormat(e.target.value as 'png' | 'jpg')}>
                   <option value="png">PNG</option>
                   <option value="jpg">JPG</option>
@@ -863,7 +878,7 @@ export const VideoFrameCapture: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {captures.length > 0 && (
           <div>
             <p className="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-2">
-              {captures.length} frame{captures.length === 1 ? '' : 's'} captured
+              {(captures.length === 1 ? s('framesCapturedOne') : s('framesCapturedMany')).replace('{n}', String(captures.length))}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {captures.map((c) => (
@@ -880,6 +895,7 @@ export const VideoFrameCapture: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 7. Audio Converter ----------------
 
 export const AudioConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
   const [file, setFile] = useState<File | null>(null);
   const [format, setFormat] = useState<AudioFormat>('mp3');
   const [bitrate, setBitrate] = useState(192);
@@ -905,11 +921,11 @@ export const AudioConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const srcExt = file ? file.name.split('.').pop()?.toLowerCase() : null;
 
   return (
-    <MediaCard tool={tool} note={ENGINE_NOTE}>
+    <MediaCard tool={tool} note={s('engineNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="audio/*" label="Drop an audio file here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="audio/*" label={s('dropAudio')} fileName={file?.name} />
           </div>
           <SampleAudioBtn onFile={handleFile} />
         </div>
@@ -919,16 +935,16 @@ export const AudioConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <audio src={fileUrl} controls className="w-full" />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <OptLabel>Convert to</OptLabel>
+                <OptLabel>{s('convertTo')}</OptLabel>
                 <OptSelect value={format} disabled={job.busy} onChange={(e) => setFormat(e.target.value as AudioFormat)}>
                   <option value="mp3">MP3</option>
-                  <option value="wav">WAV (lossless)</option>
+                  <option value="wav">{s('wavLossless')}</option>
                   <option value="m4a">M4A (AAC)</option>
                   <option value="ogg">OGG (Vorbis)</option>
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Bitrate</OptLabel>
+                <OptLabel>{s('bitrate')}</OptLabel>
                 <OptSelect
                   value={bitrate}
                   disabled={job.busy || format === 'wav' || format === 'ogg'}
@@ -942,13 +958,13 @@ export const AudioConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
             {srcExt === format && (
               <p className="text-[11px] text-amber-600 dark:text-amber-400">
-                The source is already .{format} — converting will re-encode it, which is useful for changing the bitrate but will not improve quality.
+                {s('sameFormatWarning').replace('{format}', format)}
               </p>
             )}
             <PrimaryBtn disabled={job.busy} onClick={convert}>
-              {job.busy ? 'Converting…' : `Convert to ${format.toUpperCase()}`}
+              {job.busy ? s('converting') : s('convertToFormat').replace('{format}', format.toUpperCase())}
             </PrimaryBtn>
-            <ProgressBar ratio={job.progress} label="Converting…" />
+            <ProgressBar ratio={job.progress} label={s('converting')} />
           </>
         )}
 
@@ -957,8 +973,8 @@ export const AudioConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {job.result && resultUrl && file && (
           <div className="space-y-3">
             <audio src={resultUrl} controls className="w-full" />
-            <SourceStats file={file} extra={<Stat label="Converted size" value={formatBytes(job.result.size)} />} />
-            <BlobDownloadBtn blob={job.result} filename={`converted-audio.${format}`} label={`Download ${format.toUpperCase()}`} />
+            <SourceStats file={file} extra={<Stat label={s('convertedSize')} value={formatBytes(job.result.size)} />} />
+            <BlobDownloadBtn blob={job.result} filename={`converted-audio.${format}`} label={s('downloadFormat').replace('{format}', format.toUpperCase())} />
           </div>
         )}
       </div>
@@ -969,6 +985,8 @@ export const AudioConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 8. Audio Trimmer ----------------
 
 export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [peaks, setPeaks] = useState<Float32Array | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
@@ -1012,7 +1030,7 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         if (!cancelled) {
           setPeaks(null);
           setDuration(null);
-          job.setError('Could not decode this audio file to draw its waveform. You can still try trimming blind, but most likely the format is not supported by this browser.');
+          job.setError(s('decodeWaveformError'));
         }
       } finally {
         if (!cancelled) setDecoding(false);
@@ -1063,7 +1081,7 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const trim = async () => {
     if (!file) return;
     if (selDuration < 0.1) {
-      job.setError('Select at least a fraction of a second to keep.');
+      job.setError(s('selectAtLeast'));
       return;
     }
     await job.run(
@@ -1082,14 +1100,11 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard
-      tool={tool}
-      note={`The waveform is decoded in your browser from the file itself, so very long recordings can take a few seconds to draw. ${ENGINE_NOTE}`}
-    >
+    <MediaCard tool={tool} note={`${s('waveformNote')} ${s('engineNote')}`}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop onFile={handleFile} accept="audio/*" label="Drop an audio file here or click to browse" fileName={file?.name} />
+            <FileDrop onFile={handleFile} accept="audio/*" label={s('dropAudio')} fileName={file?.name} />
           </div>
           <SampleAudioBtn onFile={handleFile} />
         </div>
@@ -1098,17 +1113,17 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <>
             <audio src={fileUrl} controls className="w-full" />
             {decoding ? (
-              <p className="text-xs text-gray-500">Decoding waveform…</p>
+              <p className="text-xs text-gray-500">{s('decodingWaveform')}</p>
             ) : peaks ? (
               <canvas ref={waveRef} width={720} height={100} className="w-full h-[100px] rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700" />
             ) : null}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-end">
               <div>
-                <OptLabel>Start</OptLabel>
+                <OptLabel>{c('start')}</OptLabel>
                 <TimecodeInput value={start} disabled={job.busy} onChange={(v) => setStart(Math.max(0, Math.min(v, endVal - 0.1)))} />
               </div>
               <div>
-                <OptLabel>End</OptLabel>
+                <OptLabel>{s('endLabel')}</OptLabel>
                 <TimecodeInput
                   value={endVal}
                   disabled={job.busy}
@@ -1116,7 +1131,7 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
               </div>
               <div>
-                <OptLabel>Fade in (seconds)</OptLabel>
+                <OptLabel>{s('fadeInSeconds')}</OptLabel>
                 <OptInput
                   type="number"
                   min={0}
@@ -1128,7 +1143,7 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
               </div>
               <div>
-                <OptLabel>Fade out (seconds)</OptLabel>
+                <OptLabel>{s('fadeOutSeconds')}</OptLabel>
                 <OptInput
                   type="number"
                   min={0}
@@ -1142,7 +1157,7 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-semibold text-gray-500 w-10">Start</span>
+                <span className="text-[11px] font-semibold text-gray-500 w-10">{c('start')}</span>
                 <input
                   type="range"
                   min={0}
@@ -1153,10 +1168,10 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onChange={(e) => setStart(Math.min(parseFloat(e.target.value), endVal - 0.1))}
                   className="flex-1 accent-orange-600 cursor-pointer"
                 />
-                <span className="text-[11px] font-mono text-gray-500 w-12 text-right">{formatTcPrecise(start)}</span>
+                <span className="text-[11px] font-mono text-gray-500 w-12 text-end">{formatTcPrecise(start)}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[11px] font-semibold text-gray-500 w-10">End</span>
+                <span className="text-[11px] font-semibold text-gray-500 w-10">{s('endLabel')}</span>
                 <input
                   type="range"
                   min={0}
@@ -1167,29 +1182,29 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onChange={(e) => setEnd(Math.max(parseFloat(e.target.value), start + 0.1))}
                   className="flex-1 accent-orange-600 cursor-pointer"
                 />
-                <span className="text-[11px] font-mono text-gray-500 w-12 text-right">{formatTcPrecise(endVal)}</span>
+                <span className="text-[11px] font-mono text-gray-500 w-12 text-end">{formatTcPrecise(endVal)}</span>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-3">
               <div className="w-44">
-                <OptLabel>Output format</OptLabel>
+                <OptLabel>{s('outputFormat')}</OptLabel>
                 <OptSelect value={format} disabled={job.busy} onChange={(e) => setFormat(e.target.value as AudioFormat)}>
                   <option value="mp3">MP3</option>
-                  <option value="wav">WAV (lossless)</option>
+                  <option value="wav">{s('wavLossless')}</option>
                   <option value="m4a">M4A (AAC)</option>
                   <option value="ogg">OGG (Vorbis)</option>
                 </OptSelect>
               </div>
               <PrimaryBtn disabled={job.busy} onClick={trim}>
-                <Scissors className="w-4 h-4 inline -mt-0.5 mr-1.5" />
-                {job.busy ? 'Trimming…' : 'Trim audio'}
+                <Scissors className="w-4 h-4 inline -mt-0.5 me-1.5" />
+                {job.busy ? s('trimming') : s('trimAudio')}
               </PrimaryBtn>
               <span className="text-xs text-gray-500">
-                Keeping <span className="font-bold text-gray-900 dark:text-white">{selDuration.toFixed(1)}s</span>
-                {duration !== null && <> of {formatTcPrecise(duration)}</>}
+                {s('keeping')} <span className="font-bold text-gray-900 dark:text-white">{selDuration.toFixed(1)}s</span>
+                {duration !== null && <> {c('of')} {formatTcPrecise(duration)}</>}
               </span>
             </div>
-            <ProgressBar ratio={job.progress} label="Trimming…" />
+            <ProgressBar ratio={job.progress} label={s('trimming')} />
           </>
         )}
 
@@ -1198,8 +1213,8 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {job.result && resultUrl && file && (
           <div className="space-y-3">
             <audio src={resultUrl} controls className="w-full" />
-            <SourceStats file={file} extra={<Stat label="Trimmed size" value={formatBytes(job.result.size)} />} />
-            <BlobDownloadBtn blob={job.result} filename={`trimmed-audio.${format}`} label={`Download ${format.toUpperCase()}`} />
+            <SourceStats file={file} extra={<Stat label={s('trimmedSize')} value={formatBytes(job.result.size)} />} />
+            <BlobDownloadBtn blob={job.result} filename={`trimmed-audio.${format}`} label={s('downloadFormat').replace('{format}', format.toUpperCase())} />
           </div>
         )}
       </div>

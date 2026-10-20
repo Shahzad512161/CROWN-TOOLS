@@ -28,13 +28,83 @@ import { runFfmpegJob, jobInputName } from '../../../lib/media/ffmpeg';
 import { ProgressBar, ENGINE_NOTE } from '../media/MediaShell';
 import { useAiText, MissingKeyNotice, AiOutput, AiTextarea } from '../ai/AiShell';
 import { canvasToBlobP } from '../../../lib/image/core';
+import { useStrings, COMMON } from '../../../lib/LangContext';
+import { SOCIAL_STRINGS } from '../../../lib/strings/social';
 
-const KEY_SUFFIX = ' — add API key first';
+// core.ts data-table labels -> SOCIAL_STRINGS keys (core stays data/logic only)
+const ASPECT_LABEL_KEYS: Record<string, string> = {
+  '9:16': 'aspect9x16',
+  '1:1': 'aspect1x1',
+  '4:5': 'aspect4x5',
+  '16:9': 'aspect16x9',
+};
+const IDEA_NICHE_KEYS: Record<string, string> = {
+  'Fitness coach': 'ideaNicheFitnessCoach',
+  'Food / restaurant': 'ideaNicheFoodRestaurant',
+  'Fashion brand': 'ideaNicheFashionBrand',
+  'Travel creator': 'ideaNicheTravelCreator',
+  'Beauty brand': 'ideaNicheBeautyBrand',
+  'Tech / SaaS': 'ideaNicheTechSaas',
+  'Real estate': 'ideaNicheRealEstate',
+  'Small business': 'ideaNicheSmallBusiness',
+  Photography: 'nichePhotography',
+  'Education / coaching': 'ideaNicheEducationCoaching',
+  Pets: 'ideaNichePets',
+  'Music artist': 'ideaNicheMusicArtist',
+  Gaming: 'nicheGaming',
+  'Personal brand': 'ideaNichePersonalBrand',
+};
+const FORMAT_LABEL_KEYS: Record<string, string> = {
+  'Reel / short video': 'formatReel',
+  Carousel: 'formatCarousel',
+  'Single photo + caption': 'formatSinglePhoto',
+  'Story series': 'formatStorySeries',
+  'Text post': 'formatTextPost',
+  'Live / Q&A': 'formatLiveQa',
+};
+const EMOJI_CAT_KEYS: Record<string, string> = {
+  faces: 'emojiCatFaces',
+  hands: 'emojiCatHands',
+  hearts: 'emojiCatHearts',
+  objects: 'emojiCatObjects',
+  food: 'emojiCatFood',
+  nature: 'emojiCatNature',
+  animals: 'emojiCatAnimals',
+  activities: 'emojiCatActivities',
+};
+const AI_NICHE_KEYS: Record<string, string> = {
+  Fitness: 'aiNicheFitness',
+  Food: 'aiNicheFood',
+  Travel: 'aiNicheTravel',
+  Fashion: 'aiNicheFashion',
+  Beauty: 'aiNicheBeauty',
+  Business: 'aiNicheBusiness',
+  Photography: 'nichePhotography',
+  Tech: 'aiNicheTech',
+  Pets: 'ideaNichePets',
+  Music: 'nicheMusic',
+  Gaming: 'nicheGaming',
+  General: 'aiNicheGeneral',
+};
+const TONE_KEYS: Record<string, string> = {
+  Bold: 'toneBold',
+  Curious: 'toneCurious',
+  Funny: 'toneFunny',
+  'Shocking-but-honest': 'toneShockingHonest',
+  Educational: 'toneEducational',
+};
+const LINK_PRESET_LABEL_KEYS: Record<string, string> = {
+  light: 'themeLight',
+  dark: 'themeDark',
+  pink: 'presetPink',
+  forest: 'presetForest',
+};
 
 /* ================================================================
    1. Social Video Resizer — FFmpeg crop/pad to a platform aspect
    ================================================================ */
 export const SocialVideoResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [file, setFile] = useState<File | null>(null);
   const [aspectId, setAspectId] = useState('9:16');
   const [mode, setMode] = useState<'crop' | 'pad'>('crop');
@@ -47,7 +117,7 @@ export const SocialVideoResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   useEffect(() => () => { if (url) URL.revokeObjectURL(url); }, [url]);
 
   const run = async () => {
-    if (!file) { setError('Choose a video file first.'); return; }
+    if (!file) { setError(s('errChooseVideo')); return; }
     setError('');
     setBusy(true);
     setProgress(0);
@@ -63,7 +133,7 @@ export const SocialVideoResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setBlob(out);
       setUrl(URL.createObjectURL(out));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'The resize failed.');
+      setError(e instanceof Error ? e.message : s('errResizeFailed'));
     } finally {
       setBusy(false);
       setProgress(null);
@@ -71,43 +141,43 @@ export const SocialVideoResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <SocialCard tool={tool} note="Resize any video to a platform-ready aspect ratio — processed locally with FFmpeg.">
+    <SocialCard tool={tool} note={s('videoResizerNote')}>
       <FileDrop
         accept="video/*"
-        label="Drop a video here or click to browse"
+        label={s('dropVideoLabel')}
         fileName={file?.name ?? null}
         onFile={(f) => { setFile(f); setBlob(null); setError(''); }}
       />
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Aspect ratio</OptLabel>
+          <OptLabel>{s('aspectRatioLabel')}</OptLabel>
           <OptSelect value={aspectId} onChange={(e) => setAspectId(e.target.value)}>
             {SOCIAL_ASPECTS.map((a) => (
-              <option key={a.id} value={a.id}>{a.label} ({a.width}×{a.height})</option>
+              <option key={a.id} value={a.id}>{ASPECT_LABEL_KEYS[a.id] ? s(ASPECT_LABEL_KEYS[a.id]) : a.label} ({a.width}×{a.height})</option>
             ))}
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Fit mode</OptLabel>
+          <OptLabel>{s('fitModeLabel')}</OptLabel>
           <div className="flex flex-col gap-1.5 pt-1">
             <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
               <input type="radio" name="social-resize-mode" checked={mode === 'crop'} onChange={() => setMode('crop')} />
-              Crop — fill the frame (edges may be cut off)
+              {s('modeCropLabel')}
             </label>
             <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
               <input type="radio" name="social-resize-mode" checked={mode === 'pad'} onChange={() => setMode('pad')} />
-              Pad — fit the whole video over a blurred background
+              {s('modePadLabel')}
             </label>
           </div>
         </div>
       </div>
       {error && <ErrorBox message={error} />}
-      <ProgressBar ratio={progress} label={busy ? 'Resizing video…' : undefined} />
+      <ProgressBar ratio={progress} label={busy ? s('resizingVideo') : undefined} />
       <div className="flex flex-wrap items-center gap-2">
         <PrimaryBtn onClick={run} disabled={busy || !file}>
-          {busy ? 'Resizing…' : 'Resize video'}
+          {busy ? s('resizing') : s('resizeVideo')}
         </PrimaryBtn>
-        {blob && <BlobDownloadBtn blob={blob} filename={`social-${aspectId.replace(':', 'x')}.mp4`} label="Download MP4" />}
+        {blob && <BlobDownloadBtn blob={blob} filename={`social-${aspectId.replace(':', 'x')}.mp4`} label={s('downloadMp4')} />}
       </div>
       {url && (
         <video src={url} controls className="w-full max-h-[420px] rounded-xl border border-gray-200 dark:border-gray-700 bg-black" />
@@ -121,6 +191,7 @@ export const SocialVideoResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    2. Post Ideas Generator — deterministic 30-day calendar
    ================================================================ */
 export const PostIdeasGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [niche, setNiche] = useState(IDEA_NICHES[0]);
   const [custom, setCustom] = useState('');
   const [days, setDays] = useState<CalendarDay[]>([]);
@@ -129,36 +200,36 @@ export const PostIdeasGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const asText = days.map((d) => `Day ${d.day} — ${d.format} — ${d.idea}`).join('\n');
 
   return (
-    <SocialCard tool={tool} note="A full month of post ideas for your niche — same plan every time for the same niche.">
+    <SocialCard tool={tool} note={s('postIdeasNote')}>
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Niche</OptLabel>
+          <OptLabel>{s('nicheLabel')}</OptLabel>
           <OptSelect value={niche} onChange={(e) => setNiche(e.target.value)}>
             {IDEA_NICHES.map((n) => (
-              <option key={n} value={n}>{n}</option>
+              <option key={n} value={n}>{IDEA_NICHE_KEYS[n] ? s(IDEA_NICHE_KEYS[n]) : n}</option>
             ))}
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Or type your own niche (overrides the list)</OptLabel>
+          <OptLabel>{s('customNicheLabel')}</OptLabel>
           <OptInput value={custom} onChange={(e) => setCustom(e.target.value)} placeholder="e.g. Wedding photographer in Lahore" />
         </div>
       </div>
       <PrimaryBtn onClick={() => setDays(generateCalendar(effectiveNiche, 30))}>
-        Generate 30 days of ideas
+        {s('generate30Days')}
       </PrimaryBtn>
       {days.length > 0 && (
         <>
           <div className="flex flex-wrap items-center gap-2">
-            <CopyBtn text={asText} label="Copy all 30 ideas" />
-            <DownloadBtn content={asText} filename="post-ideas.txt" label="Download .txt" />
+            <CopyBtn text={asText} label={s('copyAll30Ideas')} />
+            <DownloadBtn content={asText} filename="post-ideas.txt" label={s('downloadTxt')} />
           </div>
           <ul className="divide-y divide-gray-100 dark:divide-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
             {days.map((d) => (
               <li key={d.day} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 px-3 py-2.5 bg-white dark:bg-slate-900">
-                <span className="text-xs font-extrabold text-pink-600 dark:text-pink-400 w-14 shrink-0">Day {d.day}</span>
+                <span className="text-xs font-extrabold text-pink-600 dark:text-pink-400 w-14 shrink-0">{s('dayLabel').replace('{day}', String(d.day))}</span>
                 <span className="text-[10px] font-bold uppercase tracking-wide bg-pink-50 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 rounded-full px-2 py-0.5 shrink-0">
-                  {d.format}
+                  {FORMAT_LABEL_KEYS[d.format] ? s(FORMAT_LABEL_KEYS[d.format]) : d.format}
                 </span>
                 <span className="text-sm text-gray-800 dark:text-gray-100">{d.idea}</span>
               </li>
@@ -174,6 +245,7 @@ export const PostIdeasGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    3. Giveaway Picker — random winner from comment entries
    ================================================================ */
 export const GiveawayPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const [text, setText] = useState('');
   const [dedupe, setDedupe] = useState(true);
   const [error, setError] = useState('');
@@ -192,8 +264,8 @@ export const GiveawayPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const pick = () => {
     setError('');
-    if (entries.length === 0) { setError('Paste at least one entry first — one username per line.'); return; }
-    if (pool.length === 0) { setError('Every entry has already won. Reset the winners list to start a new round.'); return; }
+    if (entries.length === 0) { setError(s('errNoEntries')); return; }
+    if (pool.length === 0) { setError(s('errAllWon')); return; }
     if (intervalRef.current !== null) window.clearInterval(intervalRef.current);
     setPicking(true);
     const started = Date.now();
@@ -211,34 +283,35 @@ export const GiveawayPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <SocialCard tool={tool} note="Paste the commenters from your giveaway post and pick a random winner — fairly, in your browser.">
+    <SocialCard tool={tool} note={s('giveawayNote')}>
       <div>
-        <OptLabel>Entries — one per line ("username" or "username: comment")</OptLabel>
+        <OptLabel>{s('entriesLabel')}</OptLabel>
         <AiTextarea
+          dir="ltr"
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={7}
           placeholder={'sara.k\n@ali_eats: Great giveaway!\nfoodie.fatima\n@ali_eats: Great giveaway!'}
         />
       </div>
-      <OptCheck label="Remove duplicate entries (same person counts once)" checked={dedupe} onChange={setDedupe} />
+      <OptCheck label={s('dedupeLabel')} checked={dedupe} onChange={setDedupe} />
       <div className="grid grid-cols-3 gap-2">
-        <Stat label="Lines pasted" value={rawLines} />
-        <Stat label="Eligible entries" value={entries.length} />
-        <Stat label="Still in the pool" value={pool.length} />
+        <Stat label={s('linesPasted')} value={rawLines} />
+        <Stat label={s('eligibleEntries')} value={entries.length} />
+        <Stat label={s('stillInPool')} value={pool.length} />
       </div>
       {error && <ErrorBox message={error} />}
       {display && (
         <div className="text-center border border-pink-200 dark:border-pink-800 bg-pink-50 dark:bg-pink-950/40 rounded-xl px-4 py-5">
           <div className="text-[10px] font-bold uppercase tracking-widest text-pink-600 dark:text-pink-400">
-            {picking ? 'Picking…' : 'Winner'}
+            {picking ? s('picking') : s('winnerLabel')}
           </div>
           <div className="text-2xl font-extrabold text-gray-900 dark:text-white break-words mt-1">{display}</div>
         </div>
       )}
       <div className="flex flex-wrap items-center gap-2">
         <PrimaryBtn onClick={pick} disabled={picking}>
-          {picking ? 'Picking…' : winners.length ? 'Remove winner & pick again' : 'Pick a winner'}
+          {picking ? s('picking') : winners.length ? s('pickAgain') : s('pickWinner')}
         </PrimaryBtn>
         {winners.length > 0 && (
           <button
@@ -246,13 +319,13 @@ export const GiveawayPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             onClick={() => { setWinners([]); setDisplay(''); }}
             className="px-3 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer"
           >
-            Reset winners
+            {s('resetWinners')}
           </button>
         )}
       </div>
       {winners.length > 0 && (
         <div>
-          <OptLabel>Winners so far</OptLabel>
+          <OptLabel>{s('winnersSoFar')}</OptLabel>
           <ol className="list-decimal list-inside text-sm text-gray-800 dark:text-gray-100 space-y-1">
             {winners.map((w, i) => (
               <li key={i} className="break-words">{w}</li>
@@ -288,6 +361,7 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
 }
 
 export const PostCardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [name, setName] = useState('Your Name');
   const [handle, setHandle] = useState('yourhandle');
@@ -391,31 +465,31 @@ export const PostCardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [name, handle, text, theme, avatarColor, showStats, replies, reposts, likes]);
 
   return (
-    <SocialCard tool={tool} note="Design mockup — create cards for thumbnails, presentations and content previews.">
+    <SocialCard tool={tool} note={s('postCardNote')}>
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Display name</OptLabel>
+          <OptLabel>{s('displayNameLabel')}</OptLabel>
           <OptInput value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
         </div>
         <div>
-          <OptLabel>Handle (without @)</OptLabel>
-          <OptInput value={handle} onChange={(e) => setHandle(e.target.value)} placeholder="yourhandle" />
+          <OptLabel>{s('handleLabel')}</OptLabel>
+          <OptInput dir="ltr" value={handle} onChange={(e) => setHandle(e.target.value)} placeholder="yourhandle" />
         </div>
       </div>
       <div>
-        <OptLabel>Post text</OptLabel>
-        <AiTextarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder="Write the post text…" />
+        <OptLabel>{s('postTextLabel')}</OptLabel>
+        <AiTextarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={s('writePostTextPlaceholder')} />
       </div>
       <div className="grid sm:grid-cols-3 gap-3 items-end">
         <div>
-          <OptLabel>Theme</OptLabel>
+          <OptLabel>{s('themeLabel')}</OptLabel>
           <OptSelect value={theme} onChange={(e) => setTheme(e.target.value as 'light' | 'dark')}>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
+            <option value="light">{s('themeLight')}</option>
+            <option value="dark">{s('themeDark')}</option>
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Avatar color</OptLabel>
+          <OptLabel>{s('avatarColorLabel')}</OptLabel>
           <div className="flex items-center gap-2">
             <input
               type="color"
@@ -426,26 +500,26 @@ export const PostCardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <span className="text-xs font-semibold text-gray-600 dark:text-gray-300">{avatarColor}</span>
           </div>
         </div>
-        <OptCheck label="Show stats row" checked={showStats} onChange={setShowStats} />
+        <OptCheck label={s('showStatsRow')} checked={showStats} onChange={setShowStats} />
       </div>
       {showStats && (
         <div className="grid grid-cols-3 gap-3">
           <div>
-            <OptLabel>Replies</OptLabel>
+            <OptLabel>{s('repliesLabel')}</OptLabel>
             <OptInput value={replies} onChange={(e) => setReplies(e.target.value)} />
           </div>
           <div>
-            <OptLabel>Reposts</OptLabel>
+            <OptLabel>{s('repostsLabel')}</OptLabel>
             <OptInput value={reposts} onChange={(e) => setReposts(e.target.value)} />
           </div>
           <div>
-            <OptLabel>Likes</OptLabel>
+            <OptLabel>{s('likesLabel')}</OptLabel>
             <OptInput value={likes} onChange={(e) => setLikes(e.target.value)} />
           </div>
         </div>
       )}
       <canvas ref={canvasRef} width={1200} height={630} className="w-full h-auto rounded-xl border border-gray-200 dark:border-gray-700" />
-      <BlobDownloadBtn blob={blob} filename="post-card.png" label="Download PNG" />
+      <BlobDownloadBtn blob={blob} filename="post-card.png" label={s('downloadPng')} />
     </SocialCard>
   );
 };
@@ -461,6 +535,8 @@ const LINK_PRESETS: { id: string; label: string; bg: string; card: string; text:
 ];
 
 export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
+  const c = useStrings(COMMON);
   const [name, setName] = useState('Your Name');
   const [bio, setBio] = useState('Creator · Sharing what I make, every week.');
   const [avatarEmoji, setAvatarEmoji] = useState('👋');
@@ -500,23 +576,23 @@ export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   );
 
   return (
-    <SocialCard tool={tool} note="Build your own link-in-bio page and download it as a single HTML file — no monthly fee, no platform lock-in.">
+    <SocialCard tool={tool} note={s('linkInBioNote')}>
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Name</OptLabel>
+          <OptLabel>{s('nameLabel')}</OptLabel>
           <OptInput value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" />
         </div>
         <div>
-          <OptLabel>Avatar emoji</OptLabel>
+          <OptLabel>{s('avatarEmojiLabel')}</OptLabel>
           <OptInput value={avatarEmoji} onChange={(e) => setAvatarEmoji(e.target.value)} maxLength={4} placeholder="👋" />
         </div>
       </div>
       <div>
-        <OptLabel>Bio</OptLabel>
-        <AiTextarea value={bio} onChange={(e) => setBio(e.target.value)} rows={2} placeholder="A line or two about you…" />
+        <OptLabel>{s('bioLabel')}</OptLabel>
+        <AiTextarea value={bio} onChange={(e) => setBio(e.target.value)} rows={2} placeholder={s('bioPlaceholder')} />
       </div>
       <div>
-        <OptLabel>Theme</OptLabel>
+        <OptLabel>{s('themeLabel')}</OptLabel>
         <div className="flex flex-wrap gap-2">
           {LINK_PRESETS.map((p) => (
             <button
@@ -526,28 +602,29 @@ export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               className="px-3 py-2 rounded-xl text-xs font-bold border cursor-pointer"
               style={{ backgroundColor: p.bg, color: p.text, borderColor: p.card === '#ffffff' ? '#e5e7eb' : p.card }}
             >
-              {p.label}
+              {LINK_PRESET_LABEL_KEYS[p.id] ? s(LINK_PRESET_LABEL_KEYS[p.id]) : p.label}
             </button>
           ))}
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3">
-        <ColorField label="Background" field="bg" />
-        <ColorField label="Link cards" field="card" />
-        <ColorField label="Text" field="text" />
+        <ColorField label={s('backgroundLabel')} field="bg" />
+        <ColorField label={s('linkCardsLabel')} field="card" />
+        <ColorField label={s('textLabel')} field="text" />
       </div>
       <div>
-        <OptLabel>Your links</OptLabel>
+        <OptLabel>{s('yourLinksLabel')}</OptLabel>
         <div className="space-y-2">
           {links.map((l, i) => (
             <div key={i} className="flex gap-2">
               <input
                 value={l.label}
                 onChange={(e) => setLink(i, 'label', e.target.value)}
-                placeholder="Label (e.g. My shop)"
+                placeholder={s('linkLabelPlaceholder')}
                 className="w-2/5 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white"
               />
               <input
+                dir="ltr"
                 value={l.url}
                 onChange={(e) => setLink(i, 'url', e.target.value)}
                 placeholder="https://…"
@@ -558,7 +635,7 @@ export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 disabled={links.length <= 1}
                 onClick={() => setLinks((prev) => prev.filter((_, idx) => idx !== i))}
                 className="px-3 rounded-xl text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                aria-label="Remove link"
+                aria-label={s('removeLink')}
               >
                 ✕
               </button>
@@ -570,18 +647,15 @@ export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           onClick={() => setLinks((prev) => [...prev, { label: '', url: '' }])}
           className="mt-2 px-3 py-2 rounded-xl text-xs font-bold bg-pink-50 dark:bg-pink-950/40 hover:bg-pink-100 dark:hover:bg-pink-900/40 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800 cursor-pointer"
         >
-          + Add a link
+          {s('addLink')}
         </button>
       </div>
       <div>
-        <OptLabel>Live preview</OptLabel>
-        <iframe title="preview" srcDoc={html} className="w-full h-[480px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white" />
+        <OptLabel>{s('livePreview')}</OptLabel>
+        <iframe title={c('preview')} srcDoc={html} className="w-full h-[480px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white" />
       </div>
-      <DownloadBtn content={html} filename="links.html" mime="text/html" label="Download HTML page" />
-      <p className="text-[11px] text-gray-500 leading-relaxed">
-        How to use it: upload the downloaded file to any static host — Netlify Drop, GitHub Pages, or your own hosting —
-        then put its URL in your Instagram/TikTok/X bio. The page is a single self-contained file with no scripts and no tracking.
-      </p>
+      <DownloadBtn content={html} filename="links.html" mime="text/html" label={s('downloadHtmlPage')} />
+      <p className="text-[11px] text-gray-500 leading-relaxed">{s('linkInBioHowTo')}</p>
     </SocialCard>
   );
 };
@@ -590,25 +664,27 @@ export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    6. Emoji Board — tap to build a copy-ready emoji tray
    ================================================================ */
 export const EmojiBoard: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
+  const c = useStrings(COMMON);
   const [active, setActive] = useState(EMOJI_CATEGORIES[0].id);
   const [tray, setTray] = useState('');
-  const category = EMOJI_CATEGORIES.find((c) => c.id === active) ?? EMOJI_CATEGORIES[0];
+  const category = EMOJI_CATEGORIES.find((cat) => cat.id === active) ?? EMOJI_CATEGORIES[0];
 
   return (
-    <SocialCard tool={tool} note="Tap emojis to build a set for your caption, then copy the whole tray at once.">
+    <SocialCard tool={tool} note={s('emojiBoardNote')}>
       <div className="flex flex-wrap gap-2">
-        {EMOJI_CATEGORIES.map((c) => (
+        {EMOJI_CATEGORIES.map((cat) => (
           <button
-            key={c.id}
+            key={cat.id}
             type="button"
-            onClick={() => setActive(c.id)}
+            onClick={() => setActive(cat.id)}
             className={`px-3 py-1.5 rounded-full text-xs font-bold border cursor-pointer transition-colors ${
-              active === c.id
+              active === cat.id
                 ? 'bg-pink-600 text-white border-pink-600'
                 : 'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:border-pink-400'
             }`}
           >
-            {c.label}
+            {EMOJI_CAT_KEYS[cat.id] ? s(EMOJI_CAT_KEYS[cat.id]) : cat.label}
           </button>
         ))}
       </div>
@@ -619,29 +695,29 @@ export const EmojiBoard: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             type="button"
             onClick={() => setTray((prev) => prev + emoji)}
             className="text-2xl py-1.5 rounded-lg hover:bg-pink-50 dark:hover:bg-pink-950/40 cursor-pointer"
-            title={`Add ${emoji} to the tray`}
+            title={s('addToTray').replace('{emoji}', emoji)}
           >
             {emoji}
           </button>
         ))}
       </div>
       <div>
-        <OptLabel>Your tray</OptLabel>
+        <OptLabel>{s('yourTray')}</OptLabel>
         <div className="min-h-[52px] bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-2xl break-words">
-          {tray || <span className="text-sm text-gray-400">Tap emojis above to add them here…</span>}
+          {tray || <span className="text-sm text-gray-400">{s('trayEmpty')}</span>}
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        <CopyBtn text={tray} label="Copy tray" />
+        <CopyBtn text={tray} label={s('copyTray')} />
         <button
           type="button"
           onClick={() => setTray('')}
           disabled={!tray}
           className="px-3 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-50"
         >
-          Clear
+          {c('clear')}
         </button>
-        <span className="text-[11px] text-gray-500">{Array.from(tray).length} emojis selected</span>
+        <span className="text-[11px] text-gray-500">{s('emojisSelected').replace('{n}', String(Array.from(tray).length))}</span>
       </div>
     </SocialCard>
   );
@@ -653,6 +729,7 @@ export const EmojiBoard: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const HASHTAG_AI_NICHES = ['Fitness', 'Food', 'Travel', 'Fashion', 'Beauty', 'Business', 'Photography', 'Tech', 'Pets', 'Music', 'Gaming', 'General'];
 
 export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const { busy, error, result, run, keyReady } = useAiText();
   const [topic, setTopic] = useState('');
   const [niche, setNiche] = useState('General');
@@ -660,7 +737,7 @@ export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const [localError, setLocalError] = useState('');
 
   const generate = async () => {
-    if (!topic.trim()) { setLocalError('Describe your post or photo first.'); return; }
+    if (!topic.trim()) { setLocalError(s('errDescribePost')); return; }
     setLocalError('');
     await run(
       `You are an expert social media marketer. Generate hashtags for a ${platform} post.\n\n` +
@@ -675,10 +752,10 @@ export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <SocialCard tool={tool} note="AI-picked hashtags grouped by reach: broad, medium and niche-specific.">
+    <SocialCard tool={tool} note={s('aiHashtagNote')}>
       {!keyReady && <MissingKeyNotice />}
       <div>
-        <OptLabel>Post topic or photo description</OptLabel>
+        <OptLabel>{s('postTopicLabel')}</OptLabel>
         <AiTextarea
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
@@ -688,15 +765,15 @@ export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Niche</OptLabel>
+          <OptLabel>{s('nicheLabel')}</OptLabel>
           <OptSelect value={niche} onChange={(e) => setNiche(e.target.value)}>
             {HASHTAG_AI_NICHES.map((n) => (
-              <option key={n} value={n}>{n}</option>
+              <option key={n} value={n}>{AI_NICHE_KEYS[n] ? s(AI_NICHE_KEYS[n]) : n}</option>
             ))}
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Platform</OptLabel>
+          <OptLabel>{s('platformLabel')}</OptLabel>
           <OptSelect value={platform} onChange={(e) => setPlatform(e.target.value)}>
             <option value="Instagram">Instagram</option>
             <option value="TikTok">TikTok</option>
@@ -706,7 +783,7 @@ export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
       {(localError || error) && <ErrorBox message={localError || error} />}
       <PrimaryBtn onClick={generate} disabled={busy || !keyReady}>
-        {busy ? 'Generating…' : `Generate hashtags${keyReady ? '' : KEY_SUFFIX}`}
+        {busy ? s('generating') : `${s('generateHashtags')}${keyReady ? '' : s('addApiKeySuffix')}`}
       </PrimaryBtn>
       <AiOutput text={result} filename="hashtags.txt" />
     </SocialCard>
@@ -717,6 +794,7 @@ export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
    8. AI Hook Generator — first-3-seconds video hooks (Gemini)
    ================================================================ */
 export const AiHookGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SOCIAL_STRINGS);
   const { busy, error, result, run, keyReady } = useAiText();
   const [topic, setTopic] = useState('');
   const [platform, setPlatform] = useState('TikTok');
@@ -724,7 +802,7 @@ export const AiHookGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const [localError, setLocalError] = useState('');
 
   const generate = async () => {
-    if (!topic.trim()) { setLocalError('Enter your video topic first.'); return; }
+    if (!topic.trim()) { setLocalError(s('errEnterTopic')); return; }
     setLocalError('');
     await run(
       `You are an expert short-form video creator. Write opening hooks for a ${platform} video.\n\n` +
@@ -740,10 +818,10 @@ export const AiHookGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <SocialCard tool={tool} note="Ten scroll-stopping opening lines for your next short video — honest hooks, no clickbait lies.">
+    <SocialCard tool={tool} note={s('aiHookNote')}>
       {!keyReady && <MissingKeyNotice />}
       <div>
-        <OptLabel>Video topic</OptLabel>
+        <OptLabel>{s('videoTopicLabel')}</OptLabel>
         <AiTextarea
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
@@ -753,7 +831,7 @@ export const AiHookGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Platform</OptLabel>
+          <OptLabel>{s('platformLabel')}</OptLabel>
           <OptSelect value={platform} onChange={(e) => setPlatform(e.target.value)}>
             <option value="TikTok">TikTok</option>
             <option value="Instagram Reels">Instagram Reels</option>
@@ -761,19 +839,17 @@ export const AiHookGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </OptSelect>
         </div>
         <div>
-          <OptLabel>Tone</OptLabel>
+          <OptLabel>{s('toneLabel')}</OptLabel>
           <OptSelect value={tone} onChange={(e) => setTone(e.target.value)}>
-            <option value="Bold">Bold</option>
-            <option value="Curious">Curious</option>
-            <option value="Funny">Funny</option>
-            <option value="Shocking-but-honest">Shocking-but-honest</option>
-            <option value="Educational">Educational</option>
+            {Object.entries(TONE_KEYS).map(([value, key]) => (
+              <option key={value} value={value}>{s(key)}</option>
+            ))}
           </OptSelect>
         </div>
       </div>
       {(localError || error) && <ErrorBox message={localError || error} />}
       <PrimaryBtn onClick={generate} disabled={busy || !keyReady}>
-        {busy ? 'Generating…' : `Generate hooks${keyReady ? '' : KEY_SUFFIX}`}
+        {busy ? s('generating') : `${s('generateHooks')}${keyReady ? '' : s('addApiKeySuffix')}`}
       </PrimaryBtn>
       <AiOutput text={result} filename="hooks.txt" />
     </SocialCard>

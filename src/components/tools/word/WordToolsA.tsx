@@ -11,6 +11,8 @@ import { Bold, Italic, Underline, Undo2, Redo2, Download, Copy, Check, AlertTria
 import html2canvas from 'html2canvas';
 import TurndownService from 'turndown';
 import type { ToolItem } from '../../../lib/tools-data';
+import { useLang, useStrings, COMMON } from '../../../lib/LangContext';
+import { WORD_STRINGS } from '../../../lib/strings/word';
 import { PdfToolShell, OptLabel, OptInput, OptSelect, OptCheck } from '../pdf/PdfToolShell';
 import {
   docxToHtml,
@@ -28,7 +30,6 @@ import {
 } from '../../../lib/word/core';
 
 const DOCX_ACCEPT = '.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-const DOCX_HINT = '.docx files only · processed locally, nothing is uploaded';
 
 // Tailwind styling applied to rendered document HTML (viewer / editor pages).
 const DOC_HTML_CLASSES = [
@@ -37,20 +38,18 @@ const DOC_HTML_CLASSES = [
   '[&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:mt-2',
   '[&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mb-3 [&_h2]:mt-5',
   '[&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-4',
-  '[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-3',
+  '[&_ul]:list-disc [&_ul]:ps-6 [&_ul]:mb-3 [&_ol]:list-decimal [&_ol]:ps-6 [&_ol]:mb-3',
   '[&_table]:w-full [&_table]:border-collapse [&_table]:mb-4',
   '[&_td]:border [&_td]:border-gray-300 [&_td]:px-2 [&_td]:py-1',
   '[&_th]:border [&_th]:border-gray-300 [&_th]:px-2 [&_th]:py-1 [&_th]:bg-gray-100',
   '[&_a]:text-blue-700 [&_a]:underline [&_img]:max-w-full [&_img]:h-auto',
-  '[&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:italic',
+  '[&_blockquote]:border-s-4 [&_blockquote]:border-gray-300 [&_blockquote]:ps-4 [&_blockquote]:italic',
 ].join(' ');
 
-const DocxNote: React.FC = () => (
-  <p className="mt-3 text-[11px] text-gray-500">
-    Works with .docx files (Word 2007+). Legacy .doc files are not supported — open them in Word or LibreOffice and
-    save a copy as .docx first.
-  </p>
-);
+const DocxNote: React.FC = () => {
+  const s = useStrings(WORD_STRINGS);
+  return <p className="mt-3 text-[11px] text-gray-500">{s('docxNote')}</p>;
+};
 
 const LoadError: React.FC<{ message: string }> = ({ message }) => (
   <div className="mt-4 flex items-start gap-2 text-xs font-semibold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl px-3 py-2.5">
@@ -83,7 +82,8 @@ function makeUuid(): string {
   });
 }
 
-const CopyButton: React.FC<{ text: string; label?: string }> = ({ text, label = 'Copy' }) => {
+const CopyButton: React.FC<{ text: string; label?: string }> = ({ text, label }) => {
+  const c = useStrings(COMMON);
   const [copied, setCopied] = useState(false);
   return (
     <button
@@ -100,7 +100,7 @@ const CopyButton: React.FC<{ text: string; label?: string }> = ({ text, label = 
       className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1.5 cursor-pointer"
     >
       {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-      {copied ? 'Copied' : label}
+      {copied ? c('copied') : label ?? c('copy')}
     </button>
   );
 };
@@ -110,6 +110,8 @@ const CopyButton: React.FC<{ text: string; label?: string }> = ({ text, label = 
 // ---------------------------------------------------------------------------
 
 export const WordViewer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(WORD_STRINGS);
   const [html, setHtml] = useState('');
   const [fileName, setFileName] = useState('');
   const [stats, setStats] = useState<{ words: number; chars: number } | null>(null);
@@ -134,19 +136,19 @@ export const WordViewer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     } catch {
       setHtml('');
       setStats(null);
-      setError('Could not read this file. Make sure it is a valid .docx document (Word 2007+).');
+      setError(s('readError'));
     }
   };
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} onFilesChange={handleFiles}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} onFilesChange={handleFiles}>
       {() => (
         <div>
           {error && <LoadError message={error} />}
           {html ? (
             <>
               <div className="mt-4 flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold text-gray-700 dark:text-gray-200">Zoom</span>
+                <span className="text-xs font-bold text-gray-700 dark:text-gray-200">{s('zoom')}</span>
                 {[75, 100, 125, 150].map((z) => (
                   <button
                     key={z}
@@ -161,7 +163,7 @@ export const WordViewer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     {z}%
                   </button>
                 ))}
-                <span className="ml-auto text-[11px] text-gray-500 truncate max-w-[220px]">{fileName}</span>
+                <span className="ms-auto text-[11px] text-gray-500 truncate max-w-[220px]">{fileName}</span>
               </div>
               <div className="mt-3 overflow-auto max-h-[760px] rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 p-4 sm:p-6">
                 <div
@@ -173,12 +175,14 @@ export const WordViewer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
               {stats && (
                 <p className="mt-3 text-xs font-semibold text-gray-600 dark:text-gray-300">
-                  {stats.words.toLocaleString()} words · {stats.chars.toLocaleString()} characters
+                  {s('viewerStats')
+                    .replace('{words}', stats.words.toLocaleString(lang))
+                    .replace('{chars}', stats.chars.toLocaleString(lang))}
                 </p>
               )}
             </>
           ) : (
-            !error && <p className="mt-4 text-xs text-gray-500">Choose a .docx file above to preview it here — no upload, it renders entirely in your browser.</p>
+            !error && <p className="mt-4 text-xs text-gray-500">{s('viewerEmpty')}</p>
           )}
           <DocxNote />
         </div>
@@ -192,6 +196,7 @@ export const WordViewer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [title, setTitle] = useState('edited');
   const [pendingHtml, setPendingHtml] = useState<string | null>(null);
   const [error, setError] = useState('');
@@ -211,7 +216,7 @@ export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setPendingHtml(sanitizeHtml(await docxToHtml(file)));
       setTitle(stripFileExt(file.name) || 'edited');
     } catch {
-      setError('Could not read this file. Make sure it is a valid .docx document (Word 2007+).');
+      setError(s('readError'));
     }
   };
 
@@ -224,22 +229,22 @@ export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     'px-2.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1 cursor-pointer';
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} onFilesChange={handleFiles}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} onFilesChange={handleFiles}>
       {(ctx) => {
         const exportDocx = async () => {
           const html = editorRef.current?.innerHTML || '';
           if (!html.replace(/<[^>]*>/g, '').trim()) {
-            ctx.setStatus('error', 'Nothing to export yet — load a document or type something in the editor first.');
+            ctx.setStatus('error', s('editorEmptyExport'));
             return;
           }
           try {
-            ctx.setStatus('working', 'Rebuilding your .docx from the edited content…');
+            ctx.setStatus('working', s('editorRebuilding'));
             const name = title.replace(/[^\w\- ]+/g, '').trim() || 'edited';
             const bytes = await htmlToDocxBytes(html, name);
             downloadDocx(bytes, `${name}.docx`);
-            ctx.setStatus('done', `Downloaded "${name}.docx" with your edits.`);
+            ctx.setStatus('done', s('editorExported').replace('{name}', name));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Export failed.');
+            ctx.setStatus('error', e?.message || s('exportFailed'));
           }
         };
 
@@ -247,14 +252,14 @@ export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div>
             {error && <LoadError message={error} />}
             <div className="mt-4 flex flex-wrap items-center gap-1.5">
-              <button type="button" className={toolBtn} onClick={() => exec('bold')} title="Bold">
-                <Bold className="w-3.5 h-3.5" /> Bold
+              <button type="button" className={toolBtn} onClick={() => exec('bold')} title={s('bold')}>
+                <Bold className="w-3.5 h-3.5" /> {s('bold')}
               </button>
-              <button type="button" className={toolBtn} onClick={() => exec('italic')} title="Italic">
-                <Italic className="w-3.5 h-3.5" /> Italic
+              <button type="button" className={toolBtn} onClick={() => exec('italic')} title={s('italic')}>
+                <Italic className="w-3.5 h-3.5" /> {s('italic')}
               </button>
-              <button type="button" className={toolBtn} onClick={() => exec('underline')} title="Underline">
-                <Underline className="w-3.5 h-3.5" /> Underline
+              <button type="button" className={toolBtn} onClick={() => exec('underline')} title={s('underline')}>
+                <Underline className="w-3.5 h-3.5" /> {s('underline')}
               </button>
               <div className="w-36">
                 <OptSelect
@@ -263,19 +268,19 @@ export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     exec('formatBlock', `<${e.target.value}>`);
                     e.target.value = 'p';
                   }}
-                  aria-label="Paragraph style"
+                  aria-label={s('paragraphStyle')}
                 >
-                  <option value="p">Paragraph</option>
-                  <option value="h1">Heading 1</option>
-                  <option value="h2">Heading 2</option>
-                  <option value="h3">Heading 3</option>
+                  <option value="p">{s('paragraph')}</option>
+                  <option value="h1">{s('heading1')}</option>
+                  <option value="h2">{s('heading2')}</option>
+                  <option value="h3">{s('heading3')}</option>
                 </OptSelect>
               </div>
-              <button type="button" className={toolBtn} onClick={() => exec('undo')} title="Undo">
-                <Undo2 className="w-3.5 h-3.5" /> Undo
+              <button type="button" className={toolBtn} onClick={() => exec('undo')} title={s('undo')}>
+                <Undo2 className="w-3.5 h-3.5" /> {s('undo')}
               </button>
-              <button type="button" className={toolBtn} onClick={() => exec('redo')} title="Redo">
-                <Redo2 className="w-3.5 h-3.5" /> Redo
+              <button type="button" className={toolBtn} onClick={() => exec('redo')} title={s('redo')}>
+                <Redo2 className="w-3.5 h-3.5" /> {s('redo')}
               </button>
             </div>
 
@@ -284,14 +289,14 @@ export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 ref={editorRef}
                 contentEditable
                 suppressContentEditableWarning
-                data-placeholder="Load a .docx above, or click here and start typing…"
+                data-placeholder={s('editorPlaceholder')}
                 className={`mx-auto max-w-[820px] min-h-[480px] bg-white text-gray-900 shadow-lg rounded-sm px-8 py-10 sm:px-12 font-serif outline-none empty:before:content-[attr(data-placeholder)] empty:before:text-gray-400 ${DOC_HTML_CLASSES}`}
               />
             </div>
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-end">
               <div>
-                <OptLabel>Document name</OptLabel>
+                <OptLabel>{s('documentName')}</OptLabel>
                 <OptInput value={title} onChange={(e) => setTitle(e.target.value)} placeholder="edited" />
               </div>
               <button
@@ -299,13 +304,10 @@ export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 onClick={exportDocx}
                 className="px-4 py-2.5 rounded-xl bg-[#f97316] hover:bg-orange-600 text-white text-sm font-bold flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Download className="w-4 h-4" /> Export as .docx
+                <Download className="w-4 h-4" /> {s('exportAsDocx')}
               </button>
             </div>
-            <p className="mt-3 text-[11px] text-gray-500">
-              Export rebuilds the document from the edited content — headings, bold/italic and lists are kept;
-              embedded images and complex tables are not carried over.
-            </p>
+            <p className="mt-3 text-[11px] text-gray-500">{s('editorExportNote')}</p>
             <DocxNote />
           </div>
         );
@@ -319,12 +321,13 @@ export const WordEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const WordToImages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [format, setFormat] = useState<'jpeg' | 'png'>('jpeg');
 
   const process = async (files: File[]) => {
     const file = files[0];
     const html = sanitizeHtml(await docxToHtml(file));
-    if (!html.trim()) throw new Error('No readable content found in this document.');
+    if (!html.trim()) throw new Error(s('noReadableContent'));
 
     // Render offscreen at A4 width with plain hex-color CSS (html2canvas-safe).
     const container = document.createElement('div');
@@ -354,17 +357,17 @@ export const WordToImages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           slice.width = canvas.width;
           slice.height = Math.min(pageHeight, canvas.height - i * pageHeight);
           const sctx = slice.getContext('2d');
-          if (!sctx) return reject(new Error('Canvas is not available in this browser.'));
+          if (!sctx) return reject(new Error(s('canvasUnavailable')));
           sctx.fillStyle = '#ffffff';
           sctx.fillRect(0, 0, slice.width, slice.height);
           sctx.drawImage(canvas, 0, -i * pageHeight);
-          slice.toBlob((b) => (b ? resolve(b) : reject(new Error('Could not render a page image.'))), mime, 0.92);
+          slice.toBlob((b) => (b ? resolve(b) : reject(new Error(s('renderPageFailed')))), mime, 0.92);
         });
 
       if (pageCount === 1) {
         const blob = await renderSlice(0);
         downloadBlob(blob, `${base}.${ext}`);
-        return `Rendered "${file.name}" as a single ${ext.toUpperCase()} image.`;
+        return s('renderedSingle').replace('{name}', file.name).replace('{ext}', ext.toUpperCase());
       }
       const zip = new JSZip();
       for (let i = 0; i < pageCount; i++) {
@@ -373,24 +376,25 @@ export const WordToImages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }
       const zipBlob = await zip.generateAsync({ type: 'blob', mimeType: 'application/zip' });
       downloadBlob(zipBlob, `${base}-images.zip`);
-      return `Rendered ${pageCount} A4 page images (${ext.toUpperCase()}) from "${file.name}" and zipped them for download.`;
+      return s('renderedMulti')
+        .replace('{count}', String(pageCount))
+        .replace('{ext}', ext.toUpperCase())
+        .replace('{name}', file.name);
     } finally {
       container.remove();
     }
   };
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} actionLabel="Convert to Images" onProcess={process}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} actionLabel={s('convertToImages')} onProcess={process}>
       {() => (
         <div className="mt-4 max-w-xs">
-          <OptLabel>Image format</OptLabel>
+          <OptLabel>{s('imageFormat')}</OptLabel>
           <OptSelect value={format} onChange={(e) => setFormat(e.target.value as 'jpeg' | 'png')}>
-            <option value="jpeg">JPG (smaller files)</option>
-            <option value="png">PNG (sharper text)</option>
+            <option value="jpeg">{s('jpgOption')}</option>
+            <option value="png">{s('pngOption')}</option>
           </OptSelect>
-          <p className="mt-3 text-[11px] text-gray-500">
-            The document is rendered as one long page and sliced into A4-ratio pages. Multiple pages download as a ZIP.
-          </p>
+          <p className="mt-3 text-[11px] text-gray-500">{s('toImagesNote')}</p>
           <DocxNote />
         </div>
       )}
@@ -403,6 +407,8 @@ export const WordToImages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const WordToHtml: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
+  const c = useStrings(COMMON);
   const [standalone, setStandalone] = useState('');
   const [fileName, setFileName] = useState('');
   const [error, setError] = useState('');
@@ -429,12 +435,12 @@ export const WordToHtml: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setFileName(file.name);
     } catch {
       setStandalone('');
-      setError('Could not read this file. Make sure it is a valid .docx document (Word 2007+).');
+      setError(s('readError'));
     }
   };
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} onFilesChange={handleFiles}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} onFilesChange={handleFiles}>
       {() => (
         <div>
           {error && <LoadError message={error} />}
@@ -452,19 +458,19 @@ export const WordToHtml: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   }
                   className="px-4 py-2.5 rounded-xl bg-[#f97316] hover:bg-orange-600 text-white text-sm font-bold flex items-center gap-2 cursor-pointer"
                 >
-                  <Download className="w-4 h-4" /> Download .html
+                  <Download className="w-4 h-4" /> {s('downloadHtml')}
                 </button>
-                <CopyButton text={standalone} label="Copy HTML" />
+                <CopyButton text={standalone} label={s('copyHtml')} />
               </div>
-              <p className="mt-4 mb-2 text-xs font-bold text-gray-700 dark:text-gray-200">Preview</p>
+              <p className="mt-4 mb-2 text-xs font-bold text-gray-700 dark:text-gray-200">{c('preview')}</p>
               <iframe
-                title="HTML preview"
+                title={s('htmlPreviewTitle')}
                 srcDoc={standalone}
                 className="w-full h-96 rounded-xl border border-gray-200 dark:border-gray-700 bg-white"
               />
             </>
           ) : (
-            !error && <p className="mt-4 text-xs text-gray-500">Choose a .docx file above to generate a standalone HTML page from it.</p>
+            !error && <p className="mt-4 text-xs text-gray-500">{s('toHtmlEmpty')}</p>
           )}
           <DocxNote />
         </div>
@@ -478,6 +484,8 @@ export const WordToHtml: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const WordToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(WORD_STRINGS);
   const [text, setText] = useState('');
   const [fileName, setFileName] = useState('');
   const [error, setError] = useState('');
@@ -496,14 +504,14 @@ export const WordToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setFileName(file.name);
     } catch {
       setText('');
-      setError('Could not read this file. Make sure it is a valid .docx document (Word 2007+).');
+      setError(s('readError'));
     }
   };
 
   const paragraphs = text ? text.split(/\n+/).map((p) => p.trim()).filter(Boolean).length : 0;
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} onFilesChange={handleFiles}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} onFilesChange={handleFiles}>
       {() => (
         <div>
           {error && <LoadError message={error} />}
@@ -511,17 +519,19 @@ export const WordToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <>
               <div className="mt-4 flex flex-wrap items-center gap-3">
                 <p className="text-xs font-semibold text-gray-600 dark:text-gray-300">
-                  {countWords(text).toLocaleString()} words · {text.length.toLocaleString()} characters ·{' '}
-                  {paragraphs.toLocaleString()} paragraphs
+                  {s('textStats')
+                    .replace('{words}', countWords(text).toLocaleString(lang))
+                    .replace('{chars}', text.length.toLocaleString(lang))
+                    .replace('{paragraphs}', paragraphs.toLocaleString(lang))}
                 </p>
                 <button
                   type="button"
                   onClick={() =>
                     downloadBytes(new TextEncoder().encode(text), `${stripFileExt(fileName)}.txt`, 'text/plain;charset=utf-8')
                   }
-                  className="ml-auto px-4 py-2.5 rounded-xl bg-[#f97316] hover:bg-orange-600 text-white text-sm font-bold flex items-center gap-2 cursor-pointer"
+                  className="ms-auto px-4 py-2.5 rounded-xl bg-[#f97316] hover:bg-orange-600 text-white text-sm font-bold flex items-center gap-2 cursor-pointer"
                 >
-                  <Download className="w-4 h-4" /> Download .txt
+                  <Download className="w-4 h-4" /> {s('downloadTxt')}
                 </button>
               </div>
               <textarea
@@ -531,7 +541,7 @@ export const WordToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               />
             </>
           ) : (
-            !error && <p className="mt-4 text-xs text-gray-500">Choose a .docx file above to extract its plain text.</p>
+            !error && <p className="mt-4 text-xs text-gray-500">{s('toTextEmpty')}</p>
           )}
           <DocxNote />
         </div>
@@ -547,6 +557,7 @@ export const WordToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const turndown = new TurndownService({ headingStyle: 'atx', bulletListMarker: '-' });
 
 export const WordToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [markdown, setMarkdown] = useState('');
   const [fileName, setFileName] = useState('');
   const [error, setError] = useState('');
@@ -565,12 +576,12 @@ export const WordToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setFileName(file.name);
     } catch {
       setMarkdown('');
-      setError('Could not read this file. Make sure it is a valid .docx document (Word 2007+).');
+      setError(s('readError'));
     }
   };
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} onFilesChange={handleFiles}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} onFilesChange={handleFiles}>
       {() => (
         <div>
           {error && <LoadError message={error} />}
@@ -588,16 +599,16 @@ export const WordToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   }
                   className="px-4 py-2.5 rounded-xl bg-[#f97316] hover:bg-orange-600 text-white text-sm font-bold flex items-center gap-2 cursor-pointer"
                 >
-                  <Download className="w-4 h-4" /> Download .md
+                  <Download className="w-4 h-4" /> {s('downloadMd')}
                 </button>
-                <CopyButton text={markdown} label="Copy Markdown" />
+                <CopyButton text={markdown} label={s('copyMarkdown')} />
               </div>
               <pre className="mt-3 max-h-96 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 text-xs font-mono p-4">
                 {markdown}
               </pre>
             </>
           ) : (
-            !error && <p className="mt-4 text-xs text-gray-500">Choose a .docx file above to convert it to Markdown.</p>
+            !error && <p className="mt-4 text-xs text-gray-500">{s('toMarkdownEmpty')}</p>
           )}
           <DocxNote />
         </div>
@@ -628,12 +639,13 @@ function toXhtmlFragment(htmlFragment: string): string {
 }
 
 export const WordToEpub: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
   const [titleInput, setTitleInput] = useState('');
 
   const process = async (files: File[]) => {
     const file = files[0];
     const html = sanitizeHtml(await docxToHtml(file));
-    if (!html.trim()) throw new Error('No readable content found in this document.');
+    if (!html.trim()) throw new Error(s('noReadableContent'));
     const title = titleInput.trim() || stripFileExt(file.name);
 
     // Split into chapters at <h1> boundaries; content before the first
@@ -730,19 +742,18 @@ ${chapters
     chapterDocs.forEach((c, i) => zip.file(`OEBPS/chapter-${i + 1}.xhtml`, c));
     const blob = await zip.generateAsync({ type: 'blob', mimeType: 'application/epub+zip' });
     downloadBlob(blob, `${stripFileExt(file.name)}.epub`);
-    return `Created "${title}.epub" with ${chapters.length} chapter${chapters.length === 1 ? '' : 's'} (split at Heading 1).`;
+    return s(chapters.length === 1 ? 'epubCreatedOne' : 'epubCreatedMany')
+      .replace('{title}', title)
+      .replace('{count}', String(chapters.length));
   };
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} actionLabel="Convert to EPUB" onProcess={process}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} actionLabel={s('convertToEpub')} onProcess={process}>
       {() => (
         <div className="mt-4 max-w-md">
-          <OptLabel>Book title (optional)</OptLabel>
-          <OptInput value={titleInput} onChange={(e) => setTitleInput(e.target.value)} placeholder="Defaults to the file name" />
-          <p className="mt-3 text-[11px] text-gray-500">
-            Chapters are split at Heading 1. The EPUB opens in Apple Books, Google Play Books, Kindle (via Send to
-            Kindle), and any other e-reader.
-          </p>
+          <OptLabel>{s('bookTitleOptional')}</OptLabel>
+          <OptInput value={titleInput} onChange={(e) => setTitleInput(e.target.value)} placeholder={s('defaultsToFileName')} />
+          <p className="mt-3 text-[11px] text-gray-500">{s('epubNote')}</p>
           <DocxNote />
         </div>
       )}
@@ -817,16 +828,18 @@ function odtBlocks(container: HTMLElement, out: string[]) {
 }
 
 export const WordToOdt: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
+
   const process = async (files: File[]) => {
     const file = files[0];
     const html = sanitizeHtml(await docxToHtml(file));
-    if (!html.trim()) throw new Error('No readable content found in this document.');
+    if (!html.trim()) throw new Error(s('noReadableContent'));
     const title = stripFileExt(file.name);
 
     const parsed = new DOMParser().parseFromString(html, 'text/html');
     const bodyParts: string[] = [];
     odtBlocks(parsed.body, bodyParts);
-    if (!bodyParts.length) throw new Error('No paragraphs or headings could be extracted from this document.');
+    if (!bodyParts.length) throw new Error(s('noParagraphsExtracted'));
 
     const contentXml = `<?xml version="1.0" encoding="UTF-8"?>
 <office:document-content xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" office:version="1.2">
@@ -886,11 +899,11 @@ ${bodyParts.join('\n')}
     zip.file('meta.xml', metaXml);
     const blob = await zip.generateAsync({ type: 'blob', mimeType: 'application/vnd.oasis.opendocument.text' });
     downloadBlob(blob, `${title}.odt`);
-    return `Created "${title}.odt" with ${bodyParts.length} paragraphs/headings — opens in LibreOffice, Google Docs, and Word.`;
+    return s('odtCreated').replace('{title}', title).replace('{count}', String(bodyParts.length));
   };
 
   return (
-    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={DOCX_HINT} actionLabel="Convert to ODT" onProcess={process}>
+    <PdfToolShell tool={tool} accept={DOCX_ACCEPT} dropzoneHint={s('docxOnlyHint')} actionLabel={s('convertToOdt')} onProcess={process}>
       {() => <DocxNote />}
     </PdfToolShell>
   );
@@ -907,14 +920,16 @@ interface OdtStyleInfo {
 }
 
 export const OdtToWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(WORD_STRINGS);
+
   const process = async (files: File[]) => {
     const file = files[0];
     const zip = await loadDocxZip(file).catch(() => {
-      throw new Error('Could not open this file — it does not look like a valid .odt document.');
+      throw new Error(s('odtOpenError'));
     });
     const contentXml = await (async () => {
       const entry = zip.file('content.xml');
-      if (!entry) throw new Error('No content.xml found — this does not look like an OpenDocument text file.');
+      if (!entry) throw new Error(s('odtNoContent'));
       return entry.async('string');
     })();
 
@@ -974,7 +989,7 @@ export const OdtToWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     };
 
     const officeText = doc.getElementsByTagName('office:text')[0];
-    if (!officeText) throw new Error('No document body found in this ODT file.');
+    if (!officeText) throw new Error(s('odtNoBody'));
     const htmlParts: string[] = [];
     let paragraphCount = 0;
     Array.from(officeText.children).forEach((block) => {
@@ -1000,28 +1015,26 @@ export const OdtToWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         });
       }
     });
-    if (!paragraphCount) throw new Error('No text paragraphs found in this ODT file.');
+    if (!paragraphCount) throw new Error(s('odtNoParagraphs'));
 
     const title = stripFileExt(file.name);
     const bytes = await htmlToDocxBytes(htmlParts.join('\n'), title);
     downloadDocx(bytes, `${title}.docx`);
-    return `Converted ${paragraphCount} paragraphs from "${file.name}" into "${title}.docx".`;
+    return s('odtConverted')
+      .replace('{count}', String(paragraphCount))
+      .replace('{name}', file.name)
+      .replace('{title}', title);
   };
 
   return (
     <PdfToolShell
       tool={tool}
       accept=".odt,application/vnd.oasis.opendocument.text"
-      dropzoneHint=".odt files only · processed locally, nothing is uploaded"
-      actionLabel="Convert to Word"
+      dropzoneHint={s('odtOnlyHint')}
+      actionLabel={s('convertToWord')}
       onProcess={process}
     >
-      {() => (
-        <p className="mt-3 text-[11px] text-gray-500">
-          Headings, paragraphs, bold/italic spans and lists are carried over. Works with .docx files (Word 2007+) on the
-          output side — the converted file opens in Word, Google Docs, and LibreOffice.
-        </p>
-      )}
+      {() => <p className="mt-3 text-[11px] text-gray-500">{s('odtToWordNote')}</p>}
     </PdfToolShell>
   );
 };
@@ -1077,6 +1090,9 @@ function markdownLiteToHtml(md: string): string {
 }
 
 export const TextToWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(WORD_STRINGS);
+  const c = useStrings(COMMON);
   const [text, setText] = useState('');
   const [docTitle, setDocTitle] = useState('document');
   const [markdownMode, setMarkdownMode] = useState(false);
@@ -1091,24 +1107,27 @@ export const TextToWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <PdfToolShell tool={tool} accept=".txt,.md,text/plain" dropzoneHint="Optional: load a .txt or .md file into the editor below" onFilesChange={handleFiles}>
+    <PdfToolShell tool={tool} accept=".txt,.md,text/plain" dropzoneHint={s('textToWordHint')} onFilesChange={handleFiles}>
       {(ctx) => {
         const download = async () => {
           if (!text.trim()) {
-            ctx.setStatus('error', 'Paste or type some text first — or load a .txt/.md file above.');
+            ctx.setStatus('error', s('textEmptyError'));
             return;
           }
           try {
             setBusy(true);
-            ctx.setStatus('working', 'Building your Word document…');
+            ctx.setStatus('working', s('buildingDocument'));
             const name = docTitle.replace(/[^\w\- ]+/g, '').trim() || 'document';
             const bytes = markdownMode
               ? await htmlToDocxBytes(markdownLiteToHtml(text), name)
               : await textToDocxBytes(text, name);
             downloadDocx(bytes, `${name}.docx`);
-            ctx.setStatus('done', `Created "${name}.docx" from ${countWords(text).toLocaleString()} words.`);
+            ctx.setStatus(
+              'done',
+              s('textCreated').replace('{name}', name).replace('{count}', countWords(text).toLocaleString(lang))
+            );
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not create the document.');
+            ctx.setStatus('error', e?.message || s('createFailed'));
           } finally {
             setBusy(false);
           }
@@ -1116,16 +1135,16 @@ export const TextToWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         return (
           <div className="mt-4">
-            <OptLabel>Your text</OptLabel>
+            <OptLabel>{c('yourText')}</OptLabel>
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Paste or type your text here… blank lines start a new paragraph."
+              placeholder={s('textPlaceholder')}
               className="w-full h-64 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-white"
             />
             <div className="mt-3 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-end">
               <div>
-                <OptLabel>Document name</OptLabel>
+                <OptLabel>{s('documentName')}</OptLabel>
                 <OptInput value={docTitle} onChange={(e) => setDocTitle(e.target.value)} placeholder="document" />
               </div>
               <button
@@ -1134,19 +1153,14 @@ export const TextToWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 disabled={busy}
                 className="px-4 py-2.5 rounded-xl bg-[#f97316] hover:bg-orange-600 disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:text-gray-400 text-white text-sm font-bold flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Download className="w-4 h-4" /> Download .docx
+                <Download className="w-4 h-4" /> {s('downloadDocxBtn')}
               </button>
             </div>
             <div className="mt-3">
-              <OptCheck
-                label="Markdown mode — treat # as headings, ** as bold, - as bullet lists"
-                checked={markdownMode}
-                onChange={setMarkdownMode}
-              />
+              <OptCheck label={s('markdownModeLabel')} checked={markdownMode} onChange={setMarkdownMode} />
             </div>
             <p className="mt-2 text-[11px] text-gray-500">
-              {countWords(text).toLocaleString()} words · creates a standard .docx file (Word 2007+) that opens in Word,
-              Google Docs, and LibreOffice.
+              {s('textStatsLine').replace('{count}', countWords(text).toLocaleString(lang))}
             </p>
           </div>
         );

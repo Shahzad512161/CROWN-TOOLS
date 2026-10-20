@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { Car, Shield, CheckCircle, AlertTriangle, Copy, Check, TrendingDown } from 'lucide-react';
+import { useLang, useStrings, COMMON } from '../../lib/LangContext';
+import { CALC_STRINGS } from '../../lib/strings/calculators';
 
 export const AutoInsuranceCalculator: React.FC = () => {
+  const lang = useLang();
+  const s = useStrings(CALC_STRINGS);
+  const c = useStrings(COMMON);
+
+  const stateName = (code: string, fallback: string): string => {
+    const entry = CALC_STRINGS[`state_${code}`];
+    return entry ? entry[lang] ?? entry.en : fallback;
+  };
   const [vehicleValue, setVehicleValue] = useState<number>(32000);
   const [driverAge, setDriverAge] = useState<string>('25-34');
   const [stateCode, setStateCode] = useState<string>('CA');
@@ -56,6 +66,17 @@ export const AutoInsuranceCalculator: React.FC = () => {
   };
 
   const selectedState = stateRates[stateCode] || { name: 'USA Average', multiplier: 1.0, avgAnnual: 1900 };
+  const selectedStateName = stateRates[stateCode] ? stateName(stateCode, selectedState.name) : s('stateUSAvg');
+  const tierLabelText =
+    coverageTier === 'minimum' ? s('tierMinimum') : coverageTier === 'standard' ? s('tierStandard') : s('tierComprehensive');
+  const recordLabelText =
+    drivingRecord === 'clean'
+      ? s('recordClean')
+      : drivingRecord === 'ticket'
+        ? s('recordTicket')
+        : drivingRecord === 'accident'
+          ? s('recordAccident')
+          : s('recordMajor');
   const basePrice = tierBase[coverageTier];
   const valueFactor = 1 + (vehicleValue - 25000) * 0.000012;
 
@@ -71,15 +92,17 @@ export const AutoInsuranceCalculator: React.FC = () => {
   const estimatedMonthly = Math.round(estimatedAnnual / 12);
 
   const handleCopy = () => {
-    const text = `Super Crown Auto Insurance Estimate:
-State: ${selectedState.name} (${stateCode})
-Coverage: ${coverageTier.toUpperCase()}
-Deductible: $${deductible}
-Driver Age: ${driverAge} | Driving Record: ${drivingRecord.toUpperCase()}
------------------------------------
-Estimated Monthly Premium: $${estimatedMonthly}/mo
-Estimated Annual Premium: $${estimatedAnnual.toLocaleString()}/yr
-State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
+    const text = [
+      s('insSummaryTitle'),
+      s('sumInsState').replace('{state}', selectedStateName).replace('{code}', stateCode),
+      s('sumInsCoverage').replace('{tier}', tierLabelText),
+      s('sumInsDeductible').replace('{v}', `$${deductible.toLocaleString(lang)}`),
+      s('sumInsDriver').replace('{age}', driverAge).replace('{record}', recordLabelText),
+      '-----------------------------------',
+      s('sumInsMonthly').replace('{v}', `$${estimatedMonthly.toLocaleString(lang)}`),
+      s('sumInsAnnual').replace('{v}', `$${estimatedAnnual.toLocaleString(lang)}`),
+      s('sumInsBenchmark').replace('{v}', `$${selectedState.avgAnnual.toLocaleString(lang)}`)
+    ].join('\n');
 
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -91,10 +114,10 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <span>🚗</span> USA Auto Insurance Rate Estimator
+            <span>🚗</span> {s('insTitle')}
           </h2>
           <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Grounded in current 50-state actuarial rating models and deductible discounts.
+            {s('insSubtitle')}
           </p>
         </div>
         <button
@@ -102,7 +125,7 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-50 text-orange-600 dark:bg-orange-950/60 dark:text-orange-400 hover:bg-orange-100 border border-orange-200 dark:border-orange-800 transition-colors cursor-pointer"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-          <span>{copied ? 'Copied!' : 'Copy Quote'}</span>
+          <span>{copied ? c('copied') : s('copyQuote')}</span>
         </button>
       </div>
 
@@ -112,7 +135,7 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                Select US State
+                {s('selectStateLabel')}
               </label>
               <select
                 value={stateCode}
@@ -121,7 +144,7 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
               >
                 {Object.entries(stateRates).map(([code, data]) => (
                   <option key={code} value={code}>
-                    {data.name} ({code})
+                    {stateName(code, data.name)} ({code})
                   </option>
                 ))}
               </select>
@@ -129,27 +152,27 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                Driver Age Bracket
+                {s('driverAgeLabel')}
               </label>
               <select
                 value={driverAge}
                 onChange={(e) => setDriverAge(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
               >
-                <option value="16-19">16 - 19 yrs (Teen)</option>
-                <option value="20-24">20 - 24 yrs (Young Adult)</option>
-                <option value="25-34">25 - 34 yrs (Standard)</option>
-                <option value="35-54">35 - 54 yrs (Prime)</option>
-                <option value="55-64">55 - 64 yrs (Mature)</option>
-                <option value="65+">65+ yrs (Senior)</option>
+                <option value="16-19">{s('ageOption').replace('{range}', '16 - 19').replace('{desc}', s('ageTeen'))}</option>
+                <option value="20-24">{s('ageOption').replace('{range}', '20 - 24').replace('{desc}', s('ageYoungAdult'))}</option>
+                <option value="25-34">{s('ageOption').replace('{range}', '25 - 34').replace('{desc}', s('ageStandard'))}</option>
+                <option value="35-54">{s('ageOption').replace('{range}', '35 - 54').replace('{desc}', s('agePrime'))}</option>
+                <option value="55-64">{s('ageOption').replace('{range}', '55 - 64').replace('{desc}', s('ageMature'))}</option>
+                <option value="65+">{s('ageOption').replace('{range}', '65+').replace('{desc}', s('ageSenior'))}</option>
               </select>
             </div>
           </div>
 
           <div>
             <div className="flex justify-between text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
-              <span>Vehicle Market Value</span>
-              <span className="text-orange-600 font-bold">${vehicleValue.toLocaleString()}</span>
+              <span>{s('vehicleValueLabel')}</span>
+              <span className="text-orange-600 font-bold">${vehicleValue.toLocaleString(lang)}</span>
             </div>
             <input
               type="range"
@@ -165,14 +188,14 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
           {/* Driving Record */}
           <div>
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              Driving Record (Last 3 Years)
+              {s('drivingRecordLabel')}
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {[
-                { id: 'clean', label: 'Clean Record' },
-                { id: 'ticket', label: '1 Speeding Ticket' },
-                { id: 'accident', label: '1 At-Fault Accident' },
-                { id: 'major', label: 'DUI / Major' }
+                { id: 'clean', label: s('recordClean') },
+                { id: 'ticket', label: s('recordTicket') },
+                { id: 'accident', label: s('recordAccident') },
+                { id: 'major', label: s('recordMajor') }
               ].map((rec) => (
                 <button
                   key={rec.id}
@@ -193,19 +216,19 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
           {/* Coverage Tier */}
           <div>
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              Coverage Level
+              {s('coverageLevelLabel')}
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { id: 'minimum', label: 'State Minimum', desc: 'Liability Only' },
-                { id: 'standard', label: 'Standard', desc: '50/100/50 + Coll.' },
-                { id: 'comprehensive', label: 'Full Coverage', desc: '100/300/100 Full' }
+                { id: 'minimum', label: s('tierMinimum'), desc: s('tierMinimumDesc') },
+                { id: 'standard', label: s('tierStandard'), desc: s('tierStandardDesc') },
+                { id: 'comprehensive', label: s('tierComprehensive'), desc: s('tierComprehensiveDesc') }
               ].map((tier) => (
                 <button
                   key={tier.id}
                   type="button"
                   onClick={() => setCoverageTier(tier.id as any)}
-                  className={`py-2 px-2.5 rounded-xl text-left border transition-all ${
+                  className={`py-2 px-2.5 rounded-xl text-start border transition-all ${
                     coverageTier === tier.id
                       ? 'border-orange-500 bg-orange-50 dark:bg-orange-950 text-orange-600 dark:text-orange-400'
                       : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400'
@@ -221,7 +244,7 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
           {/* Deductible */}
           <div>
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              Collision & Comp Deductible
+              {s('deductibleLabel')}
             </label>
             <div className="grid grid-cols-4 gap-2">
               {[250, 500, 1000, 2000].map((d) => (
@@ -241,7 +264,7 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
             </div>
             {deductible === 1000 && (
               <p className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 flex items-center gap-1 font-medium">
-                <TrendingDown className="w-3.5 h-3.5" /> A $1,000 deductible saves an average of 12% on annual premiums.
+                <TrendingDown className="w-3.5 h-3.5" /> {s('deductibleTip')}
               </p>
             )}
           </div>
@@ -252,46 +275,48 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
           <div>
             <div className="text-center pb-4 border-b border-gray-200 dark:border-gray-700">
               <span className="text-xs uppercase font-bold tracking-wider text-blue-600 dark:text-blue-400">
-                Estimated Premium
+                {s('estimatedPremium')}
               </span>
               <div className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
-                ${estimatedMonthly}
-                <span className="text-sm font-medium text-gray-500">/mo</span>
+                ${estimatedMonthly.toLocaleString(lang)}
+                <span className="text-sm font-medium text-gray-500">{s('perMonth')}</span>
               </div>
               <p className="text-xs font-semibold text-gray-600 dark:text-gray-300 mt-1">
-                ${estimatedAnnual.toLocaleString()} per year in {selectedState.name}
+                {s('perYearInState')
+                  .replace('{v}', `$${estimatedAnnual.toLocaleString(lang)}`)
+                  .replace('{state}', selectedStateName)}
               </p>
             </div>
 
             <div className="my-5 space-y-3 text-xs">
               <div className="p-3 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700">
                 <div className="flex justify-between font-semibold text-gray-800 dark:text-gray-200">
-                  <span>State Average:</span>
-                  <span>${selectedState.avgAnnual.toLocaleString()}/yr</span>
+                  <span>{s('stateAverageLabel')}</span>
+                  <span>${selectedState.avgAnnual.toLocaleString(lang)}{s('perYear')}</span>
                 </div>
                 <div className="flex justify-between text-gray-500 dark:text-gray-400 text-[11px] mt-1">
-                  <span>Your Comparison:</span>
+                  <span>{s('yourComparisonLabel')}</span>
                   <span className={estimatedAnnual <= selectedState.avgAnnual ? 'text-emerald-500 font-bold' : 'text-amber-500 font-bold'}>
-                    {estimatedAnnual <= selectedState.avgAnnual ? 'Below State Avg (Good!)' : 'Higher due to selected factors'}
+                    {estimatedAnnual <= selectedState.avgAnnual ? s('belowAvg') : s('higherFactors')}
                   </span>
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <span className="font-bold text-gray-800 dark:text-gray-200 text-xs block">
-                  Top Savings Discounts Available:
+                  {s('topSavings')}
                 </span>
                 <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-[11px]">
                   <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span>Auto + Home/Renters Bundle (Save up to 15%)</span>
+                  <span>{s('discountBundle')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-[11px]">
                   <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span>Telematics Safe Driver App (Save 10-25%)</span>
+                  <span>{s('discountTelematics')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-[11px]">
                   <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span>Annual Pay-in-Full Discount (Save 5-8%)</span>
+                  <span>{s('discountPayInFull')}</span>
                 </div>
               </div>
             </div>
@@ -299,7 +324,7 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
 
           <div className="pt-4 border-t border-gray-200 dark:border-gray-700 text-center">
             <span className="text-[11px] text-gray-500 dark:text-gray-400">
-              Rates are for illustrative estimation based on 2026 Insurance Information Institute (III) data.
+              {s('insFooter')}
             </span>
           </div>
         </div>

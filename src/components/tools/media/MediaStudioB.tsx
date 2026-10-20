@@ -28,7 +28,6 @@ import {
   BlobDownloadBtn,
   CopyBtn,
   DownloadBtn,
-  ENGINE_NOTE,
   ErrorBox,
   FileDrop,
   MediaCard,
@@ -40,6 +39,8 @@ import {
   SampleAudioBtn,
   Stat,
 } from './MediaShell';
+import { useLang, useStrings, COMMON } from '../../../lib/LangContext';
+import { MEDIA_STRINGS } from '../../../lib/strings/media';
 
 // ---------------- shared helpers ----------------
 
@@ -95,6 +96,7 @@ const AUDIO_FORMAT_OPTIONS: { value: AudioFormat; label: string }[] = [
 // ---------------- 1. Audio Joiner ----------------
 
 export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
   const [files, setFiles] = useState<File[]>([]);
   const [format, setFormat] = useState<AudioFormat>('mp3');
   const [busy, setBusy] = useState(false);
@@ -140,7 +142,7 @@ export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setResult({ blob, url: URL.createObjectURL(blob) });
     } catch (e) {
       resetFfmpeg();
-      setError(e instanceof Error ? e.message : 'Something went wrong while joining the audio.');
+      setError(e instanceof Error ? e.message : s('joinErrorFallback'));
     } finally {
       setBusy(false);
       setProgress(null);
@@ -150,10 +152,7 @@ export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const totalIn = files.reduce((acc, f) => acc + f.size, 0);
 
   return (
-    <MediaCard
-      tool={tool}
-      note={`Joins 2–10 tracks end to end. Everything is decoded and re-encoded into one format and sample rate via the concat filter, so mixing MP3, WAV and other inputs is fine. ${ENGINE_NOTE}`}
-    >
+    <MediaCard tool={tool} note={`${s('joinerNote')} ${s('engineNote')}`}>
       <div className="space-y-4">
         <div
           onClick={() => !busy && inputRef.current?.click()}
@@ -170,8 +169,8 @@ export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               : 'border-gray-300 dark:border-gray-600 hover:border-orange-400 hover:bg-gray-50 dark:hover:bg-gray-800'
           }`}
         >
-          <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Drop audio files here or click to browse</p>
-          <p className="text-[11px] text-gray-500 mt-1">Add 2–10 tracks — they play in the order shown below. Your files never leave this device.</p>
+          <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">{s('dropAudioFiles')}</p>
+          <p className="text-[11px] text-gray-500 mt-1">{s('joinerDropHint')}</p>
           <input
             ref={inputRef}
             type="file"
@@ -197,10 +196,10 @@ export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   <span className="block text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">{f.name}</span>
                   <span className="block text-[11px] text-gray-500">{formatBytes(f.size)}</span>
                 </span>
-                <button type="button" className={iconBtnCls} disabled={busy || i === 0} onClick={() => move(i, -1)} aria-label="Move up">
+                <button type="button" className={iconBtnCls} disabled={busy || i === 0} onClick={() => move(i, -1)} aria-label={s('moveUp')}>
                   <ArrowUp className="w-4 h-4" />
                 </button>
-                <button type="button" className={iconBtnCls} disabled={busy || i === files.length - 1} onClick={() => move(i, 1)} aria-label="Move down">
+                <button type="button" className={iconBtnCls} disabled={busy || i === files.length - 1} onClick={() => move(i, 1)} aria-label={s('moveDown')}>
                   <ArrowDown className="w-4 h-4" />
                 </button>
                 <button
@@ -208,7 +207,7 @@ export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   className={iconBtnCls}
                   disabled={busy}
                   onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))}
-                  aria-label="Remove track"
+                  aria-label={s('removeTrack')}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -219,31 +218,31 @@ export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-44">
-            <OptLabel>Output format</OptLabel>
+            <OptLabel>{s('outputFormat')}</OptLabel>
             <OptSelect value={format} onChange={(e) => setFormat(e.target.value as AudioFormat)} disabled={busy}>
               {AUDIO_FORMAT_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
+                <option key={o.value} value={o.value}>{o.value === 'wav' ? s('wavLossless') : o.label}</option>
               ))}
             </OptSelect>
           </div>
           <PrimaryBtn onClick={run} disabled={busy || files.length < 2}>
-            {busy ? 'Joining…' : 'Join audio'}
+            {busy ? s('joining') : s('joinAudio')}
           </PrimaryBtn>
-          {files.length === 1 && <span className="text-[11px] font-semibold text-gray-500 pb-2.5">Add at least one more track to join.</span>}
+          {files.length === 1 && <span className="text-[11px] font-semibold text-gray-500 pb-2.5">{s('addAnotherTrack')}</span>}
         </div>
 
-        <ProgressBar ratio={progress} label="Joining audio…" />
+        <ProgressBar ratio={progress} label={s('joiningAudio')} />
         {error && <ErrorBox message={error} />}
 
         {result && (
           <div className="space-y-3">
             <audio controls src={result.url} className="w-full" />
             <div className="grid grid-cols-3 gap-2">
-              <Stat label="Tracks joined" value={files.length} />
-              <Stat label="Input total" value={formatBytes(totalIn)} />
-              <Stat label="Output size" value={formatBytes(result.blob.size)} />
+              <Stat label={s('tracksJoined')} value={files.length} />
+              <Stat label={s('inputTotal')} value={formatBytes(totalIn)} />
+              <Stat label={s('outputSize')} value={formatBytes(result.blob.size)} />
             </div>
-            <BlobDownloadBtn blob={result.blob} filename={`joined-audio.${format}`} label={`Download joined audio (.${format})`} />
+            <BlobDownloadBtn blob={result.blob} filename={`joined-audio.${format}`} label={s('downloadJoinedAudio').replace('{format}', format)} />
           </div>
         )}
       </div>
@@ -254,6 +253,8 @@ export const AudioJoiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 2. Audio Volume Booster ----------------
 
 export const AudioVolumeBooster: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [mode, setMode] = useState<'gain' | 'loudnorm'>('gain');
@@ -291,7 +292,7 @@ export const AudioVolumeBooster: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setResult({ blob, url: URL.createObjectURL(blob) });
     } catch (e) {
       resetFfmpeg();
-      setError(e instanceof Error ? e.message : 'Something went wrong while changing the volume.');
+      setError(e instanceof Error ? e.message : s('volumeErrorFallback'));
     } finally {
       setBusy(false);
       setProgress(null);
@@ -299,11 +300,11 @@ export const AudioVolumeBooster: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard tool={tool} note={ENGINE_NOTE}>
+    <MediaCard tool={tool} note={s('engineNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop accept="audio/*" label="Drop an audio file here or click to browse" fileName={file?.name ?? null} onFile={onFile} />
+            <FileDrop accept="audio/*" label={s('dropAudio')} fileName={file?.name ?? null} onFile={onFile} />
           </div>
           <SampleAudioBtn onFile={onFile} />
         </div>
@@ -311,22 +312,22 @@ export const AudioVolumeBooster: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {previewUrl && <audio controls src={previewUrl} className="w-full" />}
 
         <div>
-          <OptLabel>Mode</OptLabel>
+          <OptLabel>{s('modeLabel')}</OptLabel>
           <div className="flex flex-wrap gap-4">
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
               <input type="radio" name="volume-mode" checked={mode === 'gain'} onChange={() => setMode('gain')} className="accent-orange-500 w-4 h-4" disabled={busy} />
-              Gain (dB)
+              {s('gainDbLabel')}
             </label>
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 cursor-pointer">
               <input type="radio" name="volume-mode" checked={mode === 'loudnorm'} onChange={() => setMode('loudnorm')} className="accent-orange-500 w-4 h-4" disabled={busy} />
-              Normalize (loudnorm)
+              {s('normalizeLoudnorm')}
             </label>
           </div>
         </div>
 
         {mode === 'gain' ? (
           <div>
-            <OptLabel>Gain: {gainDb > 0 ? `+${gainDb}` : gainDb} dB</OptLabel>
+            <OptLabel>{s('gainValue').replace('{value}', gainDb > 0 ? `+${gainDb}` : String(gainDb))}</OptLabel>
             <input
               type="range"
               min={-20}
@@ -338,51 +339,50 @@ export const AudioVolumeBooster: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               className="w-full accent-orange-500"
             />
             <div className="flex justify-between text-[11px] font-semibold text-gray-500">
-              <span>−20 dB (quieter)</span>
-              <span>+30 dB (louder)</span>
+              <span>{s('quieterEnd')}</span>
+              <span>{s('louderEnd')}</span>
             </div>
           </div>
         ) : (
           <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-            Loudnorm measures the whole track and brings it to a broadcast loudness target (−16 LUFS) without a fixed guess —
-            the safe option for speech, podcasts and voice notes.
+            {s('loudnormExplainer')}
           </p>
         )}
 
         {mode === 'gain' && gainDb > 12 && (
           <div className="text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2.5">
-            Boosting by more than +12 dB will likely make loud passages clip and distort. For speech, Normalize (loudnorm) is the safer choice.
+            {s('clipWarning')}
           </div>
         )}
 
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-44">
-            <OptLabel>Output format</OptLabel>
+            <OptLabel>{s('outputFormat')}</OptLabel>
             <OptSelect value={format} onChange={(e) => setFormat(e.target.value as AudioFormat)} disabled={busy}>
               {AUDIO_FORMAT_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
+                <option key={o.value} value={o.value}>{o.value === 'wav' ? s('wavLossless') : o.label}</option>
               ))}
             </OptSelect>
           </div>
           <PrimaryBtn onClick={run} disabled={busy || !file}>
             <span className="inline-flex items-center gap-2">
               <Volume2 className="w-4 h-4" />
-              {busy ? 'Processing…' : 'Apply volume change'}
+              {busy ? c('processing') : s('applyVolumeChange')}
             </span>
           </PrimaryBtn>
         </div>
 
-        <ProgressBar ratio={progress} label="Adjusting volume…" />
+        <ProgressBar ratio={progress} label={s('adjustingVolume')} />
         {error && <ErrorBox message={error} />}
 
         {result && (
           <div className="space-y-3">
             <audio controls src={result.url} className="w-full" />
             <div className="grid grid-cols-2 gap-2">
-              <Stat label="Input size" value={file ? formatBytes(file.size) : '—'} />
-              <Stat label="Output size" value={formatBytes(result.blob.size)} />
+              <Stat label={s('inputSize')} value={file ? formatBytes(file.size) : '—'} />
+              <Stat label={s('outputSize')} value={formatBytes(result.blob.size)} />
             </div>
-            <BlobDownloadBtn blob={result.blob} filename={`volume-adjusted.${format}`} label={`Download audio (.${format})`} />
+            <BlobDownloadBtn blob={result.blob} filename={`volume-adjusted.${format}`} label={s('downloadAudioFormat').replace('{format}', format)} />
           </div>
         )}
       </div>
@@ -395,6 +395,8 @@ export const AudioVolumeBooster: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const SPEED_CHIPS = [0.5, 0.75, 1, 1.25, 1.5, 2, 3];
 
 export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
@@ -433,7 +435,7 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setResult({ blob, url: URL.createObjectURL(blob) });
     } catch (e) {
       resetFfmpeg();
-      setError(e instanceof Error ? e.message : 'Something went wrong while changing the speed.');
+      setError(e instanceof Error ? e.message : s('speedErrorFallback'));
     } finally {
       setBusy(false);
       setProgress(null);
@@ -441,14 +443,11 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard
-      tool={tool}
-      note={`Speed changes use FFmpeg's atempo filter, which preserves pitch — voices and music play faster or slower without sounding higher or lower. ${ENGINE_NOTE}`}
-    >
+    <MediaCard tool={tool} note={`${s('speedNote')} ${s('engineNote')}`}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
           <div className="flex-1 min-w-[240px]">
-            <FileDrop accept="audio/*" label="Drop an audio file here or click to browse" fileName={file?.name ?? null} onFile={onFile} />
+            <FileDrop accept="audio/*" label={s('dropAudio')} fileName={file?.name ?? null} onFile={onFile} />
           </div>
           <SampleAudioBtn onFile={onFile} />
         </div>
@@ -466,7 +465,7 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         )}
 
         <div>
-          <OptLabel>Speed</OptLabel>
+          <OptLabel>{s('speedLabel')}</OptLabel>
           <div className="flex flex-wrap gap-2">
             {SPEED_CHIPS.map((r) => (
               <button
@@ -487,7 +486,7 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         </div>
 
         <div>
-          <OptLabel>Fine tune: {rate.toFixed(2)}×</OptLabel>
+          <OptLabel>{s('fineTuneSpeed').replace('{value}', rate.toFixed(2))}</OptLabel>
           <input
             type="range"
             min={0.25}
@@ -499,42 +498,42 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             className="w-full accent-orange-500"
           />
           <div className="flex justify-between text-[11px] font-semibold text-gray-500">
-            <span>0.25× (much slower)</span>
-            <span>3× (much faster)</span>
+            <span>{s('muchSlowerEnd')}</span>
+            <span>{s('muchFasterEnd')}</span>
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-2">
-          <Stat label="Original length" value={duration !== null ? formatTimecode(duration) : '—'} />
-          <Stat label="New length (est.)" value={duration !== null ? formatTimecode(duration / rate) : '—'} />
-          <Stat label="Speed" value={`${rate.toFixed(2)}×`} />
+          <Stat label={s('originalLength')} value={duration !== null ? formatTimecode(duration) : '—'} />
+          <Stat label={s('newLengthEst')} value={duration !== null ? formatTimecode(duration / rate) : '—'} />
+          <Stat label={s('speedLabel')} value={`${rate.toFixed(2)}×`} />
         </div>
 
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-44">
-            <OptLabel>Output format</OptLabel>
+            <OptLabel>{s('outputFormat')}</OptLabel>
             <OptSelect value={format} onChange={(e) => setFormat(e.target.value as AudioFormat)} disabled={busy}>
               {AUDIO_FORMAT_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
+                <option key={o.value} value={o.value}>{o.value === 'wav' ? s('wavLossless') : o.label}</option>
               ))}
             </OptSelect>
           </div>
           <PrimaryBtn onClick={run} disabled={busy || !file}>
-            {busy ? 'Processing…' : 'Change speed'}
+            {busy ? c('processing') : s('changeSpeed')}
           </PrimaryBtn>
         </div>
 
-        <ProgressBar ratio={progress} label="Changing speed…" />
+        <ProgressBar ratio={progress} label={s('changingSpeed')} />
         {error && <ErrorBox message={error} />}
 
         {result && (
           <div className="space-y-3">
             <audio controls src={result.url} className="w-full" />
             <div className="grid grid-cols-2 gap-2">
-              <Stat label="Input size" value={file ? formatBytes(file.size) : '—'} />
-              <Stat label="Output size" value={formatBytes(result.blob.size)} />
+              <Stat label={s('inputSize')} value={file ? formatBytes(file.size) : '—'} />
+              <Stat label={s('outputSize')} value={formatBytes(result.blob.size)} />
             </div>
-            <BlobDownloadBtn blob={result.blob} filename={`speed-${rate}x.${format}`} label={`Download audio (.${format})`} />
+            <BlobDownloadBtn blob={result.blob} filename={`speed-${rate}x.${format}`} label={s('downloadAudioFormat').replace('{format}', format)} />
           </div>
         )}
       </div>
@@ -545,6 +544,7 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 4. Screen Recorder ----------------
 
 export const ScreenRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
   const [includeMic, setIncludeMic] = useState(false);
   const [includeSystem, setIncludeSystem] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -584,7 +584,7 @@ export const ScreenRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           tracks.push(...mic.getAudioTracks());
         } catch {
           display.getTracks().forEach((t) => t.stop());
-          setError('Microphone access was denied, so recording did not start. Allow the microphone, or untick "Include microphone" and try again.');
+          setError(s('micDeniedScreen'));
           return;
         }
       }
@@ -617,9 +617,9 @@ export const ScreenRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     } catch (e) {
       stopTracks();
       if (e instanceof DOMException && e.name === 'NotAllowedError') {
-        setError('Screen sharing was cancelled or denied. Start again and pick a screen, window or tab to record.');
+        setError(s('screenShareCancelled'));
       } else {
-        setError(e instanceof Error ? e.message : 'Could not start screen recording in this browser.');
+        setError(e instanceof Error ? e.message : s('screenStartFailed'));
       }
     }
   };
@@ -630,14 +630,11 @@ export const ScreenRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard
-      tool={tool}
-      note="Recording happens entirely in your browser with its built-in recorder — nothing is uploaded. Files are WebM in Chrome and Firefox, MP4 in Safari. System (tab/window) audio depends on your browser and OS: on Chrome desktop it works best when sharing a tab and ticking 'Share tab audio' in the share dialog."
-    >
+    <MediaCard tool={tool} note={s('screenRecorderNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap gap-x-6 gap-y-2">
-          <OptCheck label="Include microphone" checked={includeMic} onChange={setIncludeMic} />
-          <OptCheck label="Include system audio (best effort)" checked={includeSystem} onChange={setIncludeSystem} />
+          <OptCheck label={s('includeMicrophone')} checked={includeMic} onChange={setIncludeMic} />
+          <OptCheck label={s('includeSystemAudio')} checked={includeSystem} onChange={setIncludeSystem} />
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -645,21 +642,21 @@ export const ScreenRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <PrimaryBtn onClick={start}>
               <span className="inline-flex items-center gap-2">
                 <Monitor className="w-4 h-4" />
-                Start recording
+                {s('startRecording')}
               </span>
             </PrimaryBtn>
           ) : (
             <PrimaryBtn onClick={stop}>
               <span className="inline-flex items-center gap-2">
                 <Square className="w-4 h-4" />
-                Stop recording
+                {s('stopRecording')}
               </span>
             </PrimaryBtn>
           )}
           {recording && (
             <span className="inline-flex items-center gap-2 text-sm font-bold text-red-600 dark:text-red-400">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              Recording · {formatTimecode(elapsed)}
+              {s('recordingElapsed').replace('{time}', formatTimecode(elapsed))}
             </span>
           )}
         </div>
@@ -670,10 +667,10 @@ export const ScreenRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="space-y-3">
             <video controls src={result.url} className="w-full rounded-xl border border-gray-200 dark:border-gray-700" />
             <div className="grid grid-cols-2 gap-2">
-              <Stat label="Duration" value={formatTimecode(result.duration)} />
-              <Stat label="File size" value={formatBytes(result.blob.size)} />
+              <Stat label={s('durationLabel')} value={formatTimecode(result.duration)} />
+              <Stat label={s('fileSize')} value={formatBytes(result.blob.size)} />
             </div>
-            <BlobDownloadBtn blob={result.blob} filename={`screen-recording.${result.ext}`} label={`Download recording (.${result.ext})`} />
+            <BlobDownloadBtn blob={result.blob} filename={`screen-recording.${result.ext}`} label={s('downloadRecordingFormat').replace('{format}', result.ext)} />
           </div>
         )}
       </div>
@@ -684,6 +681,8 @@ export const ScreenRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 5. Webcam Recorder ----------------
 
 export const WebcamRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [cameraOn, setCameraOn] = useState(false);
   const [recording, setRecording] = useState(false);
   const [resolution, setResolution] = useState<'720' | '480'>('720');
@@ -730,8 +729,8 @@ export const WebcamRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     } catch (e) {
       setError(
         e instanceof DOMException && e.name === 'NotAllowedError'
-          ? 'Camera or microphone access was denied. Allow both in your browser and try again.'
-          : 'Could not open the camera. Check that no other app is using it and try again.',
+          ? s('camMicDenied')
+          : s('cameraOpenFailed'),
       );
     }
   };
@@ -769,20 +768,17 @@ export const WebcamRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard
-      tool={tool}
-      note="The live preview is mirrored like a mirror (optional) — the saved recording itself is not mirrored. Recordings stay on this device: WebM in Chrome and Firefox, MP4 in Safari."
-    >
+    <MediaCard tool={tool} note={s('webcamNote')}>
       <div className="space-y-4">
         <div className="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-900">
           <video ref={videoRef} autoPlay muted playsInline className={`w-full aspect-video object-cover ${mirror ? '-scale-x-100' : ''}`} />
           {!cameraOn && (
             <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold text-gray-300">
-              Camera is off — click “Start camera”
+              {s('cameraOffHint')}
             </div>
           )}
           {recording && (
-            <div className="absolute top-3 left-3 inline-flex items-center gap-2 text-xs font-bold text-white bg-black/60 rounded-full px-3 py-1.5">
+            <div className="absolute top-3 start-3 inline-flex items-center gap-2 text-xs font-bold text-white bg-black/60 rounded-full px-3 py-1.5">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
               {formatTimecode(elapsed)}
             </div>
@@ -791,14 +787,14 @@ export const WebcamRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-44">
-            <OptLabel>Resolution</OptLabel>
+            <OptLabel>{s('resolutionLabel')}</OptLabel>
             <OptSelect value={resolution} onChange={(e) => setResolution(e.target.value as '720' | '480')} disabled={cameraOn}>
               <option value="720">HD · 1280 × 720</option>
               <option value="480">SD · 640 × 480</option>
             </OptSelect>
           </div>
           <div className="pb-1">
-            <OptCheck label="Mirror preview" checked={mirror} onChange={setMirror} />
+            <OptCheck label={s('mirrorPreview')} checked={mirror} onChange={setMirror} />
           </div>
         </div>
 
@@ -807,7 +803,7 @@ export const WebcamRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <PrimaryBtn onClick={startCamera}>
               <span className="inline-flex items-center gap-2">
                 <Camera className="w-4 h-4" />
-                Start camera
+                {s('startCamera')}
               </span>
             </PrimaryBtn>
           ) : (
@@ -816,19 +812,19 @@ export const WebcamRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 <PrimaryBtn onClick={startRecording}>
                   <span className="inline-flex items-center gap-2">
                     <Video className="w-4 h-4" />
-                    Record
+                    {c('record')}
                   </span>
                 </PrimaryBtn>
               ) : (
                 <PrimaryBtn onClick={stopRecording}>
                   <span className="inline-flex items-center gap-2">
                     <Square className="w-4 h-4" />
-                    Stop · {formatTimecode(elapsed)}
+                    {s('stopElapsed').replace('{time}', formatTimecode(elapsed))}
                   </span>
                 </PrimaryBtn>
               )}
               <button type="button" className={`${ghostBtnCls} self-center`} onClick={stopCamera}>
-                Stop camera
+                {s('stopCamera')}
               </button>
             </>
           )}
@@ -840,10 +836,10 @@ export const WebcamRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="space-y-3">
             <video controls src={result.url} className="w-full rounded-xl border border-gray-200 dark:border-gray-700" />
             <div className="grid grid-cols-2 gap-2">
-              <Stat label="File size" value={formatBytes(result.blob.size)} />
-              <Stat label="Format" value={result.ext.toUpperCase()} />
+              <Stat label={s('fileSize')} value={formatBytes(result.blob.size)} />
+              <Stat label={c('format')} value={result.ext.toUpperCase()} />
             </div>
-            <BlobDownloadBtn blob={result.blob} filename={`webcam-recording.${result.ext}`} label={`Download recording (.${result.ext})`} />
+            <BlobDownloadBtn blob={result.blob} filename={`webcam-recording.${result.ext}`} label={s('downloadRecordingFormat').replace('{format}', result.ext)} />
           </div>
         )}
       </div>
@@ -863,6 +859,8 @@ interface VoiceTake {
 }
 
 export const VoiceRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(MEDIA_STRINGS);
   const [recording, setRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [takes, setTakes] = useState<VoiceTake[]>([]);
@@ -960,8 +958,8 @@ export const VoiceRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       releaseStream();
       setError(
         e instanceof DOMException && e.name === 'NotAllowedError'
-          ? 'Microphone access was denied. Allow it in your browser and try again.'
-          : 'Could not access the microphone in this browser.',
+          ? s('micDeniedVoice')
+          : s('micAccessFailed'),
       );
     }
   };
@@ -980,37 +978,34 @@ export const VoiceRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard
-      tool={tool}
-      note="Takes are recorded by your browser and kept only in this page — nothing is uploaded or stored by this site. The browser picks the recording format: Chrome and Edge use WebM/Opus, Safari uses MP4/AAC."
-    >
+    <MediaCard tool={tool} note={s('voiceNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
           {!recording ? (
             <PrimaryBtn onClick={start}>
               <span className="inline-flex items-center gap-2">
                 <Mic className="w-4 h-4" />
-                Start recording
+                {s('startRecording')}
               </span>
             </PrimaryBtn>
           ) : (
             <PrimaryBtn onClick={stop}>
               <span className="inline-flex items-center gap-2">
                 <Square className="w-4 h-4" />
-                Stop · {formatTimecode(elapsed)}
+                {s('stopElapsed').replace('{time}', formatTimecode(elapsed))}
               </span>
             </PrimaryBtn>
           )}
           {recording && (
             <span className="inline-flex items-center gap-2 text-sm font-bold text-red-600 dark:text-red-400">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              Recording
+              {s('recordingWord')}
             </span>
           )}
         </div>
 
         <div>
-          <OptLabel>Input level</OptLabel>
+          <OptLabel>{s('inputLevel')}</OptLabel>
           <div className="h-3 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
             <div ref={levelRef} className="h-full bg-orange-500 rounded-full transition-[width] duration-75" style={{ width: '0%' }} />
           </div>
@@ -1020,19 +1015,22 @@ export const VoiceRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         {takes.length > 0 && (
           <div className="space-y-2">
-            <OptLabel>Takes ({takes.length})</OptLabel>
+            <OptLabel>{s('takesLabel').replace('{n}', String(takes.length))}</OptLabel>
             {takes.map((take) => (
               <div key={take.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-gray-50 dark:bg-gray-800 space-y-2">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs font-bold text-gray-800 dark:text-gray-100">
-                    Take {take.id} · {take.createdAt.toLocaleTimeString()} · {formatTimecode(take.duration)}
+                    {s('takeLine')
+                      .replace('{id}', String(take.id))
+                      .replace('{time}', take.createdAt.toLocaleTimeString(lang))
+                      .replace('{duration}', formatTimecode(take.duration))}
                   </span>
-                  <button type="button" className={iconBtnCls} onClick={() => deleteTake(take.id)} aria-label={`Delete take ${take.id}`}>
+                  <button type="button" className={iconBtnCls} onClick={() => deleteTake(take.id)} aria-label={s('deleteTake').replace('{id}', String(take.id))}>
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
                 <audio controls src={take.url} className="w-full" />
-                <BlobDownloadBtn blob={take.blob} filename={`voice-take-${take.id}.${take.ext}`} label={`Download take (.${take.ext})`} />
+                <BlobDownloadBtn blob={take.blob} filename={`voice-take-${take.id}.${take.ext}`} label={s('downloadTakeFormat').replace('{format}', take.ext)} />
               </div>
             ))}
           </div>
@@ -1045,6 +1043,8 @@ export const VoiceRecorder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 7. Text to Speech ----------------
 
 export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const supported = typeof window !== 'undefined' && 'speechSynthesis' in window;
   const [text, setText] = useState('');
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
@@ -1066,9 +1066,9 @@ export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   if (!supported) {
     return (
-      <MediaCard tool={tool} note="Text to speech uses the voices built into your operating system and browser.">
+      <MediaCard tool={tool} note={s('ttsOsNote')}>
         <div className="text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 leading-relaxed">
-          Your browser does not support the Web Speech API's speech synthesis. Try Chrome, Edge or Safari on a recent device to use this tool.
+          {s('ttsUnsupported')}
         </div>
       </MediaCard>
     );
@@ -1094,31 +1094,28 @@ export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <MediaCard
-      tool={tool}
-      note="Voices come from your operating system and browser, so the selection and quality vary by device; some browsers supply their own online voices. There is deliberately no download button: browsers provide no way to export synthesized speech as an audio file."
-    >
+    <MediaCard tool={tool} note={s('ttsNote')}>
       <div className="space-y-4">
         <div>
-          <OptLabel>Text to speak</OptLabel>
+          <OptLabel>{s('textToSpeak')}</OptLabel>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={6}
-            placeholder="Type or paste the text you want read aloud…"
+            placeholder={s('ttsPlaceholder')}
             className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-white"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <Stat label="Characters" value={text.length} />
-          <Stat label="Words" value={text.trim() ? text.trim().split(/\s+/).length : 0} />
+          <Stat label={s('charactersLabel')} value={text.length} />
+          <Stat label={s('wordsLabel')} value={text.trim() ? text.trim().split(/\s+/).length : 0} />
         </div>
 
         <div className="w-full sm:w-96">
-          <OptLabel>Voice</OptLabel>
+          <OptLabel>{s('voiceLabel')}</OptLabel>
           <OptSelect value={voiceURI} onChange={(e) => setVoiceURI(e.target.value)}>
-            <option value="">Default voice</option>
+            <option value="">{s('defaultVoice')}</option>
             {voices.map((v) => (
               <option key={v.voiceURI} value={v.voiceURI}>
                 {v.name} — {v.lang}
@@ -1129,11 +1126,11 @@ export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <OptLabel>Rate: {rate.toFixed(2)}×</OptLabel>
+            <OptLabel>{s('rateValue').replace('{value}', rate.toFixed(2))}</OptLabel>
             <input type="range" min={0.5} max={2} step={0.05} value={rate} onChange={(e) => setRate(parseFloat(e.target.value))} className="w-full accent-orange-500" />
           </div>
           <div>
-            <OptLabel>Pitch: {pitch.toFixed(2)}</OptLabel>
+            <OptLabel>{s('pitchValue').replace('{value}', pitch.toFixed(2))}</OptLabel>
             <input type="range" min={0} max={2} step={0.05} value={pitch} onChange={(e) => setPitch(parseFloat(e.target.value))} className="w-full accent-orange-500" />
           </div>
         </div>
@@ -1142,26 +1139,26 @@ export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <PrimaryBtn onClick={speak} disabled={!text.trim()}>
             <span className="inline-flex items-center gap-2">
               <Play className="w-4 h-4" />
-              Speak
+              {s('speak')}
             </span>
           </PrimaryBtn>
           <button type="button" className={ghostBtnCls} onClick={() => window.speechSynthesis.pause()}>
             <Pause className="w-4 h-4" />
-            Pause
+            {c('pause')}
           </button>
           <button type="button" className={ghostBtnCls} onClick={() => window.speechSynthesis.resume()}>
             <Play className="w-4 h-4" />
-            Resume
+            {s('resumeLabel')}
           </button>
           <button type="button" className={ghostBtnCls} onClick={stop}>
             <Square className="w-4 h-4" />
-            Stop
+            {c('stop')}
           </button>
           {speaking && (
             <span className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 dark:text-orange-400">
               <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
               <Volume2 className="w-4 h-4" />
-              Speaking…
+              {s('speakingNow')}
             </span>
           )}
         </div>
@@ -1172,15 +1169,17 @@ export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
 // ---------------- 8. Speech to Text ----------------
 
-const STT_LANGUAGES: { value: string; label: string }[] = [
-  { value: 'en-US', label: 'English (US)' },
-  { value: 'en-GB', label: 'English (UK)' },
-  { value: 'en-AU', label: 'English (Australia)' },
-  { value: 'en-CA', label: 'English (Canada)' },
-  { value: 'en-IN', label: 'English (India)' },
+const STT_LANGUAGES: { value: string; labelKey: string }[] = [
+  { value: 'en-US', labelKey: 'langEnUS' },
+  { value: 'en-GB', labelKey: 'langEnGB' },
+  { value: 'en-AU', labelKey: 'langEnAU' },
+  { value: 'en-CA', labelKey: 'langEnCA' },
+  { value: 'en-IN', labelKey: 'langEnIN' },
 ];
 
 export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(MEDIA_STRINGS);
+  const c = useStrings(COMMON);
   const [SR] = useState<any>(() =>
     typeof window !== 'undefined'
       ? (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition || null
@@ -1209,14 +1208,10 @@ export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   if (!SR) {
     return (
-      <MediaCard
-        tool={tool}
-        note="Speech recognition is a browser feature, not something this site can provide on its own."
-      >
+      <MediaCard tool={tool} note={s('sttFeatureNote')}>
         <div className="text-sm text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 leading-relaxed">
-          Your browser does not support speech recognition (the Web Speech API). It works best in <strong>Chrome</strong> and{' '}
-          <strong>Edge</strong>; Firefox does not support it, and Safari supports it only on recent versions. Open this page in Chrome or
-          Edge to dictate text here.
+          {s('sttUnsupportedPre')} <strong>Chrome</strong> {s('sttUnsupportedMid')} <strong>Edge</strong>
+          {s('sttUnsupportedPost')}
         </div>
       </MediaCard>
     );
@@ -1245,15 +1240,15 @@ export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         if (code === 'not-allowed' || code === 'service-not-allowed') {
           shouldRunRef.current = false;
           setListening(false);
-          setError('Microphone access was blocked. Allow microphone permission for this site in your browser and try again.');
+          setError(s('sttMicBlocked'));
         } else if (code === 'audio-capture') {
           shouldRunRef.current = false;
           setListening(false);
-          setError('No microphone was found. Connect a microphone and try again.');
+          setError(s('sttNoMic'));
         } else if (code === 'network') {
           shouldRunRef.current = false;
           setListening(false);
-          setError('The browser could not reach its speech recognition service. Check your connection and try again.');
+          setError(s('sttNetwork'));
         }
       };
       rec.onend = () => {
@@ -1275,7 +1270,7 @@ export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     } catch (e) {
       shouldRunRef.current = false;
       setListening(false);
-      setError(e instanceof Error ? e.message : 'Could not start speech recognition.');
+      setError(e instanceof Error ? e.message : s('sttStartFailed'));
     }
   };
 
@@ -1298,22 +1293,19 @@ export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const wordCount = transcript.trim() ? transcript.trim().split(/\s+/).length : 0;
 
   return (
-    <MediaCard
-      tool={tool}
-      note="Recognition is performed by your browser, not by this site: in Chrome, audio is streamed to Google's servers for transcription. This site stores and uploads nothing itself. Firefox is not supported by this browser feature."
-    >
+    <MediaCard tool={tool} note={s('sttNote')}>
       <div className="space-y-4">
         <div className="flex flex-wrap items-end gap-4">
           <div className="w-56">
-            <OptLabel>Language</OptLabel>
+            <OptLabel>{s('languageLabel')}</OptLabel>
             <OptSelect value={lang} onChange={(e) => setLang(e.target.value)} disabled={listening}>
               {STT_LANGUAGES.map((l) => (
-                <option key={l.value} value={l.value}>{l.label}</option>
+                <option key={l.value} value={l.value}>{s(l.labelKey)}</option>
               ))}
             </OptSelect>
           </div>
           <div className="pb-1">
-            <OptCheck label="Continuous dictation" checked={continuous} onChange={setContinuous} />
+            <OptCheck label={s('continuousDictation')} checked={continuous} onChange={setContinuous} />
           </div>
         </div>
 
@@ -1322,33 +1314,33 @@ export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <PrimaryBtn onClick={startListening}>
               <span className="inline-flex items-center gap-2">
                 <Mic className="w-4 h-4" />
-                Start dictation
+                {s('startDictation')}
               </span>
             </PrimaryBtn>
           ) : (
             <PrimaryBtn onClick={stopListening}>
               <span className="inline-flex items-center gap-2">
                 <Square className="w-4 h-4" />
-                Stop
+                {c('stop')}
               </span>
             </PrimaryBtn>
           )}
           {listening && (
             <span className="inline-flex items-center gap-2 text-sm font-bold text-red-600 dark:text-red-400">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              Listening… speak now
+              {s('listeningNow')}
             </span>
           )}
           <button type="button" className={ghostBtnCls} onClick={clearAll}>
             <X className="w-4 h-4" />
-            Clear
+            {c('clear')}
           </button>
         </div>
 
         {error && <ErrorBox message={error} />}
 
         <div>
-          <OptLabel>Transcript</OptLabel>
+          <OptLabel>{s('transcriptLabel')}</OptLabel>
           <textarea
             value={transcript}
             onChange={(e) => {
@@ -1356,20 +1348,20 @@ export const SpeechToText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               finalRef.current = e.target.value;
             }}
             rows={8}
-            placeholder="Your dictated text will appear here. You can also type or edit directly."
+            placeholder={s('sttPlaceholder')}
             className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm text-gray-900 dark:text-white"
           />
           {interim && <p className="mt-1.5 text-sm italic text-gray-400 dark:text-gray-500">{interim}</p>}
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <Stat label="Words" value={wordCount} />
-          <Stat label="Characters" value={transcript.length} />
+          <Stat label={s('wordsLabel')} value={wordCount} />
+          <Stat label={s('charactersLabel')} value={transcript.length} />
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <CopyBtn text={transcript} label="Copy transcript" />
-          <DownloadBtn content={transcript} filename="transcript.txt" label="Download .txt" />
+          <CopyBtn text={transcript} label={s('copyTranscript')} />
+          <DownloadBtn content={transcript} filename="transcript.txt" label={s('downloadTxt')} />
         </div>
       </div>
     </MediaCard>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, Printer, Copy, Check, FileSpreadsheet, Download } from 'lucide-react';
+import { useLang, useStrings, COMMON } from '../../lib/LangContext';
+import { CALC_STRINGS } from '../../lib/strings/calculators';
 
 interface InvoiceItem {
   id: string;
@@ -9,6 +11,10 @@ interface InvoiceItem {
 }
 
 export const InvoiceGenerator: React.FC = () => {
+  const lang = useLang();
+  const s = useStrings(CALC_STRINGS);
+  const c = useStrings(COMMON);
+
   const [currency, setCurrency] = useState('$');
   const [invoiceNumber, setInvoiceNumber] = useState('INV-2026-0042');
   const [senderName, setSenderName] = useState('Apex Digital Solutions LLC');
@@ -31,7 +37,7 @@ export const InvoiceGenerator: React.FC = () => {
   const addItem = () => {
     setItems([
       ...items,
-      { id: Date.now().toString(), description: 'New Service Item', quantity: 1, rate: 100 }
+      { id: Date.now().toString(), description: s('newServiceItem'), quantity: 1, rate: 100 }
     ]);
   };
 
@@ -78,10 +84,10 @@ Payment Notes: ${paymentNotes}`;
       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <span>🧾</span> Invoice Generator Pro
+            <span>🧾</span> {s('invTitle')}
           </h2>
           <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            US, UK & Canadian standard freelance, contractor, and agency billing.
+            {s('invSubtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -90,24 +96,24 @@ Payment Notes: ${paymentNotes}`;
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 cursor-pointer"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'Copied' : 'Copy'}</span>
+            <span>{copied ? c('copied') : c('copy')}</span>
           </button>
           <button
             onClick={handlePrint}
             className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-[#f97316] text-white hover:bg-orange-600 shadow-md cursor-pointer transition-colors"
           >
             <Printer className="w-3.5 h-3.5" />
-            <span>Print / Save PDF</span>
+            <span>{s('printSavePdf')}</span>
           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         {/* Editor Column */}
-        <div className="xl:col-span-6 space-y-4 max-h-[750px] overflow-y-auto pr-2">
+        <div className="xl:col-span-6 space-y-4 max-h-[750px] overflow-y-auto pe-2">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Invoice Number</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('invoiceNumberLabel')}</label>
               <input
                 type="text"
                 value={invoiceNumber}
@@ -116,7 +122,7 @@ Payment Notes: ${paymentNotes}`;
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Billing Currency</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('billingCurrencyLabel')}</label>
               <select
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
@@ -135,7 +141,7 @@ Payment Notes: ${paymentNotes}`;
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Your Business Name</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('yourBusinessLabel')}</label>
               <input
                 type="text"
                 value={senderName}
@@ -146,12 +152,12 @@ Payment Notes: ${paymentNotes}`;
                 rows={2}
                 value={senderDetails}
                 onChange={(e) => setSenderDetails(e.target.value)}
-                placeholder="Address & Contact"
+                placeholder={s('addressContactPh')}
                 className="w-full mt-1 px-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-[11px]"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Client Business Name</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('clientBusinessLabel')}</label>
               <input
                 type="text"
                 value={clientName}
@@ -162,7 +168,7 @@ Payment Notes: ${paymentNotes}`;
                 rows={2}
                 value={clientDetails}
                 onChange={(e) => setClientDetails(e.target.value)}
-                placeholder="Client Address & Contact"
+                placeholder={s('clientAddressContactPh')}
                 className="w-full mt-1 px-3 py-1.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-[11px]"
               />
             </div>
@@ -170,7 +176,7 @@ Payment Notes: ${paymentNotes}`;
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Issue Date</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('issueDateLabel')}</label>
               <input
                 type="date"
                 value={issueDate}
@@ -179,7 +185,7 @@ Payment Notes: ${paymentNotes}`;
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Due Date</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('dueDateLabel')}</label>
               <input
                 type="date"
                 value={dueDate}
@@ -192,13 +198,13 @@ Payment Notes: ${paymentNotes}`;
           {/* Line Items */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="text-xs font-bold text-gray-800 dark:text-gray-200">Line Items</label>
+              <label className="text-xs font-bold text-gray-800 dark:text-gray-200">{s('lineItemsLabel')}</label>
               <button
                 type="button"
                 onClick={addItem}
                 className="text-xs font-bold text-orange-600 dark:text-orange-400 flex items-center gap-1 hover:underline cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5" /> Add Item
+                <Plus className="w-3.5 h-3.5" /> {s('addItemBtn')}
               </button>
             </div>
             <div className="space-y-2">
@@ -207,7 +213,7 @@ Payment Notes: ${paymentNotes}`;
                   <input
                     type="text"
                     value={item.description}
-                    placeholder="Description"
+                    placeholder={s('descriptionPh')}
                     onChange={(e) => updateItem(item.id, 'description', e.target.value)}
                     className="flex-1 px-2 py-1 rounded bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs"
                   />
@@ -223,12 +229,12 @@ Payment Notes: ${paymentNotes}`;
                     min="0"
                     value={item.rate}
                     onChange={(e) => updateItem(item.id, 'rate', Number(e.target.value))}
-                    className="w-20 px-2 py-1 rounded bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-right"
+                    className="w-20 px-2 py-1 rounded bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-xs text-end"
                   />
                   <button
                     onClick={() => removeItem(item.id)}
                     className="p-1 text-gray-400 hover:text-red-500 cursor-pointer"
-                    title="Delete item"
+                    title={s('deleteItemTitle')}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -239,7 +245,7 @@ Payment Notes: ${paymentNotes}`;
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Tax / VAT Rate (%)</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('taxVatLabel')}</label>
               <input
                 type="number"
                 step="0.25"
@@ -249,7 +255,7 @@ Payment Notes: ${paymentNotes}`;
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Notes & Terms</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('notesTermsLabel')}</label>
               <textarea
                 rows={2}
                 value={paymentNotes}

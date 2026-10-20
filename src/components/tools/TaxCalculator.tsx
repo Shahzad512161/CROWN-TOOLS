@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { DollarSign, Landmark, PieChart, ShieldAlert, Copy, Check } from 'lucide-react';
+import { useLang, useStrings, COMMON } from '../../lib/LangContext';
+import { CALC_STRINGS } from '../../lib/strings/calculators';
 
 export const TaxCalculator: React.FC = () => {
+  const lang = useLang();
+  const s = useStrings(CALC_STRINGS);
+  const c = useStrings(COMMON);
+
+  const stateName = (code: string, fallback: string): string => {
+    const entry = CALC_STRINGS[`state_${code}`];
+    return entry ? entry[lang] ?? entry.en : fallback;
+  };
   const [grossSalary, setGrossSalary] = useState<number>(95000);
   const [filingStatus, setFilingStatus] = useState<'single' | 'married' | 'hoh'>('single');
   const [stateCode, setStateCode] = useState<string>('TX');
@@ -84,6 +94,9 @@ export const TaxCalculator: React.FC = () => {
   };
 
   const currentState = stateTaxRates[stateCode] || { name: 'Other State', effectiveRate: 0.045, isZero: false };
+  const currentStateName = stateTaxRates[stateCode] ? stateName(stateCode, currentState.name) : s('otherState');
+  const filingStatusLabelText =
+    filingStatus === 'single' ? s('filingSingle') : filingStatus === 'married' ? s('filingMarried') : s('filingHoh');
   const stateIncomeTax = currentState.isZero ? 0 : Math.max(0, grossSalary - 10000) * currentState.effectiveRate;
 
   const totalTaxes = federalIncomeTax + totalFica + stateIncomeTax;
@@ -93,18 +106,21 @@ export const TaxCalculator: React.FC = () => {
   const effectiveTaxRate = grossSalary > 0 ? (totalTaxes / grossSalary) * 100 : 0;
 
   const handleCopy = () => {
-    const text = `Super Crown 2026 US Tax Breakdown:
-Gross Annual Income: $${grossSalary.toLocaleString()}
-Filing Status: ${filingStatus.toUpperCase()} | State: ${currentState.name}
--------------------------------------------
-Take-Home Pay (Annual): $${Math.round(netTakeHomeAnnual).toLocaleString()}
-Take-Home Pay (Monthly): $${Math.round(netTakeHomeMonthly).toLocaleString()}/mo
-Take-Home Pay (Bi-Weekly): $${Math.round(netTakeHomeBiweekly).toLocaleString()}
--------------------------------------------
-Federal Income Tax: $${Math.round(federalIncomeTax).toLocaleString()}
-FICA (Social Security & Medicare): $${Math.round(totalFica).toLocaleString()}
-State Income Tax: $${Math.round(stateIncomeTax).toLocaleString()}
-Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveTaxRate.toFixed(1)}%)`;
+    const money = (n: number) => `$${Math.round(n).toLocaleString(lang)}`;
+    const text = [
+      s('taxSummaryTitle'),
+      s('sumGrossIncome').replace('{v}', `$${grossSalary.toLocaleString(lang)}`),
+      s('sumFilingState').replace('{status}', filingStatusLabelText).replace('{state}', currentStateName),
+      '-------------------------------------------',
+      s('sumTakeHomeAnnual').replace('{v}', money(netTakeHomeAnnual)),
+      s('sumTakeHomeMonthly').replace('{v}', money(netTakeHomeMonthly)),
+      s('sumTakeHomeBiweekly').replace('{v}', money(netTakeHomeBiweekly)),
+      '-------------------------------------------',
+      s('sumFederalTax').replace('{v}', money(federalIncomeTax)),
+      s('sumFica').replace('{v}', money(totalFica)),
+      s('sumStateTax').replace('{v}', money(stateIncomeTax)),
+      s('sumTotalTaxes').replace('{v}', money(totalTaxes)).replace('{rate}', effectiveTaxRate.toFixed(1))
+    ].join('\n');
 
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -116,10 +132,10 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <span>🏛️</span> US Tax Calculator 2026 (Federal & State)
+            <span>🏛️</span> {s('taxTitle')}
           </h2>
           <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Calculated using updated IRS 2026 brackets, standard deductions & FICA limits.
+            {s('taxSubtitle')}
           </p>
         </div>
         <button
@@ -127,7 +143,7 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-50 text-orange-600 dark:bg-orange-950/60 dark:text-orange-400 hover:bg-orange-100 border border-orange-200 dark:border-orange-800 transition-colors cursor-pointer"
         >
           {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-          <span>{copied ? 'Copied!' : 'Copy Breakdown'}</span>
+          <span>{copied ? c('copied') : s('copyBreakdown')}</span>
         </button>
       </div>
 
@@ -135,11 +151,11 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
         <div className="lg:col-span-7 space-y-4">
           <div>
             <div className="flex justify-between text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              <span>Gross Annual Salary / Earnings</span>
-              <span className="text-orange-600 font-bold">${grossSalary.toLocaleString()}</span>
+              <span>{s('grossSalaryLabel')}</span>
+              <span className="text-orange-600 font-bold">${grossSalary.toLocaleString(lang)}</span>
             </div>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-bold">$</span>
+              <span className="absolute start-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-bold">$</span>
               <input
                 type="number"
                 min="250"
@@ -147,7 +163,7 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
                 step="2500"
                 value={grossSalary}
                 onChange={(e) => setGrossSalary(Number(e.target.value) || 0)}
-                className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
+                className="w-full ps-8 pe-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
               />
             </div>
           </div>
@@ -155,31 +171,31 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                IRS Filing Status
+                {s('filingStatusLabel')}
               </label>
               <select
                 value={filingStatus}
                 onChange={(e) => setFilingStatus(e.target.value as any)}
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
               >
-                <option value="single">Single Filer</option>
-                <option value="married">Married Filing Jointly</option>
-                <option value="hoh">Head of Household</option>
+                <option value="single">{s('filingSingle')}</option>
+                <option value="married">{s('filingMarried')}</option>
+                <option value="hoh">{s('filingHoh')}</option>
               </select>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                US State Residence
+                {s('stateResidenceLabel')}
               </label>
               <select
                 value={stateCode}
                 onChange={(e) => setStateCode(e.target.value)}
                 className="w-full px-3 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
               >
-                {Object.entries(stateTaxRates).map(([code, s]) => (
+                {Object.entries(stateTaxRates).map(([code, st]) => (
                   <option key={code} value={code}>
-                    {s.name} {s.isZero ? '(0% State Tax)' : ''}
+                    {stateName(code, st.name)} {st.isZero ? s('stateTaxZeroSuffix') : ''}
                   </option>
                 ))}
               </select>
@@ -188,8 +204,8 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
 
           <div>
             <div className="flex justify-between text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-              <span>Annual Pre-Tax 401(k) / Traditional IRA Contribution</span>
-              <span className="text-emerald-600 font-bold">${preTax401k.toLocaleString()}</span>
+              <span>{s('contribLabel')}</span>
+              <span className="text-emerald-600 font-bold">${preTax401k.toLocaleString(lang)}</span>
             </div>
             <input
               type="range"
@@ -201,7 +217,7 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
               className="w-full accent-emerald-500"
             />
             <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
-              Standard 2026 IRS 401(k) elective deferral limit: $23,500.
+              {s('limitNote401k')}
             </p>
           </div>
         </div>
@@ -211,40 +227,42 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
           <div>
             <div className="text-center pb-4 border-b border-gray-200 dark:border-gray-700">
               <span className="text-xs uppercase font-bold tracking-wider text-emerald-600 dark:text-emerald-400">
-                Net Take-Home Pay
+                {s('netTakeHomePay')}
               </span>
               <div className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
-                ${Math.round(netTakeHomeMonthly).toLocaleString()}
-                <span className="text-sm font-medium text-gray-500">/mo</span>
+                ${Math.round(netTakeHomeMonthly).toLocaleString(lang)}
+                <span className="text-sm font-medium text-gray-500">{s('perMonth')}</span>
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-300 font-semibold mt-1">
-                ${Math.round(netTakeHomeAnnual).toLocaleString()} / year (${Math.round(netTakeHomeBiweekly).toLocaleString()} bi-weekly)
+                {s('perYearLine')
+                  .replace('{annual}', `$${Math.round(netTakeHomeAnnual).toLocaleString(lang)}`)
+                  .replace('{biweekly}', `$${Math.round(netTakeHomeBiweekly).toLocaleString(lang)}`)}
               </p>
             </div>
 
             <div className="my-4 space-y-2 text-xs">
               <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                <span>Federal Income Tax:</span>
+                <span>{s('federalTaxLabel')}</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
-                  ${Math.round(federalIncomeTax).toLocaleString()}
+                  ${Math.round(federalIncomeTax).toLocaleString(lang)}
                 </span>
               </div>
               <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                <span>FICA (Social Security + Medicare):</span>
+                <span>{s('ficaLabel')}</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
-                  ${Math.round(totalFica).toLocaleString()}
+                  ${Math.round(totalFica).toLocaleString(lang)}
                 </span>
               </div>
               <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                <span>State Income Tax ({currentState.name}):</span>
+                <span>{s('stateTaxLabel').replace('{state}', currentStateName)}</span>
                 <span className="font-semibold text-gray-900 dark:text-white">
-                  {currentState.isZero ? '$0 (No State Tax!)' : `$${Math.round(stateIncomeTax).toLocaleString()}`}
+                  {currentState.isZero ? s('noStateTax') : `$${Math.round(stateIncomeTax).toLocaleString(lang)}`}
                 </span>
               </div>
               <div className="flex justify-between text-gray-600 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700 pt-2 font-bold">
-                <span>Total Tax Burdens:</span>
+                <span>{s('totalTaxBurdens')}</span>
                 <span className="text-red-500">
-                  ${Math.round(totalTaxes).toLocaleString()} ({effectiveTaxRate.toFixed(1)}%)
+                  ${Math.round(totalTaxes).toLocaleString(lang)} ({effectiveTaxRate.toFixed(1)}%)
                 </span>
               </div>
             </div>
@@ -252,7 +270,7 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
 
           <div className="pt-3 border-t border-gray-200 dark:border-gray-700 text-center">
             <span className="text-[11px] text-gray-500 dark:text-gray-400">
-              Assumes 2026 standard deduction of ${standardDeduction.toLocaleString()}.
+              {s('assumesNote').replace('{v}', `$${standardDeduction.toLocaleString(lang)}`)}
             </span>
           </div>
         </div>

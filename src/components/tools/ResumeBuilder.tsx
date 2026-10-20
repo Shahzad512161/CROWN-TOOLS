@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Briefcase, GraduationCap, User, Phone, Mail, MapPin, Printer, Copy, Check, Sparkles } from 'lucide-react';
+import { useLang, useStrings, COMMON } from '../../lib/LangContext';
+import { CALC_STRINGS } from '../../lib/strings/calculators';
 
 interface ExperienceItem {
   id: string;
@@ -12,6 +14,10 @@ interface ExperienceItem {
 }
 
 export const ResumeBuilder: React.FC = () => {
+  const lang = useLang();
+  const s = useStrings(CALC_STRINGS);
+  const c = useStrings(COMMON);
+
   const [fullName, setFullName] = useState('Alex M. Reynolds');
   const [jobTitle, setJobTitle] = useState('Senior Operations & Project Manager');
   const [email, setEmail] = useState('alex.reynolds@email.com');
@@ -79,10 +85,10 @@ ${skills}`;
       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <span>📄</span> ATS Resume Builder (USA Standard Format)
+            <span>📄</span> {s('resTitle')}
           </h2>
           <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Single-page, machine-readable format verified for Fortune 500 ATS scanners.
+            {s('resSubtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -91,24 +97,24 @@ ${skills}`;
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 cursor-pointer"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copied ? 'Copied' : 'Copy'}</span>
+            <span>{copied ? c('copied') : c('copy')}</span>
           </button>
           <button
             onClick={handlePrint}
             className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-[#f97316] text-white hover:bg-orange-600 shadow-md cursor-pointer transition-colors"
           >
             <Printer className="w-3.5 h-3.5" />
-            <span>Print / Save PDF</span>
+            <span>{s('printSavePdf')}</span>
           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         {/* Left: Input Editor */}
-        <div className="xl:col-span-6 space-y-4 max-h-[750px] overflow-y-auto pr-2">
+        <div className="xl:col-span-6 space-y-4 max-h-[750px] overflow-y-auto pe-2">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('fullNameLabel')}</label>
               <input
                 type="text"
                 value={fullName}
@@ -117,7 +123,7 @@ ${skills}`;
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Target Job Title</label>
+              <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('jobTitleLabel')}</label>
               <input
                 type="text"
                 value={jobTitle}
@@ -129,7 +135,7 @@ ${skills}`;
 
           <div className="grid grid-cols-3 gap-2">
             <div>
-              <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-1">Email</label>
+              <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('emailLabel')}</label>
               <input
                 type="email"
                 value={email}
@@ -138,7 +144,7 @@ ${skills}`;
               />
             </div>
             <div>
-              <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-1">Phone</label>
+              <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('phoneLabel')}</label>
               <input
                 type="text"
                 value={phone}
@@ -147,7 +153,7 @@ ${skills}`;
               />
             </div>
             <div>
-              <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-1">City, State</label>
+              <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('cityStateLabel')}</label>
               <input
                 type="text"
                 value={location}
@@ -158,7 +164,7 @@ ${skills}`;
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Professional Summary</label>
+            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('summaryFieldLabel')}</label>
             <textarea
               rows={3}
               value={summary}
@@ -168,14 +174,14 @@ ${skills}`;
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Key Experience</label>
+            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('experienceLabel')}</label>
             {experiences.map((exp, idx) => (
               <div key={exp.id} className="p-3 mb-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 space-y-2">
                 <div className="grid grid-cols-2 gap-2">
                   <input
                     type="text"
                     value={exp.title}
-                    placeholder="Job Title"
+                    placeholder={s('jobTitlePh')}
                     onChange={(e) => {
                       const updated = [...experiences];
                       updated[idx].title = e.target.value;
@@ -186,7 +192,7 @@ ${skills}`;
                   <input
                     type="text"
                     value={exp.company}
-                    placeholder="Company"
+                    placeholder={s('companyPh')}
                     onChange={(e) => {
                       const updated = [...experiences];
                       updated[idx].company = e.target.value;
@@ -198,7 +204,7 @@ ${skills}`;
                 <textarea
                   rows={2}
                   value={exp.highlights}
-                  placeholder="Bullet points (use • prefix)"
+                  placeholder={s('bulletsPh')}
                   onChange={(e) => {
                     const updated = [...experiences];
                     updated[idx].highlights = e.target.value;
@@ -211,7 +217,7 @@ ${skills}`;
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Education Credentials</label>
+            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('educationLabel')}</label>
             <input
               type="text"
               value={education}
@@ -221,7 +227,7 @@ ${skills}`;
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Key Skills & Certifications</label>
+            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('skillsLabel')}</label>
             <input
               type="text"
               value={skills}
