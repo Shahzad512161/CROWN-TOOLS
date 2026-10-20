@@ -82,7 +82,7 @@ function escapeHtml(s: string): string {
 }
 
 /** Render a (usually off-screen) HTML element into a downloadable A4 PDF. */
-async function htmlElementToPdf(
+export async function htmlElementToPdf(
   el: HTMLElement,
   filename: string,
   orientation: 'p' | 'l'
