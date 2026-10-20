@@ -7,7 +7,7 @@ export { OptLabel, OptInput, OptSelect, OptCheck, CopyBtn, Stat, ErrorBox, Downl
 
 /** Card chrome shared by the Video & Audio tools. */
 export const MediaCard: React.FC<{ tool: ToolItem; children: React.ReactNode; note?: string }> = ({ tool, children, note }) => (
-  <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 sm:p-6 shadow-sm">
+  <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-sm">
     <div className="flex items-center gap-2 mb-4">
       <Clapperboard className="w-5 h-5 text-orange-600" />
       <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
@@ -24,7 +24,7 @@ export const PrimaryBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>>
   <button
     type="button"
     {...props}
-    className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-colors ${
+    className={`px-5 py-2.5 rounded-full font-bold text-sm transition-colors ${
       props.disabled
         ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
         : 'bg-orange-600 hover:bg-orange-700 text-white shadow cursor-pointer'
@@ -54,7 +54,7 @@ export const ENGINE_NOTE =
   'Powered by FFmpeg running as WebAssembly in your browser: the engine (~30 MB) loads once from this site when you start the first job, then everything processes locally — your media is never uploaded. The engine is single-threaded, so long or 4K files take a while; keep clips modest for the best experience.';
 
 const sampleBtnCls =
-  'px-3 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-50';
+  'px-3.5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-50';
 
 /** Fetch one of Google's public sample videos (CORS-enabled demo bucket). */
 export const SampleVideoBtn: React.FC<{ onFile: (file: File) => void }> = ({ onFile }) => {

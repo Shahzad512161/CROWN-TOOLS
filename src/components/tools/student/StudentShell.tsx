@@ -3,9 +3,9 @@ import { GraduationCap } from 'lucide-react';
 import type { ToolItem } from '../../../lib/tools-data';
 
 export const StudentCard: React.FC<{ tool: ToolItem; children: React.ReactNode; note?: string }> = ({ tool, children, note }) => (
-  <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-5 space-y-4">
+  <div className="bg-white dark:bg-slate-900 rounded-[28px] border border-slate-200 dark:border-slate-700 shadow-sm p-5 space-y-4">
     <div className="flex items-center gap-3">
-      <span className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400">
+      <span className="p-2 rounded-full bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400">
         <GraduationCap className="w-5 h-5" />
       </span>
       <div>
@@ -20,7 +20,7 @@ export const StudentCard: React.FC<{ tool: ToolItem; children: React.ReactNode; 
 export const PrimaryBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, className = '', ...props }) => (
   <button
     {...props}
-    className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${className}`}
+    className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${className}`}
   >
     {children}
   </button>

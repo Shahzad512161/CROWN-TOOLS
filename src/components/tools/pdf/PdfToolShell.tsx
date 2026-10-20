@@ -77,7 +77,7 @@ export const PdfToolShell: React.FC<Props> = ({
   const busy = status === 'working';
 
   return (
-    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 sm:p-6 shadow-sm">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-sm">
       <div className="flex items-center gap-2 mb-4">
         <FileText className="w-5 h-5 text-orange-500" />
         <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
@@ -100,7 +100,7 @@ export const PdfToolShell: React.FC<Props> = ({
               addFiles(e.dataTransfer.files);
             }}
             onClick={() => inputRef.current?.click()}
-            className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-colors ${
+            className={`border-2 border-dashed rounded-[28px] p-6 text-center cursor-pointer transition-colors ${
               dragOver
                 ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/30'
                 : 'border-orange-300 dark:border-orange-800 hover:border-orange-500 bg-orange-50/40 dark:bg-orange-950/10'
@@ -156,7 +156,7 @@ export const PdfToolShell: React.FC<Props> = ({
         <button
           onClick={runProcess}
           disabled={files.length < minFiles || busy}
-          className={`w-full mt-5 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-colors ${
+          className={`w-full mt-5 py-3 rounded-full font-bold text-sm flex items-center justify-center gap-2 transition-colors ${
             files.length >= minFiles && !busy
               ? 'bg-[#f97316] hover:bg-orange-600 text-white shadow cursor-pointer'
               : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
