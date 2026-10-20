@@ -1,10 +1,5 @@
-# Robots.txt for Super Crown (5000+ Daily Use Tools)
-# https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app
-
+# Super Crown Tools — all content is public and crawlable in every locale.
 User-agent: *
 Allow: /
-Allow: /en/
-Allow: /sitemap.xml
 
-# Sitemaps
 Sitemap: https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/sitemap.xml
