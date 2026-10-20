@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { AdSenseBanner } from './AdSenseBanner';
 import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
-import { localizedTool, TOOLS_FR } from '../lib/tools-fr';
+import { localizedTool } from '../lib/tools-fr';
 import { LogoMark } from './LogoMark';
 
 interface HomePageProps {
@@ -420,11 +420,11 @@ export const HomePage: React.FC<HomePageProps> = ({
       if (!matchesCategory) return false;
       if (!q) return true;
 
-      const frTool = TOOLS_FR[tool.slug];
+      const ltTool = lang !== 'en' ? localizedTool(tool, lang) : null;
       return (
         tool.name.toLowerCase().includes(q) ||
         tool.description.toLowerCase().includes(q) ||
-        (frTool ? frTool.name.toLowerCase().includes(q) || frTool.description.toLowerCase().includes(q) : false) ||
+        (ltTool ? ltTool.name.toLowerCase().includes(q) || ltTool.description.toLowerCase().includes(q) : false) ||
         tool.category.toLowerCase().includes(q) ||
         tool.highCPCKeywords.some((k) => k.toLowerCase().includes(q))
       );
@@ -450,27 +450,19 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="min-h-screen bg-white dark:bg-[#111827] text-slate-900 dark:text-slate-100 transition-colors duration-200">
       
       {/* ========================================================================= */}
-      {/* HERO SECTION — clean, centered: brand line, headline, search, chips */}
+      {/* HERO SECTION — minimal: headline, subtitle, search. Nothing else. */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 sm:pt-16 sm:pb-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14 sm:pt-24 sm:pb-20">
         <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
 
-          {/* Brand line */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-            <LogoMark className="w-4 h-4 text-amber-500" />
-            <span>Super Crown Tools</span>
-          </div>
-
-          {/* Title & Tagline */}
-          <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-display text-[#0f172a] dark:text-white leading-[1.08]">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display text-[#0f172a] dark:text-white leading-[1.08]">
             {t.heroTitle}
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
+          <p className="mt-5 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl">
             {t.heroSubtitle}
           </p>
 
-          {/* Search bar */}
-          <div className="w-full mt-8">
+          <div className="w-full mt-10">
             <div className="relative flex items-center">
               <Search className="w-5 h-5 absolute left-5 text-slate-400 pointer-events-none" />
               <input
@@ -506,72 +498,6 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <span>{t.searchButton}</span>
               </button>
             </div>
-          </div>
-
-          {/* Popular quick tags */}
-          <div className="flex flex-wrap items-center justify-center gap-1.5 mt-5 text-xs">
-            <span className="text-slate-500 font-semibold mr-1">{t.badgePopular}:</span>
-            {[
-              { name: 'Mortgage Calculator', slug: 'mortgage-calculator-usa' },
-              { name: 'BMI Calculator', slug: 'bmi-calculator' },
-              { name: 'Age Calculator', slug: 'age-calculator' },
-              { name: 'Loan Calculator', slug: 'loan-calculator-usa' },
-              { name: 'Auto Insurance', slug: 'auto-insurance-calculator' },
-              { name: 'Tax 2026', slug: 'tax-calculator-2026-usa' },
-              { name: 'Resume Builder', slug: 'resume-builder-pro' }
-            ].map((item) => (
-              <button
-                key={item.slug}
-                onClick={() => onSelectTool(item.slug)}
-                className="px-2.5 py-1 rounded-full bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer font-medium"
-              >
-                {item.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Category quick chips */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-            {[
-              { label: t.catDailyCalc, category: 'Daily Calculators' },
-              { label: t.catUnitConv, category: 'Unit Converters' },
-              { label: t.catTextAi, category: 'Text & AI Tools' },
-              { label: t.catImageTools, category: 'Image Tools' },
-              { label: t.catPdfTools, category: 'PDF Tools' },
-              { label: t.catWordTools, category: 'Word Tools' },
-              { label: t.catSeoTools, category: 'SEO Tools' },
-              { label: t.catDevTools, category: 'Developer Tools' },
-              { label: t.catMediaTools, category: 'Video & Audio Tools' },
-              { label: t.catAiTools, category: 'AI Tools' },
-              { label: t.catSocialTools, category: 'Social Media Tools' },
-              { label: t.catStudentTools, category: 'Student & Everyday Tools' },
-              { label: t.catHomeLife, category: 'Home & Daily Life' },
-            ].map((cat) => (
-              <button
-                key={cat.category}
-                onClick={() => handleCategoryClick(cat.category)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors cursor-pointer border ${
-                  selectedCategory === cat.category
-                    ? 'bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600 hover:border-slate-900 dark:hover:border-white'
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Trust row */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5">
-              <LockOpen className="w-4 h-4 text-slate-700 dark:text-slate-200" /> {t.heroBadgeUnlocked}
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-slate-700 dark:text-slate-200" /> {t.heroBadgeNoTracking}
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Zap className="w-4 h-4 text-slate-700 dark:text-slate-200" /> {t.heroBadgeInstant}
-            </span>
           </div>
 
         </div>
@@ -645,12 +571,12 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                   {/* Catchy Title: Bold 15px, perfect contrast */}
                   <h3 className="text-[15px] font-bold text-[#1e293b] dark:text-white leading-snug group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                    {lang === 'fr' ? localizedTool(tool, lang).name : catchy.title}
+                    {lang !== 'en' ? localizedTool(tool, lang).name : catchy.title}
                   </h3>
 
                   {/* Catchy Description */}
                   <p className="text-xs text-[#475569] dark:text-slate-300 mt-2 line-clamp-3 leading-relaxed">
-                    {lang === 'fr' ? localizedTool(tool, lang).description : catchy.catchyDesc}
+                    {lang !== 'en' ? localizedTool(tool, lang).description : catchy.catchyDesc}
                   </p>
                 </div>
 
@@ -945,11 +871,11 @@ export const HomePage: React.FC<HomePageProps> = ({
                     </div>
 
                     <h4 className="font-bold text-[15px] text-[#1e293b] dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors line-clamp-2 leading-snug">
-                      {lang === 'fr' ? localizedTool(tool, lang).name : catchy.title}
+                      {lang !== 'en' ? localizedTool(tool, lang).name : catchy.title}
                     </h4>
 
                     <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">
-                      {lang === 'fr' ? localizedTool(tool, lang).description : catchy.catchyDesc}
+                      {lang !== 'en' ? localizedTool(tool, lang).description : catchy.catchyDesc}
                     </p>
                   </div>
 

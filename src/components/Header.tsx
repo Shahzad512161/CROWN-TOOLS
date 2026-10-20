@@ -65,7 +65,7 @@ export default function Header({
             {/* Language switcher: EN | FR (URL prefix /en or /fr) */}
             <div className="flex items-center gap-1 bg-white/10 border border-white/15 rounded-full p-0.5" role="group" aria-label={t.selectLanguage}>
               <Globe className="w-3.5 h-3.5 text-white/60 ml-1.5" />
-              {(['en', 'fr'] as const).map((l) => (
+              {(['en', 'fr', 'ar', 'ru'] as const).map((l) => (
                 <button
                   key={l}
                   type="button"
@@ -100,7 +100,7 @@ export default function Header({
       {/* ========================================================================= */}
       {/* Main Header 82px - No AD */}
       {/* ========================================================================= */}
-      <div className="bg-white dark:bg-[#0f172a] border-b border-slate-200 dark:border-slate-800 h-[82px] flex items-center shadow-xs transition-colors duration-200">
+      <div className="bg-white dark:bg-[#0f172a] border-b border-slate-200 dark:border-slate-800 h-[68px] flex items-center shadow-xs transition-colors duration-200">
         <div className="max-w-[1500px] mx-auto w-full px-4 flex justify-between items-center">
           
           {/* Left: Logo + Title */}
@@ -111,10 +111,10 @@ export default function Header({
             title="Super Crown Tools Home"
           >
             <div className="transform group-hover:scale-105 transition-transform flex items-center justify-center">
-              <LogoMark className="w-9 h-9 sm:w-10 sm:h-10 text-amber-500" />
+              <LogoMark className="w-8 h-8 text-amber-500" />
             </div>
             <div className="flex flex-col leading-none">
-              <h1 className="text-[20px] sm:text-[26px] font-display tracking-tight text-[#0f172a] dark:text-white flex items-center gap-1.5">
+              <h1 className="text-[19px] sm:text-[22px] font-display tracking-tight text-[#0f172a] dark:text-white flex items-center gap-1.5">
                 Super Crown Tools
                 <span className="text-[10px] sm:text-[11px] font-bold text-amber-500 uppercase tracking-wider bg-amber-100 dark:bg-amber-950/70 px-1.5 py-0.5 rounded border border-amber-300 dark:border-amber-700/60 hidden sm:inline-block">
                   5000+
