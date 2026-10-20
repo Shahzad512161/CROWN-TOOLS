@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string;
   slug: string;
   name: string;
-  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life';
+  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools';
   description: string;
   highCPCKeywords: string[];
   isTopEarning: boolean;
@@ -60,6 +60,17 @@ export const CATEGORIES_META: CategoryMeta[] = [
     borderClass: 'border-yellow-200 dark:border-yellow-800',
     tagline: 'Legal & Safe Document Converters',
     description: 'PDF to Word, text extraction, page counter, PDF merger, and document helpers.'
+  },
+  {
+    name: 'Word Tools',
+    slug: 'word-tools',
+    count: 300,
+    icon: 'FileText',
+    colorClass: 'text-blue-600 dark:text-blue-400',
+    bgLight: 'bg-[#dbeafe] dark:bg-blue-950/40',
+    borderClass: 'border-blue-200 dark:border-blue-800',
+    tagline: 'Complete Word Document Toolkit',
+    description: 'View, edit, merge, split, convert, protect, and repair Word (.docx) documents 100% in-browser.'
   },
   {
     name: 'Text & AI Tools',
@@ -1388,6 +1399,250 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     iconName: 'Zap',
     cpcTier: 'Very High',
     estimatedCPC: '$21.40'
+  },
+
+  // Word Tools suite (.docx) — viewer, editor, converters and document surgery
+  {
+    slug: 'word-viewer',
+    name: 'Word Viewer',
+    category: 'Word Tools',
+    description: 'Open and read any Word (.docx) document right in your browser — no Microsoft Word needed.',
+    highCPCKeywords: ['docx viewer online', 'open word file online', 'view docx without word'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$9.80'
+  },
+  {
+    slug: 'word-editor',
+    name: 'Word Editor',
+    category: 'Word Tools',
+    description: 'Edit a Word document online — change text, headings and formatting, then download the updated .docx.',
+    highCPCKeywords: ['edit word document online', 'docx editor online free', 'edit docx'],
+    isTopEarning: true,
+    iconName: 'FileText',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.90'
+  },
+  {
+    slug: 'word-to-jpg',
+    name: 'Word to JPG',
+    category: 'Word Tools',
+    description: 'Render a Word document into JPG or PNG images — one image per page, zipped for download.',
+    highCPCKeywords: ['word to jpg', 'docx to image', 'word to png converter'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$11.40'
+  },
+  {
+    slug: 'word-to-html',
+    name: 'Word to HTML',
+    category: 'Word Tools',
+    description: 'Convert a Word document into a clean, standalone HTML file with a live preview.',
+    highCPCKeywords: ['word to html', 'docx to html converter', 'convert word document to webpage'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.60'
+  },
+  {
+    slug: 'word-to-text',
+    name: 'Word to Text',
+    category: 'Word Tools',
+    description: 'Extract the plain text from a Word document and download it as a .txt file.',
+    highCPCKeywords: ['word to text', 'docx to txt', 'extract text from word'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$9.20'
+  },
+  {
+    slug: 'word-to-markdown',
+    name: 'Word to Markdown',
+    category: 'Word Tools',
+    description: 'Convert a Word document to clean Markdown with headings, lists and emphasis preserved.',
+    highCPCKeywords: ['word to markdown', 'docx to md', 'convert docx to markdown'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.90'
+  },
+  {
+    slug: 'word-to-epub',
+    name: 'Word to EPUB',
+    category: 'Word Tools',
+    description: 'Turn a Word document into an EPUB eBook, with a chapter created at every top-level heading.',
+    highCPCKeywords: ['word to epub', 'docx to epub converter', 'make ebook from word'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$11.80'
+  },
+  {
+    slug: 'word-to-odt',
+    name: 'Word to ODT',
+    category: 'Word Tools',
+    description: 'Convert Word (.docx) documents to OpenDocument Text (.odt) for LibreOffice and OpenOffice.',
+    highCPCKeywords: ['docx to odt', 'word to odt converter', 'convert docx to openoffice'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$10.20'
+  },
+  {
+    slug: 'odt-to-word',
+    name: 'ODT to Word',
+    category: 'Word Tools',
+    description: 'Convert OpenDocument Text (.odt) files into editable Word (.docx) documents.',
+    highCPCKeywords: ['odt to docx', 'odt to word converter', 'convert odt file to word'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$10.40'
+  },
+  {
+    slug: 'text-to-word',
+    name: 'Text to Word',
+    category: 'Word Tools',
+    description: 'Turn plain text or Markdown into a formatted Word document — paste text or upload a .txt/.md file.',
+    highCPCKeywords: ['text to word', 'txt to docx', 'create word document from text'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$9.60'
+  },
+  {
+    slug: 'merge-word',
+    name: 'Merge Word Documents',
+    category: 'Word Tools',
+    description: 'Combine multiple Word documents into a single .docx, one after another with page breaks.',
+    highCPCKeywords: ['merge word documents', 'combine docx files', 'merge docx online'],
+    isTopEarning: true,
+    iconName: 'FileText',
+    cpcTier: 'Very High',
+    estimatedCPC: '$15.70'
+  },
+  {
+    slug: 'split-word',
+    name: 'Split Word Document',
+    category: 'Word Tools',
+    description: 'Split a Word document into separate files — at every chapter heading or every N paragraphs.',
+    highCPCKeywords: ['split word document', 'split docx', 'divide word file'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$12.30'
+  },
+  {
+    slug: 'extract-word-images',
+    name: 'Extract Images from Word',
+    category: 'Word Tools',
+    description: 'Pull every embedded picture out of a Word document at its original quality, in one zip.',
+    highCPCKeywords: ['extract images from word', 'get pictures from docx', 'save images from word document'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$10.80'
+  },
+  {
+    slug: 'word-analyzer',
+    name: 'Word Document Analyzer',
+    category: 'Word Tools',
+    description: 'Full statistics for a Word document — words, characters, headings, tables, images, reading time and top words.',
+    highCPCKeywords: ['word document statistics', 'docx word count', 'analyze word document'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$9.40'
+  },
+  {
+    slug: 'word-metadata-editor',
+    name: 'Word Metadata Editor',
+    category: 'Word Tools',
+    description: 'View, edit or remove a Word document\'s properties — title, author, subject, keywords and more.',
+    highCPCKeywords: ['edit docx metadata', 'word document properties', 'remove metadata from word'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$11.10'
+  },
+  {
+    slug: 'unlock-word',
+    name: 'Unlock Word',
+    category: 'Word Tools',
+    description: 'Remove editing restrictions (read-only / forms protection) from a Word document so it can be edited again.',
+    highCPCKeywords: ['unlock word document', 'remove word protection', 'unprotect docx'],
+    isTopEarning: true,
+    iconName: 'FileText',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.20'
+  },
+  {
+    slug: 'protect-word',
+    name: 'Protect Word',
+    category: 'Word Tools',
+    description: 'Restrict editing in a Word document — read-only, comments only, tracked changes or form filling.',
+    highCPCKeywords: ['protect word document', 'restrict editing word', 'make docx read only'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$12.60'
+  },
+  {
+    slug: 'word-watermark',
+    name: 'Word Watermark',
+    category: 'Word Tools',
+    description: 'Stamp a diagonal text watermark (CONFIDENTIAL, DRAFT…) across every page of a Word document.',
+    highCPCKeywords: ['add watermark to word', 'word document watermark', 'docx watermark online'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$11.90'
+  },
+  {
+    slug: 'compress-word',
+    name: 'Compress Word',
+    category: 'Word Tools',
+    description: 'Shrink a Word document by recompressing and downscaling its embedded images.',
+    highCPCKeywords: ['compress word document', 'reduce docx file size', 'compress docx online'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$12.10'
+  },
+  {
+    slug: 'repair-word',
+    name: 'Repair Word',
+    category: 'Word Tools',
+    description: 'Repair a damaged Word document — rebuilds the file structure, or recovers its text into a clean .docx.',
+    highCPCKeywords: ['repair word document', 'fix corrupt docx', 'recover damaged word file'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'Very High',
+    estimatedCPC: '$14.80'
+  },
+  {
+    slug: 'compare-word',
+    name: 'Compare Word Documents',
+    category: 'Word Tools',
+    description: 'Compare two versions of a Word document and highlight the words that were added or removed.',
+    highCPCKeywords: ['compare word documents', 'docx diff', 'compare two word files'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'Very High',
+    estimatedCPC: '$15.30'
+  },
+  {
+    slug: 'word-find-replace',
+    name: 'Word Find & Replace',
+    category: 'Word Tools',
+    description: 'Find and replace text across a whole Word document — including headers and footers — in one pass.',
+    highCPCKeywords: ['find and replace in word', 'batch replace docx', 'replace text in word document'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$11.50'
   }
 ];
 
@@ -1463,7 +1718,8 @@ function generateFullToolsCatalog(): ToolItem[] {
     'PDF Tools': 800,
     'Text & AI Tools': 500,
     'Unit Converters': 1000,
-    'Home & Daily Life': 700
+    'Home & Daily Life': 700,
+    'Word Tools': 300
   };
 
   // Sub-domains and seeds to generate realistic legal tool titles
@@ -1548,6 +1804,16 @@ function generateFullToolsCatalog(): ToolItem[] {
       ],
       suffixes: ['Calculator', 'Planner', 'Estimator', 'Guide', 'Tracker', 'Helper'],
       defaultIcon: 'Home'
+    },
+    'Word Tools': {
+      prefixes: ['Pro', 'Fast', 'Secure', 'Online', 'Smart', 'Easy', 'Free', 'Instant', 'Advanced', 'Simple'],
+      topics: [
+        'DOCX Viewer', 'Word Document Editor', 'Word File Merger', 'Word File Splitter', 'Word to PDF Converter',
+        'Word Metadata Editor', 'Word Watermark Tool', 'Word Document Protector', 'Word Password Remover', 'Word Image Extractor',
+        'Word Text Extractor', 'Word Document Analyzer', 'Word File Compressor', 'Word Document Repair', 'Word Compare Tool'
+      ],
+      suffixes: ['Tool', 'Utility', 'Online', 'App', 'Studio', 'Manager'],
+      defaultIcon: 'FileText'
     }
   };
 
