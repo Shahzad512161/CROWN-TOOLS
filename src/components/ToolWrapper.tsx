@@ -20,6 +20,7 @@ import { PdfToWordConverter } from './tools/PdfToWordConverter';
 import { MultiCalculator } from './tools/MultiCalculator';
 import { GenericToolEngine } from './tools/GenericToolEngine';
 import { PDF_TOOL_COMPONENTS } from './tools/pdf';
+import { SEO_TOOL_COMPONENTS } from './tools/seo';
 
 interface ToolWrapperProps {
   slug: string;
@@ -65,6 +66,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     const PdfTool = PDF_TOOL_COMPONENTS[tool.slug];
     if (PdfTool) {
       return <PdfTool tool={tool} />;
+    }
+    // Real SEO suite (single registry — slug keys live next to the components)
+    const SeoTool = SEO_TOOL_COMPONENTS[tool.slug];
+    if (SeoTool) {
+      return <SeoTool tool={tool} />;
     }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':

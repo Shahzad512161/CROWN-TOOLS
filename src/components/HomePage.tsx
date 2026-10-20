@@ -603,6 +603,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     { label: '🎨 Image Utilities', category: 'Image Tools', count: '1,000+' },
                     { label: '📑 PDF & Docs', category: 'PDF Tools', count: '800+' },
                     { label: '📝 Word Tools', category: 'Word Tools', count: '300+' },
+                    { label: '🔍 SEO Tools', category: 'SEO Tools', count: '400+' },
                     { label: '🏡 Daily Life', category: 'Home & Daily Life', count: '700+' },
                   ].map((cat) => (
                     <button
@@ -1039,6 +1040,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               }`}
             >
               📝 Word Tools (300)
+            </button>
+
+            {/* SEO Tools - Green */}
+            <button
+              onClick={() => { setSelectedCategory('SEO Tools'); setCurrentPage(1); }}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
+                selectedCategory === 'SEO Tools'
+                  ? 'bg-[#16a34a] text-white border-[#15803d] shadow-md ring-2 ring-green-300 dark:ring-green-900'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#16a34a]/40 hover:bg-[#16a34a] hover:text-white'
+              }`}
+            >
+              🔍 SEO Tools (400)
             </button>
           </div>
 

@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string;
   slug: string;
   name: string;
-  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools';
+  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools';
   description: string;
   highCPCKeywords: string[];
   isTopEarning: boolean;
@@ -71,6 +71,17 @@ export const CATEGORIES_META: CategoryMeta[] = [
     borderClass: 'border-blue-200 dark:border-blue-800',
     tagline: 'Complete Word Document Toolkit',
     description: 'View, edit, merge, split, convert, protect, and repair Word (.docx) documents 100% in-browser.'
+  },
+  {
+    name: 'SEO Tools',
+    slug: 'seo-tools',
+    count: 400,
+    icon: 'Search',
+    colorClass: 'text-green-700 dark:text-green-400',
+    bgLight: 'bg-green-100 dark:bg-green-950/40',
+    borderClass: 'border-green-200 dark:border-green-800',
+    tagline: 'Rank Higher on Google',
+    description: 'Meta tag generators, keyword density, robots.txt and sitemap builders, schema markup, and on-page SEO analysis — 100% in-browser.'
   },
   {
     name: 'Text & AI Tools',
@@ -1643,6 +1654,305 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     iconName: 'FileText',
     cpcTier: 'High',
     estimatedCPC: '$11.50'
+  },
+
+  // SEO Tools suite — generators, content analyzers and technical utilities
+  {
+    slug: 'meta-tag-generator',
+    name: 'Meta Tag Generator',
+    category: 'SEO Tools',
+    description: 'Generate complete meta tags — title, description, robots, canonical, Open Graph and Twitter cards — with live length checks.',
+    highCPCKeywords: ['meta tag generator', 'generate meta tags', 'meta tags creator'],
+    isTopEarning: true,
+    iconName: 'Search',
+    cpcTier: 'Very High',
+    estimatedCPC: '$14.60'
+  },
+  {
+    slug: 'open-graph-generator',
+    name: 'Open Graph Generator',
+    category: 'SEO Tools',
+    description: 'Create Open Graph and Twitter Card tags and preview exactly how your link will look when shared on social media.',
+    highCPCKeywords: ['open graph generator', 'og tag generator', 'twitter card generator'],
+    isTopEarning: false,
+    iconName: 'Search',
+    cpcTier: 'High',
+    estimatedCPC: '$11.20'
+  },
+  {
+    slug: 'robots-txt-generator',
+    name: 'Robots.txt Generator',
+    category: 'SEO Tools',
+    description: 'Build a valid robots.txt file with per-bot allow/disallow rules, crawl-delay and sitemap entries — plus one-click presets.',
+    highCPCKeywords: ['robots.txt generator', 'create robots txt', 'robots file maker'],
+    isTopEarning: true,
+    iconName: 'FileCode',
+    cpcTier: 'Very High',
+    estimatedCPC: '$13.80'
+  },
+  {
+    slug: 'xml-sitemap-generator',
+    name: 'XML Sitemap Generator',
+    category: 'SEO Tools',
+    description: 'Turn a list of URLs into a valid XML sitemap with lastmod, changefreq and priority — ready to upload and submit.',
+    highCPCKeywords: ['xml sitemap generator', 'create sitemap online', 'sitemap maker'],
+    isTopEarning: true,
+    iconName: 'FileCode',
+    cpcTier: 'Very High',
+    estimatedCPC: '$15.10'
+  },
+  {
+    slug: 'schema-generator',
+    name: 'Schema Markup Generator',
+    category: 'SEO Tools',
+    description: 'Build valid JSON-LD structured data — Article, Product, LocalBusiness, HowTo, Breadcrumb, Organization and WebSite.',
+    highCPCKeywords: ['schema markup generator', 'json ld generator', 'structured data generator'],
+    isTopEarning: true,
+    iconName: 'FileCode',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.40'
+  },
+  {
+    slug: 'faq-schema-generator',
+    name: 'FAQ Schema Generator',
+    category: 'SEO Tools',
+    description: 'Turn question-and-answer pairs into valid FAQPage JSON-LD schema markup for rich search results.',
+    highCPCKeywords: ['faq schema generator', 'faqpage json ld', 'faq structured data'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$12.70'
+  },
+  {
+    slug: 'htaccess-redirect-generator',
+    name: 'Htaccess Redirect Generator',
+    category: 'SEO Tools',
+    description: 'Generate 301/302 redirect rules for Apache (.htaccess) or Nginx in bulk, plus HTTPS and www canonical rules.',
+    highCPCKeywords: ['htaccess redirect generator', '301 redirect generator', 'nginx redirect generator'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.90'
+  },
+  {
+    slug: 'hreflang-generator',
+    name: 'Hreflang Tag Generator',
+    category: 'SEO Tools',
+    description: 'Generate hreflang tags for multilingual sites — as HTML link tags or a complete hreflang XML sitemap.',
+    highCPCKeywords: ['hreflang generator', 'hreflang tag tool', 'multilingual seo tags'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$12.20'
+  },
+  {
+    slug: 'utm-builder',
+    name: 'UTM Builder',
+    category: 'SEO Tools',
+    description: 'Build campaign URLs with UTM parameters for Google Analytics — source, medium, campaign, term and content.',
+    highCPCKeywords: ['utm builder', 'campaign url builder', 'utm link generator'],
+    isTopEarning: false,
+    iconName: 'Search',
+    cpcTier: 'High',
+    estimatedCPC: '$10.80'
+  },
+  {
+    slug: 'llms-txt-generator',
+    name: 'LLMs.txt Generator',
+    category: 'SEO Tools',
+    description: 'Create an llms.txt file that tells AI assistants (ChatGPT, Claude, Gemini) how to read and cite your website.',
+    highCPCKeywords: ['llms.txt generator', 'llms txt maker', 'ai seo file generator'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.60'
+  },
+  {
+    slug: 'meta-tag-analyzer',
+    name: 'Meta Tag Analyzer',
+    category: 'SEO Tools',
+    description: 'Paste any page\'s HTML to audit its title, description, canonical, robots, Open Graph, headings, images and links.',
+    highCPCKeywords: ['meta tag analyzer', 'meta tags checker', 'analyze meta tags'],
+    isTopEarning: false,
+    iconName: 'Search',
+    cpcTier: 'High',
+    estimatedCPC: '$12.40'
+  },
+  {
+    slug: 'on-page-seo-analyzer',
+    name: 'On-Page SEO Analyzer',
+    category: 'SEO Tools',
+    description: 'Full on-page SEO audit with a score out of 100 — keyword placement, density, headings, links, readability and meta checks.',
+    highCPCKeywords: ['on page seo checker', 'seo analyzer', 'website seo audit tool'],
+    isTopEarning: true,
+    iconName: 'Search',
+    cpcTier: 'Very High',
+    estimatedCPC: '$17.30'
+  },
+  {
+    slug: 'keyword-density-checker',
+    name: 'Keyword Density Checker',
+    category: 'SEO Tools',
+    description: 'Analyze 1, 2 and 3-word phrase frequency and density in your content to avoid keyword stuffing.',
+    highCPCKeywords: ['keyword density checker', 'keyword density analyzer', 'check keyword density'],
+    isTopEarning: true,
+    iconName: 'Search',
+    cpcTier: 'Very High',
+    estimatedCPC: '$14.90'
+  },
+  {
+    slug: 'readability-checker',
+    name: 'Readability Checker',
+    category: 'SEO Tools',
+    description: 'Score your content with Flesch Reading Ease, Flesch-Kincaid, Gunning Fog, SMOG, Coleman-Liau and ARI — plus long-sentence flags.',
+    highCPCKeywords: ['readability checker', 'flesch reading ease', 'readability score test'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$10.50'
+  },
+  {
+    slug: 'headline-analyzer',
+    name: 'Headline Analyzer',
+    category: 'SEO Tools',
+    description: 'Score headlines for clicks — power words, emotional pull, numbers, length, format and clickbait risk.',
+    highCPCKeywords: ['headline analyzer', 'headline score checker', 'title analyzer tool'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.30'
+  },
+  {
+    slug: 'serp-snippet-preview',
+    name: 'SERP Snippet Preview',
+    category: 'SEO Tools',
+    description: 'Preview how your page will look in Google search results — desktop and mobile — with real pixel-width truncation checks.',
+    highCPCKeywords: ['serp snippet preview', 'google preview tool', 'meta preview checker'],
+    isTopEarning: false,
+    iconName: 'Search',
+    cpcTier: 'High',
+    estimatedCPC: '$12.90'
+  },
+  {
+    slug: 'code-to-text-ratio-checker',
+    name: 'Code to Text Ratio Checker',
+    category: 'SEO Tools',
+    description: 'Measure the ratio of visible text to HTML code on a page and extract its readable text.',
+    highCPCKeywords: ['code to text ratio', 'text to html ratio checker', 'page text ratio'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$8.40'
+  },
+  {
+    slug: 'duplicate-content-checker',
+    name: 'Duplicate Content Checker',
+    category: 'SEO Tools',
+    description: 'Compare two texts for duplication — similarity percentage, shared phrases and matching sentences highlighted.',
+    highCPCKeywords: ['duplicate content checker', 'text similarity checker', 'compare two texts'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$12.10'
+  },
+  {
+    slug: 'heading-structure-checker',
+    name: 'Heading Structure Checker',
+    category: 'SEO Tools',
+    description: 'Extract the H1–H6 outline from any page\'s HTML and flag multiple H1s, skipped levels and empty headings.',
+    highCPCKeywords: ['heading checker', 'h1 h2 structure checker', 'heading tag analyzer'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$8.90'
+  },
+  {
+    slug: 'link-extractor',
+    name: 'Link Extractor',
+    category: 'SEO Tools',
+    description: 'Extract every link from a page\'s HTML — anchor text, internal/external, dofollow/nofollow — with CSV export.',
+    highCPCKeywords: ['link extractor', 'extract links from website', 'get all links from page'],
+    isTopEarning: false,
+    iconName: 'Search',
+    cpcTier: 'High',
+    estimatedCPC: '$11.70'
+  },
+  {
+    slug: 'robots-txt-tester',
+    name: 'Robots.txt Tester',
+    category: 'SEO Tools',
+    description: 'Test whether URLs are allowed or blocked by a robots.txt file for any user-agent, using the real matching rules.',
+    highCPCKeywords: ['robots.txt tester', 'robots txt checker', 'test robots file'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.40'
+  },
+  {
+    slug: 'sitemap-validator',
+    name: 'Sitemap Validator',
+    category: 'SEO Tools',
+    description: 'Validate an XML sitemap for errors — invalid URLs, bad lastmod dates, wrong priorities and duplicates.',
+    highCPCKeywords: ['sitemap validator', 'validate xml sitemap', 'sitemap checker'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.10'
+  },
+  {
+    slug: 'redirect-chain-analyzer',
+    name: 'Redirect Chain Analyzer',
+    category: 'SEO Tools',
+    description: 'Audit a redirect map for chains, loops and duplicate rules — and get a flattened one-hop map back.',
+    highCPCKeywords: ['redirect chain checker', 'redirect loop detector', 'redirect map audit'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$12.60'
+  },
+  {
+    slug: 'keyword-clustering',
+    name: 'Keyword Clustering Tool',
+    category: 'SEO Tools',
+    description: 'Group a keyword list into topical clusters automatically, so each cluster becomes one focused page or article.',
+    highCPCKeywords: ['keyword clustering tool', 'group keywords', 'keyword grouping tool'],
+    isTopEarning: false,
+    iconName: 'Search',
+    cpcTier: 'High',
+    estimatedCPC: '$13.20'
+  },
+  {
+    slug: 'keyword-combiner',
+    name: 'Keyword Combiner',
+    category: 'SEO Tools',
+    description: 'Combine two or three keyword lists into every permutation, with Google Ads match-type wrapping.',
+    highCPCKeywords: ['keyword combiner', 'keyword combination tool', 'merge keyword lists'],
+    isTopEarning: false,
+    iconName: 'Search',
+    cpcTier: 'High',
+    estimatedCPC: '$9.70'
+  },
+  {
+    slug: 'seo-roi-calculator',
+    name: 'SEO ROI Calculator',
+    category: 'SEO Tools',
+    description: 'Calculate the return on an SEO campaign — projected traffic, conversions, revenue, break-even and a 12-month ramp.',
+    highCPCKeywords: ['seo roi calculator', 'seo return calculator', 'seo investment calculator'],
+    isTopEarning: false,
+    iconName: 'TrendingUp',
+    cpcTier: 'High',
+    estimatedCPC: '$13.50'
+  },
+  {
+    slug: 'code-minifier',
+    name: 'HTML CSS JS Minifier',
+    category: 'SEO Tools',
+    description: 'Minify HTML, CSS and JavaScript to cut page weight and improve load speed — with before/after size stats.',
+    highCPCKeywords: ['html minifier', 'css minifier', 'js minifier online'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.90'
   }
 ];
 
@@ -1719,7 +2029,8 @@ function generateFullToolsCatalog(): ToolItem[] {
     'Text & AI Tools': 500,
     'Unit Converters': 1000,
     'Home & Daily Life': 700,
-    'Word Tools': 300
+    'Word Tools': 300,
+    'SEO Tools': 400
   };
 
   // Sub-domains and seeds to generate realistic legal tool titles
@@ -1814,6 +2125,16 @@ function generateFullToolsCatalog(): ToolItem[] {
       ],
       suffixes: ['Tool', 'Utility', 'Online', 'App', 'Studio', 'Manager'],
       defaultIcon: 'FileText'
+    },
+    'SEO Tools': {
+      prefixes: ['Pro', 'Free', 'Online', 'Advanced', 'Smart', 'Instant', 'Ultimate', 'Easy', 'Fast', 'Expert'],
+      topics: [
+        'Meta Tag Generator', 'Keyword Density Checker', 'Robots TXT Generator', 'XML Sitemap Generator', 'Schema Markup Builder',
+        'On Page SEO Analyzer', 'SERP Snippet Preview', 'Hreflang Tag Generator', 'UTM Campaign Builder', 'Redirect Rule Generator',
+        'Keyword Clustering Tool', 'Readability Score Checker', 'Headline Analyzer', 'Backlink Opportunity Finder', 'Canonical Tag Helper'
+      ],
+      suffixes: ['Tool', 'Online', 'Checker', 'Generator', 'Analyzer', 'Studio'],
+      defaultIcon: 'Search'
     }
   };
 
