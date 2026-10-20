@@ -11,9 +11,9 @@ interface MultiCalculatorProps {
 export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, toolSlug }) => {
   const getStartingTab = (): 'mortgage' | 'loan' | 'bmi' | 'age' | 'tip' | 'compound' => {
     if (initialTab) return initialTab;
-    if (toolSlug === 'bmi-calculator') return 'bmi';
+    if (toolSlug === 'bmi-calculator' || toolSlug === 'bmi-calorie-deficit-calculator') return 'bmi';
     if (toolSlug === 'age-calculator') return 'age';
-    if (toolSlug === 'tip-calculator') return 'tip';
+    if (toolSlug === 'tip-calculator' || toolSlug === 'tip-bill-splitter-calculator') return 'tip';
     if (toolSlug === 'compound-interest-calculator') return 'compound';
     if (toolSlug === 'loan-calculator-usa') return 'loan';
     return 'age';

@@ -19,6 +19,7 @@ import { CurrencyConverter } from './tools/CurrencyConverter';
 import { PdfToWordConverter } from './tools/PdfToWordConverter';
 import { MultiCalculator } from './tools/MultiCalculator';
 import { GenericToolEngine } from './tools/GenericToolEngine';
+import { PDF_TOOL_COMPONENTS } from './tools/pdf';
 
 interface ToolWrapperProps {
   slug: string;
@@ -60,6 +61,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
 
   // Render the corresponding unlocked tool
   const renderInteractiveTool = () => {
+    // Real PDF suite (single registry — slug keys live next to the components)
+    const PdfTool = PDF_TOOL_COMPONENTS[tool.slug];
+    if (PdfTool) {
+      return <PdfTool tool={tool} />;
+    }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':
         return <MortgageCalculator />;
@@ -69,18 +75,21 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
         return <LoanCalculator />;
       case 'tax-calculator-2026-usa':
         return <TaxCalculator />;
-      case 'resume-builder-pro':
+      case 'resume-builder-usa-format':
         return <ResumeBuilder />;
-      case 'invoice-generator-free':
+      case 'invoice-generator-pro':
         return <InvoiceGenerator />;
       case 'live-currency-converter':
         return <CurrencyConverter />;
       case 'pdf-to-word-converter':
         return <PdfToWordConverter />;
+      case 'multi-calculator-all-in-one':
+      case 'bmi-calorie-deficit-calculator':
       case 'bmi-calculator':
       case 'age-calculator':
       case 'scientific-calculator':
       case 'compound-interest-calculator':
+      case 'tip-bill-splitter-calculator':
       case 'tip-calculator':
       case 'calorie-calculator':
         return <MultiCalculator toolSlug={tool.slug} />;

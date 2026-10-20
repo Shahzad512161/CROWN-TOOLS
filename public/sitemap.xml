@@ -1,92 +1,393 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Homepage -->
   <url>
-    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/</loc>
-    <lastmod>2026-10-14</lastmod>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app</loc>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- Top 8 Earning Tools -->
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/about</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/privacy</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/contact</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/blog</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/mortgage-calculator-usa</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/auto-insurance-calculator</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/loan-calculator-usa</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/tax-calculator-2026-usa</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/resume-builder-usa-format</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/invoice-generator-pro</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/live-currency-converter</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.90</priority>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-to-word-converter</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
+    <priority>0.9</priority>
   </url>
-
-  <!-- High-Demand Curated Tools -->
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/multi-calculator-all-in-one</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/compound-interest-calculator</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/retirement-401k-calculator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/debt-snowball-calculator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/bmi-calorie-deficit-calculator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/student-loan-payoff-calculator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/image-compressor-lossless</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/image-resizer-pro</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/image-to-webp-converter</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/image-base64-encoder</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/word-to-pdf-converter-safe</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-page-counter-inspector</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/merge-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/split-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/compress-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-to-word</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-to-powerpoint</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-to-excel</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/word-to-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/powerpoint-to-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/excel-to-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/edit-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-to-jpg</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/jpg-to-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/sign-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/watermark-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/rotate-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/html-to-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/unlock-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/protect-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/organize-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-to-pdfa</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/repair-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/page-numbers-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/scan-to-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/ocr-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/compare-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/redact-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/crop-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-forms</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/ai-pdf-summarizer</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/translate-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/pdf-to-markdown</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/word-character-counter-pro</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/text-case-converter</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/lorem-ipsum-generator-pro</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/length-distance-converter</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/weight-mass-converter</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/temperature-converter-pro</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/grocery-budget-planner</loc>
-    <lastmod>2026-10-14</lastmod>
+    <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.80</priority>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/tip-bill-splitter-calculator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/home-electricity-cost-calculator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>
