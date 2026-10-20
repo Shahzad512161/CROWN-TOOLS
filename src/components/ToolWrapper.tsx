@@ -23,6 +23,7 @@ import { PDF_TOOL_COMPONENTS } from './tools/pdf';
 import { SEO_TOOL_COMPONENTS } from './tools/seo';
 import { DEV_TOOL_COMPONENTS } from './tools/dev';
 import { IMAGE_TOOL_COMPONENTS } from './tools/image';
+import { MEDIA_TOOL_COMPONENTS } from './tools/media';
 
 interface ToolWrapperProps {
   slug: string;
@@ -83,6 +84,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     const ImageTool = IMAGE_TOOL_COMPONENTS[tool.slug];
     if (ImageTool) {
       return <ImageTool tool={tool} />;
+    }
+    // Real Video & Audio suite (FFmpeg.wasm + native capture/speech)
+    const MediaTool = MEDIA_TOOL_COMPONENTS[tool.slug];
+    if (MediaTool) {
+      return <MediaTool tool={tool} />;
     }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':

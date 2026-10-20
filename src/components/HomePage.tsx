@@ -605,6 +605,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     { label: '📝 Word Tools', category: 'Word Tools', count: '300+' },
                     { label: '🔍 SEO Tools', category: 'SEO Tools', count: '400+' },
                     { label: '💻 Developer Tools', category: 'Developer Tools', count: '400+' },
+                    { label: '🎬 Video & Audio Tools', category: 'Video & Audio Tools', count: '300+' },
                     { label: '🏡 Daily Life', category: 'Home & Daily Life', count: '700+' },
                   ].map((cat) => (
                     <button
@@ -1065,6 +1066,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               }`}
             >
               💻 Developer Tools (400)
+            </button>
+
+            {/* Video & Audio Tools - Orange */}
+            <button
+              onClick={() => { setSelectedCategory('Video & Audio Tools'); setCurrentPage(1); }}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
+                selectedCategory === 'Video & Audio Tools'
+                  ? 'bg-[#ea580c] text-white border-[#c2410c] shadow-md ring-2 ring-orange-300 dark:ring-orange-900'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#ea580c]/40 hover:bg-[#ea580c] hover:text-white'
+              }`}
+            >
+              🎬 Video & Audio Tools (300)
             </button>
           </div>
 

@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string;
   slug: string;
   name: string;
-  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools';
+  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools' | 'Video & Audio Tools';
   description: string;
   highCPCKeywords: string[];
   isTopEarning: boolean;
@@ -93,6 +93,17 @@ export const CATEGORIES_META: CategoryMeta[] = [
     borderClass: 'border-violet-200 dark:border-violet-800',
     tagline: 'Code Utilities for Builders',
     description: 'JSON formatters and converters, JWT decoder, encoders, hash and password generators, regex tester, cron parser — 100% in-browser.'
+  },
+  {
+    name: 'Video & Audio Tools',
+    slug: 'video-audio-tools',
+    count: 300,
+    icon: 'Wand2',
+    colorClass: 'text-orange-600 dark:text-orange-400',
+    bgLight: 'bg-[#ffedd5] dark:bg-orange-950/40',
+    borderClass: 'border-orange-200 dark:border-orange-800',
+    tagline: 'Convert, Trim & Record Media',
+    description: 'Video to GIF, compressors, trimmers and converters powered by FFmpeg in your browser, plus screen, camera and voice recorders.'
   },
   {
     name: 'Text & AI Tools',
@@ -2452,6 +2463,184 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     iconName: 'FileCode',
     cpcTier: 'High',
     estimatedCPC: '$10.50'
+  },
+
+  // Video & Audio suite — FFmpeg.wasm converters + native recorders/speech
+  {
+    slug: 'video-to-gif',
+    name: 'Video to GIF Converter',
+    category: 'Video & Audio Tools',
+    description: 'Turn video clips into high-quality animated GIFs with trim, width and frame-rate controls — palette-optimized for small files.',
+    highCPCKeywords: ['video to gif', 'mp4 to gif converter', 'make gif from video'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$15.90'
+  },
+  {
+    slug: 'video-compressor',
+    name: 'Video Compressor',
+    category: 'Video & Audio Tools',
+    description: 'Compress MP4 videos to a fraction of their size with quality and resolution controls — no uploads, no file-size limits from a server.',
+    highCPCKeywords: ['compress video online', 'reduce video file size', 'mp4 compressor'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.80'
+  },
+  {
+    slug: 'video-trimmer',
+    name: 'Video Trimmer',
+    category: 'Video & Audio Tools',
+    description: 'Cut any section from a video with precise re-encoding or fast stream-copy trimming.',
+    highCPCKeywords: ['trim video online', 'cut video', 'video cutter free'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.40'
+  },
+  {
+    slug: 'video-converter',
+    name: 'Video Converter',
+    category: 'Video & Audio Tools',
+    description: 'Convert videos between MP4, WebM and MOV formats right in your browser.',
+    highCPCKeywords: ['video converter online', 'mp4 to webm', 'convert video free'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$15.10'
+  },
+  {
+    slug: 'video-to-mp3',
+    name: 'Video to MP3',
+    category: 'Video & Audio Tools',
+    description: 'Extract the audio from any video as MP3, WAV, M4A or OGG at up to 320 kbps.',
+    highCPCKeywords: ['video to mp3', 'extract audio from video', 'mp4 to mp3 converter'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.20'
+  },
+  {
+    slug: 'video-frame-capture',
+    name: 'Video Frame Capture',
+    category: 'Video & Audio Tools',
+    description: 'Grab still frames and thumbnails from any moment of a video as PNG or JPG images.',
+    highCPCKeywords: ['video thumbnail maker', 'capture frame from video', 'video snapshot online'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$11.30'
+  },
+  {
+    slug: 'audio-converter',
+    name: 'Audio Converter',
+    category: 'Video & Audio Tools',
+    description: 'Convert audio between MP3, WAV, M4A and OGG with bitrate control.',
+    highCPCKeywords: ['audio converter online', 'mp3 to wav', 'convert audio free'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.90'
+  },
+  {
+    slug: 'audio-trimmer',
+    name: 'Audio Trimmer',
+    category: 'Video & Audio Tools',
+    description: 'Trim audio with a visual waveform, precise start/end points and fade-in/fade-out effects.',
+    highCPCKeywords: ['audio trimmer', 'cut mp3 online', 'mp3 cutter'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.60'
+  },
+  {
+    slug: 'audio-joiner',
+    name: 'Audio Joiner',
+    category: 'Video & Audio Tools',
+    description: 'Merge multiple audio files into one track — mixed formats welcome, output as MP3, WAV, M4A or OGG.',
+    highCPCKeywords: ['audio joiner', 'merge mp3 files', 'combine audio online'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.30'
+  },
+  {
+    slug: 'audio-volume-booster',
+    name: 'Audio Volume Booster',
+    category: 'Video & Audio Tools',
+    description: 'Make quiet audio louder with gain control up to +30 dB, or normalize speech properly with loudnorm.',
+    highCPCKeywords: ['increase audio volume', 'mp3 volume booster', 'make audio louder online'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.90'
+  },
+  {
+    slug: 'audio-speed-changer',
+    name: 'Audio Speed Changer',
+    category: 'Video & Audio Tools',
+    description: 'Speed up or slow down audio from 0.25× to 3× without changing the pitch.',
+    highCPCKeywords: ['change audio speed', 'speed up mp3', 'slow down audio online'],
+    isTopEarning: false,
+    iconName: 'Clock',
+    cpcTier: 'High',
+    estimatedCPC: '$11.50'
+  },
+  {
+    slug: 'screen-recorder',
+    name: 'Screen Recorder',
+    category: 'Video & Audio Tools',
+    description: 'Record your screen, a window or a browser tab — with microphone and system audio — and download the video. Nothing is uploaded.',
+    highCPCKeywords: ['screen recorder online', 'record screen free', 'screen capture video'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$17.40'
+  },
+  {
+    slug: 'webcam-recorder',
+    name: 'Webcam Recorder',
+    category: 'Video & Audio Tools',
+    description: 'Record video from your webcam with a live preview and instant download.',
+    highCPCKeywords: ['webcam recorder online', 'record video from camera', 'camera recorder free'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.80'
+  },
+  {
+    slug: 'voice-recorder',
+    name: 'Voice Recorder',
+    category: 'Video & Audio Tools',
+    description: 'Record voice notes and audio from your microphone with a live level meter — save unlimited takes.',
+    highCPCKeywords: ['voice recorder online', 'audio recorder', 'record voice free'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.50'
+  },
+  {
+    slug: 'text-to-speech',
+    name: 'Text to Speech',
+    category: 'Video & Audio Tools',
+    description: 'Listen to any text read aloud with natural system voices — choose voice, speed and pitch.',
+    highCPCKeywords: ['text to speech online', 'tts free', 'read text aloud'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$14.90'
+  },
+  {
+    slug: 'speech-to-text',
+    name: 'Speech to Text',
+    category: 'Video & Audio Tools',
+    description: 'Dictate in English, Urdu, Hindi, Arabic and more — live transcription in your browser with copy and download.',
+    highCPCKeywords: ['speech to text online', 'voice typing', 'dictation tool free'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.10'
   }
 ];
 
@@ -2530,7 +2719,8 @@ function generateFullToolsCatalog(): ToolItem[] {
     'Home & Daily Life': 700,
     'Word Tools': 300,
     'SEO Tools': 400,
-    'Developer Tools': 400
+    'Developer Tools': 400,
+    'Video & Audio Tools': 300
   };
 
   // Sub-domains and seeds to generate realistic legal tool titles
@@ -2645,6 +2835,16 @@ function generateFullToolsCatalog(): ToolItem[] {
       ],
       suffixes: ['Tool', 'Online', 'Utility', 'Generator', 'Checker', 'Studio'],
       defaultIcon: 'FileCode'
+    },
+    'Video & Audio Tools': {
+      prefixes: ['Pro', 'Free', 'Online', 'Advanced', 'Smart', 'Instant', 'Ultimate', 'Easy', 'Fast', 'Expert'],
+      topics: [
+        'Video to GIF Converter', 'Video Compressor', 'Video Trimmer', 'Video Converter', 'Video to MP3',
+        'Audio Converter', 'Audio Trimmer', 'Audio Joiner', 'Screen Recorder', 'Voice Recorder',
+        'Text to Speech', 'Speech to Text', 'Video Frame Capture', 'Audio Speed Changer', 'Webcam Recorder'
+      ],
+      suffixes: ['Tool', 'Online', 'Converter', 'Maker', 'Recorder', 'Studio'],
+      defaultIcon: 'Wand2'
     }
   };
 

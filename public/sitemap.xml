@@ -43,6 +43,36 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/audio-converter</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/audio-joiner</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/audio-speed-changer</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/audio-trimmer</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/audio-volume-booster</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/auto-insurance-calculator</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -859,6 +889,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/screen-recorder</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/seo-roi-calculator</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -878,6 +914,12 @@
   </url>
   <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/sitemap-validator</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/speech-to-text</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -967,6 +1009,12 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/text-to-speech</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/text-to-word</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -1039,7 +1087,55 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/video-compressor</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/video-converter</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/video-frame-capture</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/video-to-gif</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/video-to-mp3</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/video-trimmer</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/voice-recorder</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/watermark-pdf</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/tool/webcam-recorder</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
