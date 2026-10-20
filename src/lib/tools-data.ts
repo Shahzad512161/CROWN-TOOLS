@@ -553,6 +553,195 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     estimatedCPC: '$12.90'
   },
 
+  // Image studio round 2 — AI, QR, creators' tools (image-base64-encoder above is also served by this suite)
+  {
+    slug: 'background-remover',
+    name: 'AI Background Remover',
+    category: 'Image Tools',
+    description: 'Remove the background from any photo with an AI model that runs entirely in your browser — transparent PNG in seconds, no uploads.',
+    highCPCKeywords: ['remove background from image', 'background remover free', 'transparent png maker'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$18.90'
+  },
+  {
+    slug: 'image-background-changer',
+    name: 'Image Background Changer',
+    category: 'Image Tools',
+    description: 'Replace a photo background with studio colors, gradients or your own backdrop image — perfect for product photos.',
+    highCPCKeywords: ['change image background', 'product photo background', 'replace background online'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$14.60'
+  },
+  {
+    slug: 'qr-code-generator',
+    name: 'QR Code Generator',
+    category: 'Image Tools',
+    description: 'Create QR codes for links, WiFi, contact cards, email and SMS — custom colors and sizes, PNG and SVG downloads.',
+    highCPCKeywords: ['qr code generator', 'create qr code free', 'wifi qr code generator'],
+    isTopEarning: true,
+    iconName: 'Zap',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.40'
+  },
+  {
+    slug: 'qr-code-scanner',
+    name: 'QR Code Scanner',
+    category: 'Image Tools',
+    description: 'Scan and decode QR codes from an uploaded image or your camera — privately, in your browser.',
+    highCPCKeywords: ['qr code scanner online', 'decode qr code from image', 'qr reader'],
+    isTopEarning: false,
+    iconName: 'Zap',
+    cpcTier: 'High',
+    estimatedCPC: '$12.20'
+  },
+  {
+    slug: 'meme-generator',
+    name: 'Meme Generator',
+    category: 'Image Tools',
+    description: 'Make memes from any photo with classic top and bottom captions — stroke text, adjustable size, instant PNG download.',
+    highCPCKeywords: ['meme generator', 'make a meme online', 'meme maker free'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$11.80'
+  },
+  {
+    slug: 'image-to-text-ocr',
+    name: 'Image to Text (OCR)',
+    category: 'Image Tools',
+    description: 'Extract editable text from photos and screenshots with OCR — English, Urdu, Arabic, Hindi and more languages.',
+    highCPCKeywords: ['image to text converter', 'ocr online free', 'extract text from image'],
+    isTopEarning: true,
+    iconName: 'FileCode',
+    cpcTier: 'Very High',
+    estimatedCPC: '$15.30'
+  },
+  {
+    slug: 'passport-photo-maker',
+    name: 'Passport Photo Maker',
+    category: 'Image Tools',
+    description: 'Crop and size photos to official passport and visa dimensions (US, UK/EU, China, Canada, Australia) at 300 DPI, with a printable 4×6 sheet.',
+    highCPCKeywords: ['passport photo maker', 'passport size photo online', 'visa photo editor'],
+    isTopEarning: true,
+    iconName: 'Image',
+    cpcTier: 'Very High',
+    estimatedCPC: '$17.20'
+  },
+  {
+    slug: 'favicon-generator',
+    name: 'Favicon Generator',
+    category: 'Image Tools',
+    description: 'Generate a complete favicon package from an image, text or emoji — ICO file, every PNG size and the HTML tags, zipped.',
+    highCPCKeywords: ['favicon generator', 'ico converter', 'make favicon from image'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$11.60'
+  },
+  {
+    slug: 'image-watermark',
+    name: 'Add Watermark to Image',
+    category: 'Image Tools',
+    description: 'Stamp text or logo watermarks on photos — any position or tiled, with opacity and size controls.',
+    highCPCKeywords: ['add watermark to photo', 'watermark image online', 'photo watermark maker'],
+    isTopEarning: false,
+    iconName: 'ShieldCheck',
+    cpcTier: 'High',
+    estimatedCPC: '$12.70'
+  },
+  {
+    slug: 'color-palette-extractor',
+    name: 'Color Palette Extractor',
+    category: 'Image Tools',
+    description: 'Pull the dominant colors out of any image as a designer-ready palette — HEX and RGB values, CSS variables and a palette image.',
+    highCPCKeywords: ['color palette from image', 'extract colors from photo', 'image color palette generator'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$11.90'
+  },
+  {
+    slug: 'profile-picture-maker',
+    name: 'Profile Picture Maker',
+    category: 'Image Tools',
+    description: 'Create polished profile pictures with circular crops, stylish rings and custom backgrounds for social media.',
+    highCPCKeywords: ['profile picture maker', 'pfp maker', 'circle crop image'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$11.40'
+  },
+  {
+    slug: 'image-collage-maker',
+    name: 'Photo Collage Maker',
+    category: 'Image Tools',
+    description: 'Combine up to 9 photos into a beautiful collage — grid and strip layouts, custom gaps, rounded corners and backgrounds.',
+    highCPCKeywords: ['photo collage maker', 'collage maker online free', 'combine photos into one'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$12.40'
+  },
+  {
+    slug: 'image-splitter',
+    name: 'Image Splitter',
+    category: 'Image Tools',
+    description: 'Split one image into a grid of tiles for Instagram carousel posts and banners — download all tiles as a ZIP.',
+    highCPCKeywords: ['image splitter', 'instagram grid maker', 'split image into pieces'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$11.20'
+  },
+  {
+    slug: 'image-color-picker',
+    name: 'Image Color Picker',
+    category: 'Image Tools',
+    description: 'Click any pixel in an image to get its exact color — HEX, RGB and HSL values, with a picked-colors palette.',
+    highCPCKeywords: ['image color picker', 'color picker from image', 'eyedropper tool online'],
+    isTopEarning: false,
+    iconName: 'Image',
+    cpcTier: 'High',
+    estimatedCPC: '$10.90'
+  },
+  {
+    slug: 'photo-filter-editor',
+    name: 'Photo Filter Editor',
+    category: 'Image Tools',
+    description: 'Enhance photos with brightness, contrast, saturation and more, plus one-tap presets like Vivid, Mono, Sepia and Vintage.',
+    highCPCKeywords: ['photo filter online', 'image filter editor', 'apply filters to photos free'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.10'
+  },
+  {
+    slug: 'svg-to-png-converter',
+    name: 'SVG to PNG Converter',
+    category: 'Image Tools',
+    description: 'Convert SVG graphics to crisp PNG images at any size, with transparent or colored backgrounds.',
+    highCPCKeywords: ['svg to png', 'convert svg to png online', 'svg converter'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.70'
+  },
+  {
+    slug: 'image-to-ascii-art',
+    name: 'Image to ASCII Art',
+    category: 'Image Tools',
+    description: 'Turn any photo into ASCII text art — adjustable width and character styles, export as text or image.',
+    highCPCKeywords: ['image to ascii art', 'ascii art generator', 'photo to text art'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$9.90'
+  },
+
   // PDF Tools
   {
     slug: 'word-to-pdf-converter-safe',

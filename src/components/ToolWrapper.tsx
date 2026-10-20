@@ -22,6 +22,7 @@ import { GenericToolEngine } from './tools/GenericToolEngine';
 import { PDF_TOOL_COMPONENTS } from './tools/pdf';
 import { SEO_TOOL_COMPONENTS } from './tools/seo';
 import { DEV_TOOL_COMPONENTS } from './tools/dev';
+import { IMAGE_TOOL_COMPONENTS } from './tools/image';
 
 interface ToolWrapperProps {
   slug: string;
@@ -77,6 +78,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     const DevTool = DEV_TOOL_COMPONENTS[tool.slug];
     if (DevTool) {
       return <DevTool tool={tool} />;
+    }
+    // Real Image studio suite (round 2)
+    const ImageTool = IMAGE_TOOL_COMPONENTS[tool.slug];
+    if (ImageTool) {
+      return <ImageTool tool={tool} />;
     }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':
