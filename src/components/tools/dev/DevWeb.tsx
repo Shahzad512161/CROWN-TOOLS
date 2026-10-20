@@ -14,6 +14,8 @@ import {
   OptSelect,
   OptCheck,
 } from './DevShell';
+import { useStrings, COMMON } from '../../../lib/LangContext';
+import { DEV_STRINGS } from '../../../lib/strings/dev';
 import {
   regexTest,
   hexToRgb,
@@ -55,23 +57,24 @@ const Row: React.FC<{ label: string; children: React.ReactNode }> = ({ label, ch
 );
 
 const Mono: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="font-mono text-sm text-gray-900 dark:text-gray-100 break-all">{children}</span>
+  <span dir="ltr" className="font-mono text-sm text-gray-900 dark:text-gray-100 break-all">{children}</span>
 );
 
 // ---------------------------------------------------------------------------
 // 1. Regex Tester
 // ---------------------------------------------------------------------------
 
-const QUICK_PATTERNS: { label: string; pattern: string }[] = [
-  { label: 'Email', pattern: String.raw`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}` },
-  { label: 'URL', pattern: String.raw`https?://[^\s]+` },
-  { label: 'IPv4', pattern: String.raw`\b(?:\d{1,3}\.){3}\d{1,3}\b` },
-  { label: 'Hex color', pattern: String.raw`#[0-9a-fA-F]{3,8}\b` },
-  { label: 'Date (YYYY-MM-DD)', pattern: String.raw`\b\d{4}-\d{2}-\d{2}\b` },
-  { label: 'Phone', pattern: String.raw`\+?\d[\d\s\-()]{6,}\d` },
+const QUICK_PATTERNS: { labelKey: string; pattern: string }[] = [
+  { labelKey: 'qpEmail', pattern: String.raw`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}` },
+  { labelKey: 'URL', pattern: String.raw`https?://[^\s]+` },
+  { labelKey: 'IPv4', pattern: String.raw`\b(?:\d{1,3}\.){3}\d{1,3}\b` },
+  { labelKey: 'qpHexColor', pattern: String.raw`#[0-9a-fA-F]{3,8}\b` },
+  { labelKey: 'qpDate', pattern: String.raw`\b\d{4}-\d{2}-\d{2}\b` },
+  { labelKey: 'qpPhone', pattern: String.raw`\+?\d[\d\s\-()]{6,}\d` },
 ];
 
 export const RegexTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [pattern, setPattern] = useState(String.raw`[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}`);
   const [flags, setFlags] = useState({ g: true, i: false, m: false, s: false, u: false });
   const [text, setText] = useState('Contact us at support@example.com or sales@my-shop.org.\nInvalid: not-an-email@, and admin@test.io works too.');
@@ -99,11 +102,11 @@ export const RegexTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [text, result]);
 
   return (
-    <DevCard tool={tool} note="Uses JavaScript's native RegExp engine — the same syntax your browser code runs. Zero-length matches are listed in the table but not highlighted.">
+    <DevCard tool={tool} note={s('regexNote')}>
       <div className="grid sm:grid-cols-[1fr_auto] gap-3 items-end">
         <div>
-          <OptLabel>Pattern</OptLabel>
-          <OptInput value={pattern} onChange={(e) => setPattern(e.target.value)} placeholder="e.g. \d{4}-\d{2}-\d{2}" className="font-mono" spellCheck={false} />
+          <OptLabel>{s('patternLabel')}</OptLabel>
+          <OptInput dir="ltr" value={pattern} onChange={(e) => setPattern(e.target.value)} placeholder="e.g. \d{4}-\d{2}-\d{2}" className="font-mono text-left" spellCheck={false} />
         </div>
         <div className="flex gap-3 pb-1 flex-wrap">
           {(Object.keys(flags) as (keyof typeof flags)[]).map((f) => (
@@ -115,37 +118,37 @@ export const RegexTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       <div className="flex gap-2 flex-wrap mt-3">
         {QUICK_PATTERNS.map((q) => (
           <Chip
-            key={q.label}
+            key={q.labelKey}
             onClick={() => {
               setPattern(q.pattern);
               setFlags((prev) => ({ ...prev, g: true }));
             }}
           >
-            {q.label}
+            {s(q.labelKey)}
           </Chip>
         ))}
       </div>
 
       <div className="mt-4">
-        <OptLabel>Test text</OptLabel>
+        <OptLabel>{s('testTextLabel')}</OptLabel>
         <DevTextarea rows={5} value={text} onChange={(e) => setText(e.target.value)} spellCheck={false} />
       </div>
 
       {result.error ? (
         <div className="mt-4">
-          <ErrorBox message={`Invalid regular expression: ${result.error}`} />
+          <ErrorBox message={s('invalidRegex').replace('{msg}', result.error)} />
         </div>
       ) : (
         <>
           <div className="grid grid-cols-2 gap-3 mt-4">
-            <Stat label="Matches" value={pattern ? result.matches.length : 0} />
-            <Stat label="Text length" value={`${text.length} chars`} />
+            <Stat label={s('matchesLabel')} value={pattern ? result.matches.length : 0} />
+            <Stat label={s('textLengthLabel')} value={s('charsCount').replace('{n}', String(text.length))} />
           </div>
 
           {text && (
             <div className="mt-4">
-              <OptLabel>Highlighted preview</OptLabel>
-              <div className="border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-xs font-mono whitespace-pre-wrap break-words text-gray-900 dark:text-gray-100 max-h-56 overflow-auto">
+              <OptLabel>{s('highlightedPreview')}</OptLabel>
+              <div dir="ltr" className="border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-xl p-3 text-xs font-mono whitespace-pre-wrap break-words text-left text-gray-900 dark:text-gray-100 max-h-56 overflow-auto">
                 {highlighted}
               </div>
             </div>
@@ -157,23 +160,23 @@ export const RegexTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 <div key={i} className="border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 bg-white dark:bg-gray-900">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-[10px] font-bold uppercase tracking-wide text-gray-400">#{i + 1}</span>
-                    <span className="font-mono text-sm font-bold text-violet-700 dark:text-violet-300 break-all">{m.match || '(empty match)'}</span>
-                    <span className="text-[11px] text-gray-500">index {m.index}</span>
+                    <span dir="ltr" className="font-mono text-sm font-bold text-violet-700 dark:text-violet-300 break-all">{m.match || s('emptyMatch')}</span>
+                    <span className="text-[11px] text-gray-500">{s('indexWord')} {m.index}</span>
                   </div>
                   {m.groups.length > 0 && (
-                    <div className="mt-1 text-[11px] font-mono text-gray-600 dark:text-gray-300">
+                    <div dir="ltr" className="mt-1 text-[11px] font-mono text-left text-gray-600 dark:text-gray-300">
                       {m.groups.map((g, gi) => (
-                        <span key={gi} className="mr-3">
-                          ${gi + 1}: {g === undefined ? <em className="text-gray-400">not captured</em> : g}
+                        <span key={gi} className="me-3">
+                          ${gi + 1}: {g === undefined ? <em className="text-gray-400">{s('notCaptured')}</em> : g}
                         </span>
                       ))}
                     </div>
                   )}
                   {Object.keys(m.namedGroups).length > 0 && (
-                    <div className="mt-1 text-[11px] font-mono text-gray-600 dark:text-gray-300">
+                    <div dir="ltr" className="mt-1 text-[11px] font-mono text-left text-gray-600 dark:text-gray-300">
                       {Object.entries(m.namedGroups).map(([k, v]) => (
-                        <span key={k} className="mr-3">
-                          {k}: {v === undefined ? <em className="text-gray-400">not captured</em> : v}
+                        <span key={k} className="me-3">
+                          {k}: {v === undefined ? <em className="text-gray-400">{s('notCaptured')}</em> : v}
                         </span>
                       ))}
                     </div>
@@ -182,7 +185,7 @@ export const RegexTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               ))}
             </div>
           )}
-          {pattern && result.matches.length === 0 && text && <p className="mt-3 text-xs font-semibold text-gray-500">No matches in the test text.</p>}
+          {pattern && result.matches.length === 0 && text && <p className="mt-3 text-xs font-semibold text-gray-500">{s('noMatches')}</p>}
         </>
       )}
     </DevCard>
@@ -193,19 +196,23 @@ export const RegexTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // 2. Color Converter
 // ---------------------------------------------------------------------------
 
-const PassBadge: React.FC<{ ok: boolean; label: string }> = ({ ok, label }) => (
-  <span
-    className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border ${
-      ok
-        ? 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800'
-        : 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800'
-    }`}
-  >
-    {label} {ok ? 'Pass' : 'Fail'}
-  </span>
-);
+const PassBadge: React.FC<{ ok: boolean; label: string }> = ({ ok, label }) => {
+  const s = useStrings(DEV_STRINGS);
+  return (
+    <span
+      className={`text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full border ${
+        ok
+          ? 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800'
+          : 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800'
+      }`}
+    >
+      {label} {ok ? s('passWord') : s('failWord')}
+    </span>
+  );
+};
 
 export const ColorConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [hex, setHex] = useState('#3b82f6');
   const [copiedHex, setCopiedHex] = useState('');
 
@@ -254,10 +261,10 @@ export const ColorConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <DevCard tool={tool} note="Contrast ratios follow the WCAG 2.x formula. AA requires 4.5:1 for normal text (3:1 for large text); AAA requires 7:1.">
+    <DevCard tool={tool} note={s('colorNote')}>
       <div className="flex items-end gap-3 flex-wrap">
         <div>
-          <OptLabel>Pick a color</OptLabel>
+          <OptLabel>{s('pickColor')}</OptLabel>
           <input
             type="color"
             value={derived ? derived.hex : '#000000'}
@@ -266,14 +273,14 @@ export const ColorConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           />
         </div>
         <div className="flex-1 min-w-[180px]">
-          <OptLabel>Hex value</OptLabel>
-          <OptInput value={hex} onChange={(e) => setHex(e.target.value)} placeholder="#3b82f6 or #fff" className="font-mono" spellCheck={false} />
+          <OptLabel>{s('hexValue')}</OptLabel>
+          <OptInput dir="ltr" value={hex} onChange={(e) => setHex(e.target.value)} placeholder="#3b82f6 or #fff" className="font-mono text-left" spellCheck={false} />
         </div>
         {derived && (
           <div className="w-20 h-11 rounded-xl border border-gray-200 dark:border-gray-700" style={{ backgroundColor: derived.hex }} title={derived.hex} />
         )}
       </div>
-      {hex.trim() && !rgb && <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">Invalid hex color — use 3 or 6 hex digits, e.g. #fff or #3b82f6.</p>}
+      {hex.trim() && !rgb && <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">{s('invalidHex')}</p>}
 
       {derived && rgb && (
         <>
@@ -298,35 +305,35 @@ export const ColorConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               <Mono>{`cmyk(${derived.cmyk.c}%, ${derived.cmyk.m}%, ${derived.cmyk.y}%, ${derived.cmyk.k}%)`}</Mono>
               <CopyBtn text={`cmyk(${derived.cmyk.c}%, ${derived.cmyk.m}%, ${derived.cmyk.y}%, ${derived.cmyk.k}%)`} />
             </Row>
-            <Row label="Luminance">
+            <Row label={s('luminanceLabel')}>
               <Mono>{derived.luminance.toFixed(4)}</Mono>
             </Row>
           </div>
 
           <div className="mt-5">
-            <OptLabel>Tints &amp; shades (click to copy)</OptLabel>
+            <OptLabel>{s('tintsShades')}</OptLabel>
             <div className="grid grid-cols-9 gap-1.5">
-              {derived.shades.map((s) => (
+              {derived.shades.map((shade) => (
                 <button
-                  key={s}
+                  key={shade}
                   type="button"
-                  onClick={() => copySwatch(s)}
+                  onClick={() => copySwatch(shade)}
                   className="rounded-lg border border-gray-200 dark:border-gray-700 h-12 cursor-pointer hover:scale-[1.03] transition-transform"
-                  style={{ backgroundColor: s }}
-                  title={`Copy ${s}`}
+                  style={{ backgroundColor: shade }}
+                  title={s('copyValue').replace('{value}', shade)}
                 />
               ))}
             </div>
             <div className="flex justify-between mt-1">
               <span className="text-[10px] font-mono text-gray-500">{derived.shades[0]}</span>
-              <span className="text-[10px] font-semibold text-emerald-600">{copiedHex ? `Copied ${copiedHex}` : ''}</span>
+              <span className="text-[10px] font-semibold text-emerald-600">{copiedHex ? s('copiedValue').replace('{value}', copiedHex) : ''}</span>
               <span className="text-[10px] font-mono text-gray-500">{derived.shades[derived.shades.length - 1]}</span>
             </div>
           </div>
 
           <div className="mt-5 grid sm:grid-cols-2 gap-3">
             <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-white text-gray-900">
-              <div className="text-xs font-bold mb-1" style={{ color: derived.hex }}>Sample text on white</div>
+              <div className="text-xs font-bold mb-1" style={{ color: derived.hex }}>{s('sampleOnWhite')}</div>
               <div className="text-sm font-extrabold text-gray-900">{derived.vsWhite.toFixed(2)} : 1</div>
               <div className="flex gap-1.5 mt-2">
                 <PassBadge ok={derived.vsWhite >= 4.5} label="AA" />
@@ -334,7 +341,7 @@ export const ColorConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
             </div>
             <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-3 bg-gray-950 text-gray-100">
-              <div className="text-xs font-bold mb-1" style={{ color: derived.hex }}>Sample text on black</div>
+              <div className="text-xs font-bold mb-1" style={{ color: derived.hex }}>{s('sampleOnBlack')}</div>
               <div className="text-sm font-extrabold">{derived.vsBlack.toFixed(2)} : 1</div>
               <div className="flex gap-1.5 mt-2">
                 <PassBadge ok={derived.vsBlack >= 4.5} label="AA" />
@@ -358,14 +365,16 @@ interface GradientStop {
   pos: number;
 }
 
-const GRADIENT_PRESETS: { label: string; stops: [string, number][] }[] = [
-  { label: 'Sunset', stops: [['#ff7e5f', 0], ['#feb47b', 100]] },
-  { label: 'Ocean', stops: [['#2193b0', 0], ['#6dd5ed', 100]] },
-  { label: 'Forest', stops: [['#11998e', 0], ['#38ef7d', 100]] },
-  { label: 'Purple Haze', stops: [['#8e2de2', 0], ['#4a00e0', 100]] },
+const GRADIENT_PRESETS: { labelKey: string; stops: [string, number][] }[] = [
+  { labelKey: 'gradSunset', stops: [['#ff7e5f', 0], ['#feb47b', 100]] },
+  { labelKey: 'gradOcean', stops: [['#2193b0', 0], ['#6dd5ed', 100]] },
+  { labelKey: 'gradForest', stops: [['#11998e', 0], ['#38ef7d', 100]] },
+  { labelKey: 'gradPurpleHaze', stops: [['#8e2de2', 0], ['#4a00e0', 100]] },
 ];
 
 export const CssGradientGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
+  const c = useStrings(COMMON);
   const idRef = useRef(2);
   const [type, setType] = useState<'linear' | 'radial'>('linear');
   const [angle, setAngle] = useState(90);
@@ -389,26 +398,26 @@ export const CssGradientGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => 
     setStops((prev) => prev.map((s) => (s.id === id ? { ...s, ...patch } : s)));
 
   return (
-    <DevCard tool={tool} note="The generated CSS works in every modern browser. Add a solid background-color fallback before the gradient line for very old browsers.">
+    <DevCard tool={tool} note={s('gradientNote')}>
       <div className="flex gap-2 flex-wrap mb-4">
         {GRADIENT_PRESETS.map((p) => (
-          <Chip key={p.label} onClick={() => applyPreset(p)}>
-            {p.label}
+          <Chip key={p.labelKey} onClick={() => applyPreset(p)}>
+            {s(p.labelKey)}
           </Chip>
         ))}
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Gradient type</OptLabel>
+          <OptLabel>{s('gradientType')}</OptLabel>
           <OptSelect value={type} onChange={(e) => setType(e.target.value as 'linear' | 'radial')}>
-            <option value="linear">Linear</option>
-            <option value="radial">Radial</option>
+            <option value="linear">{s('linearOpt')}</option>
+            <option value="radial">{s('radialOpt')}</option>
           </OptSelect>
         </div>
         {type === 'linear' && (
           <div>
-            <OptLabel>Angle: {angle}°</OptLabel>
+            <OptLabel>{s('angleLabel')}: {angle}°</OptLabel>
             <div className="flex items-center gap-2">
               <input
                 type="range"
@@ -427,38 +436,38 @@ export const CssGradientGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => 
       </div>
 
       <div className="mt-4 space-y-2">
-        <OptLabel>Color stops</OptLabel>
-        {stops.map((s) => (
-          <div key={s.id} className="flex items-center gap-2 flex-wrap">
+        <OptLabel>{s('colorStops')}</OptLabel>
+        {stops.map((stop) => (
+          <div key={stop.id} className="flex items-center gap-2 flex-wrap">
             <input
               type="color"
-              value={/^#[0-9a-fA-F]{6}$/.test(s.color) ? s.color : '#000000'}
-              onChange={(e) => updateStop(s.id, { color: e.target.value })}
+              value={/^#[0-9a-fA-F]{6}$/.test(stop.color) ? stop.color : '#000000'}
+              onChange={(e) => updateStop(stop.id, { color: e.target.value })}
               className="w-12 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer p-0.5 shrink-0"
             />
             <div className="w-28">
-              <OptInput value={s.color} onChange={(e) => updateStop(s.id, { color: e.target.value })} className="font-mono" spellCheck={false} />
+              <OptInput dir="ltr" value={stop.color} onChange={(e) => updateStop(stop.id, { color: e.target.value })} className="font-mono text-left" spellCheck={false} />
             </div>
             <div className="flex items-center gap-1.5">
               <input
                 type="range"
                 min={0}
                 max={100}
-                value={s.pos}
-                onChange={(e) => updateStop(s.id, { pos: parseInt(e.target.value, 10) })}
+                value={stop.pos}
+                onChange={(e) => updateStop(stop.id, { pos: parseInt(e.target.value, 10) })}
                 className="w-28 accent-violet-600"
               />
               <div className="w-[70px]">
-                <OptInput type="number" min={0} max={100} value={s.pos} onChange={(e) => updateStop(s.id, { pos: Math.max(0, Math.min(100, parseInt(e.target.value || '0', 10) || 0)) })} />
+                <OptInput type="number" min={0} max={100} value={stop.pos} onChange={(e) => updateStop(stop.id, { pos: Math.max(0, Math.min(100, parseInt(e.target.value || '0', 10) || 0)) })} />
               </div>
               <span className="text-xs font-bold text-gray-500">%</span>
             </div>
             <button
               type="button"
-              onClick={() => setStops((prev) => prev.filter((x) => x.id !== s.id))}
+              onClick={() => setStops((prev) => prev.filter((x) => x.id !== stop.id))}
               disabled={stops.length <= 2}
               className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-              aria-label="Remove stop"
+              aria-label={s('removeStop')}
             >
               <X className="w-4 h-4" />
             </button>
@@ -466,16 +475,16 @@ export const CssGradientGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => 
         ))}
         <PrimaryBtn
           onClick={() => {
-            const mid = stops.length ? Math.round(stops.reduce((a, s) => a + s.pos, 0) / stops.length) : 50;
+            const mid = stops.length ? Math.round(stops.reduce((a, st) => a + st.pos, 0) / stops.length) : 50;
             setStops((prev) => [...prev, { id: idRef.current++, color: '#6366f1', pos: mid }]);
           }}
         >
-          Add stop
+          {s('addStop')}
         </PrimaryBtn>
       </div>
 
       <div className="mt-5">
-        <OptLabel>Preview</OptLabel>
+        <OptLabel>{c('preview')}</OptLabel>
         <div className="h-44 rounded-2xl border border-gray-200 dark:border-gray-700" style={{ background: gradientCss }} />
       </div>
 
@@ -483,7 +492,7 @@ export const CssGradientGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => 
         <OptLabel>CSS</OptLabel>
         <CodeOut code={cssOutput} />
         <div className="mt-2">
-          <CopyBtn text={cssOutput} label="Copy CSS" />
+          <CopyBtn text={cssOutput} label={s('copyCss')} />
         </div>
       </div>
     </DevCard>
@@ -495,6 +504,7 @@ export const CssGradientGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => 
 // ---------------------------------------------------------------------------
 
 export const NumberBaseConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [value, setValue] = useState('255');
   const [fromSelect, setFromSelect] = useState('10');
   const [customFrom, setCustomFrom] = useState(5);
@@ -507,7 +517,7 @@ export const NumberBaseConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       convertBase(value, fromBase, 10);
     } catch (e) {
-      return { error: e instanceof Error ? e.message : 'Invalid value', results: [], bitDisplay: '' };
+      return { error: e instanceof Error ? e.message : s('invalidValue'), results: [], bitDisplay: '' };
     }
     const bases = [2, 8, 10, 16];
     if (!bases.includes(customTo)) bases.push(customTo);
@@ -523,35 +533,36 @@ export const NumberBaseConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }
     }
     return { error: '', results, bitDisplay };
-  }, [value, fromBase, customTo]);
+  }, [value, fromBase, customTo, s]);
 
-  const baseName = (b: number) => (b === 2 ? 'Binary' : b === 8 ? 'Octal' : b === 10 ? 'Decimal' : b === 16 ? 'Hexadecimal' : `Base ${b}`);
+  const baseName = (b: number) =>
+    b === 2 ? s('binaryWord') : b === 8 ? s('octalWord') : b === 10 ? s('decimalWord') : b === 16 ? s('hexWord') : s('baseWord').replace('{n}', String(b));
 
   return (
-    <DevCard tool={tool} note="Uses arbitrary-precision integer math, so values far beyond 2^53 convert exactly (the byte-grouped bit view is only shown when the value fits in a safe integer).">
+    <DevCard tool={tool} note={s('baseNote')}>
       <div className="grid sm:grid-cols-[1fr_auto_auto] gap-3 items-end">
         <div>
-          <OptLabel>Value</OptLabel>
-          <OptInput value={value} onChange={(e) => setValue(e.target.value)} className="font-mono" placeholder="e.g. FF, 1010, 255" spellCheck={false} />
+          <OptLabel>{s('valueLabel')}</OptLabel>
+          <OptInput dir="ltr" value={value} onChange={(e) => setValue(e.target.value)} className="font-mono text-left" placeholder="e.g. FF, 1010, 255" spellCheck={false} />
         </div>
         <div>
-          <OptLabel>From base</OptLabel>
+          <OptLabel>{s('fromBase')}</OptLabel>
           <OptSelect value={fromSelect} onChange={(e) => setFromSelect(e.target.value)}>
-            <option value="2">2 — Binary</option>
-            <option value="8">8 — Octal</option>
-            <option value="10">10 — Decimal</option>
-            <option value="16">16 — Hexadecimal</option>
-            <option value="custom">Custom…</option>
+            <option value="2">2 — {s('binaryWord')}</option>
+            <option value="8">8 — {s('octalWord')}</option>
+            <option value="10">10 — {s('decimalWord')}</option>
+            <option value="16">16 — {s('hexWord')}</option>
+            <option value="custom">{s('customOpt')}</option>
           </OptSelect>
         </div>
         {fromSelect === 'custom' && (
           <div className="w-24">
-            <OptLabel>Base (2–36)</OptLabel>
+            <OptLabel>{s('baseRange')}</OptLabel>
             <OptInput type="number" min={2} max={36} value={customFrom} onChange={(e) => setCustomFrom(parseInt(e.target.value || '2', 10))} />
           </div>
         )}
         <div className="w-28">
-          <OptLabel>Extra base</OptLabel>
+          <OptLabel>{s('extraBase')}</OptLabel>
           <OptInput type="number" min={2} max={36} value={customTo} onChange={(e) => setCustomTo(Math.max(2, Math.min(36, parseInt(e.target.value || '36', 10) || 36)))} />
         </div>
       </div>
@@ -565,14 +576,14 @@ export const NumberBaseConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {conversion.results.length > 0 && (
         <div className="mt-4">
           {conversion.results.map((r) => (
-            <Row key={r.base} label={`Base ${r.base}`}>
+            <Row key={r.base} label={s('baseWord').replace('{n}', String(r.base))}>
               <span className="text-[11px] font-semibold text-gray-400 w-24 shrink-0">{baseName(r.base)}</span>
               <Mono>{r.value}</Mono>
               <CopyBtn text={r.value} />
             </Row>
           ))}
           {conversion.bitDisplay && (
-            <Row label="Bits">
+            <Row label={s('bitsLabel')}>
               <Mono>{conversion.bitDisplay}</Mono>
             </Row>
           )}
@@ -587,6 +598,7 @@ export const NumberBaseConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [raw, setRaw] = useState('https://user:pass@example.com:8080/path/to/page?foo=bar&baz=qux#section');
   const [paramsOverride, setParamsOverride] = useState<{ key: string; value: string }[] | null>(null);
   const [overrideFor, setOverrideFor] = useState('');
@@ -598,9 +610,9 @@ export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       return { parts: parseUrl(raw), error: '' };
     } catch {
-      return { error: 'That is not a valid absolute URL — include the protocol, e.g. https://example.com/page?x=1' };
+      return { error: s('invalidAbsoluteUrl') };
     }
-  }, [raw]);
+  }, [raw, s]);
 
   const effectiveParams = parsed.parts ? (overrideFor === raw && paramsOverride ? paramsOverride : parsed.parts.params) : [];
 
@@ -623,9 +635,9 @@ export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <DevCard tool={tool} note="Parsing uses the WHATWG URL standard — the same rules browsers apply. Editing a parameter value rebuilds the URL with proper encoding.">
-      <OptLabel>URL to parse</OptLabel>
-      <OptInput value={raw} onChange={(e) => setRaw(e.target.value)} className="font-mono" placeholder="https://example.com/path?a=1#top" spellCheck={false} />
+    <DevCard tool={tool} note={s('urlParserNote')}>
+      <OptLabel>{s('urlToParse')}</OptLabel>
+      <OptInput dir="ltr" value={raw} onChange={(e) => setRaw(e.target.value)} className="font-mono text-left" placeholder="https://example.com/path?a=1#top" spellCheck={false} />
 
       {parsed.error && (
         <div className="mt-4">
@@ -636,34 +648,35 @@ export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {parsed.parts && (
         <>
           <div className="mt-4">
-            <Row label="Protocol"><Mono>{parsed.parts.protocol}</Mono></Row>
+            <Row label={s('rowProtocol')}><Mono>{parsed.parts.protocol}</Mono></Row>
             {parsed.parts.username && (
-              <Row label="Username"><Mono>{decodeURIComponent(parsed.parts.username)}</Mono></Row>
+              <Row label={s('rowUsername')}><Mono>{decodeURIComponent(parsed.parts.username)}</Mono></Row>
             )}
             {parsed.parts.password && (
-              <Row label="Password"><Mono>{decodeURIComponent(parsed.parts.password)}</Mono></Row>
+              <Row label={s('rowPassword')}><Mono>{decodeURIComponent(parsed.parts.password)}</Mono></Row>
             )}
-            <Row label="Host"><Mono>{parsed.parts.host}</Mono></Row>
-            <Row label="Hostname"><Mono>{parsed.parts.hostname}</Mono></Row>
-            <Row label="Port"><Mono>{parsed.parts.port || '(default)'}</Mono></Row>
-            <Row label="Path"><Mono>{parsed.parts.pathname}</Mono></Row>
-            <Row label="Segments"><Mono>{parsed.parts.pathSegments.length ? parsed.parts.pathSegments.join('  /  ') : '(none)'}</Mono></Row>
-            <Row label="Hash"><Mono>{parsed.parts.hash || '(none)'}</Mono></Row>
-            <Row label="Origin"><Mono>{parsed.parts.origin}</Mono></Row>
+            <Row label={s('rowHost')}><Mono>{parsed.parts.host}</Mono></Row>
+            <Row label={s('rowHostname')}><Mono>{parsed.parts.hostname}</Mono></Row>
+            <Row label={s('rowPort')}><Mono>{parsed.parts.port || s('defaultParens')}</Mono></Row>
+            <Row label={s('rowPath')}><Mono>{parsed.parts.pathname}</Mono></Row>
+            <Row label={s('rowSegments')}><Mono>{parsed.parts.pathSegments.length ? parsed.parts.pathSegments.join('  /  ') : s('noneParens')}</Mono></Row>
+            <Row label={s('rowHash')}><Mono>{parsed.parts.hash || s('noneParens')}</Mono></Row>
+            <Row label={s('rowOrigin')}><Mono>{parsed.parts.origin}</Mono></Row>
           </div>
 
           <div className="mt-5">
-            <OptLabel>Query parameters (editable)</OptLabel>
-            {effectiveParams.length === 0 && <p className="text-xs font-semibold text-gray-500">No query parameters in this URL.</p>}
+            <OptLabel>{s('queryParamsEditable')}</OptLabel>
+            {effectiveParams.length === 0 && <p className="text-xs font-semibold text-gray-500">{s('noQueryParams')}</p>}
             <div className="space-y-2">
               {effectiveParams.map((p, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-gray-700 dark:text-gray-200 w-32 truncate" title={p.key}>{p.key}</span>
+                  <span dir="ltr" className="font-mono text-xs font-bold text-gray-700 dark:text-gray-200 w-32 truncate text-left" title={p.key}>{p.key}</span>
                   <div className="flex-1">
                     <OptInput
+                      dir="ltr"
                       value={p.value}
                       onChange={(e) => applyParams(effectiveParams.map((x, xi) => (xi === i ? { ...x, value: e.target.value } : x)))}
-                      className="font-mono"
+                      className="font-mono text-left"
                       spellCheck={false}
                     />
                   </div>
@@ -671,7 +684,7 @@ export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     type="button"
                     onClick={() => applyParams(effectiveParams.filter((_, xi) => xi !== i))}
                     className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 cursor-pointer"
-                    aria-label={`Remove ${p.key}`}
+                    aria-label={s('removeParam').replace('{key}', p.key)}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -680,12 +693,12 @@ export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
             <div className="flex items-end gap-2 mt-3 flex-wrap">
               <div className="w-32">
-                <OptLabel>New key</OptLabel>
-                <OptInput value={newKey} onChange={(e) => setNewKey(e.target.value)} className="font-mono" spellCheck={false} />
+                <OptLabel>{s('newKey')}</OptLabel>
+                <OptInput dir="ltr" value={newKey} onChange={(e) => setNewKey(e.target.value)} className="font-mono text-left" spellCheck={false} />
               </div>
               <div className="flex-1 min-w-[140px]">
-                <OptLabel>New value</OptLabel>
-                <OptInput value={newValue} onChange={(e) => setNewValue(e.target.value)} className="font-mono" spellCheck={false} />
+                <OptLabel>{s('newValue')}</OptLabel>
+                <OptInput dir="ltr" value={newValue} onChange={(e) => setNewValue(e.target.value)} className="font-mono text-left" spellCheck={false} />
               </div>
               <PrimaryBtn
                 disabled={!newKey.trim()}
@@ -695,16 +708,16 @@ export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   setNewValue('');
                 }}
               >
-                Add parameter
+                {s('addParameter')}
               </PrimaryBtn>
             </div>
           </div>
 
           <div className="mt-5">
-            <OptLabel>Rebuilt URL</OptLabel>
+            <OptLabel>{s('rebuiltUrl')}</OptLabel>
             <CodeOut code={rebuilt} />
             <div className="mt-2">
-              <CopyBtn text={rebuilt} label="Copy URL" />
+              <CopyBtn text={rebuilt} label={s('copyUrl')} />
             </div>
           </div>
         </>
@@ -718,6 +731,7 @@ export const UrlParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const TextDiffChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [a, setA] = useState('The quick brown fox\njumps over the lazy dog.\nLine three stays.\nOld line here.');
   const [b, setB] = useState('The quick brown fox\njumps over the sleepy dog.\nLine three stays.\nNew line here.');
 
@@ -736,35 +750,35 @@ export const TextDiffChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   );
 
   return (
-    <DevCard tool={tool} note="Line-based diff using a longest-common-subsequence match — the same approach as classic diff tools. Character-level changes inside a line show as one removed + one added line.">
+    <DevCard tool={tool} note={s('diffNote')}>
       <div className="grid md:grid-cols-2 gap-3">
         <div>
-          <OptLabel>Original text</OptLabel>
+          <OptLabel>{s('originalText')}</OptLabel>
           <DevTextarea rows={8} value={a} onChange={(e) => setA(e.target.value)} spellCheck={false} />
         </div>
         <div>
-          <OptLabel>Changed text</OptLabel>
+          <OptLabel>{s('changedText')}</OptLabel>
           <DevTextarea rows={8} value={b} onChange={(e) => setB(e.target.value)} spellCheck={false} />
         </div>
       </div>
 
       {tooBig ? (
         <p className="mt-4 text-xs font-semibold text-amber-600 dark:text-amber-400">
-          One side has more than 1,500 lines — trim the inputs to keep the comparison fast and the browser responsive.
+          {s('diffTooBig')}
         </p>
       ) : (
         <>
           <div className="grid grid-cols-3 gap-3 mt-4">
-            <Stat label="Added" value={counts.added} />
-            <Stat label="Removed" value={counts.removed} />
-            <Stat label="Unchanged" value={counts.same} />
+            <Stat label={s('added')} value={counts.added} />
+            <Stat label={s('removed')} value={counts.removed} />
+            <Stat label={s('unchangedLabel')} value={counts.same} />
           </div>
           {diff.length > 0 && (
-            <div className="mt-4 border border-gray-200 dark:border-gray-700 rounded-xl overflow-auto max-h-96">
+            <div dir="ltr" className="mt-4 border border-gray-200 dark:border-gray-700 rounded-xl overflow-auto max-h-96">
               {diff.map((d, i) => (
                 <div
                   key={i}
-                  className={`flex gap-2 px-3 py-1 font-mono text-xs whitespace-pre-wrap break-all ${
+                  className={`flex gap-2 px-3 py-1 font-mono text-xs text-left whitespace-pre-wrap break-all ${
                     d.type === 'added'
                       ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-100'
                       : d.type === 'removed'
@@ -841,6 +855,7 @@ const CLASS_STYLES: Record<number, string> = {
 };
 
 export const HttpStatusReference: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [query, setQuery] = useState('');
   const [cls, setCls] = useState(0);
 
@@ -852,25 +867,25 @@ export const HttpStatusReference: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   });
 
   return (
-    <DevCard tool={tool} note="Status classes: 1xx informational, 2xx success, 3xx redirection, 4xx client errors, 5xx server errors. Codes follow the official IANA registry.">
+    <DevCard tool={tool} note={s('httpNote')}>
       <div className="flex items-end gap-3 flex-wrap">
         <div className="flex-1 min-w-[200px]">
-          <OptLabel>Search codes</OptLabel>
-          <OptInput value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search by code, name or keyword — e.g. 404, redirect, rate" />
+          <OptLabel>{s('searchCodes')}</OptLabel>
+          <OptInput value={query} onChange={(e) => setQuery(e.target.value)} placeholder={s('searchCodesPlaceholder')} />
         </div>
       </div>
       <div className="flex gap-2 flex-wrap mt-3">
         {[0, 1, 2, 3, 4, 5].map((c) => (
           <Chip key={c} active={cls === c} onClick={() => setCls(c)}>
-            {c === 0 ? 'All' : `${c}xx`}
+            {c === 0 ? s('allWord') : `${c}xx`}
           </Chip>
         ))}
       </div>
 
       <p className="mt-3 text-xs font-semibold text-gray-500">
-        Showing {filtered.length} of {STATUS_CODES.length} codes
+        {s('showingCodes').replace('{x}', String(filtered.length)).replace('{y}', String(STATUS_CODES.length))}
       </p>
-      <div className="mt-2 space-y-1.5 max-h-[480px] overflow-auto pr-1">
+      <div className="mt-2 space-y-1.5 max-h-[480px] overflow-auto pe-1">
         {filtered.map((s) => (
           <div key={s.code} className="flex items-start gap-3 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 bg-white dark:bg-gray-900">
             <span className={`shrink-0 font-mono font-extrabold text-sm px-2.5 py-1 rounded-lg border ${CLASS_STYLES[Math.floor(s.code / 100)]}`}>{s.code}</span>
@@ -880,7 +895,7 @@ export const HttpStatusReference: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
           </div>
         ))}
-        {filtered.length === 0 && <p className="text-xs font-semibold text-gray-500 py-4 text-center">No status codes match your search.</p>}
+        {filtered.length === 0 && <p className="text-xs font-semibold text-gray-500 py-4 text-center">{s('noStatusMatch')}</p>}
       </div>
     </DevCard>
   );
@@ -906,6 +921,7 @@ function permsFromOctal(octal: string): PermState {
 }
 
 export const ChmodCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [perms, setPerms] = useState<PermState>({ owner: [true, true, false], group: [true, false, false], public: [true, false, false] });
   const [filename, setFilename] = useState('file.txt');
   const [octalOverride, setOctalOverride] = useState<string | null>(null);
@@ -932,13 +948,14 @@ export const ChmodCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const command = `chmod ${result.octal} ${filename || 'file.txt'}`;
   const rows: { key: keyof PermState; label: string }[] = [
-    { key: 'owner', label: 'Owner' },
-    { key: 'group', label: 'Group' },
-    { key: 'public', label: 'Public' },
+    { key: 'owner', label: s('permOwner') },
+    { key: 'group', label: s('permGroup') },
+    { key: 'public', label: s('permPublic') },
   ];
+  const permNames = [s('permRead'), s('permWrite'), s('permExecute')];
 
   return (
-    <DevCard tool={tool} note="Each digit is read (4) + write (2) + execute (1). For directories, execute means 'can enter'. 777 gives everyone full access — avoid it on shared hosting.">
+    <DevCard tool={tool} note={s('chmodNote')}>
       <div className="flex gap-2 flex-wrap mb-4">
         {['644', '755', '777', '600', '700'].map((p) => (
           <Chip key={p} active={result.octal === p && octalOverride === null} onClick={() => applyPerms(permsFromOctal(p))}>
@@ -950,17 +967,17 @@ export const ChmodCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       <div className="overflow-x-auto">
         <table className="w-full max-w-md text-sm">
           <thead>
-            <tr className="text-left text-xs uppercase tracking-wide text-gray-500">
-              <th className="py-1.5 pr-3 font-bold">Who</th>
-              <th className="py-1.5 px-3 font-bold text-center">Read</th>
-              <th className="py-1.5 px-3 font-bold text-center">Write</th>
-              <th className="py-1.5 px-3 font-bold text-center">Execute</th>
+            <tr className="text-start text-xs uppercase tracking-wide text-gray-500">
+              <th className="py-1.5 pe-3 font-bold">{s('chmodWho')}</th>
+              <th className="py-1.5 px-3 font-bold text-center">{s('permRead')}</th>
+              <th className="py-1.5 px-3 font-bold text-center">{s('permWrite')}</th>
+              <th className="py-1.5 px-3 font-bold text-center">{s('permExecute')}</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((row) => (
               <tr key={row.key} className="border-t border-gray-100 dark:border-gray-800">
-                <td className="py-2 pr-3 font-bold text-gray-900 dark:text-white">{row.label}</td>
+                <td className="py-2 pe-3 font-bold text-gray-900 dark:text-white">{row.label}</td>
                 {([0, 1, 2] as const).map((idx) => (
                   <td key={idx} className="py-2 px-3 text-center">
                     <input
@@ -968,7 +985,7 @@ export const ChmodCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                       checked={perms[row.key][idx]}
                       onChange={() => toggle(row.key, idx)}
                       className="accent-violet-600 w-4 h-4 cursor-pointer"
-                      aria-label={`${row.label} ${['read', 'write', 'execute'][idx]}`}
+                      aria-label={`${row.label} ${permNames[idx]}`}
                     />
                   </td>
                 ))}
@@ -980,30 +997,30 @@ export const ChmodCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       <div className="flex items-end gap-4 mt-5 flex-wrap">
         <div>
-          <OptLabel>Octal</OptLabel>
+          <OptLabel>{s('octalLabelX')}</OptLabel>
           <div className="text-4xl font-mono font-extrabold text-gray-900 dark:text-white leading-none">{result.octal}</div>
         </div>
         <div>
-          <OptLabel>Symbolic</OptLabel>
-          <div className="font-mono text-lg font-bold text-gray-900 dark:text-white leading-none">-{result.symbolic}</div>
+          <OptLabel>{s('symbolicLabel')}</OptLabel>
+          <div dir="ltr" className="font-mono text-lg font-bold text-gray-900 dark:text-white leading-none">-{result.symbolic}</div>
         </div>
         <div className="w-28">
-          <OptLabel>Type octal</OptLabel>
-          <OptInput value={octalShown} onChange={(e) => onOctalChange(e.target.value.replace(/[^0-7]/g, '').slice(0, 3))} className="font-mono" maxLength={3} />
+          <OptLabel>{s('typeOctal')}</OptLabel>
+          <OptInput dir="ltr" value={octalShown} onChange={(e) => onOctalChange(e.target.value.replace(/[^0-7]/g, '').slice(0, 3))} className="font-mono text-left" maxLength={3} />
         </div>
       </div>
-      {octalOverride !== null && !octalValid && <p className="mt-1.5 text-xs font-semibold text-red-600 dark:text-red-400">Enter exactly 3 digits, each 0–7.</p>}
+      {octalOverride !== null && !octalValid && <p className="mt-1.5 text-xs font-semibold text-red-600 dark:text-red-400">{s('octalError')}</p>}
 
       <div className="mt-5 grid sm:grid-cols-[1fr_auto] gap-3 items-end">
         <div>
-          <OptLabel>File name</OptLabel>
-          <OptInput value={filename} onChange={(e) => setFilename(e.target.value)} className="font-mono" placeholder="file.txt" spellCheck={false} />
+          <OptLabel>{s('fileNameFull')}</OptLabel>
+          <OptInput dir="ltr" value={filename} onChange={(e) => setFilename(e.target.value)} className="font-mono text-left" placeholder="file.txt" spellCheck={false} />
         </div>
       </div>
       <div className="mt-3">
         <CodeOut code={command} />
         <div className="mt-2">
-          <CopyBtn text={command} label="Copy command" />
+          <CopyBtn text={command} label={s('copyCommand')} />
         </div>
       </div>
     </DevCard>
@@ -1015,35 +1032,36 @@ export const ChmodCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const UserAgentParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [ua, setUa] = useState('');
   const info = useMemo(() => (ua.trim() ? parseUserAgent(ua) : null), [ua]);
 
   return (
-    <DevCard tool={tool} note="Detection is pattern-based and covers the major browsers, operating systems and bots. Exotic or spoofed user agents may be misidentified — treat the result as a best guess.">
-      <OptLabel>User agent string</OptLabel>
-      <DevTextarea rows={3} value={ua} onChange={(e) => setUa(e.target.value)} placeholder="Paste a user agent string here…" spellCheck={false} />
+    <DevCard tool={tool} note={s('uaNote')}>
+      <OptLabel>{s('uaString')}</OptLabel>
+      <DevTextarea rows={3} value={ua} onChange={(e) => setUa(e.target.value)} placeholder={s('uaPlaceholder')} spellCheck={false} />
       <div className="mt-3">
-        <PrimaryBtn onClick={() => setUa(navigator.userAgent)}>Use my browser&apos;s UA</PrimaryBtn>
+        <PrimaryBtn onClick={() => setUa(navigator.userAgent)}>{s('useMyUa')}</PrimaryBtn>
       </div>
 
       {info && (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
-            <Stat label="Browser" value={info.browserVersion ? `${info.browser} ${info.browserVersion.split('.')[0]}` : info.browser} />
+            <Stat label={s('statBrowser')} value={info.browserVersion ? `${info.browser} ${info.browserVersion.split('.')[0]}` : info.browser} />
             <Stat label="OS" value={info.os} />
-            <Stat label="Device" value={info.device} />
-            <Stat label="Engine" value={info.engine} />
+            <Stat label={s('statDevice')} value={info.device} />
+            <Stat label={s('statEngine')} value={info.engine} />
           </div>
           <div className="mt-4">
-            <Row label="Browser"><Mono>{info.browser}</Mono></Row>
-            <Row label="Version"><Mono>{info.browserVersion || '(unknown)'}</Mono></Row>
-            <Row label="Operating system"><Mono>{info.os}</Mono></Row>
-            <Row label="Device type"><Mono>{info.device}</Mono></Row>
-            <Row label="Layout engine"><Mono>{info.engine}</Mono></Row>
+            <Row label={s('statBrowser')}><Mono>{info.browser}</Mono></Row>
+            <Row label={s('versionLabel')}><Mono>{info.browserVersion || s('unknownParens')}</Mono></Row>
+            <Row label={s('osLabel')}><Mono>{info.os}</Mono></Row>
+            <Row label={s('deviceType')}><Mono>{info.device}</Mono></Row>
+            <Row label={s('layoutEngine')}><Mono>{info.engine}</Mono></Row>
           </div>
         </>
       )}
-      {!info && <p className="mt-4 text-xs font-semibold text-gray-500">Paste a user agent string above, or load your own browser&apos;s, to see the breakdown.</p>}
+      {!info && <p className="mt-4 text-xs font-semibold text-gray-500">{s('uaEmptyHint')}</p>}
     </DevCard>
   );
 };

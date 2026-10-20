@@ -2,24 +2,29 @@ import React, { useRef, useState } from 'react';
 import { Image as ImageIcon, Upload, Download } from 'lucide-react';
 import type { ToolItem } from '../../../lib/tools-data';
 import { downloadBlob } from '../../../lib/pdf/core';
+import { COMMON, useStrings } from '../../../lib/LangContext';
+import { IMAGE_STRINGS } from '../../../lib/strings/image';
 
 export { OptLabel, OptInput, OptSelect, OptCheck, CopyBtn, Stat } from '../dev/DevShell';
 export { ErrorBox } from '../dev/DevShell';
 
 /** Card chrome shared by the Image studio tools. */
-export const ImageCard: React.FC<{ tool: ToolItem; children: React.ReactNode; note?: string }> = ({ tool, children, note }) => (
-  <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-none">
-    <div className="flex items-center gap-2 mb-4">
-      <ImageIcon className="w-5 h-5 text-rose-600" />
-      <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
-      <span className="ml-auto text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-full">
-        100% in-browser · private
-      </span>
+export const ImageCard: React.FC<{ tool: ToolItem; children: React.ReactNode; note?: string }> = ({ tool, children, note }) => {
+  const s = useStrings(IMAGE_STRINGS);
+  return (
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-none">
+      <div className="flex items-center gap-2 mb-4">
+        <ImageIcon className="w-5 h-5 text-rose-600" />
+        <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
+        <span className="ms-auto text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-full">
+          {s('inBrowserPrivate')}
+        </span>
+      </div>
+      {children}
+      {note && <p className="mt-4 text-[11px] text-gray-500 leading-relaxed">{note}</p>}
     </div>
-    {children}
-    {note && <p className="mt-4 text-[11px] text-gray-500 leading-relaxed">{note}</p>}
-  </div>
-);
+  );
+};
 
 export const PrimaryBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ children, ...props }) => (
   <button
@@ -41,7 +46,8 @@ export const FileDrop: React.FC<{
   accept?: string;
   label?: string;
   fileName?: string | null;
-}> = ({ onFile, accept = 'image/*', label = 'Drop an image here or click to browse', fileName }) => {
+}> = ({ onFile, accept = 'image/*', label, fileName }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const inputRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);
   return (
@@ -61,8 +67,8 @@ export const FileDrop: React.FC<{
         }`}
       >
         <Upload className="w-8 h-8 mx-auto text-rose-500 mb-2" />
-        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">{label}</p>
-        <p className="text-[11px] text-gray-500 mt-1">Your file never leaves this device — processing happens in your browser.</p>
+        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">{label ?? s('dropImageHere')}</p>
+        <p className="text-[11px] text-gray-500 mt-1">{s('fileStaysOnDevice')}</p>
         <input
           ref={inputRef}
           type="file"
@@ -75,13 +81,14 @@ export const FileDrop: React.FC<{
           }}
         />
       </div>
-      {fileName && <p className="mt-2 text-xs text-gray-500 truncate">Selected: <span className="font-semibold text-gray-700 dark:text-gray-300">{fileName}</span></p>}
+      {fileName && <p className="mt-2 text-xs text-gray-500 truncate">{s('selected')}: <span className="font-semibold text-gray-700 dark:text-gray-300">{fileName}</span></p>}
     </div>
   );
 };
 
 /** "Try a sample photo" helper — fetches a random photo from picsum.photos. */
-export const SampleBtn: React.FC<{ onFile: (file: File) => void; label?: string }> = ({ onFile, label = 'Try a sample photo' }) => {
+export const SampleBtn: React.FC<{ onFile: (file: File) => void; label?: string }> = ({ onFile, label }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [busy, setBusy] = useState(false);
   return (
     <button
@@ -98,26 +105,29 @@ export const SampleBtn: React.FC<{ onFile: (file: File) => void; label?: string 
       }}
       className="px-3.5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-50"
     >
-      {busy ? 'Loading…' : label}
+      {busy ? s('loading') : (label ?? s('trySamplePhoto'))}
     </button>
   );
 };
 
-export const BlobDownloadBtn: React.FC<{ blob: Blob | null; filename: string; label?: string }> = ({ blob, filename, label = 'Download' }) => (
-  <button
-    type="button"
-    disabled={!blob}
-    onClick={() => blob && downloadBlob(blob, filename)}
-    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold border ${
-      blob
-        ? 'bg-rose-600 hover:bg-rose-700 text-white border-rose-600 cursor-pointer'
-        : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border-gray-200 dark:border-gray-700 cursor-not-allowed'
-    }`}
-  >
-    <Download className="w-3.5 h-3.5" />
-    {label}
-  </button>
-);
+export const BlobDownloadBtn: React.FC<{ blob: Blob | null; filename: string; label?: string }> = ({ blob, filename, label }) => {
+  const c = useStrings(COMMON);
+  return (
+    <button
+      type="button"
+      disabled={!blob}
+      onClick={() => blob && downloadBlob(blob, filename)}
+      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold border ${
+        blob
+          ? 'bg-rose-600 hover:bg-rose-700 text-white border-rose-600 cursor-pointer'
+          : 'bg-gray-100 dark:bg-gray-800 text-gray-400 border-gray-200 dark:border-gray-700 cursor-not-allowed'
+      }`}
+    >
+      <Download className="w-3.5 h-3.5" />
+      {label ?? c('download')}
+    </button>
+  );
+};
 
 /** Checkerboard-backed preview for transparent images. */
 export const TransparencyBg: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (

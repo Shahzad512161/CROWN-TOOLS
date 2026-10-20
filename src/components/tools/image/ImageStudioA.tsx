@@ -21,6 +21,8 @@ import {
   ErrorBox,
 } from './ImageShell';
 import { DownloadBtn } from '../dev/DevShell';
+import { COMMON, useStrings } from '../../../lib/LangContext';
+import { IMAGE_STRINGS } from '../../../lib/strings/image';
 import {
   fileToImage,
   imageToCanvas,
@@ -65,6 +67,8 @@ const statusText = (msg: string) =>
 // ============================================================
 
 export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState('');
@@ -91,20 +95,20 @@ export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setError('');
     setResult(null);
     setColored(null);
-    setStatus('Loading the AI model (first use downloads ~40 MB)…');
+    setStatus(s('loadingAiModel'));
     try {
       const { removeBackground } = await import('@imgly/background-removal');
       const out = await removeBackground(file, {
         output: { format: 'image/png' },
         progress: (_key, current, total) => {
-          if (total > 0) setStatus(`Processing… ${Math.round((current / total) * 100)}%`);
-          else setStatus('Processing…');
+          if (total > 0) setStatus(s('processingPct').replace('{pct}', String(Math.round((current / total) * 100))));
+          else setStatus(c('processing'));
         },
       });
       setResult(out);
-      setStatus('Done — background removed.');
+      setStatus(s('bgRemovedDone'));
     } catch (e) {
-      setError(errText(e, 'Background removal failed. Try a different photo.'));
+      setError(errText(e, s('bgRemovalFailed')));
       setStatus('');
     }
     setBusy(false);
@@ -139,7 +143,7 @@ export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="The AI model downloads once from the library CDN (~40 MB) and then runs entirely on your device — your photos are never uploaded to a server. First use is slower; complex hair edges are good but not perfect."
+      note={s('aiModelNote')}
     >
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
@@ -151,8 +155,8 @@ export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         {fileUrl && (
           <div>
-            <OptLabel>Original</OptLabel>
-            <img src={fileUrl} alt="Original" className="max-h-56 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />
+            <OptLabel>{c('original')}</OptLabel>
+            <img src={fileUrl} alt={c('original')} className="max-h-56 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />
           </div>
         )}
 
@@ -160,10 +164,10 @@ export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <PrimaryBtn onClick={run} disabled={!file || busy}>
             {busy ? (
               <span className="inline-flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" /> Working…
+                <Loader2 className="w-4 h-4 animate-spin" /> {c('working')}
               </span>
             ) : (
-              'Remove background'
+              s('removeBackground')
             )}
           </PrimaryBtn>
           {statusText(status)}
@@ -174,16 +178,16 @@ export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {result && resultUrl && (
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <OptLabel>Transparent PNG</OptLabel>
+              <OptLabel>{s('transparentPng')}</OptLabel>
               <TransparencyBg>
-                <img src={resultUrl} alt="Background removed" className="w-full h-auto block" />
+                <img src={resultUrl} alt={s('altBgRemoved')} className="w-full h-auto block" />
               </TransparencyBg>
               <div className="mt-2">
-                <BlobDownloadBtn blob={result} filename={`${stripExt(file?.name || 'image')}-no-bg.png`} label="Download transparent PNG" />
+                <BlobDownloadBtn blob={result} filename={`${stripExt(file?.name || 'image')}-no-bg.png`} label={s('downloadTransparentPng')} />
               </div>
             </div>
             <div>
-              <OptLabel>On a color background</OptLabel>
+              <OptLabel>{s('onColorBg')}</OptLabel>
               <div className="flex items-center gap-2 mb-2">
                 <input
                   type="color"
@@ -195,11 +199,11 @@ export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
               {coloredUrl && (
                 <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-                  <img src={coloredUrl} alt="On color background" className="w-full h-auto block" />
+                  <img src={coloredUrl} alt={s('altOnColorBg')} className="w-full h-auto block" />
                 </div>
               )}
               <div className="mt-2">
-                <BlobDownloadBtn blob={colored} filename={`${stripExt(file?.name || 'image')}-on-color.png`} label="Download on color" />
+                <BlobDownloadBtn blob={colored} filename={`${stripExt(file?.name || 'image')}-on-color.png`} label={s('downloadOnColor')} />
               </div>
             </div>
           </div>
@@ -216,6 +220,8 @@ export const AiBackgroundRemover: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const SOLID_PRESETS = ['#ffffff', '#000000', '#9ca3af', '#f8fafc', '#1e3a8a', '#be123c', '#065f46', '#f59e0b'];
 
 export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
+  const c = useStrings(COMMON);
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState('');
@@ -246,23 +252,23 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
   const run = async () => {
     if (!file) return;
     if (bgKind === 'image' && !bgFile) {
-      setError('Choose a background image first, or switch to a solid / gradient background.');
+      setError(s('chooseBgImageFirst'));
       return;
     }
     setBusy(true);
     setError('');
     setResult(null);
-    setStatus('Loading the AI model (first use downloads ~40 MB)…');
+    setStatus(s('loadingAiModel'));
     try {
       const { removeBackground } = await import('@imgly/background-removal');
       const cutout = await removeBackground(file, {
         output: { format: 'image/png' },
         progress: (_key, current, total) => {
-          if (total > 0) setStatus(`Removing background… ${Math.round((current / total) * 100)}%`);
-          else setStatus('Removing background…');
+          if (total > 0) setStatus(s('removingBgPct').replace('{pct}', String(Math.round((current / total) * 100))));
+          else setStatus(s('removingBg'));
         },
       });
-      setStatus('Compositing your new background…');
+      setStatus(s('compositingBg'));
       const fg = await fileToImage(cutout);
       const canvas = document.createElement('canvas');
       canvas.width = fg.naturalWidth;
@@ -286,9 +292,9 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
       }
       ctx.drawImage(fg, 0, 0);
       setResult(await canvasToBlobP(canvas, 'image/png'));
-      setStatus('Done — new background applied.');
+      setStatus(s('bgChangedDone'));
     } catch (e) {
-      setError(errText(e, 'Background change failed. Try a different photo.'));
+      setError(errText(e, s('bgChangeFailed')));
       setStatus('');
     }
     setBusy(false);
@@ -297,7 +303,7 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
   return (
     <ImageCard
       tool={tool}
-      note="The AI model downloads once from the library CDN (~40 MB) and then runs entirely on your device — your photos are never uploaded to a server. First use is slower; complex hair edges are good but not perfect."
+      note={s('aiModelNote')}
     >
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
@@ -308,13 +314,13 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
         </div>
 
         <div>
-          <OptLabel>Background type</OptLabel>
+          <OptLabel>{s('bgType')}</OptLabel>
           <div className="flex flex-wrap gap-2">
             {(
               [
-                ['solid', 'Solid color'],
-                ['gradient', 'Gradient'],
-                ['image', 'Your photo'],
+                ['solid', s('solidColor')],
+                ['gradient', s('gradient')],
+                ['image', s('yourPhoto')],
               ] as const
             ).map(([kind, label]) => (
               <button
@@ -335,7 +341,7 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
 
         {bgKind === 'solid' && (
           <div>
-            <OptLabel>Color</OptLabel>
+            <OptLabel>{s('color')}</OptLabel>
             <div className="flex flex-wrap items-center gap-2">
               {SOLID_PRESETS.map((c) => (
                 <button
@@ -362,25 +368,25 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
           <div className="space-y-3">
             <div className="flex flex-wrap gap-2">
               <button type="button" onClick={() => applyGradientPreset('#f59e0b', '#ef4444')} className="px-3 py-2 rounded-xl text-xs font-bold text-white border border-gray-200 dark:border-gray-700 cursor-pointer" style={{ backgroundImage: 'linear-gradient(90deg,#f59e0b,#ef4444)' }}>
-                Sunset
+                {s('sunset')}
               </button>
               <button type="button" onClick={() => applyGradientPreset('#38bdf8', '#1e40af')} className="px-3 py-2 rounded-xl text-xs font-bold text-white border border-gray-200 dark:border-gray-700 cursor-pointer" style={{ backgroundImage: 'linear-gradient(90deg,#38bdf8,#1e40af)' }}>
-                Ocean
+                {s('ocean')}
               </button>
               <button type="button" onClick={() => applyGradientPreset('#e5e7eb', '#6b7280')} className="px-3 py-2 rounded-xl text-xs font-bold text-gray-900 border border-gray-200 dark:border-gray-700 cursor-pointer" style={{ backgroundImage: 'linear-gradient(90deg,#e5e7eb,#6b7280)' }}>
-                Studio
+                {s('studio')}
               </button>
             </div>
             <div className="grid grid-cols-2 gap-3 max-w-sm">
               <div>
-                <OptLabel>From</OptLabel>
+                <OptLabel>{s('from')}</OptLabel>
                 <div className="flex items-center gap-2">
                   <input type="color" value={gradFrom} onChange={(e) => setGradFrom(e.target.value)} className="w-10 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
                   <span className="text-xs font-mono font-semibold text-gray-700 dark:text-gray-300">{gradFrom}</span>
                 </div>
               </div>
               <div>
-                <OptLabel>To</OptLabel>
+                <OptLabel>{s('to')}</OptLabel>
                 <div className="flex items-center gap-2">
                   <input type="color" value={gradTo} onChange={(e) => setGradTo(e.target.value)} className="w-10 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
                   <span className="text-xs font-mono font-semibold text-gray-700 dark:text-gray-300">{gradTo}</span>
@@ -393,9 +399,9 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
 
         {bgKind === 'image' && (
           <div>
-            <OptLabel>Background photo (cover-fit behind the subject)</OptLabel>
-            <FileDrop onFile={setBgFile} label="Drop a background image here or click to browse" fileName={bgFile?.name ?? null} />
-            {bgUrl && <img src={bgUrl} alt="Background" className="mt-2 max-h-32 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />}
+            <OptLabel>{s('bgPhotoCoverFit')}</OptLabel>
+            <FileDrop onFile={setBgFile} label={s('dropBgImageHere')} fileName={bgFile?.name ?? null} />
+            {bgUrl && <img src={bgUrl} alt={s('altBackground')} className="mt-2 max-h-32 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />}
           </div>
         )}
 
@@ -403,10 +409,10 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
           <PrimaryBtn onClick={run} disabled={!file || busy}>
             {busy ? (
               <span className="inline-flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" /> Working…
+                <Loader2 className="w-4 h-4 animate-spin" /> {c('working')}
               </span>
             ) : (
-              'Change background'
+              s('changeBackground')
             )}
           </PrimaryBtn>
           {statusText(status)}
@@ -416,12 +422,12 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
 
         {result && resultUrl && (
           <div>
-            <OptLabel>Result</OptLabel>
+            <OptLabel>{c('result')}</OptLabel>
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-              <img src={resultUrl} alt="New background" className="w-full h-auto block" />
+              <img src={resultUrl} alt={s('altNewBackground')} className="w-full h-auto block" />
             </div>
             <div className="mt-2">
-              <BlobDownloadBtn blob={result} filename={`${stripExt(file?.name || 'image')}-new-bg.png`} label="Download PNG" />
+              <BlobDownloadBtn blob={result} filename={`${stripExt(file?.name || 'image')}-new-bg.png`} label={s('downloadPng')} />
             </div>
           </div>
         )}
@@ -438,6 +444,8 @@ type QrType = 'text' | 'wifi' | 'vcard' | 'email' | 'sms' | 'phone';
 type Ecl = 'L' | 'M' | 'Q' | 'H';
 
 export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
+  const c = useStrings(COMMON);
   const [type, setType] = useState<QrType>('text');
   // text / url
   const [text, setText] = useState('https://example.com');
@@ -525,7 +533,7 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       .catch(() => {
         if (!cancelled) {
           setQrUrl(null);
-          setQrError('That content is too long to fit in a single QR code — shorten it and try again.');
+          setQrError(s('qrTooLong'));
         }
       });
     QRCode.toString(payload, {
@@ -546,19 +554,19 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     };
   }, [payload, size, dark, light, ecl, margin]);
 
-  const tabs: { id: QrType; label: string }[] = [
-    { id: 'text', label: 'Text / URL' },
-    { id: 'wifi', label: 'WiFi' },
-    { id: 'vcard', label: 'Contact (vCard)' },
-    { id: 'email', label: 'Email' },
-    { id: 'sms', label: 'SMS' },
-    { id: 'phone', label: 'Phone' },
+  const tabs: { id: QrType; labelKey: string }[] = [
+    { id: 'text', labelKey: 'qrTextUrl' },
+    { id: 'wifi', labelKey: 'wifi' },
+    { id: 'vcard', labelKey: 'qrContact' },
+    { id: 'email', labelKey: 'email' },
+    { id: 'sms', labelKey: 'sms' },
+    { id: 'phone', labelKey: 'phone' },
   ];
 
   return (
     <ImageCard
       tool={tool}
-      note="The QR code updates live as you type. Dark modules on a light background scan most reliably — keep good contrast. The exact text that will be encoded is shown below so you can check it before sharing."
+      note={s('qrNote')}
     >
       <div className="grid lg:grid-cols-[1fr_320px] gap-6">
         <div className="space-y-4">
@@ -574,70 +582,70 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               >
-                {t.label}
+                {s(t.labelKey)}
               </button>
             ))}
           </div>
 
           {type === 'text' && (
             <div>
-              <OptLabel>Text or URL</OptLabel>
-              <OptInput value={text} onChange={(e) => setText(e.target.value)} placeholder="https://… or any text" />
+              <OptLabel>{s('textOrUrl')}</OptLabel>
+              <OptInput value={text} onChange={(e) => setText(e.target.value)} placeholder={s('qrTextPlaceholder')} />
             </div>
           )}
 
           {type === 'wifi' && (
             <div className="space-y-3">
               <div>
-                <OptLabel>Network name (SSID)</OptLabel>
+                <OptLabel>{s('networkName')}</OptLabel>
                 <OptInput value={ssid} onChange={(e) => setSsid(e.target.value)} placeholder="MyHomeWiFi" />
               </div>
               <div className="grid sm:grid-cols-2 gap-3">
                 <div>
-                  <OptLabel>Password</OptLabel>
+                  <OptLabel>{s('password')}</OptLabel>
                   <OptInput value={wifiPass} onChange={(e) => setWifiPass(e.target.value)} placeholder="••••••••" />
                 </div>
                 <div>
-                  <OptLabel>Security</OptLabel>
+                  <OptLabel>{s('security')}</OptLabel>
                   <OptSelect value={encryption} onChange={(e) => setEncryption(e.target.value as 'WPA' | 'WEP' | 'nopass')}>
                     <option value="WPA">WPA / WPA2 / WPA3</option>
                     <option value="WEP">WEP</option>
-                    <option value="nopass">Open (no password)</option>
+                    <option value="nopass">{s('openNoPassword')}</option>
                   </OptSelect>
                 </div>
               </div>
-              <OptCheck label="Hidden network" checked={hidden} onChange={setHidden} />
+              <OptCheck label={s('hiddenNetwork')} checked={hidden} onChange={setHidden} />
             </div>
           )}
 
           {type === 'vcard' && (
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
-                <OptLabel>Full name</OptLabel>
+                <OptLabel>{s('fullName')}</OptLabel>
                 <OptInput value={vcName} onChange={(e) => setVcName(e.target.value)} placeholder="Ada Lovelace" />
               </div>
               <div>
-                <OptLabel>Organization</OptLabel>
+                <OptLabel>{s('organization')}</OptLabel>
                 <OptInput value={vcOrg} onChange={(e) => setVcOrg(e.target.value)} />
               </div>
               <div>
-                <OptLabel>Job title</OptLabel>
+                <OptLabel>{s('jobTitle')}</OptLabel>
                 <OptInput value={vcTitle} onChange={(e) => setVcTitle(e.target.value)} />
               </div>
               <div>
-                <OptLabel>Phone</OptLabel>
+                <OptLabel>{s('phone')}</OptLabel>
                 <OptInput value={vcPhone} onChange={(e) => setVcPhone(e.target.value)} placeholder="+92 300 0000000" />
               </div>
               <div>
-                <OptLabel>Email</OptLabel>
+                <OptLabel>{s('email')}</OptLabel>
                 <OptInput value={vcEmail} onChange={(e) => setVcEmail(e.target.value)} />
               </div>
               <div>
-                <OptLabel>Website</OptLabel>
+                <OptLabel>{s('website')}</OptLabel>
                 <OptInput value={vcUrl} onChange={(e) => setVcUrl(e.target.value)} placeholder="https://…" />
               </div>
               <div className="sm:col-span-2">
-                <OptLabel>Address</OptLabel>
+                <OptLabel>{s('address')}</OptLabel>
                 <OptInput value={vcAddress} onChange={(e) => setVcAddress(e.target.value)} />
               </div>
             </div>
@@ -646,15 +654,15 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           {type === 'email' && (
             <div className="space-y-3">
               <div>
-                <OptLabel>Recipient email</OptLabel>
+                <OptLabel>{s('recipientEmail')}</OptLabel>
                 <OptInput value={emTo} onChange={(e) => setEmTo(e.target.value)} placeholder="someone@example.com" />
               </div>
               <div>
-                <OptLabel>Subject</OptLabel>
+                <OptLabel>{s('subject')}</OptLabel>
                 <OptInput value={emSubject} onChange={(e) => setEmSubject(e.target.value)} />
               </div>
               <div>
-                <OptLabel>Body</OptLabel>
+                <OptLabel>{s('body')}</OptLabel>
                 <OptInput value={emBody} onChange={(e) => setEmBody(e.target.value)} />
               </div>
             </div>
@@ -663,11 +671,11 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           {type === 'sms' && (
             <div className="space-y-3">
               <div>
-                <OptLabel>Phone number</OptLabel>
+                <OptLabel>{s('phoneNumber')}</OptLabel>
                 <OptInput value={smsPhone} onChange={(e) => setSmsPhone(e.target.value)} placeholder="+92 300 0000000" />
               </div>
               <div>
-                <OptLabel>Message</OptLabel>
+                <OptLabel>{s('message')}</OptLabel>
                 <OptInput value={smsMsg} onChange={(e) => setSmsMsg(e.target.value)} />
               </div>
             </div>
@@ -675,14 +683,14 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
           {type === 'phone' && (
             <div>
-              <OptLabel>Phone number</OptLabel>
+              <OptLabel>{s('phoneNumber')}</OptLabel>
               <OptInput value={telNumber} onChange={(e) => setTelNumber(e.target.value)} placeholder="+92 300 0000000" />
             </div>
           )}
 
           <div className="grid sm:grid-cols-2 gap-3">
             <div>
-              <OptLabel>Size (px)</OptLabel>
+              <OptLabel>{s('sizePx')}</OptLabel>
               <OptSelect value={size} onChange={(e) => setSize(parseInt(e.target.value, 10))}>
                 <option value={256}>256</option>
                 <option value={512}>512</option>
@@ -690,49 +698,49 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </OptSelect>
             </div>
             <div>
-              <OptLabel>Error correction</OptLabel>
+              <OptLabel>{s('errorCorrection')}</OptLabel>
               <OptSelect value={ecl} onChange={(e) => setEcl(e.target.value as Ecl)}>
-                <option value="L">L — smallest code</option>
-                <option value="M">M — balanced</option>
-                <option value="Q">Q — damage resistant</option>
-                <option value="H">H — most resistant</option>
+                <option value="L">{s('eclL')}</option>
+                <option value="M">{s('eclM')}</option>
+                <option value="Q">{s('eclQ')}</option>
+                <option value="H">{s('eclH')}</option>
               </OptSelect>
             </div>
             <div>
-              <OptLabel>Code color</OptLabel>
+              <OptLabel>{s('codeColor')}</OptLabel>
               <div className="flex items-center gap-2">
                 <input type="color" value={dark} onChange={(e) => setDark(e.target.value)} className="w-10 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
                 <span className="text-xs font-mono font-semibold text-gray-700 dark:text-gray-300">{dark}</span>
               </div>
             </div>
             <div>
-              <OptLabel>Background color</OptLabel>
+              <OptLabel>{s('bgColor')}</OptLabel>
               <div className="flex items-center gap-2">
                 <input type="color" value={light} onChange={(e) => setLight(e.target.value)} className="w-10 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
                 <span className="text-xs font-mono font-semibold text-gray-700 dark:text-gray-300">{light}</span>
               </div>
             </div>
           </div>
-          <OptCheck label="Quiet zone (white margin — recommended for scanning)" checked={margin} onChange={setMargin} />
+          <OptCheck label={s('quietZone')} checked={margin} onChange={setMargin} />
 
           <div>
-            <OptLabel>Encoded content</OptLabel>
+            <OptLabel>{s('encodedContent')}</OptLabel>
             <pre className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs font-mono overflow-auto max-h-40 whitespace-pre-wrap break-all text-gray-900 dark:text-gray-100">
-              {payload || '(fill in the fields to encode something)'}
+              {payload || s('fillFieldsToEncode')}
             </pre>
           </div>
         </div>
 
         <div className="space-y-3">
-          <OptLabel>Preview</OptLabel>
+          <OptLabel>{c('preview')}</OptLabel>
           {qrError && <ErrorBox message={qrError} />}
           {qrUrl ? (
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden inline-block bg-white">
-              <img src={qrUrl} alt="Generated QR code" className="w-full max-w-[320px] h-auto block" />
+              <img src={qrUrl} alt={s('altQrCode')} className="w-full max-w-[320px] h-auto block" />
             </div>
           ) : (
             <div className="rounded-xl border border-dashed border-gray-300 dark:border-gray-600 p-8 text-center text-xs font-semibold text-gray-500">
-              Your QR code will appear here.
+              {s('qrWillAppear')}
             </div>
           )}
           <div className="flex flex-wrap gap-2">
@@ -742,13 +750,13 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 download="qr-code.png"
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white border border-rose-600 cursor-pointer"
               >
-                Download PNG
+                {s('downloadPng')}
               </a>
             )}
             <BlobDownloadBtn
               blob={qrSvg ? new Blob([qrSvg], { type: 'image/svg+xml' }) : null}
               filename="qr-code.svg"
-              label="Download SVG"
+              label={s('downloadSvg')}
             />
           </div>
         </div>
@@ -762,6 +770,7 @@ export const QrCodeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ============================================================
 
 export const QrCodeScanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [fileName, setFileName] = useState<string | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [notFound, setNotFound] = useState(false);
@@ -805,7 +814,7 @@ export const QrCodeScanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       if (code && code.data) setResult(code.data);
       else setNotFound(true);
     } catch (e) {
-      setError(errText(e, 'Could not read that image.'));
+      setError(errText(e, s('couldNotReadImage')));
     }
   };
 
@@ -840,7 +849,7 @@ export const QrCodeScanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       streamRef.current = stream;
       setCameraOn(true);
     } catch {
-      setError('Camera unavailable or permission was denied. You can still scan a QR code from an image file instead.');
+      setError(s('cameraUnavailable'));
     }
   };
 
@@ -865,28 +874,28 @@ export const QrCodeScanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="Decoding runs locally with the jsQR engine — images and camera frames never leave your device. Camera access needs a secure (HTTPS) page and your permission."
+      note={s('scannerNote')}
     >
       <div className="space-y-4">
-        <FileDrop onFile={scanFile} label="Drop a screenshot or photo containing a QR code" fileName={fileName} />
+        <FileDrop onFile={scanFile} label={s('dropQrImage')} fileName={fileName} />
 
         <div className="flex flex-wrap items-center gap-2">
           {!cameraOn ? (
             <PrimaryBtn onClick={startCamera}>
               <span className="inline-flex items-center gap-2">
-                <Camera className="w-4 h-4" /> Use camera
+                <Camera className="w-4 h-4" /> {s('useCamera')}
               </span>
             </PrimaryBtn>
           ) : (
             <PrimaryBtn onClick={stopCamera}>
               <span className="inline-flex items-center gap-2">
-                <CameraOff className="w-4 h-4" /> Stop camera
+                <CameraOff className="w-4 h-4" /> {s('stopCamera')}
               </span>
             </PrimaryBtn>
           )}
           {cameraOn && (
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 dark:text-gray-300">
-              <ScanLine className="w-4 h-4 text-rose-500" /> Point the camera at a QR code…
+              <ScanLine className="w-4 h-4 text-rose-500" /> {s('pointCamera')}
             </span>
           )}
         </div>
@@ -899,16 +908,16 @@ export const QrCodeScanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         {notFound && (
           <div className="text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2.5">
-            No QR code found in this image — try a sharper, front-on photo.
+            {s('noQrFound')}
           </div>
         )}
 
         {result && (
           <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl p-4 space-y-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Decoded content</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">{s('decodedContent')}</p>
             <p className="text-sm font-mono break-all whitespace-pre-wrap text-gray-900 dark:text-gray-100">{result}</p>
             <div className="flex flex-wrap gap-2">
-              <CopyBtn text={result} label="Copy result" />
+              <CopyBtn text={result} label={s('copyResult')} />
               {isLink && (
                 <a
                   href={result}
@@ -916,7 +925,7 @@ export const QrCodeScanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer"
                 >
-                  <Link2 className="w-3.5 h-3.5" /> Open link
+                  <Link2 className="w-3.5 h-3.5" /> {s('openLink')}
                 </a>
               )}
             </div>
@@ -954,6 +963,7 @@ const wrapTextLines = (
 };
 
 export const MemeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [topText, setTopText] = useState('');
@@ -1030,7 +1040,7 @@ export const MemeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="Caption text wraps automatically (up to 3 lines per block). The classic look uses white Impact-style lettering with a black outline; switch on black bars for the older framed meme style."
+      note={s('memeNote')}
     >
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
@@ -1042,15 +1052,15 @@ export const MemeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         <div className="grid sm:grid-cols-2 gap-3">
           <div>
-            <OptLabel>Top text</OptLabel>
-            <OptInput value={topText} onChange={(e) => setTopText(e.target.value)} placeholder="WHEN THE CODE WORKS" />
+            <OptLabel>{s('topText')}</OptLabel>
+            <OptInput value={topText} onChange={(e) => setTopText(e.target.value)} placeholder={s('memeTopPlaceholder')} />
           </div>
           <div>
-            <OptLabel>Bottom text</OptLabel>
-            <OptInput value={bottomText} onChange={(e) => setBottomText(e.target.value)} placeholder="BUT YOU DON'T KNOW WHY" />
+            <OptLabel>{s('bottomText')}</OptLabel>
+            <OptInput value={bottomText} onChange={(e) => setBottomText(e.target.value)} placeholder={s('memeBottomPlaceholder')} />
           </div>
           <div>
-            <OptLabel>Font size — {fontPct}% of width</OptLabel>
+            <OptLabel>{s('fontSizePctOfWidth').replace('{value}', String(fontPct))}</OptLabel>
             <input
               type="range"
               min={4}
@@ -1062,7 +1072,7 @@ export const MemeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
           </div>
           <div className="flex items-end pb-1">
-            <OptCheck label="Black bars behind text (framed style)" checked={bars} onChange={setBars} />
+            <OptCheck label={s('blackBars')} checked={bars} onChange={setBars} />
           </div>
         </div>
 
@@ -1071,10 +1081,10 @@ export const MemeGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden bg-gray-50 dark:bg-gray-800">
               <canvas ref={canvasRef} className="w-full h-auto block" />
             </div>
-            <BlobDownloadBtn blob={outBlob} filename="meme.png" label="Download meme PNG" />
+            <BlobDownloadBtn blob={outBlob} filename="meme.png" label={s('downloadMemePng')} />
           </div>
         ) : (
-          <p className="text-xs font-semibold text-gray-500">Add a photo to start building your meme.</p>
+          <p className="text-xs font-semibold text-gray-500">{s('addPhotoForMeme')}</p>
         )}
       </div>
     </ImageCard>
@@ -1090,6 +1100,7 @@ const OCR_LANGS: { code: string; label: string }[] = [
 ];
 
 export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [file, setFile] = useState<File | null>(null);
   const [lang, setLang] = useState('eng');
   const [busy, setBusy] = useState(false);
@@ -1104,14 +1115,14 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setBusy(true);
     setError('');
     setText('');
-    setProgress('Loading the OCR engine (first use downloads it and the language data from a CDN)…');
+    setProgress(s('loadingOcrEngine'));
     let worker: Awaited<ReturnType<typeof Tesseract.createWorker>> | null = null;
     try {
       try {
         worker = await Tesseract.createWorker(lang, undefined, {
           logger: (m) => {
             if (m.status === 'recognizing text') {
-              setProgress(`Recognizing text… ${Math.round((m.progress || 0) * 100)}%`);
+              setProgress(s('recognizingPct').replace('{pct}', String(Math.round((m.progress || 0) * 100))));
             } else if (m.status) {
               setProgress(`${m.status}…`);
             }
@@ -1119,7 +1130,7 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         });
       } catch {
         throw new Error(
-          'Could not load the OCR engine. It downloads from a CDN on first use — check your internet connection and try again.',
+          s('ocrEngineLoadFailed'),
         );
       }
       const img = await fileToImage(file);
@@ -1128,7 +1139,7 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setText((data?.text || '').trim());
       setProgress('');
     } catch (e) {
-      setError(errText(e, 'OCR failed. Try a clearer, higher-contrast image.'));
+      setError(errText(e, s('ocrFailed')));
       setProgress('');
     }
     try {
@@ -1145,7 +1156,7 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="Powered by the Tesseract OCR engine running in your browser — the first use downloads the engine and the English language data from a CDN. Clear, straight, high-contrast scans read best."
+      note={s('ocrNote')}
     >
       <div className="space-y-4">
         <FileDrop
@@ -1158,16 +1169,16 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         />
 
         {fileUrl && (
-          <img src={fileUrl} alt="To OCR" className="max-h-64 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />
+          <img src={fileUrl} alt={s('altForOcr')} className="max-h-64 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />
         )}
 
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-52">
-            <OptLabel>Language</OptLabel>
+            <OptLabel>{s('language')}</OptLabel>
             <OptSelect value={lang} onChange={(e) => setLang(e.target.value)}>
               {OCR_LANGS.map((l) => (
                 <option key={l.code} value={l.code}>
-                  {l.label}
+                  {l.code === 'eng' ? s('langEnglish') : l.label}
                 </option>
               ))}
             </OptSelect>
@@ -1175,10 +1186,10 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <PrimaryBtn onClick={run} disabled={!file || busy}>
             {busy ? (
               <span className="inline-flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" /> Extracting…
+                <Loader2 className="w-4 h-4 animate-spin" /> {s('extracting')}
               </span>
             ) : (
-              'Extract text'
+              s('extractText')
             )}
           </PrimaryBtn>
           {statusText(progress)}
@@ -1189,21 +1200,21 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {(text || busy) && (
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-2 max-w-md">
-              <Stat label="Words" value={words} />
-              <Stat label="Characters" value={text.length} />
-              <Stat label="Lines" value={lines} />
+              <Stat label={s('words')} value={words} />
+              <Stat label={s('characters')} value={text.length} />
+              <Stat label={s('lines')} value={lines} />
             </div>
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
               dir="auto"
               rows={10}
-              placeholder={busy ? 'Recognizing…' : 'Extracted text will appear here — you can edit it before copying.'}
+              placeholder={busy ? s('recognizing') : s('extractedTextPlaceholder')}
               className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-mono text-gray-900 dark:text-white"
             />
             <div className="flex flex-wrap gap-2">
-              <CopyBtn text={text} label="Copy text" />
-              <DownloadBtn content={text} filename="extracted-text.txt" mime="text/plain" label="Download .txt" />
+              <CopyBtn text={text} label={s('copyText')} />
+              <DownloadBtn content={text} filename="extracted-text.txt" mime="text/plain" label={s('downloadTxt')} />
             </div>
           </div>
         )}
@@ -1217,6 +1228,7 @@ export const ImageOcr: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ============================================================
 
 export const PassportPhotoMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [presetId, setPresetId] = useState('uk');
@@ -1240,7 +1252,7 @@ export const PassportPhotoMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setImg(await fileToImage(f));
     } catch {
       setImg(null);
-      setError('Could not load that image file.');
+      setError(s('couldNotLoadImageFile'));
     }
   };
 
@@ -1315,7 +1327,7 @@ export const PassportPhotoMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="Use a plain, light background with your face centered and no shadows for the best result. This tool crops and sizes the photo — it does not replace backgrounds — and official acceptance always follows your issuing authority's rules (expression, head covering, glasses and background color requirements vary)."
+      note={s('passportNote')}
     >
       <div className="space-y-4">
         <FileDrop onFile={pickFile} fileName={fileName} />
@@ -1324,7 +1336,7 @@ export const PassportPhotoMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         <div className="grid sm:grid-cols-2 gap-3 max-w-xl">
           <div>
-            <OptLabel>Photo size</OptLabel>
+            <OptLabel>{s('photoSize')}</OptLabel>
             <OptSelect value={presetId} onChange={(e) => setPresetId(e.target.value)}>
               {PASSPORT_SIZES.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -1341,31 +1353,31 @@ export const PassportPhotoMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {img && (
           <div className="grid sm:grid-cols-[auto_1fr] gap-6 items-start">
             <div>
-              <OptLabel>Preview — {outW} × {outH} px @ 300 DPI</OptLabel>
+              <OptLabel>{s('passportPreviewLabel').replace('{w}', String(outW)).replace('{h}', String(outH))}</OptLabel>
               <canvas ref={previewRef} className="w-44 h-auto border border-gray-300 dark:border-gray-600 shadow-sm bg-white" />
               <div className="flex flex-wrap gap-2 mt-3">
-                <BlobDownloadBtn blob={single} filename="passport-photo.png" label="Download photo" />
-                <BlobDownloadBtn blob={sheet} filename="passport-print-sheet-4x6.png" label={`Print sheet (${copies} copies)`} />
+                <BlobDownloadBtn blob={single} filename="passport-photo.png" label={s('downloadPhoto')} />
+                <BlobDownloadBtn blob={sheet} filename="passport-print-sheet-4x6.png" label={s('printSheetCopies').replace('{count}', String(copies))} />
               </div>
               <p className="text-[11px] text-gray-500 mt-2">
-                Print sheet: 4 × 6 in at 300 DPI, {copies} copies with 3 mm gaps and light cut guides.
+                {s('printSheetNote').replace('{count}', String(copies))}
               </p>
             </div>
             <div className="space-y-4">
               <div>
-                <OptLabel>Zoom — {zoom.toFixed(2)}×</OptLabel>
+                <OptLabel>{s('zoomWithValue').replace('{value}', zoom.toFixed(2))}</OptLabel>
                 <input type="range" min={1} max={2.5} step={0.05} value={zoom} onChange={(e) => setZoom(parseFloat(e.target.value))} className="w-full accent-rose-600" />
               </div>
               <div>
-                <OptLabel>Shift left / right — {shiftX}</OptLabel>
+                <OptLabel>{s('shiftHWithValue').replace('{value}', String(shiftX))}</OptLabel>
                 <input type="range" min={-50} max={50} step={1} value={shiftX} onChange={(e) => setShiftX(parseInt(e.target.value, 10))} className="w-full accent-rose-600" />
               </div>
               <div>
-                <OptLabel>Shift up / down — {shiftY}</OptLabel>
+                <OptLabel>{s('shiftVWithValue').replace('{value}', String(shiftY))}</OptLabel>
                 <input type="range" min={-50} max={50} step={1} value={shiftY} onChange={(e) => setShiftY(parseInt(e.target.value, 10))} className="w-full accent-rose-600" />
               </div>
               <p className="text-[11px] text-gray-500">
-                Tip: your eyes should sit slightly above the middle of the frame and your head and shoulders should fill most of it.
+                {s('passportTip')}
               </p>
             </div>
           </div>
@@ -1382,13 +1394,14 @@ export const PassportPhotoMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const FAVICON_SIZES = [16, 32, 48, 64, 128, 180, 192, 512];
 
 const PngThumb: React.FC<{ blob: Blob; size: number }> = ({ blob, size }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const url = useObjectUrl(blob);
   if (!url) return null;
   return (
     <div className="flex flex-col items-center gap-1">
       <img
         src={url}
-        alt={`${size}×${size} favicon`}
+        alt={s('altFavicon').replace('{size}', String(size))}
         width={Math.min(size, 48)}
         height={Math.min(size, 48)}
         className="border border-gray-200 dark:border-gray-700 rounded bg-white dark:bg-gray-800"
@@ -1399,6 +1412,7 @@ const PngThumb: React.FC<{ blob: Blob; size: number }> = ({ blob, size }) => {
 };
 
 export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [mode, setMode] = useState<'image' | 'text'>('image');
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -1430,7 +1444,7 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       const ctx = src.getContext('2d')!;
       if (mode === 'image') {
         if (!img) {
-          setError('Choose an image first.');
+          setError(s('chooseImageFirst'));
           setBusy(false);
           return;
         }
@@ -1439,7 +1453,7 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       } else {
         const g = glyph.trim();
         if (!g) {
-          setError('Enter a letter, initials or an emoji first.');
+          setError(s('enterLetterFirst'));
           setBusy(false);
           return;
         }
@@ -1475,7 +1489,7 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setIco(new Blob([icoCopy], { type: 'image/x-icon' }));
       setZip(zipBlob);
     } catch (e) {
-      setError(errText(e, 'Favicon generation failed.'));
+      setError(errText(e, s('faviconFailed')));
     }
     setBusy(false);
   };
@@ -1491,7 +1505,7 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="Square sources work best — images are center-cropped to a square. The .ico bundles 16, 32 and 48 px versions in one file, and the 180 px PNG is the Apple touch icon size."
+      note={s('faviconNote')}
     >
       <div className="space-y-4">
         <div className="flex flex-wrap gap-2">
@@ -1504,7 +1518,7 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
-            <ImagePlus className="w-3.5 h-3.5" /> From image
+            <ImagePlus className="w-3.5 h-3.5" /> {s('fromImage')}
           </button>
           <button
             type="button"
@@ -1515,7 +1529,7 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
-            <Type className="w-3.5 h-3.5" /> From text / emoji
+            <Type className="w-3.5 h-3.5" /> {s('fromTextEmoji')}
           </button>
         </div>
 
@@ -1524,18 +1538,18 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         ) : (
           <div className="grid sm:grid-cols-3 gap-3 max-w-xl">
             <div>
-              <OptLabel>Letter(s) or emoji</OptLabel>
+              <OptLabel>{s('lettersOrEmoji')}</OptLabel>
               <OptInput value={glyph} maxLength={2} onChange={(e) => setGlyph(e.target.value)} placeholder="S" />
             </div>
             <div>
-              <OptLabel>Background</OptLabel>
+              <OptLabel>{s('background')}</OptLabel>
               <div className="flex items-center gap-2">
                 <input type="color" value={bg} onChange={(e) => setBg(e.target.value)} className="w-10 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
                 <span className="text-xs font-mono font-semibold text-gray-700 dark:text-gray-300">{bg}</span>
               </div>
             </div>
             <div>
-              <OptLabel>Text color</OptLabel>
+              <OptLabel>{s('textColor')}</OptLabel>
               <div className="flex items-center gap-2">
                 <input type="color" value={fg} onChange={(e) => setFg(e.target.value)} className="w-10 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
                 <span className="text-xs font-mono font-semibold text-gray-700 dark:text-gray-300">{fg}</span>
@@ -1547,10 +1561,10 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <PrimaryBtn onClick={generate} disabled={busy}>
           {busy ? (
             <span className="inline-flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin" /> Generating…
+              <Loader2 className="w-4 h-4 animate-spin" /> {s('generating')}
             </span>
           ) : (
-            'Generate favicon package'
+            s('generateFaviconPackage')
           )}
         </PrimaryBtn>
 
@@ -1559,7 +1573,7 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {pngs.length > 0 && (
           <div className="space-y-4">
             <div>
-              <OptLabel>Generated sizes</OptLabel>
+              <OptLabel>{s('generatedSizes')}</OptLabel>
               <div className="flex flex-wrap gap-3">
                 {pngs.map((p) => (
                   <PngThumb key={p.size} blob={p.blob} size={p.size} />
@@ -1567,19 +1581,19 @@ export const FaviconGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <BlobDownloadBtn blob={zip} filename="favicon-package.zip" label="Download all (ZIP)" />
-              <BlobDownloadBtn blob={ico} filename="favicon.ico" label="favicon.ico only" />
+              <BlobDownloadBtn blob={zip} filename="favicon-package.zip" label={s('downloadAllZip')} />
+              <BlobDownloadBtn blob={ico} filename="favicon.ico" label={s('faviconIcoOnly')} />
               {pngs.map((p) => (
                 <BlobDownloadBtn key={p.size} blob={p.blob} filename={`favicon-${p.size}x${p.size}.png`} label={`${p.size}px`} />
               ))}
             </div>
             <div>
-              <OptLabel>Add to your site — paste into &lt;head&gt;</OptLabel>
+              <OptLabel>{s('addToYourSite')}</OptLabel>
               <pre className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs font-mono overflow-auto whitespace-pre text-gray-900 dark:text-gray-100">
                 {snippet}
               </pre>
               <div className="mt-2">
-                <CopyBtn text={snippet} label="Copy HTML" />
+                <CopyBtn text={snippet} label={s('copyHtml')} />
               </div>
             </div>
           </div>
@@ -1599,23 +1613,24 @@ type WmPosition =
   | 'bottom-left' | 'bottom-center' | 'bottom-right'
   | 'tile';
 
-const WM_POSITIONS: { value: WmPosition; label: string }[] = [
-  { value: 'top-left', label: 'Top left' },
-  { value: 'top-center', label: 'Top center' },
-  { value: 'top-right', label: 'Top right' },
-  { value: 'middle-left', label: 'Middle left' },
-  { value: 'center', label: 'Center' },
-  { value: 'middle-right', label: 'Middle right' },
-  { value: 'bottom-left', label: 'Bottom left' },
-  { value: 'bottom-center', label: 'Bottom center' },
-  { value: 'bottom-right', label: 'Bottom right' },
-  { value: 'tile', label: 'Tile (repeat, rotated)' },
+const WM_POSITIONS: { value: WmPosition; labelKey: string }[] = [
+  { value: 'top-left', labelKey: 'posTopLeft' },
+  { value: 'top-center', labelKey: 'posTopCenter' },
+  { value: 'top-right', labelKey: 'posTopRight' },
+  { value: 'middle-left', labelKey: 'posMiddleLeft' },
+  { value: 'center', labelKey: 'posCenter' },
+  { value: 'middle-right', labelKey: 'posMiddleRight' },
+  { value: 'bottom-left', labelKey: 'posBottomLeft' },
+  { value: 'bottom-center', labelKey: 'posBottomCenter' },
+  { value: 'bottom-right', labelKey: 'posBottomRight' },
+  { value: 'tile', labelKey: 'posTile' },
 ];
 
 const wmCol = (pos: WmPosition): 0 | 1 | 2 => (pos.endsWith('left') ? 0 : pos.endsWith('right') ? 2 : 1);
 const wmRow = (pos: WmPosition): 0 | 1 | 2 => (pos.startsWith('top') ? 0 : pos.startsWith('bottom') ? 2 : 1);
 
 export const ImageWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [mode, setMode] = useState<'text' | 'logo'>('text');
@@ -1639,7 +1654,7 @@ export const ImageWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setImg(await fileToImage(f));
     } catch {
       setImg(null);
-      setError('Could not load that image file.');
+      setError(s('couldNotLoadImageFile'));
     }
   };
 
@@ -1750,7 +1765,7 @@ export const ImageWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <ImageCard
       tool={tool}
-      note="The preview is scaled down — downloads are rendered again at the photo's full resolution. A tiled, semi-transparent watermark is the hardest to remove; a corner mark is the least intrusive."
+      note={s('watermarkNote')}
     >
       <div className="space-y-4">
         <div className="flex flex-wrap items-start gap-3">
@@ -1772,7 +1787,7 @@ export const ImageWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
-            Text watermark
+            {s('textWatermark')}
           </button>
           <button
             type="button"
@@ -1783,42 +1798,42 @@ export const ImageWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
-            Logo watermark
+            {s('logoWatermark')}
           </button>
         </div>
 
         {mode === 'text' ? (
           <div className="grid sm:grid-cols-2 gap-3">
             <div>
-              <OptLabel>Watermark text</OptLabel>
+              <OptLabel>{s('watermarkText')}</OptLabel>
               <OptInput value={text} onChange={(e) => setText(e.target.value)} />
             </div>
             <div>
-              <OptLabel>Text color</OptLabel>
+              <OptLabel>{s('textColor')}</OptLabel>
               <div className="flex items-center gap-2">
                 <input type="color" value={color} onChange={(e) => setColor(e.target.value)} className="w-10 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
                 <span className="text-xs font-mono font-semibold text-gray-700 dark:text-gray-300">{color}</span>
               </div>
             </div>
             <div>
-              <OptLabel>Text size — {fontPct}% of width</OptLabel>
+              <OptLabel>{s('textSizePctOfWidth').replace('{value}', String(fontPct))}</OptLabel>
               <input type="range" min={2} max={12} step={0.5} value={fontPct} onChange={(e) => setFontPct(parseFloat(e.target.value))} className="w-full accent-rose-600" />
             </div>
             <div>
-              <OptLabel>Opacity — {Math.round(opacity * 100)}%</OptLabel>
+              <OptLabel>{s('opacityLabel').replace('{value}', String(Math.round(opacity * 100)))}</OptLabel>
               <input type="range" min={0.05} max={1} step={0.05} value={opacity} onChange={(e) => setOpacity(parseFloat(e.target.value))} className="w-full accent-rose-600" />
             </div>
           </div>
         ) : (
           <div className="space-y-3">
-            <FileDrop onFile={pickLogo} label="Drop a logo image (PNG with transparency works best)" fileName={logoName} />
+            <FileDrop onFile={pickLogo} label={s('dropLogoImage')} fileName={logoName} />
             <div className="grid sm:grid-cols-2 gap-3">
               <div>
-                <OptLabel>Logo size — {logoScale}% of image width</OptLabel>
+                <OptLabel>{s('logoSizePctOfWidth').replace('{value}', String(logoScale))}</OptLabel>
                 <input type="range" min={5} max={40} step={1} value={logoScale} onChange={(e) => setLogoScale(parseInt(e.target.value, 10))} className="w-full accent-rose-600" />
               </div>
               <div>
-                <OptLabel>Opacity — {Math.round(opacity * 100)}%</OptLabel>
+                <OptLabel>{s('opacityLabel').replace('{value}', String(Math.round(opacity * 100)))}</OptLabel>
                 <input type="range" min={0.05} max={1} step={0.05} value={opacity} onChange={(e) => setOpacity(parseFloat(e.target.value))} className="w-full accent-rose-600" />
               </div>
             </div>
@@ -1827,20 +1842,20 @@ export const ImageWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         <div className="grid sm:grid-cols-2 gap-3 max-w-xl">
           <div>
-            <OptLabel>Position</OptLabel>
+            <OptLabel>{s('position')}</OptLabel>
             <OptSelect value={position} onChange={(e) => setPosition(e.target.value as WmPosition)}>
               {WM_POSITIONS.map((p) => (
                 <option key={p.value} value={p.value}>
-                  {p.label}
+                  {s(p.labelKey)}
                 </option>
               ))}
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Download format</OptLabel>
+            <OptLabel>{s('downloadFormat')}</OptLabel>
             <OptSelect value={format} onChange={(e) => setFormat(e.target.value as 'png' | 'jpeg')}>
-              <option value="png">PNG (lossless)</option>
-              <option value="jpeg">JPG (smaller file)</option>
+              <option value="png">{s('pngLossless')}</option>
+              <option value="jpeg">{s('jpgSmaller')}</option>
             </OptSelect>
           </div>
         </div>
@@ -1853,11 +1868,11 @@ export const ImageWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <BlobDownloadBtn
               blob={outBlob}
               filename={`watermarked.${format === 'jpeg' ? 'jpg' : 'png'}`}
-              label={`Download full-resolution ${format === 'jpeg' ? 'JPG' : 'PNG'}`}
+              label={format === 'jpeg' ? s('downloadFullResJpg') : s('downloadFullResPng')}
             />
           </div>
         ) : (
-          <p className="text-xs font-semibold text-gray-500">Add a photo to preview the watermark.</p>
+          <p className="text-xs font-semibold text-gray-500">{s('addPhotoForWatermark')}</p>
         )}
       </div>
     </ImageCard>

@@ -4,6 +4,7 @@ import type { SupportedLanguage } from './i18n';
 import { TOOLS_AR } from './tools-ar';
 import { TOOLS_RU } from './tools-ru';
 import { TOOLS_ES } from './tools-es';
+import { localizedGenDescription } from './gen-templates';
 
 export const TOOLS_FR: Record<string, { name: string; description: string }> = {
  "auto-insurance-calculator": {
@@ -1018,5 +1019,7 @@ export function localizedTool(tool: ToolItem, lang: SupportedLanguage): { name: 
   if (lang === 'ar' && TOOLS_AR[tool.slug]) return TOOLS_AR[tool.slug];
   if (lang === 'ru' && TOOLS_RU[tool.slug]) return TOOLS_RU[tool.slug];
   if (lang === 'es' && TOOLS_ES[tool.slug]) return TOOLS_ES[tool.slug];
+  const genDesc = localizedGenDescription(tool, lang);
+  if (genDesc) return { name: tool.name, description: genDesc };
   return { name: tool.name, description: tool.description };
 }

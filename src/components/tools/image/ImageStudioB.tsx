@@ -32,6 +32,8 @@ import {
   ErrorBox,
 } from './ImageShell';
 import { DownloadBtn } from '../dev/DevShell';
+import { COMMON, useStrings } from '../../../lib/LangContext';
+import { IMAGE_STRINGS } from '../../../lib/strings/image';
 
 // ---------------- shared helpers ----------------
 
@@ -89,6 +91,7 @@ const Slider: React.FC<{
 // ============================================================
 
 export const ColorPaletteExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [fileName, setFileName] = useState<string | null>(null);
   const [pixels, setPixels] = useState<PixelData | null>(null);
   const [count, setCount] = useState(6);
@@ -102,7 +105,7 @@ export const ColorPaletteExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) =>
       const img = await fileToImage(file);
       setPixels(getPixelData(scaledCanvas(img, 400)));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not load that image.');
+      setError(e instanceof Error ? e.message : s('couldNotLoadImage'));
     }
   };
 
@@ -134,7 +137,7 @@ export const ColorPaletteExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) =>
   const cssVars = palette.map((c, i) => `--color-${i + 1}: ${c.hex};`).join('\n');
 
   return (
-    <ImageCard tool={tool} note="Colors are extracted with a median-cut algorithm over a downscaled copy of your image — near-transparent pixels are ignored. Shares are approximate (based on sampled pixels).">
+    <ImageCard tool={tool} note={s('paletteNote')}>
       <div className="flex flex-wrap items-start gap-3">
         <div className="flex-1 min-w-[220px]">
           <FileDrop onFile={handleFile} fileName={fileName} />
@@ -145,9 +148,9 @@ export const ColorPaletteExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) =>
       {pixels && (
         <div className="mt-5 space-y-5">
           <div className="max-w-[180px]">
-            <OptLabel>Palette size</OptLabel>
+            <OptLabel>{s('paletteSize')}</OptLabel>
             <OptSelect value={count} onChange={(e) => setCount(Number(e.target.value))}>
-              {[4, 6, 8, 10, 12].map((n) => <option key={n} value={n}>{n} colors</option>)}
+              {[4, 6, 8, 10, 12].map((n) => <option key={n} value={n}>{s('nColors').replace('{n}', String(n))}</option>)}
             </OptSelect>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -162,7 +165,7 @@ export const ColorPaletteExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) =>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-semibold text-gray-500">{(c.share * 100).toFixed(1)}%</span>
-                    <CopyBtn text={c.hex} label="Copy hex" />
+                    <CopyBtn text={c.hex} label={s('copyHex')} />
                   </div>
                 </div>
               </div>
@@ -170,17 +173,17 @@ export const ColorPaletteExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) =>
           </div>
           <div className="grid sm:grid-cols-2 gap-4 items-start">
             <div>
-              <OptLabel>CSS variables</OptLabel>
+              <OptLabel>{s('cssVariables')}</OptLabel>
               <pre className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 text-xs font-mono overflow-auto max-h-44 whitespace-pre text-gray-900 dark:text-gray-100">{cssVars}</pre>
-              <div className="mt-2"><CopyBtn text={cssVars} label="Copy CSS variables" /></div>
+              <div className="mt-2"><CopyBtn text={cssVars} label={s('copyCssVariables')} /></div>
             </div>
             <div>
-              <OptLabel>Palette strip image</OptLabel>
+              <OptLabel>{s('paletteStripImage')}</OptLabel>
               <div className="flex h-[104px] rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
                 {palette.map((c, i) => <div key={i} className="flex-1" style={{ backgroundColor: c.hex }} />)}
               </div>
               <div className="mt-2">
-                <BlobDownloadBtn blob={stripBlob} filename={`${baseName(fileName, 'palette')}-palette.png`} label="Download palette PNG" />
+                <BlobDownloadBtn blob={stripBlob} filename={`${baseName(fileName, 'palette')}-palette.png`} label={s('downloadPalettePng')} />
               </div>
             </div>
           </div>
@@ -194,13 +197,14 @@ export const ColorPaletteExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) =>
 // 2. Profile Picture Maker
 // ============================================================
 
-const GRADIENT_PRESETS: Record<string, { label: string; stops: [string, string, string] }> = {
-  sunset: { label: 'Sunset', stops: ['#f59e0b', '#ef4444', '#ec4899'] },
-  ocean: { label: 'Ocean', stops: ['#06b6d4', '#3b82f6', '#6366f1'] },
-  violet: { label: 'Violet', stops: ['#8b5cf6', '#d946ef', '#ec4899'] },
+const GRADIENT_PRESETS: Record<string, { labelKey: string; stops: [string, string, string] }> = {
+  sunset: { labelKey: 'sunset', stops: ['#f59e0b', '#ef4444', '#ec4899'] },
+  ocean: { labelKey: 'ocean', stops: ['#06b6d4', '#3b82f6', '#6366f1'] },
+  violet: { labelKey: 'violet', stops: ['#8b5cf6', '#d946ef', '#ec4899'] },
 };
 
 export const ProfilePictureMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [fileName, setFileName] = useState<string | null>(null);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -224,7 +228,7 @@ export const ProfilePictureMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setImg(loaded);
       setZoom(1); setShiftX(0); setShiftY(0);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not load that image.');
+      setError(e instanceof Error ? e.message : s('couldNotLoadImage'));
     }
   };
 
@@ -267,7 +271,7 @@ export const ProfilePictureMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [img, zoom, shiftX, shiftY, ringStyle, ringColor, gradientPreset, ringWidth, bgColor, transparent]);
 
   return (
-    <ImageCard tool={tool} note="Exports an 800 × 800 PNG. With 'Transparent corners' on, the area outside the circle stays transparent, which suits most profile-photo uploads.">
+    <ImageCard tool={tool} note={s('profileNote')}>
       <div className="flex flex-wrap items-start gap-3">
         <div className="flex-1 min-w-[220px]">
           <FileDrop onFile={handleFile} fileName={fileName} />
@@ -281,38 +285,38 @@ export const ProfilePictureMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <canvas ref={canvasRef} width={800} height={800} className="w-full h-auto block" />
           </TransparencyBg>
           <div className="space-y-4">
-            <Slider label="Zoom" value={zoom} min={1} max={3} step={0.05} suffix="×" onChange={setZoom} />
-            <Slider label="Shift left / right" value={shiftX} min={-300} max={300} suffix="px" onChange={setShiftX} />
-            <Slider label="Shift up / down" value={shiftY} min={-300} max={300} suffix="px" onChange={setShiftY} />
+            <Slider label={s('zoom')} value={zoom} min={1} max={3} step={0.05} suffix="×" onChange={setZoom} />
+            <Slider label={s('shiftH')} value={shiftX} min={-300} max={300} suffix="px" onChange={setShiftX} />
+            <Slider label={s('shiftV')} value={shiftY} min={-300} max={300} suffix="px" onChange={setShiftY} />
             <div>
-              <OptLabel>Ring style</OptLabel>
+              <OptLabel>{s('ringStyle')}</OptLabel>
               <OptSelect value={ringStyle} onChange={(e) => setRingStyle(e.target.value as typeof ringStyle)}>
-                <option value="none">None</option>
-                <option value="solid">Solid color</option>
-                <option value="gradient">Gradient</option>
+                <option value="none">{s('none')}</option>
+                <option value="solid">{s('solidColor')}</option>
+                <option value="gradient">{s('gradient')}</option>
               </OptSelect>
             </div>
             {ringStyle === 'solid' && (
               <div>
-                <OptLabel>Ring color</OptLabel>
+                <OptLabel>{s('ringColor')}</OptLabel>
                 <input type="color" value={ringColor} onChange={(e) => setRingColor(e.target.value)} className="w-full h-10 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
               </div>
             )}
             {ringStyle === 'gradient' && (
               <div>
-                <OptLabel>Gradient preset</OptLabel>
+                <OptLabel>{s('gradientPreset')}</OptLabel>
                 <OptSelect value={gradientPreset} onChange={(e) => setGradientPreset(e.target.value as keyof typeof GRADIENT_PRESETS)}>
-                  {Object.entries(GRADIENT_PRESETS).map(([key, p]) => <option key={key} value={key}>{p.label}</option>)}
+                  {Object.entries(GRADIENT_PRESETS).map(([key, p]) => <option key={key} value={key}>{s(p.labelKey)}</option>)}
                 </OptSelect>
               </div>
             )}
-            <Slider label="Ring width" value={ringWidth} min={0} max={60} suffix="px" onChange={setRingWidth} />
+            <Slider label={s('ringWidth')} value={ringWidth} min={0} max={60} suffix="px" onChange={setRingWidth} />
             <div>
-              <OptLabel>Background color (corners)</OptLabel>
+              <OptLabel>{s('bgColorCorners')}</OptLabel>
               <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} disabled={transparent} className="w-full h-10 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer disabled:opacity-40" />
             </div>
-            <OptCheck label="Transparent corners" checked={transparent} onChange={setTransparent} />
-            <BlobDownloadBtn blob={blob} filename={`${baseName(fileName, 'profile')}-profile.png`} label="Download profile picture" />
+            <OptCheck label={s('transparentCorners')} checked={transparent} onChange={setTransparent} />
+            <BlobDownloadBtn blob={blob} filename={`${baseName(fileName, 'profile')}-profile.png`} label={s('downloadProfilePicture')} />
           </div>
         </div>
       )}
@@ -344,6 +348,7 @@ function collageGrid(layout: CollageLayout, n: number): { cols: number; rows: nu
 }
 
 export const ImageCollageMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [items, setItems] = useState<CollageItem[]>([]);
   const [layout, setLayout] = useState<CollageLayout>('auto');
   const [gap, setGap] = useState(12);
@@ -367,7 +372,7 @@ export const ImageCollageMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       } catch { /* skip unreadable file */ }
     }
     if (loaded.length) setItems((prev) => [...prev, ...loaded].slice(0, 9));
-    else if (items.length >= 9) setError('Maximum of 9 images reached.');
+    else if (items.length >= 9) setError(s('maxImagesReached'));
   };
 
   const removeItem = (id: number) => setItems((prev) => prev.filter((it) => it.id !== id));
@@ -402,7 +407,7 @@ export const ImageCollageMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [items, layout, gap, bg, radius]);
 
   return (
-    <ImageCard tool={tool} note="Cells are square and center-cropped, so portrait and landscape photos mix cleanly. The collage renders at 1200 px on its long side; individual photos are not upscaled beyond the cell size.">
+    <ImageCard tool={tool} note={s('collageNote')}>
       <div
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
@@ -413,8 +418,8 @@ export const ImageCollageMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         }`}
       >
         <LayoutGrid className="w-8 h-8 mx-auto text-rose-500 mb-2" />
-        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">Drop up to 9 images here or click to browse</p>
-        <p className="text-[11px] text-gray-500 mt-1">{items.length} / 9 images added</p>
+        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">{s('dropUpTo9')}</p>
+        <p className="text-[11px] text-gray-500 mt-1">{s('imagesAdded').replace('{count}', String(items.length))}</p>
         <input
           ref={inputRef}
           type="file"
@@ -430,12 +435,12 @@ export const ImageCollageMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           {items.map((item, i) => (
             <div key={item.id} className="relative w-16 h-16 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
               <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
-              <span className="absolute top-0.5 left-0.5 text-[9px] font-bold bg-black/60 text-white rounded px-1">{i + 1}</span>
+              <span className="absolute top-0.5 start-0.5 text-[9px] font-bold bg-black/60 text-white rounded px-1">{i + 1}</span>
               <button
                 type="button"
                 onClick={() => removeItem(item.id)}
-                className="absolute top-0.5 right-0.5 p-0.5 rounded bg-black/60 text-white cursor-pointer hover:bg-black/80"
-                aria-label={`Remove ${item.name}`}
+                className="absolute top-0.5 end-0.5 p-0.5 rounded bg-black/60 text-white cursor-pointer hover:bg-black/80"
+                aria-label={s('removeNamed').replace('{name}', item.name)}
               >
                 <Trash2 className="w-3 h-3" />
               </button>
@@ -450,24 +455,24 @@ export const ImageCollageMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </div>
           <div className="space-y-4">
             <div>
-              <OptLabel>Layout</OptLabel>
+              <OptLabel>{s('layout')}</OptLabel>
               <OptSelect value={layout} onChange={(e) => setLayout(e.target.value as CollageLayout)}>
-                <option value="auto">Auto grid</option>
-                <option value="2x2">Grid 2 × 2</option>
-                <option value="3x3">Grid 3 × 3</option>
-                <option value="2x1">2 × 1 wide</option>
-                <option value="1x2">1 × 2 tall</option>
-                <option value="strip-h">Horizontal strip</option>
-                <option value="strip-v">Vertical strip</option>
+                <option value="auto">{s('layoutAuto')}</option>
+                <option value="2x2">{s('layoutGrid22')}</option>
+                <option value="3x3">{s('layoutGrid33')}</option>
+                <option value="2x1">{s('layout21Wide')}</option>
+                <option value="1x2">{s('layout12Tall')}</option>
+                <option value="strip-h">{s('layoutStripH')}</option>
+                <option value="strip-v">{s('layoutStripV')}</option>
               </OptSelect>
             </div>
-            <Slider label="Gap" value={gap} min={0} max={40} suffix="px" onChange={setGap} />
-            <Slider label="Corner radius" value={radius} min={0} max={40} suffix="px" onChange={setRadius} />
+            <Slider label={s('gap')} value={gap} min={0} max={40} suffix="px" onChange={setGap} />
+            <Slider label={s('cornerRadius')} value={radius} min={0} max={40} suffix="px" onChange={setRadius} />
             <div>
-              <OptLabel>Background color</OptLabel>
+              <OptLabel>{s('bgColor')}</OptLabel>
               <input type="color" value={bg} onChange={(e) => setBg(e.target.value)} className="w-full h-10 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
             </div>
-            <BlobDownloadBtn blob={blob} filename="collage.png" label="Download collage PNG" />
+            <BlobDownloadBtn blob={blob} filename="collage.png" label={s('downloadCollagePng')} />
           </div>
         </div>
       )}
@@ -480,14 +485,15 @@ export const ImageCollageMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // 4. Image Splitter
 // ============================================================
 
-const SPLIT_PRESETS: { label: string; rows: number; cols: number }[] = [
-  { label: 'Instagram grid 3×3', rows: 3, cols: 3 },
-  { label: 'Banner 3×1', rows: 1, cols: 3 },
-  { label: '2×2', rows: 2, cols: 2 },
-  { label: '2×3 portrait', rows: 3, cols: 2 },
+const SPLIT_PRESETS: { labelKey: string; rows: number; cols: number }[] = [
+  { labelKey: 'presetInstaGrid', rows: 3, cols: 3 },
+  { labelKey: 'presetBanner31', rows: 1, cols: 3 },
+  { labelKey: 'preset22', rows: 2, cols: 2 },
+  { labelKey: 'preset23Portrait', rows: 3, cols: 2 },
 ];
 
 export const ImageSplitter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [fileName, setFileName] = useState<string | null>(null);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -506,7 +512,7 @@ export const ImageSplitter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setImg(loaded);
       setPreviewUrl(URL.createObjectURL(file));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not load that image.');
+      setError(e instanceof Error ? e.message : s('couldNotLoadImage'));
     }
   };
 
@@ -534,13 +540,13 @@ export const ImageSplitter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }
       setZipBlob(await zip.generateAsync({ type: 'blob' }));
     } catch {
-      setError('Splitting failed — the image may be too large for this browser.');
+      setError(s('splittingFailed'));
     }
     setBusy(false);
   };
 
   return (
-    <ImageCard tool={tool} note="Tiles are cut at full original resolution and named part-{row}-{col}.png in row-major order starting from the top-left. For an Instagram profile grid, post the tiles in reverse order (bottom-right first) so they land in the right sequence on your profile.">
+    <ImageCard tool={tool} note={s('splitterNote')}>
       <div className="flex flex-wrap items-start gap-3">
         <div className="flex-1 min-w-[220px]">
           <FileDrop onFile={handleFile} fileName={fileName} />
@@ -551,21 +557,21 @@ export const ImageSplitter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {img && previewUrl && (
         <div className="mt-5 grid lg:grid-cols-[1fr_300px] gap-5 items-start">
           <div className="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <img src={previewUrl} alt="To split" className="w-full h-auto block" />
+            <img src={previewUrl} alt={s('altToSplit')} className="w-full h-auto block" />
             {Array.from({ length: cols - 1 }, (_, i) => (
               <div key={`v${i}`} className="absolute top-0 bottom-0 w-0.5 bg-rose-500/80" style={{ left: `${((i + 1) / cols) * 100}%` }} />
             ))}
             {Array.from({ length: rows - 1 }, (_, i) => (
-              <div key={`h${i}`} className="absolute left-0 right-0 h-0.5 bg-rose-500/80" style={{ top: `${((i + 1) / rows) * 100}%` }} />
+              <div key={`h${i}`} className="absolute start-0 end-0 h-0.5 bg-rose-500/80" style={{ top: `${((i + 1) / rows) * 100}%` }} />
             ))}
           </div>
           <div className="space-y-4">
             <div>
-              <OptLabel>Presets</OptLabel>
+              <OptLabel>{s('presets')}</OptLabel>
               <div className="flex flex-wrap gap-1.5">
                 {SPLIT_PRESETS.map((p) => (
                   <button
-                    key={p.label}
+                    key={p.labelKey}
                     type="button"
                     onClick={() => { setRows(p.rows); setCols(p.cols); setZipBlob(null); }}
                     className={`px-2.5 py-1.5 rounded-lg text-[11px] font-bold border cursor-pointer ${
@@ -574,33 +580,33 @@ export const ImageSplitter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                         : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
                     }`}
                   >
-                    {p.label}
+                    {s(p.labelKey)}
                   </button>
                 ))}
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <OptLabel>Rows</OptLabel>
+                <OptLabel>{s('rows')}</OptLabel>
                 <OptSelect value={rows} onChange={(e) => { setRows(Number(e.target.value)); setZipBlob(null); }}>
                   {[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n}</option>)}
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Columns</OptLabel>
+                <OptLabel>{s('columns')}</OptLabel>
                 <OptSelect value={cols} onChange={(e) => { setCols(Number(e.target.value)); setZipBlob(null); }}>
                   {[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n}</option>)}
                 </OptSelect>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <Stat label="Tiles" value={rows * cols} />
-              <Stat label="Tile size" value={`${Math.round(img.naturalWidth / cols)}×${Math.round(img.naturalHeight / rows)}`} />
+              <Stat label={s('tiles')} value={rows * cols} />
+              <Stat label={s('tileSize')} value={`${Math.round(img.naturalWidth / cols)}×${Math.round(img.naturalHeight / rows)}`} />
             </div>
             <PrimaryBtn onClick={split} disabled={busy} className="w-full">
-              {busy ? 'Splitting…' : 'Split image'}
+              {busy ? s('splitting') : s('splitImage')}
             </PrimaryBtn>
-            <BlobDownloadBtn blob={zipBlob} filename={`${baseName(fileName, 'image')}-tiles.zip`} label="Download tiles ZIP" />
+            <BlobDownloadBtn blob={zipBlob} filename={`${baseName(fileName, 'image')}-tiles.zip`} label={s('downloadTilesZip')} />
           </div>
         </div>
       )}
@@ -615,6 +621,8 @@ export const ImageSplitter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 interface RgbColor { r: number; g: number; b: number }
 
 export const ImageColorPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
+  const c = useStrings(COMMON);
   const [fileName, setFileName] = useState<string | null>(null);
   const [hasImage, setHasImage] = useState(false);
   const [picked, setPicked] = useState<RgbColor | null>(null);
@@ -638,7 +646,7 @@ export const ImageColorPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       canvas.getContext('2d', { willReadFrequently: true })!.drawImage(drawn, 0, 0);
       setHasImage(true);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not load that image.');
+      setError(e instanceof Error ? e.message : s('couldNotLoadImage'));
     }
   };
 
@@ -666,7 +674,7 @@ export const ImageColorPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const cssPalette = history.map((h, i) => `--picked-${i + 1}: ${h};`).join('\n');
 
   return (
-    <ImageCard tool={tool} note="Click anywhere on the image to sample that exact pixel. Colors are read from a copy scaled to at most 900 px wide, so a sampled pixel can differ by a step or two from the full-resolution original at sharp edges.">
+    <ImageCard tool={tool} note={s('pickerNote')}>
       <div className="flex flex-wrap items-start gap-3">
         <div className="flex-1 min-w-[220px]">
           <FileDrop onFile={handleFile} fileName={fileName} />
@@ -684,7 +692,7 @@ export const ImageColorPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             className="w-full h-auto block cursor-crosshair"
           />
           {hover && (
-            <div className="absolute top-2 right-2 flex items-center gap-2 bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 pointer-events-none">
+            <div className="absolute top-2 end-2 flex items-center gap-2 bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1 pointer-events-none">
               <span className="w-4 h-4 rounded border border-gray-300 dark:border-gray-600" style={{ backgroundColor: rgbToHex(hover) }} />
               <span className="font-mono text-[11px] font-bold text-gray-800 dark:text-gray-100">{rgbToHex(hover)}</span>
             </div>
@@ -692,7 +700,7 @@ export const ImageColorPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         </div>
         <div className="space-y-4">
           <div className="flex items-center gap-2 text-sm font-bold text-gray-900 dark:text-white">
-            <Pipette className="w-4 h-4 text-rose-600" /> {picked ? 'Picked color' : 'Hover the image, click to pick'}
+            <Pipette className="w-4 h-4 text-rose-600" /> {picked ? s('pickedColor') : s('hoverToPick')}
           </div>
           {shown && hsl ? (
             <>
@@ -706,17 +714,17 @@ export const ImageColorPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   <div key={row.label} className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2">
                     <span className="text-[10px] font-bold uppercase tracking-wide text-gray-500 w-8">{row.label}</span>
                     <span className="font-mono text-xs font-semibold text-gray-900 dark:text-white flex-1 truncate">{row.value}</span>
-                    <CopyBtn text={row.value} label="Copy" />
+                    <CopyBtn text={row.value} label={c('copy')} />
                   </div>
                 ))}
               </div>
             </>
           ) : (
-            <p className="text-xs text-gray-500">No color sampled yet.</p>
+            <p className="text-xs text-gray-500">{s('noColorSampled')}</p>
           )}
           {history.length > 0 && (
             <div>
-              <OptLabel>Picked colors (click to re-select)</OptLabel>
+              <OptLabel>{s('pickedColors')}</OptLabel>
               <div className="flex flex-wrap gap-1.5">
                 {history.map((h) => (
                   <button
@@ -730,7 +738,7 @@ export const ImageColorPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 ))}
               </div>
               <div className="mt-3">
-                <CopyBtn text={cssPalette} label="Copy palette as CSS" />
+                <CopyBtn text={cssPalette} label={s('copyPaletteCss')} />
               </div>
             </div>
           )}
@@ -752,30 +760,32 @@ interface FilterState {
 
 const FILTER_DEFAULTS: FilterState = { brightness: 100, contrast: 100, saturate: 100, grayscale: 0, sepia: 0, hue: 0, blur: 0 };
 
-const FILTER_SLIDERS: { key: keyof FilterState; label: string; min: number; max: number; suffix: string }[] = [
-  { key: 'brightness', label: 'Brightness', min: 0, max: 200, suffix: '%' },
-  { key: 'contrast', label: 'Contrast', min: 0, max: 200, suffix: '%' },
-  { key: 'saturate', label: 'Saturation', min: 0, max: 200, suffix: '%' },
-  { key: 'grayscale', label: 'Grayscale', min: 0, max: 100, suffix: '%' },
-  { key: 'sepia', label: 'Sepia', min: 0, max: 100, suffix: '%' },
-  { key: 'hue', label: 'Hue rotate', min: 0, max: 360, suffix: '°' },
-  { key: 'blur', label: 'Blur', min: 0, max: 10, suffix: 'px' },
+const FILTER_SLIDERS: { key: keyof FilterState; labelKey: string; min: number; max: number; suffix: string }[] = [
+  { key: 'brightness', labelKey: 'brightness', min: 0, max: 200, suffix: '%' },
+  { key: 'contrast', labelKey: 'contrast', min: 0, max: 200, suffix: '%' },
+  { key: 'saturate', labelKey: 'saturation', min: 0, max: 200, suffix: '%' },
+  { key: 'grayscale', labelKey: 'grayscale', min: 0, max: 100, suffix: '%' },
+  { key: 'sepia', labelKey: 'sepia', min: 0, max: 100, suffix: '%' },
+  { key: 'hue', labelKey: 'hueRotate', min: 0, max: 360, suffix: '°' },
+  { key: 'blur', labelKey: 'blur', min: 0, max: 10, suffix: 'px' },
 ];
 
-const FILTER_PRESETS: { label: string; values: Partial<FilterState> }[] = [
-  { label: 'Normal', values: {} },
-  { label: 'Vivid', values: { saturate: 160, contrast: 110 } },
-  { label: 'Mono', values: { grayscale: 100 } },
-  { label: 'Sepia', values: { sepia: 80 } },
-  { label: 'Vintage', values: { sepia: 40, contrast: 90, brightness: 105, saturate: 80 } },
-  { label: 'Cold', values: { hue: 15, saturate: 90, brightness: 105 } },
-  { label: 'Warm', values: { sepia: 25, saturate: 130, brightness: 103 } },
+const FILTER_PRESETS: { labelKey: string; values: Partial<FilterState> }[] = [
+  { labelKey: 'presetNormal', values: {} },
+  { labelKey: 'presetVivid', values: { saturate: 160, contrast: 110 } },
+  { labelKey: 'presetMono', values: { grayscale: 100 } },
+  { labelKey: 'presetSepia', values: { sepia: 80 } },
+  { labelKey: 'presetVintage', values: { sepia: 40, contrast: 90, brightness: 105, saturate: 80 } },
+  { labelKey: 'presetCold', values: { hue: 15, saturate: 90, brightness: 105 } },
+  { labelKey: 'presetWarm', values: { sepia: 25, saturate: 130, brightness: 103 } },
 ];
 
 const filterString = (f: FilterState) =>
   `brightness(${f.brightness}%) contrast(${f.contrast}%) saturate(${f.saturate}%) grayscale(${f.grayscale}%) sepia(${f.sepia}%) hue-rotate(${f.hue}deg) blur(${f.blur}px)`;
 
 export const PhotoFilterEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
+  const c = useStrings(COMMON);
   const [fileName, setFileName] = useState<string | null>(null);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [filters, setFilters] = useState<FilterState>(FILTER_DEFAULTS);
@@ -788,7 +798,7 @@ export const PhotoFilterEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       setImg(await fileToImage(file));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not load that image.');
+      setError(e instanceof Error ? e.message : s('couldNotLoadImage'));
     }
   };
 
@@ -821,7 +831,7 @@ export const PhotoFilterEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const isDefault = JSON.stringify(filters) === JSON.stringify(FILTER_DEFAULTS);
 
   return (
-    <ImageCard tool={tool} note="Filters use the browser's built-in CSS filter engine on canvas. The preview is capped at 1400 px, but downloads render at the photo's full original resolution.">
+    <ImageCard tool={tool} note={s('filterNote')}>
       <div className="flex flex-wrap items-start gap-3">
         <div className="flex-1 min-w-[220px]">
           <FileDrop onFile={handleFile} fileName={fileName} />
@@ -836,29 +846,29 @@ export const PhotoFilterEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </div>
           <div className="space-y-4">
             <div>
-              <OptLabel>Presets</OptLabel>
+              <OptLabel>{s('presets')}</OptLabel>
               <div className="flex flex-wrap gap-1.5">
                 {FILTER_PRESETS.map((p) => (
                   <button
-                    key={p.label}
+                    key={p.labelKey}
                     type="button"
                     onClick={() => applyPreset(p.values)}
                     className="px-2.5 py-1.5 rounded-lg text-[11px] font-bold border bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer"
                   >
-                    {p.label}
+                    {s(p.labelKey)}
                   </button>
                 ))}
               </div>
             </div>
-            {FILTER_SLIDERS.map((s) => (
+            {FILTER_SLIDERS.map((f) => (
               <Slider
-                key={s.key}
-                label={s.label}
-                value={filters[s.key]}
-                min={s.min}
-                max={s.max}
-                suffix={s.suffix}
-                onChange={(v) => setFilters((prev) => ({ ...prev, [s.key]: v }))}
+                key={f.key}
+                label={s(f.labelKey)}
+                value={filters[f.key]}
+                min={f.min}
+                max={f.max}
+                suffix={f.suffix}
+                onChange={(v) => setFilters((prev) => ({ ...prev, [f.key]: v }))}
               />
             ))}
             <div className="flex flex-wrap gap-2 pt-1">
@@ -868,9 +878,9 @@ export const PhotoFilterEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 disabled={isDefault}
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-40"
               >
-                <RotateCcw className="w-3.5 h-3.5" /> Reset
+                <RotateCcw className="w-3.5 h-3.5" /> {c('reset')}
               </button>
-              <PrimaryBtn onClick={downloadFullRes}>Download full resolution</PrimaryBtn>
+              <PrimaryBtn onClick={downloadFullRes}>{s('downloadFullResolution')}</PrimaryBtn>
             </div>
           </div>
         </div>
@@ -885,6 +895,7 @@ export const PhotoFilterEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ============================================================
 
 export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [mode, setMode] = useState<'paste' | 'upload'>('paste');
   const [fileName, setFileName] = useState<string | null>(null);
   const [svgText, setSvgText] = useState('');
@@ -908,12 +919,12 @@ export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       setSvgText(await file.text());
     } catch {
-      setError('Could not read that file as text.');
+      setError(s('couldNotReadFileAsText'));
     }
   };
 
   const convert = async () => {
-    if (!svgText.trim()) { setError('Paste SVG code or upload an .svg file first.'); return; }
+    if (!svgText.trim()) { setError(s('pasteSvgFirst')); return; }
     setBusy(true);
     setError(null);
     setBlob(null);
@@ -930,7 +941,7 @@ export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       const img = new Image();
       await new Promise<void>((resolve, reject) => {
         img.onload = () => resolve();
-        img.onerror = () => reject(new Error('The browser could not render that SVG. Check the code is valid and self-contained.'));
+        img.onerror = () => reject(new Error(s('svgRenderFailed')));
         img.src = url;
       });
       const ratio = aspect ?? (img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1);
@@ -949,7 +960,7 @@ export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       URL.revokeObjectURL(url);
       setBlob(await canvasToBlobP(canvas, 'image/png'));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Conversion failed.');
+      setError(e instanceof Error ? e.message : s('conversionFailed'));
     }
     setBusy(false);
   };
@@ -957,7 +968,7 @@ export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const outHeight = parsed ? Math.round(outWidth / (parsed.width / parsed.height)) : null;
 
   return (
-    <ImageCard tool={tool} note="The SVG is rasterized by your browser's own SVG engine. External images, web fonts or scripts referenced by the SVG are blocked by browser security and will not appear — inline (embedded) assets only.">
+    <ImageCard tool={tool} note={s('svgNote')}>
       <div className="flex gap-2 mb-4">
         {(['paste', 'upload'] as const).map((m) => (
           <button
@@ -970,15 +981,15 @@ export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
             }`}
           >
-            {m === 'paste' ? 'Paste SVG code' : 'Upload .svg file'}
+            {m === 'paste' ? s('pasteSvgCode') : s('uploadSvgFile')}
           </button>
         ))}
       </div>
       {mode === 'upload' && (
-        <FileDrop onFile={handleFile} accept=".svg,image/svg+xml" label="Drop an .svg file here or click to browse" fileName={fileName} />
+        <FileDrop onFile={handleFile} accept=".svg,image/svg+xml" label={s('dropSvgHere')} fileName={fileName} />
       )}
       <div className="mt-4">
-        <OptLabel>SVG code</OptLabel>
+        <OptLabel>{s('svgCode')}</OptLabel>
         <textarea
           value={svgText}
           onChange={(e) => setSvgText(e.target.value)}
@@ -991,41 +1002,41 @@ export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {error && <div className="mt-3"><ErrorBox message={error} /></div>}
       <div className="mt-4 grid sm:grid-cols-4 gap-3 items-end">
         <div>
-          <OptLabel>Intrinsic size</OptLabel>
+          <OptLabel>{s('intrinsicSize')}</OptLabel>
           <div className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white">
-            {parsed ? `${Math.round(parsed.width)} × ${Math.round(parsed.height)}` : 'Unknown'}
+            {parsed ? `${Math.round(parsed.width)} × ${Math.round(parsed.height)}` : s('unknown')}
           </div>
         </div>
         <div>
-          <OptLabel>Output width (px)</OptLabel>
+          <OptLabel>{s('outputWidthPx')}</OptLabel>
           <OptInput type="number" min={1} max={8000} value={outWidth} onChange={(e) => setOutWidth(Math.max(1, Number(e.target.value) || 1))} />
         </div>
         <div>
-          <OptLabel>Output height</OptLabel>
+          <OptLabel>{s('outputHeight')}</OptLabel>
           <div className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white">
-            {outHeight ? `${outHeight} px (locked)` : 'From image'}
+            {outHeight ? s('pxLocked').replace('{h}', String(outHeight)) : s('fromImage')}
           </div>
         </div>
         <div>
-          <OptLabel>Background</OptLabel>
+          <OptLabel>{s('background')}</OptLabel>
           <OptSelect value={bgMode} onChange={(e) => setBgMode(e.target.value as typeof bgMode)}>
-            <option value="transparent">Transparent</option>
-            <option value="white">White</option>
-            <option value="custom">Custom color</option>
+            <option value="transparent">{s('transparent')}</option>
+            <option value="white">{s('white')}</option>
+            <option value="custom">{s('customColor')}</option>
           </OptSelect>
         </div>
       </div>
       {bgMode === 'custom' && (
         <div className="mt-3 max-w-[200px]">
-          <OptLabel>Background color</OptLabel>
+          <OptLabel>{s('bgColor')}</OptLabel>
           <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="w-full h-10 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-pointer" />
         </div>
       )}
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <PrimaryBtn onClick={convert} disabled={busy || !svgText.trim()}>
-          {busy ? 'Converting…' : 'Convert to PNG'}
+          {busy ? s('converting') : s('convertToPng')}
         </PrimaryBtn>
-        <BlobDownloadBtn blob={blob} filename={`${baseName(fileName, 'vector')}.png`} label="Download PNG" />
+        <BlobDownloadBtn blob={blob} filename={`${baseName(fileName, 'vector')}.png`} label={s('downloadPng')} />
       </div>
       <div className="mt-4">
         <TransparencyBg>
@@ -1043,6 +1054,7 @@ export const SvgToPng: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 type AsciiRamp = 'standard' | 'detailed' | 'blocks';
 
 export const ImageToAscii: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
   const [fileName, setFileName] = useState<string | null>(null);
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [columns, setColumns] = useState(100);
@@ -1059,7 +1071,7 @@ export const ImageToAscii: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       setImg(await fileToImage(file));
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Could not load that image.');
+      setError(e instanceof Error ? e.message : s('couldNotLoadImage'));
     }
   };
 
@@ -1091,7 +1103,7 @@ export const ImageToAscii: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [text, invert]);
 
   return (
-    <ImageCard tool={tool} note="Each character cell samples the brightness at its center — fine detail smaller than a cell is lost, and wide images are analyzed at 400 px across. Block ramps (░▒▓█) give a chunkier, poster-like result.">
+    <ImageCard tool={tool} note={s('asciiNote')}>
       <div className="flex flex-wrap items-start gap-3">
         <div className="flex-1 min-w-[220px]">
           <FileDrop onFile={handleFile} fileName={fileName} />
@@ -1108,21 +1120,21 @@ export const ImageToAscii: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             {text}
           </pre>
           <div className="space-y-4">
-            <Slider label="Columns (width)" value={columns} min={40} max={200} onChange={setColumns} />
+            <Slider label={s('columnsWidth')} value={columns} min={40} max={200} onChange={setColumns} />
             <div>
-              <OptLabel>Character ramp</OptLabel>
+              <OptLabel>{s('characterRamp')}</OptLabel>
               <OptSelect value={ramp} onChange={(e) => setRamp(e.target.value as AsciiRamp)}>
-                <option value="standard">Standard ( .:-=+*#%@ )</option>
-                <option value="detailed">Detailed (70 shades)</option>
-                <option value="blocks">Blocks ( ░▒▓█ )</option>
+                <option value="standard">{s('rampStandard')}</option>
+                <option value="detailed">{s('rampDetailed')}</option>
+                <option value="blocks">{s('rampBlocks')}</option>
               </OptSelect>
             </div>
-            <Slider label="Preview font size" value={fontSize} min={5} max={14} suffix="px" onChange={setFontSize} />
-            <OptCheck label="Invert brightness" checked={invert} onChange={setInvert} />
+            <Slider label={s('previewFontSize')} value={fontSize} min={5} max={14} suffix="px" onChange={setFontSize} />
+            <OptCheck label={s('invertBrightness')} checked={invert} onChange={setInvert} />
             <div className="flex flex-wrap gap-2">
-              <CopyBtn text={text} label="Copy ASCII art" />
-              <DownloadBtn content={text} filename={`${baseName(fileName, 'ascii')}.txt`} label="Download .txt" />
-              <BlobDownloadBtn blob={pngBlob} filename={`${baseName(fileName, 'ascii')}.png`} label="Download as PNG" />
+              <CopyBtn text={text} label={s('copyAsciiArt')} />
+              <DownloadBtn content={text} filename={`${baseName(fileName, 'ascii')}.txt`} label={s('downloadTxt')} />
+              <BlobDownloadBtn blob={pngBlob} filename={`${baseName(fileName, 'ascii')}.png`} label={s('downloadAsPng')} />
             </div>
           </div>
         </div>
@@ -1136,6 +1148,8 @@ export const ImageToAscii: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ============================================================
 
 export const ImageBase64: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(IMAGE_STRINGS);
+  const c = useStrings(COMMON);
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState(0);
   const [dataUrl, setDataUrl] = useState('');
@@ -1147,7 +1161,7 @@ export const ImageBase64: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setFileSize(file.size);
     const reader = new FileReader();
     reader.onload = () => setDataUrl(typeof reader.result === 'string' ? reader.result : '');
-    reader.onerror = () => setError('Could not read that file.');
+    reader.onerror = () => setError(s('couldNotReadFile'));
     reader.readAsDataURL(file);
   };
 
@@ -1155,42 +1169,42 @@ export const ImageBase64: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const mime = dataUrl.match(/^data:([^;]+)/)?.[1] || 'image/*';
   const overhead = fileSize > 0 ? (((dataUrl.length - fileSize) / fileSize) * 100).toFixed(1) : '0.0';
 
-  const sections: { label: string; value: string }[] = dataUrl
+  const sections: { labelKey: string; value: string }[] = dataUrl
     ? [
-        { label: 'Full data URL', value: dataUrl },
-        { label: 'Raw Base64 only', value: base64Part },
-        { label: 'HTML snippet', value: `<img src="${dataUrl}" alt="" />` },
-        { label: 'CSS snippet', value: `background-image: url("${dataUrl}");` },
+        { labelKey: 'fullDataUrl', value: dataUrl },
+        { labelKey: 'rawBase64Only', value: base64Part },
+        { labelKey: 'htmlSnippet', value: `<img src="${dataUrl}" alt="" />` },
+        { labelKey: 'cssSnippet', value: `background-image: url("${dataUrl}");` },
       ]
     : [];
 
   return (
-    <ImageCard tool={tool} note="Base64 inflates data by about 33%, and browsers and email clients handle data URLs differently (Outlook and Gmail clip or block them in many cases). Very large images produce multi-megabyte strings that can slow editors down — keep source images under roughly 1 MB.">
+    <ImageCard tool={tool} note={s('base64Note')}>
       <FileDrop onFile={handleFile} fileName={fileName} />
       {error && <div className="mt-3"><ErrorBox message={error} /></div>}
       {dataUrl && (
         <div className="mt-5 space-y-5">
           <div className="flex flex-wrap items-start gap-4">
-            <img src={dataUrl} alt="Uploaded preview" className="max-h-40 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />
+            <img src={dataUrl} alt={s('altUploadedPreview')} className="max-h-40 rounded-xl border border-gray-200 dark:border-gray-700 object-contain bg-gray-50 dark:bg-gray-800" />
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 flex-1 min-w-[260px]">
-              <Stat label="File size" value={`${(fileSize / 1024).toFixed(1)} KB`} />
-              <Stat label="Base64 length" value={base64Part.length.toLocaleString()} />
-              <Stat label="Data URL length" value={dataUrl.length.toLocaleString()} />
-              <Stat label="Size overhead" value={`+${overhead}%`} />
+              <Stat label={s('statFileSize')} value={`${(fileSize / 1024).toFixed(1)} KB`} />
+              <Stat label={s('base64Length')} value={base64Part.length.toLocaleString()} />
+              <Stat label={s('dataUrlLength')} value={dataUrl.length.toLocaleString()} />
+              <Stat label={s('sizeOverhead')} value={`+${overhead}%`} />
             </div>
           </div>
-          <p className="text-xs text-gray-500">Detected type: <span className="font-mono font-semibold text-gray-700 dark:text-gray-300">{mime}</span></p>
-          {sections.map((s) => (
-            <div key={s.label}>
-              <OptLabel>{s.label}</OptLabel>
+          <p className="text-xs text-gray-500">{s('detectedType')} <span className="font-mono font-semibold text-gray-700 dark:text-gray-300">{mime}</span></p>
+          {sections.map((sec) => (
+            <div key={sec.labelKey}>
+              <OptLabel>{s(sec.labelKey)}</OptLabel>
               <div className="flex gap-2 items-start">
                 <textarea
                   readOnly
-                  value={s.value}
+                  value={sec.value}
                   rows={3}
                   className="flex-1 px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-[11px] font-mono text-gray-900 dark:text-white break-all"
                 />
-                <CopyBtn text={s.value} label="Copy" />
+                <CopyBtn text={sec.value} label={c('copy')} />
               </div>
             </div>
           ))}

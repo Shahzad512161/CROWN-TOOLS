@@ -25,6 +25,8 @@ import {
   OptSelect,
   OptCheck,
 } from './SeoShell';
+import { useStrings, useLang, COMMON } from '../../../lib/LangContext';
+import { SEO_STRINGS } from '../../../lib/strings/seo';
 
 // ---------------------------------------------------------------------------
 // 1. Link Extractor
@@ -33,6 +35,7 @@ import {
 const csvEscape = (s: string) => `"${s.replace(/"/g, '""')}"`;
 
 export const LinkExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
   const [html, setHtml] = useState('');
   const [pageUrl, setPageUrl] = useState('');
   const [uniqueOnly, setUniqueOnly] = useState(true);
@@ -71,51 +74,51 @@ export const LinkExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const urlsText = links.map((l) => l.href).join('\n');
 
   return (
-    <SeoCard tool={tool} note="Extraction reads the HTML you paste — anchor text, rel attributes and follow status come straight from the markup. Internal/external is only classified when you provide the page URL.">
-      <OptLabel>Page HTML</OptLabel>
-      <SeoTextarea rows={8} value={html} onChange={(e) => setHtml(e.target.value)} placeholder="Paste the full page HTML here…" />
+    <SeoCard tool={tool} note={s('linkExtNote')}>
+      <OptLabel>{s('pageHtml')}</OptLabel>
+      <SeoTextarea dir="ltr" rows={8} value={html} onChange={(e) => setHtml(e.target.value)} placeholder={s('pasteFullHtmlHere')} />
       <div className="grid sm:grid-cols-2 gap-3 mt-3 items-end">
         <div>
-          <OptLabel>Page URL (optional — enables internal/external detection)</OptLabel>
-          <OptInput value={pageUrl} onChange={(e) => setPageUrl(e.target.value)} placeholder="https://example.com/page" />
+          <OptLabel>{s('pageUrlDetectLabel')}</OptLabel>
+          <OptInput dir="ltr" value={pageUrl} onChange={(e) => setPageUrl(e.target.value)} placeholder="https://example.com/page" />
         </div>
-        <OptCheck label="Unique URLs only" checked={uniqueOnly} onChange={setUniqueOnly} />
+        <OptCheck label={s('uniqueUrlsOnly')} checked={uniqueOnly} onChange={setUniqueOnly} />
       </div>
 
       {links.length > 0 ? (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-4">
-            <Stat label="Total links" value={links.length} />
-            <Stat label="Internal" value={internal} />
-            <Stat label="External" value={external} />
+            <Stat label={s('totalLinks')} value={links.length} />
+            <Stat label={s('internalWord')} value={internal} />
+            <Stat label={s('externalWord')} value={external} />
             <Stat label="Dofollow" value={dofollow} />
             <Stat label="Nofollow" value={nofollow} />
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
-            <CopyBtn text={urlsText} label="Copy all URLs" />
-            <DownloadBtn content={csv} filename="links.csv" mime="text/csv" label="Download CSV" />
+            <CopyBtn text={urlsText} label={s('copyAllUrls')} />
+            <DownloadBtn content={csv} filename="links.csv" mime="text/csv" label={s('downloadCsv')} />
           </div>
           <div className="overflow-auto max-h-96 border border-gray-200 dark:border-gray-700 rounded-xl mt-3">
             <table className="w-full text-xs">
               <thead>
-                <tr className="bg-gray-50 dark:bg-gray-800 text-left">
-                  <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Anchor</th>
+                <tr className="bg-gray-50 dark:bg-gray-800 text-start">
+                  <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('anchorCol')}</th>
                   <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">URL</th>
-                  <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Type</th>
+                  <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('typeCol')}</th>
                   <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Rel</th>
                 </tr>
               </thead>
               <tbody>
                 {links.map((l, i) => (
                   <tr key={i} className="border-t border-gray-100 dark:border-gray-800">
-                    <td className="px-3 py-1.5 max-w-[160px] truncate text-gray-800 dark:text-gray-100">{l.anchor || '(no anchor text)'}</td>
+                    <td className="px-3 py-1.5 max-w-[160px] truncate text-gray-800 dark:text-gray-100">{l.anchor || s('noAnchorText')}</td>
                     <td className="px-3 py-1.5 max-w-[260px] truncate text-gray-600 dark:text-gray-300" title={l.href}>{l.href}</td>
                     <td className="px-3 py-1.5">
                       {l.internal === null ? (
                         <span className="text-gray-400">—</span>
                       ) : (
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${l.internal ? 'bg-sky-100 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300' : 'bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300'}`}>
-                          {l.internal ? 'Internal' : 'External'}
+                          {l.internal ? s('internalWord') : s('externalWord')}
                         </span>
                       )}
                     </td>
@@ -127,7 +130,7 @@ export const LinkExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </div>
         </>
       ) : (
-        <p className="text-xs text-gray-500 mt-3">Paste some HTML above and every link in it will be listed here.</p>
+        <p className="text-xs text-gray-500 mt-3">{s('linkExtEmpty')}</p>
       )}
     </SeoCard>
   );
@@ -140,6 +143,7 @@ export const LinkExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const AGENT_CHIPS = ['Googlebot', 'Bingbot', '*'];
 
 export const RobotsTxtTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
   const [robots, setRobots] = useState('User-agent: *\nDisallow: /admin/\nAllow: /admin/public\n\nSitemap: https://example.com/sitemap.xml');
   const [agent, setAgent] = useState('Googlebot');
   const [urlsText, setUrlsText] = useState('');
@@ -153,13 +157,13 @@ export const RobotsTxtTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   );
 
   return (
-    <SeoCard tool={tool} note="Matching follows the robots.txt spec (RFC 9309): the longest matching rule wins, Allow wins ties, * is a wildcard and $ anchors the end of the URL. The group for the exact user-agent is used when present, otherwise the * group.">
-      <OptLabel>robots.txt content</OptLabel>
-      <SeoTextarea rows={8} value={robots} onChange={(e) => setRobots(e.target.value)} placeholder={'User-agent: *\nDisallow: /private/'} />
+    <SeoCard tool={tool} note={s('robotsTestNote')}>
+      <OptLabel>{s('robotsContentLabel')}</OptLabel>
+      <SeoTextarea dir="ltr" rows={8} value={robots} onChange={(e) => setRobots(e.target.value)} placeholder={'User-agent: *\nDisallow: /private/'} />
       <div className="grid sm:grid-cols-2 gap-3 mt-3">
         <div>
-          <OptLabel>User-agent to test as</OptLabel>
-          <OptInput value={agent} onChange={(e) => setAgent(e.target.value)} placeholder="Googlebot" />
+          <OptLabel>{s('userAgentTestAs')}</OptLabel>
+          <OptInput dir="ltr" value={agent} onChange={(e) => setAgent(e.target.value)} placeholder="Googlebot" />
           <div className="flex gap-1.5 mt-2">
             {AGENT_CHIPS.map((chip) => (
               <button
@@ -178,23 +182,23 @@ export const RobotsTxtTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </div>
         </div>
         <div>
-          <OptLabel>URLs to test (one per line)</OptLabel>
-          <SeoTextarea rows={4} value={urlsText} onChange={(e) => setUrlsText(e.target.value)} placeholder={'https://example.com/admin/\nhttps://example.com/admin/public\n/products/shoes'} />
+          <OptLabel>{s('urlsToTest')}</OptLabel>
+          <SeoTextarea dir="ltr" rows={4} value={urlsText} onChange={(e) => setUrlsText(e.target.value)} placeholder={'https://example.com/admin/\nhttps://example.com/admin/public\n/products/shoes'} />
         </div>
       </div>
       <div className="grid grid-cols-3 gap-2 mt-4">
-        <Stat label="Rule groups" value={parsed.groups.length} />
-        <Stat label="Total rules" value={totalRules} />
-        <Stat label="Sitemaps declared" value={parsed.sitemaps.length} />
+        <Stat label={s('ruleGroups')} value={parsed.groups.length} />
+        <Stat label={s('totalRules')} value={totalRules} />
+        <Stat label={s('sitemapsDeclared')} value={parsed.sitemaps.length} />
       </div>
       {results.length > 0 && (
         <ul className="mt-3 space-y-1.5">
           {results.map((r, i) => (
             <li key={i} className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2">
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${r.allowed ? 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300' : 'bg-red-100 dark:bg-red-950/50 text-red-700 dark:text-red-300'}`}>
-                {r.allowed ? 'Allowed' : 'Blocked'}
+                {r.allowed ? s('allowedWord') : s('blockedWord')}
               </span>
-              <span className="text-xs text-gray-700 dark:text-gray-200 truncate">{r.url}</span>
+              <span dir="ltr" className="text-xs text-gray-700 dark:text-gray-200 truncate">{r.url}</span>
             </li>
           ))}
         </ul>
@@ -208,15 +212,16 @@ export const RobotsTxtTester: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const SitemapValidator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
   const [xml, setXml] = useState('');
   const result = useMemo(() => (xml.trim() ? validateSitemapXml(xml) : null), [xml]);
 
   return (
-    <SeoCard tool={tool} note="Validation checks the sitemap protocol rules that can be verified from the file itself: XML structure, absolute URLs, valid lastmod/changefreq/priority values, duplicates and the 50,000-URL limit. It does not fetch the URLs to check they are live.">
-      <OptLabel>Sitemap XML</OptLabel>
-      <SeoTextarea rows={10} value={xml} onChange={(e) => setXml(e.target.value)} placeholder={'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://example.com/</loc></url>\n</urlset>'} />
+    <SeoCard tool={tool} note={s('sitemapValNote')}>
+      <OptLabel>{s('sitemapXmlLabel')}</OptLabel>
+      <SeoTextarea dir="ltr" rows={10} value={xml} onChange={(e) => setXml(e.target.value)} placeholder={'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://example.com/</loc></url>\n</urlset>'} />
       <div className="mt-2 flex items-center gap-2">
-        <span className="text-[11px] font-semibold text-gray-500">…or load a file:</span>
+        <span className="text-[11px] font-semibold text-gray-500">{s('orLoadFile')}</span>
         <input
           type="file"
           accept=".xml,.txt"
@@ -232,20 +237,20 @@ export const SitemapValidator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {result && (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
-            <Stat label="URL count" value={result.urlCount} />
-            <Stat label="Type" value={result.isIndex ? 'Sitemap index' : 'URL set'} />
-            <Stat label="Errors" value={result.errors.length} />
-            <Stat label="Warnings" value={result.warnings.length} />
+            <Stat label={s('urlCount')} value={result.urlCount} />
+            <Stat label={s('typeCol')} value={result.isIndex ? s('sitemapIndexVal') : s('urlSetVal')} />
+            <Stat label={s('errorsLabel')} value={result.errors.length} />
+            <Stat label={s('warningsLabel')} value={result.warnings.length} />
           </div>
           {result.errors.length === 0 && result.warnings.length === 0 && (
             <div className="mt-3 flex items-start gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl px-3 py-2.5">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
-              <span>This sitemap is valid.</span>
+              <span>{s('sitemapValid')}</span>
             </div>
           )}
           {result.errors.length > 0 && (
             <div className="mt-3">
-              <OptLabel>Errors</OptLabel>
+              <OptLabel>{s('errorsLabel')}</OptLabel>
               <ul className="space-y-1.5">
                 {result.errors.map((e, i) => (
                   <li key={i} className="text-xs font-medium text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl px-3 py-2">{e}</li>
@@ -255,7 +260,7 @@ export const SitemapValidator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           )}
           {result.warnings.length > 0 && (
             <div className="mt-3">
-              <OptLabel>Warnings</OptLabel>
+              <OptLabel>{s('warningsLabel')}</OptLabel>
               <ul className="space-y-1.5">
                 {result.warnings.map((w, i) => (
                   <li key={i} className="text-xs font-medium text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2">{w}</li>
@@ -265,13 +270,13 @@ export const SitemapValidator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           )}
           {result.duplicates.length > 0 && (
             <div className="mt-3">
-              <OptLabel>Duplicate URLs ({result.duplicates.length})</OptLabel>
+              <OptLabel>{s('duplicateUrls').replace('{n}', String(result.duplicates.length))}</OptLabel>
               <ul className="space-y-1">
                 {result.duplicates.slice(0, 20).map((d, i) => (
                   <li key={i} className="text-[11px] text-gray-600 dark:text-gray-300 truncate">{d}</li>
                 ))}
               </ul>
-              {result.duplicates.length > 20 && <p className="text-[11px] text-gray-500 mt-1">…and {result.duplicates.length - 20} more.</p>}
+              {result.duplicates.length > 20 && <p className="text-[11px] text-gray-500 mt-1">{s('andMore').replace('{n}', String(result.duplicates.length - 20))}</p>}
             </div>
           )}
         </>
@@ -285,14 +290,16 @@ export const SitemapValidator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
   const [text, setText] = useState('');
   const result = useMemo(() => (text.trim() ? analyzeRedirectMap(text) : null), [text]);
   const flattenedText = result ? result.flattened.map((f) => `${f.from} ${f.to}`).join('\n') : '';
 
   return (
-    <SeoCard tool={tool} note="Paste a redirect map to audit it — this checks the map itself; fetching live redirect chains from a server needs that server to allow cross-origin requests.">
-      <OptLabel>Redirect map — one rule per line: old-url new-url (spaces, commas or semicolons)</OptLabel>
+    <SeoCard tool={tool} note={s('redirectNote')}>
+      <OptLabel>{s('redirectMapLabel')}</OptLabel>
       <SeoTextarea
+        dir="ltr"
         rows={9}
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -301,15 +308,15 @@ export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) =>
       {result && (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
-            <Stat label="Rules" value={result.pairs.length} />
-            <Stat label="Chains found" value={result.chains.length} />
-            <Stat label="Loops found" value={result.loops.length} />
-            <Stat label="Duplicate sources" value={result.duplicateSources.length} />
+            <Stat label={s('rulesWord')} value={result.pairs.length} />
+            <Stat label={s('chainsFound')} value={result.chains.length} />
+            <Stat label={s('loopsFound')} value={result.loops.length} />
+            <Stat label={s('duplicateSourcesStat')} value={result.duplicateSources.length} />
           </div>
 
           {result.chains.length > 0 && (
             <div className="mt-4">
-              <OptLabel>Chains (collapse these to a single hop)</OptLabel>
+              <OptLabel>{s('chainsLabel')}</OptLabel>
               <div className="space-y-2">
                 {result.chains.map((c, i) => (
                   <div key={i} className="flex flex-wrap items-center gap-1.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2">
@@ -319,7 +326,7 @@ export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) =>
                         <span className="text-[11px] font-semibold bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-0.5 text-gray-800 dark:text-gray-100">{seg}</span>
                       </React.Fragment>
                     ))}
-                    <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300">{c.hops} hops</span>
+                    <span className="ms-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300">{c.hops} {s('hopsWord')}</span>
                   </div>
                 ))}
               </div>
@@ -328,7 +335,7 @@ export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) =>
 
           {result.loops.length > 0 && (
             <div className="mt-4">
-              <OptLabel>Loops (fix these first — they never resolve)</OptLabel>
+              <OptLabel>{s('loopsLabel')}</OptLabel>
               <div className="space-y-2">
                 {result.loops.map((loop, i) => (
                   <div key={i} className="text-xs font-semibold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl px-3 py-2 break-all">
@@ -341,7 +348,7 @@ export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) =>
 
           {result.duplicateSources.length > 0 && (
             <div className="mt-4">
-              <OptLabel>Duplicate sources (first rule wins)</OptLabel>
+              <OptLabel>{s('duplicateSourcesLabel')}</OptLabel>
               <ul className="space-y-1">
                 {result.duplicateSources.map((d, i) => (
                   <li key={i} className="text-[11px] text-gray-600 dark:text-gray-300 truncate">{d}</li>
@@ -352,7 +359,7 @@ export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) =>
 
           {result.invalidLines.length > 0 && (
             <div className="mt-4">
-              <OptLabel>Invalid lines (skipped)</OptLabel>
+              <OptLabel>{s('invalidLines')}</OptLabel>
               <ul className="space-y-1">
                 {result.invalidLines.map((l, i) => (
                   <li key={i} className="text-[11px] text-gray-400 truncate">{l}</li>
@@ -363,18 +370,18 @@ export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) =>
 
           {result.flattened.length > 0 && (
             <div className="mt-4">
-              <OptLabel>Flattened map — every source pointed straight at its final URL</OptLabel>
+              <OptLabel>{s('flattenedLabel')}</OptLabel>
               <div className="flex flex-wrap gap-2 mb-2">
-                <CopyBtn text={flattenedText} label="Copy flattened map" />
-                <DownloadBtn content={flattenedText} filename="redirect-map-flattened.txt" label="Download flattened map" />
+                <CopyBtn text={flattenedText} label={s('copyFlattened')} />
+                <DownloadBtn content={flattenedText} filename="redirect-map-flattened.txt" label={s('downloadFlattened')} />
               </div>
               <div className="overflow-auto max-h-80 border border-gray-200 dark:border-gray-700 rounded-xl">
                 <table className="w-full text-xs">
                   <thead>
-                    <tr className="bg-gray-50 dark:bg-gray-800 text-left">
-                      <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">From</th>
-                      <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Final URL</th>
-                      <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Hops</th>
+                    <tr className="bg-gray-50 dark:bg-gray-800 text-start">
+                      <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('fromCol')}</th>
+                      <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('finalUrlCol')}</th>
+                      <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('hopsCol')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -401,6 +408,7 @@ export const RedirectChainAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) =>
 // ---------------------------------------------------------------------------
 
 export const KeywordClustering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
   const [text, setText] = useState('');
   const keywords = useMemo(() => text.split(/\r?\n/).map((s) => s.trim()).filter(Boolean), [text]);
   const clusters = useMemo(() => (keywords.length ? clusterKeywords(keywords) : []), [keywords]);
@@ -409,20 +417,20 @@ export const KeywordClustering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const exportText = clusters.map((c) => `## ${c.label} (${c.keywords.length})\n${c.keywords.join('\n')}`).join('\n\n');
 
   return (
-    <SeoCard tool={tool} note="Keywords are grouped when they share at least two words, or one is a subset of the other — a fast topical grouping for planning content hubs. It is a heuristic, not a SERP-overlap analysis.">
-      <OptLabel>Keywords (one per line)</OptLabel>
+    <SeoCard tool={tool} note={s('kwClusterNote')}>
+      <OptLabel>{s('keywordsOnePerLine')}</OptLabel>
       <SeoTextarea rows={9} value={text} onChange={(e) => setText(e.target.value)} placeholder={'buy running shoes\nbest running shoes for men\nrunning shoes sale\nhow to boil eggs\nboiled egg time'} />
       {clusters.length > 0 && (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
-            <Stat label="Keywords in" value={keywords.length} />
-            <Stat label="Clusters out" value={clusters.length} />
-            <Stat label="Largest cluster" value={largest} />
-            <Stat label="Singletons" value={singletons} />
+            <Stat label={s('keywordsIn')} value={keywords.length} />
+            <Stat label={s('clustersOut')} value={clusters.length} />
+            <Stat label={s('largestCluster')} value={largest} />
+            <Stat label={s('singletonsWord')} value={singletons} />
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
-            <CopyBtn text={exportText} label="Copy clusters" />
-            <DownloadBtn content={exportText} filename="keyword-clusters.txt" label="Download clusters" />
+            <CopyBtn text={exportText} label={s('copyClusters')} />
+            <DownloadBtn content={exportText} filename="keyword-clusters.txt" label={s('downloadClusters')} />
           </div>
           <div className="grid md:grid-cols-2 gap-3 mt-3">
             {clusters.map((c, i) => (
@@ -464,6 +472,7 @@ function wrapAll(kws: string[], mt: string): string[] {
 }
 
 export const KeywordCombiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
   const [listA, setListA] = useState('');
   const [listB, setListB] = useState('');
   const [listC, setListC] = useState('');
@@ -487,48 +496,48 @@ export const KeywordCombiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const resultsText = results.join('\n');
 
   return (
-    <SeoCard tool={tool} note="Combines List A × List B (and × List C) in list order — every keyword in one list is paired with every keyword in the next, space-joined. Duplicates within a list are removed first.">
+    <SeoCard tool={tool} note={s('kwCombinerNote')}>
       <div className="grid md:grid-cols-3 gap-3">
         <div>
-          <OptLabel>List A</OptLabel>
+          <OptLabel>{s('listA')}</OptLabel>
           <SeoTextarea rows={6} value={listA} onChange={(e) => setListA(e.target.value)} placeholder={'buy\nbest\ncheap'} />
         </div>
         <div>
-          <OptLabel>List B (optional)</OptLabel>
+          <OptLabel>{s('listBOptional')}</OptLabel>
           <SeoTextarea rows={6} value={listB} onChange={(e) => setListB(e.target.value)} placeholder={'running shoes\ntrail shoes'} />
         </div>
         <div>
-          <OptLabel>List C (optional)</OptLabel>
+          <OptLabel>{s('listCOptional')}</OptLabel>
           <SeoTextarea rows={6} value={listC} onChange={(e) => setListC(e.target.value)} placeholder={'online\nnear me'} />
         </div>
       </div>
       <div className="max-w-xs mt-3">
-        <OptLabel>Match type</OptLabel>
+        <OptLabel>{s('matchType')}</OptLabel>
         <OptSelect value={matchType} onChange={(e) => setMatchType(e.target.value as MatchType)}>
-          <option value="none">None</option>
-          <option value="broad">Broad match</option>
-          <option value="phrase">Phrase match</option>
-          <option value="exact">Exact match</option>
-          <option value="bmm">Broad match modifier</option>
+          <option value="none">{s('noneLabel')}</option>
+          <option value="broad">{s('broadMatch')}</option>
+          <option value="phrase">{s('phraseMatch')}</option>
+          <option value="exact">{s('exactMatch')}</option>
+          <option value="bmm">{s('broadMatchModifier')}</option>
         </OptSelect>
       </div>
       {capped && (
         <div className="mt-3 flex items-start gap-2 text-xs font-semibold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2.5">
           <AlertTriangle className="w-4 h-4 shrink-0" />
-          <span>The full combination would exceed 10,000 keywords — the input lists were trimmed so generation is capped at 10,000 results.</span>
+          <span>{s('cappedWarn')}</span>
         </div>
       )}
       {results.length > 0 && (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
-            <Stat label="Combined keywords" value={results.length} />
+            <Stat label={s('combinedKeywords')} value={results.length} />
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
-            <CopyBtn text={resultsText} label="Copy all" />
-            <DownloadBtn content={resultsText} filename="combined-keywords.txt" label="Download .txt" />
+            <CopyBtn text={resultsText} label={s('copyAll')} />
+            <DownloadBtn content={resultsText} filename="combined-keywords.txt" label={s('downloadTxt')} />
           </div>
-          <OptLabel>Preview (first 200)</OptLabel>
-          <pre className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-[11px] text-gray-700 dark:text-gray-200 max-h-72 overflow-auto whitespace-pre-wrap">
+          <OptLabel>{s('previewFirst200')}</OptLabel>
+          <pre dir="ltr" className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-[11px] text-gray-700 dark:text-gray-200 max-h-72 overflow-auto whitespace-pre-wrap">
             {results.slice(0, 200).join('\n')}
           </pre>
         </>
@@ -542,10 +551,16 @@ export const KeywordCombiner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 const RAMP = [0.1, 0.2, 0.35, 0.5, 0.65, 0.75, 0.85, 0.9, 0.95, 1, 1, 1];
-const moneyFmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-const numFmt = new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 });
 
 export const SeoRoiCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
+  const c = useStrings(COMMON);
+  const lang = useLang();
+  const moneyFmt = useMemo(
+    () => new Intl.NumberFormat(lang, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }),
+    [lang]
+  );
+  const numFmt = useMemo(() => new Intl.NumberFormat(lang, { maximumFractionDigits: 0 }), [lang]);
   const [cost, setCost] = useState('1500');
   const [volume, setVolume] = useState('20000');
   const [ctr, setCtr] = useState('25');
@@ -587,16 +602,16 @@ export const SeoRoiCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [cost, volume, ctr, convRate, orderValue, margin]);
 
   const fields: { label: string; value: string; set: (v: string) => void }[] = [
-    { label: 'Monthly SEO cost ($)', value: cost, set: setCost },
-    { label: 'Monthly search volume of target keywords', value: volume, set: setVolume },
-    { label: 'Expected CTR (%)', value: ctr, set: setCtr },
-    { label: 'Conversion rate (%)', value: convRate, set: setConvRate },
-    { label: 'Average order / lead value ($)', value: orderValue, set: setOrderValue },
-    { label: 'Gross margin (%)', value: margin, set: setMargin },
+    { label: s('roiCost'), value: cost, set: setCost },
+    { label: s('roiVolume'), value: volume, set: setVolume },
+    { label: s('roiCtr'), value: ctr, set: setCtr },
+    { label: s('roiConvRate'), value: convRate, set: setConvRate },
+    { label: s('roiOrderValue'), value: orderValue, set: setOrderValue },
+    { label: s('roiMargin'), value: margin, set: setMargin },
   ];
 
   return (
-    <SeoCard tool={tool} note="Projections are estimates based on your inputs and an assumed 12-month traffic ramp (10% of steady traffic in month 1, reaching 100% by month 10) — they are not guarantees of rankings, traffic or revenue.">
+    <SeoCard tool={tool} note={s('roiNote')}>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {fields.map((f) => (
           <div key={f.label}>
@@ -606,26 +621,26 @@ export const SeoRoiCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         ))}
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mt-4">
-        <Stat label="Visitors / month" value={numFmt.format(Math.round(calc.visitors))} />
-        <Stat label="Conversions / month" value={numFmt.format(Math.round(calc.conversions))} />
-        <Stat label="Revenue / month" value={moneyFmt.format(calc.revenue)} />
-        <Stat label="Gross profit / month" value={moneyFmt.format(calc.grossProfit)} />
-        <Stat label="Net / month" value={moneyFmt.format(calc.net)} />
+        <Stat label={s('visitorsPerMonth')} value={numFmt.format(Math.round(calc.visitors))} />
+        <Stat label={s('conversionsPerMonth')} value={numFmt.format(Math.round(calc.conversions))} />
+        <Stat label={s('revenuePerMonth')} value={moneyFmt.format(calc.revenue)} />
+        <Stat label={s('grossProfitPerMonth')} value={moneyFmt.format(calc.grossProfit)} />
+        <Stat label={s('netPerMonth')} value={moneyFmt.format(calc.net)} />
         <Stat label="ROI" value={`${calc.roi.toFixed(1)}%`} />
-        <Stat label="Break-even conversions" value={calc.breakEven === null ? '—' : numFmt.format(Math.ceil(calc.breakEven))} />
+        <Stat label={s('breakEvenConversions')} value={calc.breakEven === null ? '—' : numFmt.format(Math.ceil(calc.breakEven))} />
       </div>
       <div className="mt-4">
-        <OptLabel>12-month projection (ramped)</OptLabel>
+        <OptLabel>{s('projection12')}</OptLabel>
         <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-xl">
           <table className="w-full text-xs tabular-nums">
             <thead>
-              <tr className="bg-gray-50 dark:bg-gray-800 text-left">
-                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Month</th>
-                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Visitors</th>
-                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Conversions</th>
-                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Revenue</th>
-                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Net profit</th>
-                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">Cumulative net</th>
+              <tr className="bg-gray-50 dark:bg-gray-800 text-start">
+                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('monthCol')}</th>
+                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('visitorsCol')}</th>
+                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('conversionsCol')}</th>
+                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('revenueCol')}</th>
+                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('netProfitCol')}</th>
+                <th className="px-3 py-2 font-bold text-gray-700 dark:text-gray-200">{s('cumulativeNetCol')}</th>
               </tr>
             </thead>
             <tbody>
@@ -640,7 +655,7 @@ export const SeoRoiCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 </tr>
               ))}
               <tr className="border-t-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 font-bold">
-                <td className="px-3 py-2 text-gray-900 dark:text-white">Total</td>
+                <td className="px-3 py-2 text-gray-900 dark:text-white">{c('total')}</td>
                 <td className="px-3 py-2 text-gray-900 dark:text-white">{numFmt.format(Math.round(calc.totals.visitors))}</td>
                 <td className="px-3 py-2 text-gray-900 dark:text-white">{numFmt.format(Math.round(calc.totals.conversions))}</td>
                 <td className="px-3 py-2 text-gray-900 dark:text-white">{moneyFmt.format(calc.totals.revenue)}</td>
@@ -663,6 +678,10 @@ type MinifyMode = 'html' | 'css' | 'js';
 const MINIFY_FILES: Record<MinifyMode, string> = { html: 'minified.html', css: 'styles.min.css', js: 'script.min.js' };
 
 export const CodeMinifier: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(SEO_STRINGS);
+  const c = useStrings(COMMON);
+  const lang = useLang();
+  const numFmt = useMemo(() => new Intl.NumberFormat(lang, { maximumFractionDigits: 0 }), [lang]);
   const [mode, setMode] = useState<MinifyMode>('html');
   const [input, setInput] = useState('');
   const [removeComments, setRemoveComments] = useState(true);
@@ -673,7 +692,7 @@ export const CodeMinifier: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       const out = mode === 'html' ? minifyHtml(input, removeComments) : mode === 'css' ? minifyCss(input) : minifyJs(input);
       return { output: out, error: '' };
     } catch (e: any) {
-      return { output: '', error: e?.message || 'Minification failed.' };
+      return { output: '', error: e?.message || 'minify-failed' };
     }
   }, [input, mode, removeComments]);
 
@@ -682,42 +701,42 @@ export const CodeMinifier: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const savedPct = beforeBytes ? Math.round((1 - afterBytes / beforeBytes) * 1000) / 10 : 0;
 
   return (
-    <SeoCard tool={tool} note="The JavaScript minifier is conservative: it strips comments and blank lines and collapses runs of spaces, but keeps the line structure so automatic semicolon insertion stays safe — it does not rename variables or rewrite code. HTML minification preserves <pre>, <textarea>, <script> and <style> blocks.">
+    <SeoCard tool={tool} note={s('minifyNote')}>
       <div className="grid sm:grid-cols-2 gap-3 items-end">
         <div className="max-w-xs">
-          <OptLabel>Code type</OptLabel>
+          <OptLabel>{s('codeType')}</OptLabel>
           <OptSelect value={mode} onChange={(e) => setMode(e.target.value as MinifyMode)}>
             <option value="html">HTML</option>
             <option value="css">CSS</option>
             <option value="js">JavaScript</option>
           </OptSelect>
         </div>
-        {mode === 'html' && <OptCheck label="Remove comments" checked={removeComments} onChange={setRemoveComments} />}
+        {mode === 'html' && <OptCheck label={s('removeComments')} checked={removeComments} onChange={setRemoveComments} />}
       </div>
       <div className="mt-3">
-        <OptLabel>Input</OptLabel>
-        <SeoTextarea rows={9} value={input} onChange={(e) => setInput(e.target.value)} placeholder="Paste your code here…" />
+        <OptLabel>{c('input')}</OptLabel>
+        <SeoTextarea dir="ltr" rows={9} value={input} onChange={(e) => setInput(e.target.value)} placeholder={s('pasteCodeHere')} />
       </div>
       {error && (
         <div className="mt-3 flex items-start gap-2 text-xs font-semibold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl px-3 py-2.5">
           <AlertTriangle className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
+          <span>{error === 'minify-failed' ? s('minifyFailed') : error}</span>
         </div>
       )}
       {input && !error && (
         <>
           <div className="grid grid-cols-3 gap-2 mt-4">
-            <Stat label="Before" value={`${numFmt.format(beforeBytes)} B`} />
-            <Stat label="After" value={`${numFmt.format(afterBytes)} B`} />
-            <Stat label="Saved" value={`${savedPct}%`} />
+            <Stat label={s('beforeWord')} value={`${numFmt.format(beforeBytes)} B`} />
+            <Stat label={s('afterWord')} value={`${numFmt.format(afterBytes)} B`} />
+            <Stat label={s('savedWord')} value={`${savedPct}%`} />
           </div>
           <div className="mt-3">
-            <OptLabel>Minified output</OptLabel>
-            <SeoTextarea rows={9} readOnly value={output} />
+            <OptLabel>{s('minifiedOutput')}</OptLabel>
+            <SeoTextarea dir="ltr" rows={9} readOnly value={output} />
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
-            <CopyBtn text={output} label="Copy minified code" />
-            <DownloadBtn content={output} filename={MINIFY_FILES[mode]} label={`Download ${MINIFY_FILES[mode]}`} />
+            <CopyBtn text={output} label={s('copyMinified')} />
+            <DownloadBtn content={output} filename={MINIFY_FILES[mode]} label={`${c('download')} ${MINIFY_FILES[mode]}`} />
           </div>
         </>
       )}

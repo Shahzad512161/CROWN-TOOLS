@@ -14,6 +14,10 @@ import {
   OptSelect,
   OptCheck,
 } from './DevShell';
+import { useStrings, COMMON } from '../../../lib/LangContext';
+import { DEV_STRINGS } from '../../../lib/strings/dev';
+
+type StrFn = (key: string) => string;
 import {
   decodeJwt,
   signJwtHs256,
@@ -75,9 +79,9 @@ const ResultTable: React.FC<{ rows: { label: string; value: string; copy?: boole
         className={`flex items-center gap-3 px-3 py-2 text-sm ${i % 2 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}`}
       >
         <span className="w-36 shrink-0 text-xs font-bold uppercase tracking-wide text-gray-500">{r.label}</span>
-        <span className="font-mono text-xs sm:text-sm text-gray-900 dark:text-white break-all">{r.value}</span>
+        <span dir="ltr" className="font-mono text-xs sm:text-sm text-gray-900 dark:text-white break-all">{r.value}</span>
         {r.copy && (
-          <span className="ml-auto shrink-0">
+          <span className="ms-auto shrink-0">
             <CopyBtn text={r.value} />
           </span>
         )}
@@ -89,6 +93,7 @@ const ResultTable: React.FC<{ rows: { label: string; value: string; copy?: boole
 // ---------------- 1. JWT Decoder ----------------
 
 export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [token, setToken] = useState('');
   const [secret, setSecret] = useState('');
   const [verifyResult, setVerifyResult] = useState<boolean | null>(null);
@@ -99,9 +104,9 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       return { data: decodeJwt(token), error: '' };
     } catch (e) {
-      return { data: null, error: e instanceof Error ? e.message : 'Invalid token' };
+      return { data: null, error: e instanceof Error ? e.message : s('invalidToken') };
     }
-  }, [token]);
+  }, [token, s]);
 
   useEffect(() => {
     setVerifyResult(null);
@@ -128,11 +133,8 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const dateClaims = ['exp', 'iat', 'nbf', 'auth_time'];
 
   return (
-    <DevCard
-      tool={tool}
-      note="Decoding only reads the token's contents — anyone holding a token can do this; a JWT is signed, not encrypted, so never put secrets in one. Signature verification here supports HS256 (HMAC-SHA256) only."
-    >
-      <OptLabel>JSON Web Token</OptLabel>
+    <DevCard tool={tool} note={s('jwtNote')}>
+      <OptLabel>{s('jsonWebToken')}</OptLabel>
       <DevTextarea
         rows={4}
         value={token}
@@ -141,7 +143,7 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         spellCheck={false}
       />
       <div className="mt-3">
-        <PrimaryBtn onClick={loadDemo}>Load demo token</PrimaryBtn>
+        <PrimaryBtn onClick={loadDemo}>{s('loadDemoToken')}</PrimaryBtn>
       </div>
 
       {decoded?.error && (
@@ -154,20 +156,20 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <div className="mt-5 space-y-4">
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <OptLabel>Header</OptLabel>
+              <OptLabel>{s('headerLabel')}</OptLabel>
               <CodeOut code={JSON.stringify(decoded.data.header, null, 2)} maxH="max-h-64" />
             </div>
             <div>
-              <OptLabel>Payload</OptLabel>
+              <OptLabel>{s('payloadLabel')}</OptLabel>
               <CodeOut code={JSON.stringify(decoded.data.payload, null, 2)} maxH="max-h-64" />
             </div>
           </div>
 
-          {expired && <WarnBox message="This token is expired — its exp claim is in the past, so servers should reject it." />}
-          {notYetValid && <WarnBox message="This token is not yet valid — its nbf (not-before) claim is in the future." />}
+          {expired && <WarnBox message={s('tokenExpired')} />}
+          {notYetValid && <WarnBox message={s('tokenNotYetValid')} />}
 
           <div>
-            <OptLabel>Claims</OptLabel>
+            <OptLabel>{s('claimsLabel')}</OptLabel>
             <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
               {Object.entries(decoded.data.payload).map(([k, v], i) => {
                 const isDate = dateClaims.includes(k) && typeof v === 'number';
@@ -178,7 +180,7 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     className={`flex flex-wrap items-baseline gap-x-3 px-3 py-2 text-sm ${i % 2 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}`}
                   >
                     <span className="w-28 shrink-0 font-mono text-xs font-bold text-gray-700 dark:text-gray-200">{k}</span>
-                    <span className="font-mono text-xs sm:text-sm text-gray-900 dark:text-white break-all">
+                    <span dir="ltr" className="font-mono text-xs sm:text-sm text-gray-900 dark:text-white break-all">
                       {typeof v === 'object' ? JSON.stringify(v) : String(v)}
                     </span>
                     {d && (
@@ -193,15 +195,16 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </div>
 
           <div>
-            <OptLabel>Signature (base64url)</OptLabel>
-            <CodeOut code={decoded.data.signature || '(empty)'} maxH="max-h-24" />
+            <OptLabel>{s('signatureLabel')}</OptLabel>
+            <CodeOut code={decoded.data.signature || s('emptyParens')} maxH="max-h-24" />
           </div>
 
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-            <OptLabel>Verify HS256 signature — shared secret</OptLabel>
+            <OptLabel>{s('verifyLabel')}</OptLabel>
             <div className="flex flex-wrap gap-2 items-start">
               <div className="flex-1 min-w-[220px]">
                 <OptInput
+                  dir="ltr"
                   value={secret}
                   onChange={(e) => setSecret(e.target.value)}
                   placeholder="your-256-bit-secret"
@@ -209,7 +212,7 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
               </div>
               <PrimaryBtn onClick={doVerify} disabled={verifying || !token.trim()}>
-                {verifying ? 'Verifying…' : 'Verify HS256 signature'}
+                {verifying ? s('verifying') : s('verifyBtn')}
               </PrimaryBtn>
             </div>
             {verifyResult !== null && (
@@ -220,9 +223,7 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     : 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800'
                 }`}
               >
-                {verifyResult
-                  ? 'Signature is valid — this token was signed with that secret and has not been tampered with.'
-                  : 'Signature is INVALID — the secret is wrong, or the token was modified after signing.'}
+                {verifyResult ? s('signatureValid') : s('signatureInvalid')}
               </div>
             )}
           </div>
@@ -235,6 +236,8 @@ export const JwtDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 2. Base64 ----------------
 
 export const Base64Tool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
+  const c = useStrings(COMMON);
   const [mode, setMode] = useState('encode');
   const [input, setInput] = useState('');
   const [urlSafe, setUrlSafe] = useState(false);
@@ -244,41 +247,38 @@ export const Base64Tool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     try {
       return { output: mode === 'encode' ? base64Encode(input, urlSafe) : base64Decode(input), error: '' };
     } catch {
-      return { output: '', error: 'That is not valid Base64 — check for missing padding or characters outside the Base64 alphabet.' };
+      return { output: '', error: s('invalidBase64') };
     }
-  }, [input, mode, urlSafe]);
+  }, [input, mode, urlSafe, s]);
 
   return (
-    <DevCard
-      tool={tool}
-      note="Text is encoded as UTF-8 bytes first, so Unicode (emoji, accented letters, symbols…) survives the round trip — unlike a naive btoa() call, which throws on anything outside Latin-1. Decoding accepts both the standard and URL-safe alphabets."
-    >
+    <DevCard tool={tool} note={s('base64Note')}>
       <div className="flex flex-wrap items-center gap-3 mb-3">
         <ModeToggle
           options={[
-            { value: 'encode', label: 'Encode' },
-            { value: 'decode', label: 'Decode' },
+            { value: 'encode', label: s('encodeBtn') },
+            { value: 'decode', label: s('decodeBtn') },
           ]}
           value={mode}
           onChange={setMode}
         />
-        <OptCheck label="URL-safe alphabet (- and _, no padding)" checked={urlSafe} onChange={setUrlSafe} />
+        <OptCheck label={s('urlSafeAlphabet')} checked={urlSafe} onChange={setUrlSafe} />
       </div>
-      <OptLabel>{mode === 'encode' ? 'Text to encode' : 'Base64 to decode'}</OptLabel>
-      <DevTextarea rows={5} value={input} onChange={(e) => setInput(e.target.value)} placeholder={mode === 'encode' ? 'Type or paste text…' : 'Paste Base64…'} spellCheck={false} />
+      <OptLabel>{mode === 'encode' ? s('textToEncode') : s('base64ToDecode')}</OptLabel>
+      <DevTextarea rows={5} value={input} onChange={(e) => setInput(e.target.value)} placeholder={mode === 'encode' ? s('typeOrPasteText') : s('pasteBase64')} spellCheck={false} />
       {result.error && (
         <div className="mt-3">
           <ErrorBox message={result.error} />
         </div>
       )}
       <div className="mt-4">
-        <OptLabel>Result</OptLabel>
-        <DevTextarea rows={5} value={result.output} readOnly placeholder="Output appears here…" spellCheck={false} />
+        <OptLabel>{c('result')}</OptLabel>
+        <DevTextarea rows={5} value={result.output} readOnly placeholder={s('outputPlaceholder')} spellCheck={false} />
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-3">
-        <CopyBtn text={result.output} label="Copy result" />
-        <Stat label="Input chars" value={input.length} />
-        <Stat label="Output chars" value={result.output.length} />
+        <CopyBtn text={result.output} label={s('copyResult')} />
+        <Stat label={s('inputChars')} value={input.length} />
+        <Stat label={s('outputChars')} value={result.output.length} />
       </div>
     </DevCard>
   );
@@ -287,6 +287,8 @@ export const Base64Tool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 3. URL encoder / decoder ----------------
 
 export const UrlEncoderDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
+  const c = useStrings(COMMON);
   const [mode, setMode] = useState('encode');
   const [variant, setVariant] = useState('component');
   const [input, setInput] = useState('');
@@ -304,32 +306,29 @@ export const UrlEncoderDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             : decodeURI(input);
       return { output, error: '' };
     } catch {
-      return { output: '', error: 'Malformed percent-encoding — a "%" that is not followed by two hex digits cannot be decoded.' };
+      return { output: '', error: s('malformedPercent') };
     }
-  }, [input, mode, variant]);
+  }, [input, mode, variant, s]);
 
   return (
-    <DevCard
-      tool={tool}
-      note="encodeURIComponent escapes everything except A-Z a-z 0-9 - _ . ! ~ * ' ( ) — use it for a single value inside a query string. encodeURI leaves URL structure characters (: / ? & = #) intact — use it for a complete URL."
-    >
+    <DevCard tool={tool} note={s('urlNote')}>
       <div className="flex flex-wrap items-center gap-3 mb-3">
         <ModeToggle
           options={[
-            { value: 'encode', label: 'Encode' },
-            { value: 'decode', label: 'Decode' },
+            { value: 'encode', label: s('encodeBtn') },
+            { value: 'decode', label: s('decodeBtn') },
           ]}
           value={mode}
           onChange={setMode}
         />
         <div className="w-56">
           <OptSelect value={variant} onChange={(e) => setVariant(e.target.value)}>
-            <option value="component">Component (query value)</option>
-            <option value="uri">Full URL (encodeURI)</option>
+            <option value="component">{s('optComponent')}</option>
+            <option value="uri">{s('optFullUrl')}</option>
           </OptSelect>
         </div>
       </div>
-      <OptLabel>Input</OptLabel>
+      <OptLabel>{c('input')}</OptLabel>
       <DevTextarea rows={4} value={input} onChange={(e) => setInput(e.target.value)} placeholder={mode === 'encode' ? 'https://example.com/search?q=hello world&lang=ur' : 'https%3A%2F%2Fexample.com%2Fsearch%3Fq%3Dhello%20world'} spellCheck={false} />
       {result.error && (
         <div className="mt-3">
@@ -337,11 +336,11 @@ export const UrlEncoderDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         </div>
       )}
       <div className="mt-4">
-        <OptLabel>Result</OptLabel>
-        <DevTextarea rows={4} value={result.output} readOnly placeholder="Output appears here…" spellCheck={false} />
+        <OptLabel>{c('result')}</OptLabel>
+        <DevTextarea rows={4} value={result.output} readOnly placeholder={s('outputPlaceholder')} spellCheck={false} />
       </div>
       <div className="mt-3">
-        <CopyBtn text={result.output} label="Copy result" />
+        <CopyBtn text={result.output} label={s('copyResult')} />
       </div>
     </DevCard>
   );
@@ -350,6 +349,8 @@ export const UrlEncoderDecoder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 4. HTML entities ----------------
 
 export const HtmlEntityTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
+  const c = useStrings(COMMON);
   const [mode, setMode] = useState('encode');
   const [numericNonAscii, setNumericNonAscii] = useState(true);
   const [input, setInput] = useState('');
@@ -360,31 +361,28 @@ export const HtmlEntityTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [input, mode, numericNonAscii]);
 
   return (
-    <DevCard
-      tool={tool}
-      note="Encoding escapes & < > &quot; and ' — the characters that break HTML when pasted as text. Decoding understands named entities (&amp;copy; &amp;mdash;…), decimal (&#169;) and hex (&#xA9;) forms."
-    >
+    <DevCard tool={tool} note={s('htmlNote')}>
       <div className="flex flex-wrap items-center gap-3 mb-3">
         <ModeToggle
           options={[
-            { value: 'encode', label: 'Encode' },
-            { value: 'decode', label: 'Decode' },
+            { value: 'encode', label: s('encodeBtn') },
+            { value: 'decode', label: s('decodeBtn') },
           ]}
           value={mode}
           onChange={setMode}
         />
         {mode === 'encode' && (
-          <OptCheck label="Encode non-ASCII as numeric entities too" checked={numericNonAscii} onChange={setNumericNonAscii} />
+          <OptCheck label={s('encodeNonAscii')} checked={numericNonAscii} onChange={setNumericNonAscii} />
         )}
       </div>
-      <OptLabel>Input</OptLabel>
+      <OptLabel>{c('input')}</OptLabel>
       <DevTextarea rows={5} value={input} onChange={(e) => setInput(e.target.value)} placeholder={mode === 'encode' ? 'Tom & Jerry <3 "quotes" — café' : '&lt;p&gt;Tom &amp;amp; Jerry &amp;#169;&lt;/p&gt;'} spellCheck={false} />
       <div className="mt-4">
-        <OptLabel>Result</OptLabel>
-        <DevTextarea rows={5} value={output} readOnly placeholder="Output appears here…" spellCheck={false} />
+        <OptLabel>{c('result')}</OptLabel>
+        <DevTextarea rows={5} value={output} readOnly placeholder={s('outputPlaceholder')} spellCheck={false} />
       </div>
       <div className="mt-3">
-        <CopyBtn text={output} label="Copy result" />
+        <CopyBtn text={output} label={s('copyResult')} />
       </div>
     </DevCard>
   );
@@ -395,6 +393,7 @@ export const HtmlEntityTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const SHA_ALGOS = ['SHA-1', 'SHA-256', 'SHA-384', 'SHA-512'] as const;
 
 export const HashGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [input, setInput] = useState('');
   const [hashes, setHashes] = useState<{ label: string; value: string }[]>([]);
   const [hmacKey, setHmacKey] = useState('');
@@ -441,18 +440,15 @@ export const HashGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <DevCard
-      tool={tool}
-      note="A hash is a one-way fingerprint: same input, same hash, and the input cannot be recovered from it. MD5 and SHA-1 are collision-broken — fine as checksums, never for password storage or signatures. File hashing below computes SHA-256 only."
-    >
-      <OptLabel>Text to hash</OptLabel>
-      <DevTextarea rows={4} value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type or paste text…" spellCheck={false} />
+    <DevCard tool={tool} note={s('hashNote')}>
+      <OptLabel>{s('textToHash')}</OptLabel>
+      <DevTextarea rows={4} value={input} onChange={(e) => setInput(e.target.value)} placeholder={s('typeOrPasteText')} spellCheck={false} />
       <div className="mt-4 space-y-2">
         {hashes.map((h) => (
           <div key={h.label} className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2">
             <span className="w-20 shrink-0 text-xs font-bold uppercase tracking-wide text-gray-500">{h.label}</span>
-            <span className="font-mono text-xs text-gray-900 dark:text-white break-all">{h.value}</span>
-            <span className="ml-auto shrink-0">
+            <span dir="ltr" className="font-mono text-xs text-gray-900 dark:text-white break-all">{h.value}</span>
+            <span className="ms-auto shrink-0">
               <CopyBtn text={h.value} />
             </span>
           </div>
@@ -460,10 +456,10 @@ export const HashGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <div className="border-t border-gray-200 dark:border-gray-700 mt-5 pt-4">
-        <OptLabel>HMAC (keyed hash) of the same text</OptLabel>
+        <OptLabel>{s('hmacLabel')}</OptLabel>
         <div className="flex flex-wrap gap-2">
           <div className="flex-1 min-w-[200px]">
-            <OptInput value={hmacKey} onChange={(e) => setHmacKey(e.target.value)} placeholder="Secret key" spellCheck={false} />
+            <OptInput dir="ltr" value={hmacKey} onChange={(e) => setHmacKey(e.target.value)} placeholder={s('secretKey')} spellCheck={false} />
           </div>
           <div className="w-36">
             <OptSelect value={hmacAlgo} onChange={(e) => setHmacAlgo(e.target.value as 'SHA-256' | 'SHA-512')}>
@@ -474,8 +470,8 @@ export const HashGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         </div>
         {hmacValue && (
           <div className="flex items-center gap-3 mt-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2">
-            <span className="font-mono text-xs text-gray-900 dark:text-white break-all">{hmacValue}</span>
-            <span className="ml-auto shrink-0">
+            <span dir="ltr" className="font-mono text-xs text-gray-900 dark:text-white break-all">{hmacValue}</span>
+            <span className="ms-auto shrink-0">
               <CopyBtn text={hmacValue} />
             </span>
           </div>
@@ -483,17 +479,17 @@ export const HashGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <div className="border-t border-gray-200 dark:border-gray-700 mt-5 pt-4">
-        <OptLabel>Hash a file (SHA-256)</OptLabel>
+        <OptLabel>{s('hashFileLabel')}</OptLabel>
         <input
           type="file"
           onChange={(e) => onFile(e.target.files?.[0])}
-          className="block w-full text-sm text-gray-700 dark:text-gray-200 file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:dark:border-gray-700 file:bg-gray-100 file:dark:bg-gray-800 file:text-xs file:font-bold file:cursor-pointer"
+          className="block w-full text-sm text-gray-700 dark:text-gray-200 file:me-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:dark:border-gray-700 file:bg-gray-100 file:dark:bg-gray-800 file:text-xs file:font-bold file:cursor-pointer"
         />
         {fileSha256 && (
           <div className="flex items-center gap-3 mt-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2">
             <span className="shrink-0 text-xs font-bold text-gray-500 truncate max-w-[140px]">{fileName}</span>
-            <span className="font-mono text-xs text-gray-900 dark:text-white break-all">{fileSha256}</span>
-            <span className="ml-auto shrink-0">
+            <span dir="ltr" className="font-mono text-xs text-gray-900 dark:text-white break-all">{fileSha256}</span>
+            <span className="ms-auto shrink-0">
               <CopyBtn text={fileSha256} />
             </span>
           </div>
@@ -514,14 +510,15 @@ const DEFAULT_PW_OPTS: PasswordOptions = {
   excludeAmbiguous: false,
 };
 
-function entropyLabel(bits: number): string {
-  if (bits < 40) return 'Weak';
-  if (bits < 60) return 'Fair';
-  if (bits < 80) return 'Strong';
-  return 'Excellent';
+function entropyLabel(bits: number, s: StrFn): string {
+  if (bits < 40) return s('pwWeak');
+  if (bits < 60) return s('pwFair');
+  if (bits < 80) return s('pwStrong');
+  return s('pwExcellent');
 }
 
 export const PasswordGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [opts, setOpts] = useState<PasswordOptions>(DEFAULT_PW_OPTS);
   const [count, setCount] = useState(5);
   const [passwords, setPasswords] = useState<string[]>(() =>
@@ -543,13 +540,10 @@ export const PasswordGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setOpts((o) => ({ ...o, [key]: value }));
 
   return (
-    <DevCard
-      tool={tool}
-      note="Passwords are generated on this device with crypto.getRandomValues — a cryptographically secure random source — and are never sent anywhere. Use a unique password per account and store them in a password manager."
-    >
+    <DevCard tool={tool} note={s('pwNote')}>
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <OptLabel>Length: {opts.length}</OptLabel>
+          <OptLabel>{s('lengthLabel')}: {opts.length}</OptLabel>
           <input
             type="range"
             min={4}
@@ -567,43 +561,43 @@ export const PasswordGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           />
         </div>
         <div>
-          <OptLabel>How many</OptLabel>
+          <OptLabel>{s('howMany')}</OptLabel>
           <OptSelect value={count} onChange={(e) => setCount(parseInt(e.target.value, 10))}>
             {[1, 5, 10, 20].map((n) => (
               <option key={n} value={n}>
-                {n} password{n > 1 ? 's' : ''}
+                {n} {n > 1 ? s('passwordPlural') : s('passwordSingular')}
               </option>
             ))}
           </OptSelect>
           <div className="flex flex-wrap gap-4 mt-3">
-            <Stat label="Entropy" value={`${entropy} bits`} />
-            <Stat label="Strength" value={hasSet ? entropyLabel(entropy) : '—'} />
+            <Stat label={s('entropyLabel')} value={`${entropy} ${s('bitsWord')}`} />
+            <Stat label={s('strengthLabel')} value={hasSet ? entropyLabel(entropy, s) : '—'} />
           </div>
         </div>
       </div>
       <div className="flex flex-wrap gap-x-5 gap-y-2 mt-4">
-        <OptCheck label="Lowercase (a-z)" checked={opts.lowercase} onChange={(v) => setOpt('lowercase', v)} />
-        <OptCheck label="Uppercase (A-Z)" checked={opts.uppercase} onChange={(v) => setOpt('uppercase', v)} />
-        <OptCheck label="Numbers (0-9)" checked={opts.numbers} onChange={(v) => setOpt('numbers', v)} />
-        <OptCheck label="Symbols (!@#$…)" checked={opts.symbols} onChange={(v) => setOpt('symbols', v)} />
-        <OptCheck label="Exclude ambiguous (0, O, l, 1, I)" checked={opts.excludeAmbiguous} onChange={(v) => setOpt('excludeAmbiguous', v)} />
+        <OptCheck label={s('pwLowercase')} checked={opts.lowercase} onChange={(v) => setOpt('lowercase', v)} />
+        <OptCheck label={s('pwUppercase')} checked={opts.uppercase} onChange={(v) => setOpt('uppercase', v)} />
+        <OptCheck label={s('pwNumbers')} checked={opts.numbers} onChange={(v) => setOpt('numbers', v)} />
+        <OptCheck label={s('pwSymbols')} checked={opts.symbols} onChange={(v) => setOpt('symbols', v)} />
+        <OptCheck label={s('pwExcludeAmbiguous')} checked={opts.excludeAmbiguous} onChange={(v) => setOpt('excludeAmbiguous', v)} />
       </div>
       {!hasSet && (
         <div className="mt-4">
-          <ErrorBox message="Select at least one character set — a password cannot be generated from an empty pool." />
+          <ErrorBox message={s('pwSelectSet')} />
         </div>
       )}
       <div className="mt-4">
         <PrimaryBtn onClick={regenerate} disabled={!hasSet}>
-          Generate new passwords
+          {s('generateNewPasswords')}
         </PrimaryBtn>
       </div>
       {passwords.length > 0 && (
         <div className="mt-4 space-y-2">
           {passwords.map((pw, i) => (
             <div key={`${i}-${pw}`} className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2">
-              <span className="font-mono text-sm text-gray-900 dark:text-white break-all">{pw}</span>
-              <span className="ml-auto shrink-0">
+              <span dir="ltr" className="font-mono text-sm text-gray-900 dark:text-white break-all">{pw}</span>
+              <span className="ms-auto shrink-0">
                 <CopyBtn text={pw} />
               </span>
             </div>
@@ -617,6 +611,7 @@ export const PasswordGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 7. UUID generator ----------------
 
 export const UuidGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [version, setVersion] = useState<'4' | '7'>('4');
   const [count, setCount] = useState(5);
   const [uuids, setUuids] = useState<string[]>(() => Array.from({ length: 5 }, () => generateUuid(4)));
@@ -627,20 +622,17 @@ export const UuidGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <DevCard
-      tool={tool}
-      note="Version 4 UUIDs are fully random (122 bits of entropy — collisions are practically impossible). Version 7 embeds the current millisecond timestamp first, so UUIDs sort by creation time — friendlier for database indexes."
-    >
+    <DevCard tool={tool} note={s('uuidNote')}>
       <div className="flex flex-wrap gap-3 items-end">
         <div className="w-52">
-          <OptLabel>Version</OptLabel>
+          <OptLabel>{s('versionLabel')}</OptLabel>
           <OptSelect value={version} onChange={(e) => setVersion(e.target.value as '4' | '7')}>
-            <option value="4">Version 4 (random)</option>
-            <option value="7">Version 7 (time-ordered)</option>
+            <option value="4">{s('uuidV4')}</option>
+            <option value="7">{s('uuidV7')}</option>
           </OptSelect>
         </div>
         <div className="w-32">
-          <OptLabel>Count (1–500)</OptLabel>
+          <OptLabel>{s('countRange')}</OptLabel>
           <OptInput
             type="number"
             min={1}
@@ -649,16 +641,16 @@ export const UuidGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             onChange={(e) => setCount(parseInt(e.target.value || '1', 10))}
           />
         </div>
-        <PrimaryBtn onClick={regenerate}>Generate UUIDs</PrimaryBtn>
+        <PrimaryBtn onClick={regenerate}>{s('generateUuids')}</PrimaryBtn>
       </div>
       <div className="mt-4">
         <DevTextarea rows={8} value={uuids.join('\n')} readOnly spellCheck={false} />
       </div>
       <div className="flex flex-wrap items-center gap-2 mt-3">
-        <CopyBtn text={uuids.join('\n')} label="Copy all" />
-        <DownloadBtn content={uuids.join('\n')} filename="uuids.txt" label="Download .txt" />
-        <Stat label="Generated" value={uuids.length} />
-        <Stat label="Version" value={`v${version}`} />
+        <CopyBtn text={uuids.join('\n')} label={s('copyAll')} />
+        <DownloadBtn content={uuids.join('\n')} filename="uuids.txt" label={s('downloadTxt')} />
+        <Stat label={s('generatedLabel')} value={uuids.length} />
+        <Stat label={s('versionLabel')} value={`v${version}`} />
       </div>
     </DevCard>
   );
@@ -667,6 +659,7 @@ export const UuidGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------- 8. Timestamp converter ----------------
 
 export const TimestampConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [tsInput, setTsInput] = useState('');
   const [unitOverride, setUnitOverride] = useState<'auto' | 's' | 'ms'>('auto');
   const [dateInput, setDateInput] = useState('');
@@ -694,51 +687,48 @@ export const TimestampConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   }, [dateInput]);
 
   return (
-    <DevCard
-      tool={tool}
-      note="Unix timestamps count seconds since 1 Jan 1970 UTC — but JavaScript and many APIs use milliseconds, a 1000× trap. The auto detector treats values with 11+ digits as milliseconds; override it if a value is misread."
-    >
+    <DevCard tool={tool} note={s('tsNote')}>
       <div>
-        <OptLabel>Current time (live)</OptLabel>
+        <OptLabel>{s('currentTimeLive')}</OptLabel>
         <ResultTable
           rows={[
-            { label: 'Unix seconds', value: String(Math.floor(now.getTime() / 1000)), copy: true },
-            { label: 'Unix milliseconds', value: String(now.getTime()), copy: true },
+            { label: s('unixSeconds'), value: String(Math.floor(now.getTime() / 1000)), copy: true },
+            { label: s('unixMs'), value: String(now.getTime()), copy: true },
             { label: 'ISO 8601', value: now.toISOString(), copy: true },
           ]}
         />
       </div>
 
       <div className="border-t border-gray-200 dark:border-gray-700 mt-5 pt-4">
-        <OptLabel>Timestamp → date</OptLabel>
+        <OptLabel>{s('tsToDate')}</OptLabel>
         <div className="flex flex-wrap gap-2">
           <div className="flex-1 min-w-[220px]">
-            <OptInput value={tsInput} onChange={(e) => setTsInput(e.target.value)} placeholder="e.g. 1760000000 or 1760000000000" spellCheck={false} />
+            <OptInput dir="ltr" value={tsInput} onChange={(e) => setTsInput(e.target.value)} placeholder={s('tsPlaceholder')} spellCheck={false} />
           </div>
           <div className="w-44">
             <OptSelect value={unitOverride} onChange={(e) => setUnitOverride(e.target.value as 'auto' | 's' | 'ms')}>
-              <option value="auto">Unit: Auto-detect</option>
-              <option value="s">Unit: Seconds</option>
-              <option value="ms">Unit: Milliseconds</option>
+              <option value="auto">{s('unitAuto')}</option>
+              <option value="s">{s('unitSeconds')}</option>
+              <option value="ms">{s('unitMs')}</option>
             </OptSelect>
           </div>
         </div>
         {tsInput.trim() && !parsed && (
           <div className="mt-3">
-            <ErrorBox message="That does not parse as a valid timestamp." />
+            <ErrorBox message={s('invalidTimestamp')} />
           </div>
         )}
         {parsed && (
           <div className="mt-3">
             <ResultTable
               rows={[
-                { label: `Detected unit`, value: parsed.unit === 's' ? 'Seconds' : 'Milliseconds' },
+                { label: s('detectedUnit'), value: parsed.unit === 's' ? s('secondsWord') : s('msWord') },
                 { label: 'ISO 8601', value: parsed.date.toISOString(), copy: true },
                 { label: 'UTC', value: parsed.date.toUTCString() },
-                { label: 'Local', value: parsed.date.toLocaleString() },
-                { label: 'Unix seconds', value: String(Math.floor(parsed.date.getTime() / 1000)), copy: true },
-                { label: 'Unix milliseconds', value: String(parsed.date.getTime()), copy: true },
-                { label: 'Relative', value: relativeTime(parsed.date) },
+                { label: s('localLabel'), value: parsed.date.toLocaleString() },
+                { label: s('unixSeconds'), value: String(Math.floor(parsed.date.getTime() / 1000)), copy: true },
+                { label: s('unixMs'), value: String(parsed.date.getTime()), copy: true },
+                { label: s('relativeLabel'), value: relativeTime(parsed.date) },
               ]}
             />
           </div>
@@ -746,7 +736,7 @@ export const TimestampConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       </div>
 
       <div className="border-t border-gray-200 dark:border-gray-700 mt-5 pt-4">
-        <OptLabel>Date → timestamp</OptLabel>
+        <OptLabel>{s('dateToTs')}</OptLabel>
         <div className="max-w-sm">
           <OptInput type="datetime-local" value={dateInput} onChange={(e) => setDateInput(e.target.value)} />
         </div>
@@ -754,8 +744,8 @@ export const TimestampConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="mt-3">
             <ResultTable
               rows={[
-                { label: 'Unix seconds', value: String(fromDate.seconds), copy: true },
-                { label: 'Unix milliseconds', value: String(fromDate.ms), copy: true },
+                { label: s('unixSeconds'), value: String(fromDate.seconds), copy: true },
+                { label: s('unixMs'), value: String(fromDate.ms), copy: true },
               ]}
             />
           </div>
@@ -767,25 +757,27 @@ export const TimestampConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
 // ---------------- 9. Cron parser ----------------
 
-const CRON_PRESETS: { label: string; expr: string }[] = [
-  { label: 'Every minute', expr: '* * * * *' },
-  { label: 'Hourly', expr: '0 * * * *' },
-  { label: 'Daily midnight', expr: '0 0 * * *' },
-  { label: 'Weekdays 9am', expr: '0 9 * * 1-5' },
-  { label: 'Weekly Sunday', expr: '0 0 * * 0' },
-  { label: 'Monthly 1st', expr: '0 0 1 * *' },
-  { label: 'Every 15 minutes', expr: '*/15 * * * *' },
-  { label: 'Every 5 minutes', expr: '*/5 * * * *' },
+const CRON_PRESETS: { labelKey: string; expr: string }[] = [
+  { labelKey: 'cronEveryMinute', expr: '* * * * *' },
+  { labelKey: 'cronHourly', expr: '0 * * * *' },
+  { labelKey: 'cronDailyMidnight', expr: '0 0 * * *' },
+  { labelKey: 'cronWeekdays9', expr: '0 9 * * 1-5' },
+  { labelKey: 'cronWeeklySunday', expr: '0 0 * * 0' },
+  { labelKey: 'cronMonthly1st', expr: '0 0 1 * *' },
+  { labelKey: 'cronEvery15', expr: '*/15 * * * *' },
+  { labelKey: 'cronEvery5', expr: '*/5 * * * *' },
 ];
 
-function summarizeField(field: CronField): string {
-  if (!field.restricted) return 'Every value (*)';
+function summarizeField(field: CronField, s: StrFn): string {
+  if (!field.restricted) return s('cronEveryValue');
   const vals = [...field.values].sort((a, b) => a - b);
   const list = vals.slice(0, 14).join(', ');
-  return vals.length > 14 ? `${vals.length} values: ${list}, …` : `${vals.length} value${vals.length === 1 ? '' : 's'}: ${list}`;
+  const base = s('cronValues').replace('{n}', String(vals.length)).replace('{list}', list);
+  return vals.length > 14 ? `${base}, …` : base;
 }
 
 export const CronParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const s = useStrings(DEV_STRINGS);
   const [expr, setExpr] = useState('0 9 * * 1-5');
 
   const result = useMemo(() => {
@@ -796,30 +788,27 @@ export const CronParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         error: '',
         explanation: explainCron(expr),
         fields: [
-          { label: 'Minute', field: parsedCron.minute },
-          { label: 'Hour', field: parsedCron.hour },
-          { label: 'Day of month', field: parsedCron.dom },
-          { label: 'Month', field: parsedCron.month },
-          { label: 'Day of week', field: parsedCron.dow },
+          { label: s('fieldMinute'), field: parsedCron.minute },
+          { label: s('fieldHour'), field: parsedCron.hour },
+          { label: s('fieldDom'), field: parsedCron.dom },
+          { label: s('fieldMonth'), field: parsedCron.month },
+          { label: s('fieldDow'), field: parsedCron.dow },
         ],
         next: cronNextRuns(expr, 5),
       };
     } catch (e) {
-      return { error: e instanceof Error ? e.message : 'Invalid cron expression', explanation: '', fields: [], next: [] };
+      return { error: e instanceof Error ? e.message : s('invalidCron'), explanation: '', fields: [], next: [] };
     }
-  }, [expr]);
+  }, [expr, s]);
 
   return (
-    <DevCard
-      tool={tool}
-      note="Standard 5-field cron (minute hour day-of-month month day-of-week), as used by Linux crontab, GitHub Actions and most schedulers. When both day-of-month and day-of-week are restricted, standard cron runs when EITHER matches. Quartz-style seconds/year fields and @daily aliases are not supported."
-    >
-      <OptLabel>Cron expression</OptLabel>
-      <OptInput value={expr} onChange={(e) => setExpr(e.target.value)} placeholder="0 9 * * 1-5" spellCheck={false} className="font-mono" />
+    <DevCard tool={tool} note={s('cronNote')}>
+      <OptLabel>{s('cronExpression')}</OptLabel>
+      <OptInput dir="ltr" value={expr} onChange={(e) => setExpr(e.target.value)} placeholder="0 9 * * 1-5" spellCheck={false} className="font-mono text-left" />
       <div className="flex flex-wrap gap-2 mt-3">
         {CRON_PRESETS.map((p) => (
           <button
-            key={p.expr + p.label}
+            key={p.expr + p.labelKey}
             type="button"
             onClick={() => setExpr(p.expr)}
             className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-colors cursor-pointer ${
@@ -828,7 +817,7 @@ export const CronParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 : 'bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700'
             }`}
           >
-            {p.label}
+            {s(p.labelKey)}
           </button>
         ))}
       </div>
@@ -842,11 +831,11 @@ export const CronParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {result && !result.error && (
         <div className="mt-5 space-y-4">
           <div className="bg-violet-50 dark:bg-violet-950/40 border border-violet-200 dark:border-violet-800 rounded-xl px-4 py-3">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-violet-500 mb-1">In plain English</div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-violet-500 mb-1">{s('inPlainEnglish')}</div>
             <div className="text-base font-bold text-gray-900 dark:text-white">{result.explanation}</div>
           </div>
           <div>
-            <OptLabel>Field breakdown</OptLabel>
+            <OptLabel>{s('fieldBreakdown')}</OptLabel>
             <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
               {result.fields.map((f, i) => (
                 <div
@@ -854,14 +843,14 @@ export const CronParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   className={`flex flex-wrap items-baseline gap-x-3 px-3 py-2 text-sm ${i % 2 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}`}
                 >
                   <span className="w-28 shrink-0 text-xs font-bold uppercase tracking-wide text-gray-500">{f.label}</span>
-                  <span className="font-mono text-xs font-bold text-gray-900 dark:text-white">{f.field.raw}</span>
-                  <span className="text-xs text-gray-500">{summarizeField(f.field)}</span>
+                  <span dir="ltr" className="font-mono text-xs font-bold text-gray-900 dark:text-white">{f.field.raw}</span>
+                  <span className="text-xs text-gray-500">{summarizeField(f.field, s)}</span>
                 </div>
               ))}
             </div>
           </div>
           <div>
-            <OptLabel>Next 5 runs (your local time)</OptLabel>
+            <OptLabel>{s('nextRuns')}</OptLabel>
             {result.next.length ? (
               <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                 {result.next.map((d, i) => (
@@ -869,13 +858,13 @@ export const CronParser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     key={d.toISOString()}
                     className={`flex flex-wrap items-baseline gap-x-3 px-3 py-2 text-sm ${i % 2 ? 'bg-white dark:bg-gray-900' : 'bg-gray-50 dark:bg-gray-800'}`}
                   >
-                    <span className="font-mono text-xs sm:text-sm text-gray-900 dark:text-white">{d.toLocaleString()}</span>
+                    <span dir="ltr" className="font-mono text-xs sm:text-sm text-gray-900 dark:text-white">{d.toLocaleString()}</span>
                     <span className="text-xs text-gray-500">{relativeTime(d)}</span>
                   </div>
                 ))}
               </div>
             ) : (
-              <WarnBox message="No runs found in the next two years — this schedule may never fire (for example, February 31st)." />
+              <WarnBox message={s('cronNoRuns')} />
             )}
           </div>
         </div>
