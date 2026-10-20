@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string;
   slug: string;
   name: string;
-  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools' | 'Video & Audio Tools';
+  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools' | 'Video & Audio Tools' | 'AI Tools';
   description: string;
   highCPCKeywords: string[];
   isTopEarning: boolean;
@@ -104,6 +104,17 @@ export const CATEGORIES_META: CategoryMeta[] = [
     borderClass: 'border-orange-200 dark:border-orange-800',
     tagline: 'Convert, Trim & Record Media',
     description: 'Video to GIF, compressors, trimmers and converters powered by FFmpeg in your browser, plus screen, camera and voice recorders.'
+  },
+  {
+    name: 'AI Tools',
+    slug: 'ai-tools',
+    count: 300,
+    icon: 'Wand2',
+    colorClass: 'text-purple-600 dark:text-purple-400',
+    bgLight: 'bg-[#f3e8ff] dark:bg-purple-950/40',
+    borderClass: 'border-purple-200 dark:border-purple-800',
+    tagline: 'Write, Create & Chat with AI',
+    description: 'AI writer, paraphraser, grammar checker, translator, image generator, email and cover-letter writers, and chat — powered by Google Gemini.'
   },
   {
     name: 'Text & AI Tools',
@@ -2641,6 +2652,162 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     iconName: 'Wand2',
     cpcTier: 'High',
     estimatedCPC: '$13.10'
+  },
+
+  // AI Tools suite — Gemini-powered writing, creation and chat
+  {
+    slug: 'ai-writer',
+    name: 'AI Writer',
+    category: 'AI Tools',
+    description: 'Generate blog posts, product descriptions, essays and social posts on any topic — pick the tone and length.',
+    highCPCKeywords: ['ai writer', 'ai content generator', 'write with ai free'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$18.20'
+  },
+  {
+    slug: 'ai-paraphraser',
+    name: 'AI Paraphrasing Tool',
+    category: 'AI Tools',
+    description: 'Rewrite any text in seven modes — standard, fluent, formal, simple, creative, shorter or longer — while keeping the meaning.',
+    highCPCKeywords: ['paraphrasing tool', 'reword my essay', 'ai rewriter'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$17.60'
+  },
+  {
+    slug: 'ai-grammar-checker',
+    name: 'AI Grammar Checker',
+    category: 'AI Tools',
+    description: 'Fix grammar, spelling and punctuation — and see a clear list of exactly what was changed.',
+    highCPCKeywords: ['grammar checker', 'fix my grammar', 'spell checker online'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.90'
+  },
+  {
+    slug: 'ai-text-summarizer',
+    name: 'AI Text Summarizer',
+    category: 'AI Tools',
+    description: 'Summarize long articles and documents as a short paragraph, bullet points or key takeaways.',
+    highCPCKeywords: ['summarize text', 'ai summarizer', 'summary generator'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$14.40'
+  },
+  {
+    slug: 'ai-translator',
+    name: 'AI Translator',
+    category: 'AI Tools',
+    description: 'Translate text between 20 languages with natural, context-aware AI translation — including Urdu, Arabic and Hindi.',
+    highCPCKeywords: ['ai translator', 'translate text online', 'urdu to english translation'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.80'
+  },
+  {
+    slug: 'ai-story-generator',
+    name: 'AI Story Generator',
+    category: 'AI Tools',
+    description: 'Create original stories in eight genres — name your hero, set the scene, add an optional plot twist.',
+    highCPCKeywords: ['ai story generator', 'story maker', 'write a story with ai'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.20'
+  },
+  {
+    slug: 'ai-poem-generator',
+    name: 'AI Poem Generator',
+    category: 'AI Tools',
+    description: 'Write poems in real forms — haiku, sonnet, limerick, ballad, acrostic or free verse — on any topic and mood.',
+    highCPCKeywords: ['poem generator', 'ai poetry', 'write a poem online'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$11.90'
+  },
+  {
+    slug: 'ai-image-generator',
+    name: 'AI Image Generator',
+    category: 'AI Tools',
+    description: 'Create images from text prompts with Google Gemini — photorealistic, illustration, anime, 3D, watercolor and more styles.',
+    highCPCKeywords: ['ai image generator', 'text to image ai', 'generate image free'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$19.40'
+  },
+  {
+    slug: 'ai-email-writer',
+    name: 'AI Email Writer',
+    category: 'AI Tools',
+    description: 'Draft professional emails in seconds — pick the purpose and tone, add your key points, get a ready-to-send email.',
+    highCPCKeywords: ['ai email writer', 'write an email with ai', 'email generator'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$14.10'
+  },
+  {
+    slug: 'ai-cover-letter-generator',
+    name: 'AI Cover Letter Generator',
+    category: 'AI Tools',
+    description: 'Generate a tailored cover letter from your role, company, experience and skills — no placeholder brackets.',
+    highCPCKeywords: ['cover letter generator', 'ai cover letter', 'write my cover letter'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$14.70'
+  },
+  {
+    slug: 'ai-bio-generator',
+    name: 'AI Bio Generator',
+    category: 'AI Tools',
+    description: 'Get five ready-to-use profile bios for Instagram, X, LinkedIn, TikTok or Facebook in your style.',
+    highCPCKeywords: ['bio generator', 'instagram bio maker', 'ai bio writer'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.60'
+  },
+  {
+    slug: 'ai-caption-generator',
+    name: 'AI Caption Generator',
+    category: 'AI Tools',
+    description: 'Generate scroll-stopping social media captions with hashtags for Instagram, Facebook, X, LinkedIn and TikTok.',
+    highCPCKeywords: ['caption generator', 'instagram captions ai', 'social media caption maker'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$12.90'
+  },
+  {
+    slug: 'ai-business-name-generator',
+    name: 'AI Business Name Generator',
+    category: 'AI Tools',
+    description: 'Get 15 brandable business name ideas with taglines for any industry and style.',
+    highCPCKeywords: ['business name generator', 'company name ideas', 'brand name generator'],
+    isTopEarning: false,
+    iconName: 'Wand2',
+    cpcTier: 'High',
+    estimatedCPC: '$13.50'
+  },
+  {
+    slug: 'ai-chat',
+    name: 'AI Chat',
+    category: 'AI Tools',
+    description: 'Chat with Google Gemini — ask questions, brainstorm, get code help or practice interviews with preset assistants.',
+    highCPCKeywords: ['ai chat online', 'chat with ai free', 'gemini chat'],
+    isTopEarning: true,
+    iconName: 'Wand2',
+    cpcTier: 'Very High',
+    estimatedCPC: '$17.90'
   }
 ];
 
@@ -2720,7 +2887,8 @@ function generateFullToolsCatalog(): ToolItem[] {
     'Word Tools': 300,
     'SEO Tools': 400,
     'Developer Tools': 400,
-    'Video & Audio Tools': 300
+    'Video & Audio Tools': 300,
+    'AI Tools': 300
   };
 
   // Sub-domains and seeds to generate realistic legal tool titles
@@ -2844,6 +3012,16 @@ function generateFullToolsCatalog(): ToolItem[] {
         'Text to Speech', 'Speech to Text', 'Video Frame Capture', 'Audio Speed Changer', 'Webcam Recorder'
       ],
       suffixes: ['Tool', 'Online', 'Converter', 'Maker', 'Recorder', 'Studio'],
+      defaultIcon: 'Wand2'
+    },
+    'AI Tools': {
+      prefixes: ['AI', 'Smart', 'Free', 'Online', 'Advanced', 'Instant', 'Ultimate', 'Easy', 'Fast', 'Pro'],
+      topics: [
+        'AI Writer', 'AI Paraphraser', 'AI Grammar Checker', 'AI Summarizer', 'AI Translator',
+        'AI Story Generator', 'AI Poem Generator', 'AI Image Generator', 'AI Email Writer', 'AI Cover Letter Generator',
+        'AI Bio Generator', 'AI Caption Generator', 'AI Business Name Generator', 'AI Chat'
+      ],
+      suffixes: ['Tool', 'Online', 'Generator', 'Assistant', 'Maker', 'Studio'],
       defaultIcon: 'Wand2'
     }
   };

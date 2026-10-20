@@ -24,6 +24,7 @@ import { SEO_TOOL_COMPONENTS } from './tools/seo';
 import { DEV_TOOL_COMPONENTS } from './tools/dev';
 import { IMAGE_TOOL_COMPONENTS } from './tools/image';
 import { MEDIA_TOOL_COMPONENTS } from './tools/media';
+import { AI_TOOL_COMPONENTS } from './tools/ai';
 
 interface ToolWrapperProps {
   slug: string;
@@ -89,6 +90,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     const MediaTool = MEDIA_TOOL_COMPONENTS[tool.slug];
     if (MediaTool) {
       return <MediaTool tool={tool} />;
+    }
+    // Real AI suite (Gemini-powered, key-gated)
+    const AiTool = AI_TOOL_COMPONENTS[tool.slug];
+    if (AiTool) {
+      return <AiTool tool={tool} />;
     }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':
