@@ -256,7 +256,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Convertisseur texte et Word en PDF"
  },
  "ai-pdf-summarizer": {
-  "description": "Extrayez le contenu d'un PDF et obtenez-en un résumé clair grâce à l'IA.",
+  "description": "Extrayez le texte d’un PDF et générez un résumé bref, détaillé ou en puces grâce à l’IA (Gemini).",
   "name": "Résumé de PDF par IA"
  },
  "alternate-mix-pdf": {
@@ -284,7 +284,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Redresser un PDF"
  },
  "edit-pdf-metadata": {
-  "description": "Affichez et modifiez les métadonnées d'un PDF, comme le titre, l'auteur et les mots-clés.",
+  "description": "Affichez et modifiez le titre, l’auteur, le sujet, les mots-clés, le créateur et le producteur d’un PDF — ou effacez-les tous.",
   "name": "Modifier les métadonnées PDF"
  },
  "epub-to-pdf": {
@@ -560,7 +560,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Générateur de hachage"
  },
  "heading-structure-checker": {
-  "description": "Extrayez le plan des titres H1 à H6 de n'importe quelle page.",
+  "description": "Extrayez le plan des titres H1 à H6 du HTML d’une page et signalez les H1 multiples, les niveaux sautés et les titres vides.",
   "name": "Vérificateur de structure des titres"
  },
  "headline-analyzer": {
@@ -620,7 +620,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Vérificateur de densité de mots-clés"
  },
  "link-extractor": {
-  "description": "Extrayez tous les liens d'une page.",
+  "description": "Extrayez tous les liens du HTML d’une page — texte d’ancre, internes/externes, dofollow/nofollow — avec export CSV.",
   "name": "Extracteur de liens"
  },
  "llms-txt-generator": {
@@ -628,7 +628,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Générateur de LLMs.txt"
  },
  "meta-tag-analyzer": {
-  "description": "Collez le code d'une page pour analyser ses balises méta.",
+  "description": "Collez le HTML d’une page pour auditer son titre, sa description, son canonical, ses directives robots, Open Graph, ses titres, ses images et ses liens.",
   "name": "Analyseur de balises méta"
  },
  "meta-tag-generator": {
@@ -740,7 +740,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Rechercher et remplacer dans Word"
  },
  "word-metadata-editor": {
-  "description": "Affichez, modifiez ou supprimez les métadonnées d'un document Word.",
+  "description": "Affichez, modifiez ou supprimez les propriétés d’un document Word — titre, auteur, sujet, mots-clés et plus encore.",
   "name": "Éditeur de métadonnées Word"
  },
  "word-watermark": {
