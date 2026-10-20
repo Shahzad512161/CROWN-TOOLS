@@ -2,7 +2,7 @@ export interface ToolItem {
   id: string;
   slug: string;
   name: string;
-  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools';
+  category: 'Daily Calculators' | 'Image Tools' | 'PDF Tools' | 'Text & AI Tools' | 'Unit Converters' | 'Home & Daily Life' | 'Word Tools' | 'SEO Tools' | 'Developer Tools';
   description: string;
   highCPCKeywords: string[];
   isTopEarning: boolean;
@@ -82,6 +82,17 @@ export const CATEGORIES_META: CategoryMeta[] = [
     borderClass: 'border-green-200 dark:border-green-800',
     tagline: 'Rank Higher on Google',
     description: 'Meta tag generators, keyword density, robots.txt and sitemap builders, schema markup, and on-page SEO analysis — 100% in-browser.'
+  },
+  {
+    name: 'Developer Tools',
+    slug: 'developer-tools',
+    count: 400,
+    icon: 'FileCode',
+    colorClass: 'text-violet-600 dark:text-violet-400',
+    bgLight: 'bg-[#ede9fe] dark:bg-violet-950/40',
+    borderClass: 'border-violet-200 dark:border-violet-800',
+    tagline: 'Code Utilities for Builders',
+    description: 'JSON formatters and converters, JWT decoder, encoders, hash and password generators, regex tester, cron parser — 100% in-browser.'
   },
   {
     name: 'Text & AI Tools',
@@ -1953,6 +1964,305 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
     iconName: 'FileCode',
     cpcTier: 'High',
     estimatedCPC: '$10.90'
+  },
+
+  // Developer Tools suite — data formats, encodings/security, web utilities
+  {
+    slug: 'json-formatter',
+    name: 'JSON Formatter & Validator',
+    category: 'Developer Tools',
+    description: 'Format, validate and minify JSON with precise error locations — line and column — plus key sorting.',
+    highCPCKeywords: ['json formatter', 'json validator', 'json beautifier online'],
+    isTopEarning: true,
+    iconName: 'FileCode',
+    cpcTier: 'Very High',
+    estimatedCPC: '$15.80'
+  },
+  {
+    slug: 'json-to-csv-converter',
+    name: 'JSON to CSV Converter',
+    category: 'Developer Tools',
+    description: 'Convert JSON arrays and objects into clean CSV spreadsheets instantly.',
+    highCPCKeywords: ['json to csv', 'convert json to csv online', 'json to excel csv'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.60'
+  },
+  {
+    slug: 'csv-to-json-converter',
+    name: 'CSV to JSON Converter',
+    category: 'Developer Tools',
+    description: 'Convert CSV data into JSON with automatic type inference for numbers, booleans and nulls.',
+    highCPCKeywords: ['csv to json', 'convert csv to json online', 'csv parser'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.40'
+  },
+  {
+    slug: 'json-to-yaml-converter',
+    name: 'JSON to YAML Converter',
+    category: 'Developer Tools',
+    description: 'Convert JSON into clean, readable YAML for configs, Kubernetes and CI pipelines.',
+    highCPCKeywords: ['json to yaml', 'convert json to yaml online', 'json yaml converter'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.80'
+  },
+  {
+    slug: 'yaml-to-json-converter',
+    name: 'YAML to JSON Converter',
+    category: 'Developer Tools',
+    description: 'Convert YAML configs into JSON — mappings, sequences, flow collections and block scalars supported.',
+    highCPCKeywords: ['yaml to json', 'convert yaml to json online', 'yaml parser'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.60'
+  },
+  {
+    slug: 'json-to-typescript',
+    name: 'JSON to TypeScript',
+    category: 'Developer Tools',
+    description: 'Generate TypeScript interfaces from sample JSON automatically — nested objects and arrays handled.',
+    highCPCKeywords: ['json to typescript', 'generate typescript interfaces from json', 'json to ts types'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$12.30'
+  },
+  {
+    slug: 'json-diff-checker',
+    name: 'JSON Diff Checker',
+    category: 'Developer Tools',
+    description: 'Compare two JSON documents and see exactly which keys were added, removed or changed — by path.',
+    highCPCKeywords: ['json diff', 'compare json online', 'json compare tool'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.90'
+  },
+  {
+    slug: 'xml-formatter',
+    name: 'XML Formatter',
+    category: 'Developer Tools',
+    description: 'Pretty-print and validate XML with tag-balance checking, or minify it back down.',
+    highCPCKeywords: ['xml formatter', 'xml beautifier', 'format xml online'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.40'
+  },
+  {
+    slug: 'sql-formatter',
+    name: 'SQL Formatter',
+    category: 'Developer Tools',
+    description: 'Format SQL queries with clause line breaks and keyword casing for readable queries.',
+    highCPCKeywords: ['sql formatter', 'sql beautifier online', 'format sql query'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.20'
+  },
+  {
+    slug: 'jwt-decoder',
+    name: 'JWT Decoder',
+    category: 'Developer Tools',
+    description: 'Decode JWT header and payload, inspect claims with human-readable dates, and verify HS256 signatures.',
+    highCPCKeywords: ['jwt decoder', 'decode jwt online', 'jwt token viewer'],
+    isTopEarning: true,
+    iconName: 'ShieldCheck',
+    cpcTier: 'Very High',
+    estimatedCPC: '$14.70'
+  },
+  {
+    slug: 'base64-encoder-decoder',
+    name: 'Base64 Encoder & Decoder',
+    category: 'Developer Tools',
+    description: 'Encode and decode Base64 with full Unicode support and URL-safe alphabet option.',
+    highCPCKeywords: ['base64 encode', 'base64 decode online', 'base64 converter'],
+    isTopEarning: true,
+    iconName: 'FileCode',
+    cpcTier: 'Very High',
+    estimatedCPC: '$13.90'
+  },
+  {
+    slug: 'url-encoder-decoder',
+    name: 'URL Encoder & Decoder',
+    category: 'Developer Tools',
+    description: 'Percent-encode or decode URLs and query components safely and instantly.',
+    highCPCKeywords: ['url encoder', 'url decoder online', 'percent encoding'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.90'
+  },
+  {
+    slug: 'html-entity-encoder-decoder',
+    name: 'HTML Entity Encoder & Decoder',
+    category: 'Developer Tools',
+    description: 'Convert special characters to HTML entities and back — named, numeric and hex references.',
+    highCPCKeywords: ['html entity encoder', 'html entities decoder', 'escape html online'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$8.60'
+  },
+  {
+    slug: 'hash-generator',
+    name: 'Hash Generator',
+    category: 'Developer Tools',
+    description: 'Generate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes of any text, plus keyed HMAC signatures.',
+    highCPCKeywords: ['hash generator', 'md5 generator', 'sha256 hash online'],
+    isTopEarning: false,
+    iconName: 'ShieldCheck',
+    cpcTier: 'High',
+    estimatedCPC: '$11.80'
+  },
+  {
+    slug: 'password-generator',
+    name: 'Password Generator',
+    category: 'Developer Tools',
+    description: 'Generate strong random passwords on-device with crypto-grade randomness and an entropy meter.',
+    highCPCKeywords: ['password generator', 'strong password generator', 'random password maker'],
+    isTopEarning: true,
+    iconName: 'ShieldCheck',
+    cpcTier: 'Very High',
+    estimatedCPC: '$16.20'
+  },
+  {
+    slug: 'uuid-generator',
+    name: 'UUID Generator',
+    category: 'Developer Tools',
+    description: 'Generate UUID v4 (random) and v7 (time-ordered) identifiers in bulk — up to 500 at once.',
+    highCPCKeywords: ['uuid generator', 'guid generator online', 'uuid v7 generator'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.10'
+  },
+  {
+    slug: 'timestamp-converter',
+    name: 'Unix Timestamp Converter',
+    category: 'Developer Tools',
+    description: 'Convert Unix timestamps to human dates and back — seconds and milliseconds, UTC, local and relative time.',
+    highCPCKeywords: ['timestamp converter', 'epoch converter', 'unix time to date'],
+    isTopEarning: true,
+    iconName: 'Clock',
+    cpcTier: 'Very High',
+    estimatedCPC: '$13.60'
+  },
+  {
+    slug: 'cron-expression-parser',
+    name: 'Cron Expression Parser',
+    category: 'Developer Tools',
+    description: 'Explain cron expressions in plain English and preview the next run times.',
+    highCPCKeywords: ['cron parser', 'cron expression generator', 'crontab guru alternative'],
+    isTopEarning: false,
+    iconName: 'Clock',
+    cpcTier: 'High',
+    estimatedCPC: '$12.80'
+  },
+  {
+    slug: 'regex-tester',
+    name: 'Regex Tester',
+    category: 'Developer Tools',
+    description: 'Test regular expressions live with match highlighting, capture groups and named groups.',
+    highCPCKeywords: ['regex tester', 'regex validator online', 'regular expression tester'],
+    isTopEarning: true,
+    iconName: 'FileCode',
+    cpcTier: 'Very High',
+    estimatedCPC: '$14.30'
+  },
+  {
+    slug: 'color-converter',
+    name: 'Color Converter',
+    category: 'Developer Tools',
+    description: 'Convert colors between HEX, RGB, HSL, HSV and CMYK, with shades, tints and WCAG contrast ratios.',
+    highCPCKeywords: ['color converter', 'hex to rgb', 'rgb to hsl converter'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.70'
+  },
+  {
+    slug: 'css-gradient-generator',
+    name: 'CSS Gradient Generator',
+    category: 'Developer Tools',
+    description: 'Design linear and radial CSS gradients visually with multiple color stops and copy-ready code.',
+    highCPCKeywords: ['css gradient generator', 'gradient maker', 'linear gradient css'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$11.50'
+  },
+  {
+    slug: 'number-base-converter',
+    name: 'Number Base Converter',
+    category: 'Developer Tools',
+    description: 'Convert numbers between binary, octal, decimal, hex and any base 2–36 — arbitrary precision.',
+    highCPCKeywords: ['binary converter', 'hex to decimal', 'number base converter'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$9.90'
+  },
+  {
+    slug: 'url-parser',
+    name: 'URL Parser',
+    category: 'Developer Tools',
+    description: 'Break a URL into protocol, host, path segments and query parameters — and edit parameters to rebuild it.',
+    highCPCKeywords: ['url parser', 'parse url online', 'query string parser'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.20'
+  },
+  {
+    slug: 'text-diff-checker',
+    name: 'Text Diff Checker',
+    category: 'Developer Tools',
+    description: 'Compare two texts line by line and highlight additions and removals.',
+    highCPCKeywords: ['diff checker', 'text compare online', 'compare two texts diff'],
+    isTopEarning: false,
+    iconName: 'FileText',
+    cpcTier: 'High',
+    estimatedCPC: '$11.30'
+  },
+  {
+    slug: 'http-status-code-reference',
+    name: 'HTTP Status Code Reference',
+    category: 'Developer Tools',
+    description: 'Searchable reference of HTTP status codes — what each 1xx–5xx code means and when it is used.',
+    highCPCKeywords: ['http status codes', 'status code reference', 'http response codes list'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.10'
+  },
+  {
+    slug: 'chmod-calculator',
+    name: 'Chmod Calculator',
+    category: 'Developer Tools',
+    description: 'Convert Linux file permissions between rwx checkboxes, octal numbers and symbolic notation.',
+    highCPCKeywords: ['chmod calculator', 'chmod 755 meaning', 'linux permissions calculator'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$9.80'
+  },
+  {
+    slug: 'user-agent-parser',
+    name: 'User Agent Parser',
+    category: 'Developer Tools',
+    description: 'Parse any user-agent string into browser, version, OS, device type and rendering engine.',
+    highCPCKeywords: ['user agent parser', 'ua parser online', 'what is my user agent'],
+    isTopEarning: false,
+    iconName: 'FileCode',
+    cpcTier: 'High',
+    estimatedCPC: '$10.50'
   }
 ];
 
@@ -2030,7 +2340,8 @@ function generateFullToolsCatalog(): ToolItem[] {
     'Unit Converters': 1000,
     'Home & Daily Life': 700,
     'Word Tools': 300,
-    'SEO Tools': 400
+    'SEO Tools': 400,
+    'Developer Tools': 400
   };
 
   // Sub-domains and seeds to generate realistic legal tool titles
@@ -2135,6 +2446,16 @@ function generateFullToolsCatalog(): ToolItem[] {
       ],
       suffixes: ['Tool', 'Online', 'Checker', 'Generator', 'Analyzer', 'Studio'],
       defaultIcon: 'Search'
+    },
+    'Developer Tools': {
+      prefixes: ['Pro', 'Free', 'Online', 'Advanced', 'Smart', 'Instant', 'Ultimate', 'Easy', 'Fast', 'Expert'],
+      topics: [
+        'JSON Formatter', 'JWT Decoder', 'Base64 Encoder', 'Regex Tester', 'UUID Generator',
+        'Password Generator', 'Hash Generator', 'Cron Expression Parser', 'Timestamp Converter', 'Color Converter',
+        'SQL Formatter', 'XML Formatter', 'URL Parser', 'Text Diff Checker', 'Chmod Calculator'
+      ],
+      suffixes: ['Tool', 'Online', 'Utility', 'Generator', 'Checker', 'Studio'],
+      defaultIcon: 'FileCode'
     }
   };
 

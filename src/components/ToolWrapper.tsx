@@ -21,6 +21,7 @@ import { MultiCalculator } from './tools/MultiCalculator';
 import { GenericToolEngine } from './tools/GenericToolEngine';
 import { PDF_TOOL_COMPONENTS } from './tools/pdf';
 import { SEO_TOOL_COMPONENTS } from './tools/seo';
+import { DEV_TOOL_COMPONENTS } from './tools/dev';
 
 interface ToolWrapperProps {
   slug: string;
@@ -71,6 +72,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     const SeoTool = SEO_TOOL_COMPONENTS[tool.slug];
     if (SeoTool) {
       return <SeoTool tool={tool} />;
+    }
+    // Real Developer suite (single registry — slug keys live next to the components)
+    const DevTool = DEV_TOOL_COMPONENTS[tool.slug];
+    if (DevTool) {
+      return <DevTool tool={tool} />;
     }
     switch (tool.slug) {
       case 'mortgage-calculator-usa':

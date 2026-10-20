@@ -604,6 +604,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     { label: '📑 PDF & Docs', category: 'PDF Tools', count: '800+' },
                     { label: '📝 Word Tools', category: 'Word Tools', count: '300+' },
                     { label: '🔍 SEO Tools', category: 'SEO Tools', count: '400+' },
+                    { label: '💻 Developer Tools', category: 'Developer Tools', count: '400+' },
                     { label: '🏡 Daily Life', category: 'Home & Daily Life', count: '700+' },
                   ].map((cat) => (
                     <button
@@ -1052,6 +1053,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               }`}
             >
               🔍 SEO Tools (400)
+            </button>
+
+            {/* Developer Tools - Violet */}
+            <button
+              onClick={() => { setSelectedCategory('Developer Tools'); setCurrentPage(1); }}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold shrink-0 transition-all cursor-pointer shadow-sm hover:-translate-y-0.5 border-2 ${
+                selectedCategory === 'Developer Tools'
+                  ? 'bg-[#7c3aed] text-white border-[#6d28d9] shadow-md ring-2 ring-violet-300 dark:ring-violet-900'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-[#7c3aed]/40 hover:bg-[#7c3aed] hover:text-white'
+              }`}
+            >
+              💻 Developer Tools (400)
             </button>
           </div>
 
