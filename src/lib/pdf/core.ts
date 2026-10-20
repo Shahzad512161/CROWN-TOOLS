@@ -115,7 +115,8 @@ export async function getPageTextItems(doc: PdfJsDoc, pageNum: number): Promise<
 
 /** Group positioned items into visual text lines, top-to-bottom. */
 export function itemsToLines(items: TextItem[]): { y: number; text: string; items: TextItem[] }[] {
-  const sorted = [...items].sort((a, b) => b.y - a.y || a.x - b.x);
+  // item.y is distance from the TOP of the page, so ascending y = reading order.
+  const sorted = [...items].sort((a, b) => a.y - b.y || a.x - b.x);
   const lines: { y: number; text: string; items: TextItem[] }[] = [];
   for (const it of sorted) {
     const line = lines.find((l) => Math.abs(l.y - it.y) < Math.max(3, it.fontSize * 0.5));
