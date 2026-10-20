@@ -1,6 +1,8 @@
 import React from 'react';
 import { ShieldCheck, Heart, Sparkles, Mail, Globe, CheckCircle2, BookOpen } from 'lucide-react';
 import { Translations, TRANSLATIONS } from '../lib/i18n';
+import { useStrings } from '../lib/LangContext';
+import { PAGES_STRINGS } from '../lib/strings/pages';
 import { LogoMark } from './LogoMark';
 
 interface FooterProps {
@@ -13,8 +15,9 @@ export const Footer: React.FC<FooterProps> = ({
   onOpenModal, 
   onNavigatePage,
 
-  t = TRANSLATIONS.en 
+  t = TRANSLATIONS.en
 }) => {
+  const s = useStrings(PAGES_STRINGS);
   const handleNav = (page: 'home' | 'about' | 'privacy' | 'contact' | 'blog' | 'terms' | 'disclaimer', modalFallback: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer') => {
     if (onNavigatePage) {
       onNavigatePage(page);
@@ -39,32 +42,32 @@ export const Footer: React.FC<FooterProps> = ({
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              250+ Free Online Tools – 100% Unlocked, Legit, Safe & Private. High-precision calculators, document tools, and unit converters for USA, UK, Canada & global users.
+              {s('footerTagline')}
             </p>
             <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-[11px]">
               <ShieldCheck className="w-4 h-4 shrink-0" />
-              <span>Google AdSense & GDPR Compliant</span>
+              <span>{s('footerCompliant')}</span>
             </div>
           </div>
 
           {/* Quick Legal Links for AdSense Approval */}
           <div>
             <h4 className="font-bold text-[#0f172a] dark:text-white text-xs uppercase tracking-wider mb-3">
-              Legal & Compliance (500+ Words)
+              {s('footerLegalHeading')}
             </h4>
             <ul className="space-y-2">
               <li>
                 <button
                   onClick={() => handleNav('privacy', 'privacy')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
-                  {t.navPrivacy || 'Privacy Policy'} (GDPR / CCPA)
+                  {t.navPrivacy || 'Privacy Policy'} {s('footerGdprCcpa')}
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => handleNav('terms', 'terms')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
                   {t.navTerms || 'Terms & Conditions'}
                 </button>
@@ -72,7 +75,7 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => handleNav('disclaimer', 'disclaimer')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
                   {t.navDisclaimer || 'Disclaimer'}
                 </button>
@@ -80,9 +83,9 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => onOpenModal('legal-safe')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left text-emerald-600 dark:text-emerald-400 font-medium"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start text-emerald-600 dark:text-emerald-400 font-medium"
                 >
-                  100% Unlocked & Safe Policy
+                  {s('footerSafePolicy')}
                 </button>
               </li>
             </ul>
@@ -91,13 +94,13 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Company & Support */}
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider mb-3">
-              Company & Guides
+              {s('footerCompanyHeading')}
             </h4>
             <ul className="space-y-2">
               <li>
                 <button
                   onClick={() => handleNav('about', 'about')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
                   {t.navAbout || 'About Us'}
                 </button>
@@ -105,16 +108,16 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   onClick={() => handleNav('blog', 'about')}
-                  className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors cursor-pointer text-left flex items-center gap-1.5 font-bold text-amber-600 dark:text-amber-400"
+                  className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors cursor-pointer text-start flex items-center gap-1.5 font-bold text-amber-600 dark:text-amber-400"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>Blog & 800-Word Guides</span>
+                  <span>{s('footerBlogGuides')}</span>
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => handleNav('contact', 'contact')}
-                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-left"
+                  className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
                   {t.navContact || 'Contact Us'}
                 </button>
@@ -125,13 +128,13 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Safe & Clean Web Guarantee */}
           <div className="space-y-2.5">
             <h4 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider mb-2">
-              Zero Lock & Safe Web Guarantee
+              {s('footerGuaranteeHeading')}
             </h4>
             <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-              No piracy, zero scrapers, and zero lock screens. All 250 calculations and text transformations are rendered 100% client-side for maximum speed and data privacy.
+              {s('footerGuaranteeText')}
             </p>
             <div className="pt-2 flex items-center gap-2 text-[11px] text-slate-500">
-              <span>Support Email:</span>
+              <span>{s('footerSupportEmail')}</span>
               <a href="mailto:support@supercrowntools.com" className="font-mono text-blue-600 dark:text-blue-400 font-bold hover:underline">
                 support@supercrowntools.com
               </a>
@@ -140,9 +143,9 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px]">
+        <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-start text-[11px]">
           <p className="text-slate-500 dark:text-slate-400">
-            © 2026 Super Crown Tools. All 250+ tools are 100% unlocked and free for public use.
+            {s('footerCopyright')}
           </p>
           <div className="flex items-center gap-3">
             <span className="text-slate-400">

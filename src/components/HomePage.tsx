@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
 import { localizedTool } from '../lib/tools-fr';
+import { useStrings } from '../lib/LangContext';
+import { PAGES_STRINGS, HOME_GROUP_TEXT, PLATFORM_FAQ_TEXT, HOME_POPULAR_LABELS } from '../lib/strings/pages';
 import { LogoMark } from './LogoMark';
 
 interface HomePageProps {
@@ -284,6 +286,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   t = TRANSLATIONS.en,
   lang = 'en'
 }) => {
+  const s = useStrings(PAGES_STRINGS);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 24;
@@ -301,8 +304,14 @@ export const HomePage: React.FC<HomePageProps> = ({
     );
   };
 
+  // Platform FAQs in the active language (English source lives in PLATFORM_FAQS)
+  const platformFaqs = useMemo<PlatformFAQ[]>(
+    () => PLATFORM_FAQS.map((f) => ({ ...f, ...(PLATFORM_FAQ_TEXT[f.id]?.[lang] ?? {}) })),
+    [lang]
+  );
+
   const handleExpandAllFaqs = () => {
-    setOpenFaqIds(PLATFORM_FAQS.map((f) => f.id));
+    setOpenFaqIds(platformFaqs.map((f) => f.id));
   };
 
   const handleCollapseAllFaqs = () => {
@@ -315,7 +324,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   const filteredFaqs = useMemo(() => {
     const q = faqSearchQuery.toLowerCase().trim();
-    return PLATFORM_FAQS.filter((faq) => {
+    return platformFaqs.filter((faq) => {
       const matchesCategory =
         selectedFaqCategory === 'All' || faq.category === selectedFaqCategory;
       if (!matchesCategory) return false;
@@ -326,12 +335,12 @@ export const HomePage: React.FC<HomePageProps> = ({
         (faq.badge && faq.badge.toLowerCase().includes(q))
       );
     });
-  }, [faqSearchQuery, selectedFaqCategory]);
+  }, [faqSearchQuery, selectedFaqCategory, platformFaqs]);
 
   const faqCategories = useMemo(() => {
-    const cats = Array.from(new Set(PLATFORM_FAQS.map((f) => f.category)));
+    const cats = Array.from(new Set(platformFaqs.map((f) => f.category)));
     return ['All', ...cats];
-  }, []);
+  }, [platformFaqs]);
 
   // SEO Schema.org FAQPage sync for Homepage
   useEffect(() => {
@@ -347,7 +356,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     const schemaData = {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: PLATFORM_FAQS.map((faq) => ({
+      mainEntity: platformFaqs.map((faq) => ({
         '@type': 'Question',
         name: faq.question,
         acceptedAnswer: {
@@ -362,7 +371,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       const el = document.getElementById(scriptId);
       if (el) el.remove();
     };
-  }, []);
+  }, [platformFaqs]);
 
   const scrollCategories = (direction: 'left' | 'right') => {
     if (categoryScrollRef.current) {
@@ -479,7 +488,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 <button
                   onClick={() => onSearchChange('')}
                   className="absolute right-24 sm:right-28 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer"
-                  title="Clear search"
+                  title={s('homeClearSearch')}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -595,7 +604,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
             <FolderOpen className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-            <span>Browse by Category • 250+ Tools Organized</span>
+            <span>{s('homeBrowseBadge')}</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-[#0f172a] dark:text-white">
@@ -620,6 +629,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             </button>
             {INTUITIVE_CATEGORY_GROUPS.map((group) => {
               const isActive = selectedCategory === group.category;
+              const gt = HOME_GROUP_TEXT[group.id]?.[lang];
               return (
                 <button
                   key={group.id}
@@ -630,7 +640,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-white hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
-                  <span>{group.groupName}</span>
+                  <span>{gt?.name ?? group.groupName}</span>
                   <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-extrabold ${
                     isActive ? 'bg-blue-800 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
                   }`}>
@@ -646,6 +656,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {INTUITIVE_CATEGORY_GROUPS.map((group, idx) => {
             const isSelected = selectedCategory === group.category;
+            const gt = HOME_GROUP_TEXT[group.id]?.[lang];
             const theme = VIBRANT_THEMES[idx % VIBRANT_THEMES.length];
 
             return (
@@ -674,7 +685,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
                     <div className="flex flex-col items-end">
                       <span className="px-3 py-1 rounded-full text-xs font-black bg-white dark:bg-slate-900 text-[#0f172a] dark:text-white border border-slate-300 dark:border-slate-700 shadow-2xs">
-                        {group.count.toLocaleString()} Free Tools
+                        {s('homeFreeTools').replace('{count}', group.count.toLocaleString())}
                       </span>
                       <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold mt-1">
                         {t.freeLabel}
@@ -686,20 +697,20 @@ export const HomePage: React.FC<HomePageProps> = ({
                   <div className="mb-3">
                     <div className="flex items-center gap-2">
                       <h3 className="text-xl font-black text-[#0f172a] dark:text-white group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                        {group.groupName}
+                        {gt?.name ?? group.groupName}
                       </h3>
                       <span className="text-xs text-slate-500 dark:text-slate-400 font-bold">
                         ({getCategoryTranslatedName(group.category)})
                       </span>
                     </div>
                     <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">
-                      {group.tagline}
+                      {gt?.tagline ?? group.tagline}
                     </p>
                   </div>
 
                   {/* Description */}
                   <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                    {group.description}
+                    {gt?.description ?? group.description}
                   </p>
 
                   {/* Quick Launch Popular Tools */}
@@ -709,7 +720,9 @@ export const HomePage: React.FC<HomePageProps> = ({
                       {t.badgePopular}:
                     </p>
                     <div className="flex flex-wrap gap-1.5">
-                      {group.popularTools.map((pt) => (
+                      {group.popularTools.map((pt) => {
+                        const ptLabel = HOME_POPULAR_LABELS[pt.name]?.[lang] ?? pt.name;
+                        return (
                         <button
                           key={pt.name}
                           onClick={(e) => {
@@ -717,11 +730,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                             onSelectTool(pt.slug);
                           }}
                           className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
-                          title={`Open ${pt.name}`}
+                          title={s('homeOpenTool').replace('{name}', ptLabel)}
                         >
-                          {pt.name}
+                          {ptLabel}
                         </button>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -732,8 +746,8 @@ export const HomePage: React.FC<HomePageProps> = ({
                     onClick={() => handleCategoryClick(group.category)}
                     className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-slate-800 group-hover:bg-slate-900 dark:group-hover:bg-white text-[#0f172a] dark:text-white group-hover:text-white dark:group-hover:text-slate-900 border border-slate-300 dark:border-slate-700 group-hover:border-slate-900 dark:group-hover:border-white text-xs font-bold flex items-center justify-between transition-all shadow-2xs cursor-pointer"
                   >
-                    <span>Browse all {group.count.toLocaleString()} {group.groupName} Tools</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <span>{s('homeBrowseAll').replace('{count}', group.count.toLocaleString()).replace('{group}', gt?.name ?? group.groupName)}</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform rtl:rotate-180" />
                   </button>
                 </div>
               </div>
@@ -766,7 +780,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <button
             onClick={() => scrollCategories('left')}
             className="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white flex items-center justify-center shrink-0 cursor-pointer active:scale-95 transition-all"
-            aria-label="Scroll left"
+            aria-label={s('homeScrollLeft')}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -807,7 +821,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <button
             onClick={() => scrollCategories('right')}
             className="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-slate-900 dark:hover:text-white flex items-center justify-center shrink-0 shadow-xs cursor-pointer active:scale-95 transition-all"
-            aria-label="Scroll right"
+            aria-label={s('homeScrollRight')}
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -881,7 +895,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs">
             <span className="text-slate-600 dark:text-slate-400 font-medium">
               {t.pageOf} <strong className="text-slate-900 dark:text-white">{currentPage}</strong> of{' '}
-              <strong className="text-slate-900 dark:text-white">{totalPages}</strong> (24 Tools per Page)
+              <strong className="text-slate-900 dark:text-white">{totalPages}</strong> {s('homePerPage')}
             </span>
 
             <div className="flex items-center gap-1.5">
@@ -889,7 +903,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer"
-                title="Previous page"
+                title={s('homePrevPage')}
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -919,7 +933,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer"
-                title="Next page"
+                title={s('homeNextPage')}
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -936,17 +950,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         
         {/* FAQ Header with Left Blue Accent */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-          <div className="border-l-4 border-slate-900 dark:border-white pl-4">
+          <div className="border-s-4 border-slate-900 dark:border-white ps-4">
             <div className="flex items-center gap-2">
               <span className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                 <HelpCircle className="w-5 h-5" />
               </span>
               <h2 className="text-2xl sm:text-3xl font-display text-[#0f172a] dark:text-white">
-                Frequently Asked Questions
+                {s('homeFaqHeading')}
               </h2>
             </div>
             <p className="text-xs sm:text-sm font-medium text-[#475569] dark:text-[#94a3b8] mt-1.5 max-w-2xl">
-              Learn how Super Crown operates 250+ daily utilities with a zero-server-upload architecture, verified privacy, and institutional-grade precision.
+              {s('homeFaqSub')}
             </p>
           </div>
 
@@ -956,13 +970,13 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={handleExpandAllFaqs}
               className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer shadow-2xs"
             >
-              Expand All
+              {s('homeExpandAll')}
             </button>
             <button
               onClick={handleCollapseAllFaqs}
               className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer shadow-2xs"
             >
-              Collapse All
+              {s('homeCollapseAll')}
             </button>
           </div>
         </div>
@@ -972,19 +986,19 @@ export const HomePage: React.FC<HomePageProps> = ({
           
           {/* FAQ Search Bar */}
           <div className="relative flex items-center">
-            <Search className="w-4 h-4 absolute left-3.5 text-slate-400 pointer-events-none" />
+            <Search className="w-4 h-4 absolute start-3.5 text-slate-400 pointer-events-none" />
             <input
               type="text"
               value={faqSearchQuery}
               onChange={(e) => setFaqSearchQuery(e.target.value)}
-              placeholder="Search FAQ questions (e.g., privacy, IRS tax accuracy, free, offline, ATS resume)..."
-              className="w-full pl-10 pr-9 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all"
+              placeholder={s('homeFaqSearchPlaceholder')}
+              className="w-full ps-10 pe-9 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-slate-900 dark:focus:border-white focus:ring-2 focus:ring-slate-200 dark:focus:ring-slate-700 transition-all"
             />
             {faqSearchQuery && (
               <button
                 onClick={() => setFaqSearchQuery('')}
-                className="absolute right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold p-1 cursor-pointer"
-                title="Clear FAQ search"
+                className="absolute end-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold p-1 cursor-pointer"
+                title={s('homeClearFaqSearch')}
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -1005,7 +1019,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                       : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                   }`}
                 >
-                  {cat === 'All' ? 'All Questions' : cat}
+                  {cat === 'All' ? s('homeAllQuestions') : cat}
                 </button>
               );
             })}
@@ -1017,14 +1031,14 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="text-center py-12 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700 p-6">
             <HelpCircle className="w-10 h-10 text-slate-400 mx-auto mb-2" />
             <h4 className="font-bold text-slate-900 dark:text-white text-sm">
-              No questions found matching your search
+              {s('homeNoFaqResults')}
             </h4>
             <p className="text-xs text-slate-500 mt-1">"{faqSearchQuery}"</p>
             <button
               onClick={() => { setFaqSearchQuery(''); setSelectedFaqCategory('All'); }}
               className="mt-3 px-4 py-2 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-700 dark:hover:bg-slate-200 transition-colors cursor-pointer"
             >
-              Reset FAQ Search
+              {s('homeResetFaqSearch')}
             </button>
           </div>
         ) : (
@@ -1045,7 +1059,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   {/* Clickable Question Header */}
                   <button
                     onClick={() => toggleFaq(faq.id)}
-                    className="w-full p-4 sm:p-5 text-left flex items-start justify-between gap-4 cursor-pointer focus:outline-none"
+                    className="w-full p-4 sm:p-5 text-start flex items-start justify-between gap-4 cursor-pointer focus:outline-none"
                     aria-expanded={isOpen}
                   >
                     <div className="flex-1 space-y-1.5">
@@ -1079,12 +1093,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                       {/* Interactive Feedback Reaction */}
                       <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs border-t border-slate-100 dark:border-slate-700/50">
                         <span className="text-slate-500 dark:text-slate-400 font-medium text-[11px]">
-                          Was this answer helpful?
+                          {s('homeWasHelpful')}
                         </span>
-                        
+
                         {feedback ? (
                           <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                            <CheckCircle2 className="w-3.5 h-3.5" /> Thank you for your feedback!
+                            <CheckCircle2 className="w-3.5 h-3.5" /> {s('homeThanksFeedback')}
                           </span>
                         ) : (
                           <div className="flex items-center gap-2">
@@ -1092,13 +1106,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                               onClick={() => handleFaqFeedback(faq.id, 'yes')}
                               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-600 hover:border-emerald-300 transition-colors text-[11px] font-semibold cursor-pointer"
                             >
-                              <ThumbsUp className="w-3 h-3" /> Yes
+                              <ThumbsUp className="w-3 h-3" /> {s('homeYes')}
                             </button>
                             <button
                               onClick={() => handleFaqFeedback(faq.id, 'no')}
                               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-600 hover:border-rose-300 transition-colors text-[11px] font-semibold cursor-pointer"
                             >
-                              <ThumbsDown className="w-3 h-3" /> No
+                              <ThumbsDown className="w-3 h-3" /> {s('homeNo')}
                             </button>
                           </div>
                         )}

@@ -224,7 +224,7 @@ export default function App() {
     } else if (currentView === 'blog') {
       title = `${t.navBlog} — ${SITE_NAME}`;
     } else if (currentView === 'blog-post' && activeBlogSlug && TOOLS_BY_SLUG[activeBlogSlug]) {
-      const post = getBlogPostForTool(TOOLS_BY_SLUG[activeBlogSlug]);
+      const post = getBlogPostForTool(TOOLS_BY_SLUG[activeBlogSlug], currentLang);
       title = `${post.title} — ${SITE_NAME}`;
       description = post.metaDescription;
     } else if (currentView === 'about') {
