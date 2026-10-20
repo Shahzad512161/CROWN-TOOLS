@@ -13,9 +13,9 @@ for (const chunk of [top8, curated]) {
   for (const m of chunk.matchAll(/slug: '([^']+)'/g)) slugs.add(m[1]);
 }
 
-// English is the default locale and lives under /en; future locales
-// will add their own prefixed sitemaps when localization launches.
-const LOCALE = '/en';
+// Locales: English (default) under /en, French under /fr. Every URL is
+// emitted once per locale with hreflang alternates (x-default -> /en).
+const LOCALES = ['en', 'fr'];
 
 const staticPages = [
   { path: '', changefreq: 'daily', priority: '1.0' },
@@ -25,16 +25,24 @@ const staticPages = [
   { path: '/blog', changefreq: 'weekly', priority: '0.7' },
 ];
 
-const url = (loc, changefreq, priority) =>
-  `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+const url = (path, changefreq, priority) =>
+  LOCALES.map((loc) => {
+    const alternates = [
+      ...LOCALES.map(
+        (l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${BASE}/${l}${path}"/>`
+      ),
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE}/en${path}"/>`,
+    ].join('\n');
+    return `  <url>\n    <loc>${BASE}/${loc}${path}</loc>\n${alternates}\n    <lastmod>${today}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+  });
 
 const entries = [
-  ...staticPages.map((p) => url(`${BASE}${LOCALE}${p.path}`, p.changefreq, p.priority)),
-  ...[...slugs].sort().map((s) => url(`${BASE}${LOCALE}/tool/${s}`, 'weekly', '0.9')),
+  ...staticPages.flatMap((p) => url(p.path, p.changefreq, p.priority)),
+  ...[...slugs].sort().flatMap((s) => url(`/tool/${s}`, 'weekly', '0.9')),
 ];
 
 writeFileSync(
   new URL('../public/sitemap.xml', import.meta.url),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join('\n')}\n</urlset>\n`
 );
-console.log(`sitemap regenerated: ${entries.length} URLs (${slugs.size} real tools + ${staticPages.length} static)`);
+console.log(`sitemap regenerated: ${entries.length} URLs (${slugs.size} real tools + ${staticPages.length} static, x ${LOCALES.length} locales)`);

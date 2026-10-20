@@ -8,7 +8,7 @@ import { AboutPage, PrivacyPage, ContactPage } from './components/Pages';
 import { LegalModal } from './components/LegalModals';
 import { DonationBox } from './components/DonationBox';
 import { TOOLS_BY_SLUG, ALL_TOOLS } from './lib/tools-data';
-import { SupportedLanguage, TRANSLATIONS, detectUserLanguage, stripLocalePrefix, withLocalePrefix } from './lib/i18n';
+import { SupportedLanguage, TRANSLATIONS, localeFromPath, stripLocalePrefix, withLocalePrefix } from './lib/i18n';
 import { X } from 'lucide-react';
 
 export type AppView = 'home' | 'tool' | 'blog' | 'blog-post' | 'about' | 'privacy' | 'contact' | 'terms' | 'disclaimer';
@@ -42,22 +42,23 @@ export default function App() {
       document.body.classList.remove('dark');
     }
 
-    // 2. LANGUAGE: English only for now (locale prefix /en; future locales
-    // will be detected here when localization launches)
-    const detected = detectUserLanguage();
+    // 2. LANGUAGE: the locale comes from the URL prefix (/en or /fr).
+    // A bare path (main domain) canonicalizes to the default locale /en.
+    const detected = localeFromPath(window.location.pathname);
     setCurrentLang(detected);
-    document.documentElement.lang = 'en';
+    document.documentElement.lang = detected;
     document.documentElement.dir = 'ltr';
 
-    // Canonicalize to the /en-prefixed URL (domain/en/...)
+    // Canonicalize to the locale-prefixed URL (domain/en/... or domain/fr/...)
     const rawPath = window.location.pathname;
     const stripped = stripLocalePrefix(rawPath);
-    if (rawPath !== withLocalePrefix(stripped)) {
-      window.history.replaceState({}, '', withLocalePrefix(stripped) + window.location.search);
+    if (rawPath !== withLocalePrefix(stripped, detected)) {
+      window.history.replaceState({}, '', withLocalePrefix(stripped, detected) + window.location.search);
     }
 
     // 3. Routing Sync
     const handlePopState = () => {
+      setCurrentLang(localeFromPath(window.location.pathname));
       const path = stripLocalePrefix(window.location.pathname);
       const params = new URLSearchParams(window.location.search);
       const queryTool = params.get('tool');
@@ -120,6 +121,10 @@ export default function App() {
   const handleChangeLanguage = (lang: SupportedLanguage) => {
     setCurrentLang(lang);
     localStorage.setItem('supercrown_lang', lang);
+    document.documentElement.lang = lang;
+    // Rewrite the current URL under the new locale: /en/tool/x -> /fr/tool/x
+    const stripped = stripLocalePrefix(window.location.pathname);
+    window.history.pushState({}, '', withLocalePrefix(stripped, lang) + window.location.search);
   };
 
   // Navigation Helpers
@@ -127,7 +132,7 @@ export default function App() {
     setCurrentView('home');
     setActiveToolSlug(null);
     setActiveBlogSlug(null);
-    window.history.pushState({}, '', withLocalePrefix('/'));
+    window.history.pushState({}, '', withLocalePrefix('/', currentLang));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -141,27 +146,27 @@ export default function App() {
       return;
     }
     setCurrentView(page);
-    window.history.pushState({}, '', withLocalePrefix(`/${page}`));
+    window.history.pushState({}, '', withLocalePrefix(`/${page}`, currentLang));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectTool = (slug: string) => {
     setActiveToolSlug(slug);
     setCurrentView('tool');
-    window.history.pushState({}, '', withLocalePrefix(`/tool/${slug}`));
+    window.history.pushState({}, '', withLocalePrefix(`/tool/${slug}`, currentLang));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectBlogPost = (slug: string) => {
     setActiveBlogSlug(slug);
     setCurrentView('blog-post');
-    window.history.pushState({}, '', withLocalePrefix(`/blog/${slug}`));
+    window.history.pushState({}, '', withLocalePrefix(`/blog/${slug}`, currentLang));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNavigateBlog = () => {
     setCurrentView('blog');
-    window.history.pushState({}, '', withLocalePrefix('/blog'));
+    window.history.pushState({}, '', withLocalePrefix('/blog', currentLang));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -201,6 +206,7 @@ export default function App() {
             onNavigateTool={handleSelectTool}
             onNavigateBlogGuide={handleSelectBlogPost}
             t={t}
+            lang={currentLang}
           />
         ) : currentView === 'blog' ? (
           <BlogIndex
@@ -240,6 +246,7 @@ export default function App() {
             onSearchChange={setSearchQuery}
             onOpenDonationModal={() => setIsDonationModalOpen(true)}
             t={t}
+            lang={currentLang}
           />
         )}
       </main>

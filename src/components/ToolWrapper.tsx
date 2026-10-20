@@ -6,7 +6,8 @@ import {
   Share2, Bookmark, BookOpen, Star, Sparkles, ExternalLink,
   Printer, Copy, Check
 } from 'lucide-react';
-import { Translations, TRANSLATIONS } from '../lib/i18n';
+import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
+import { localizedTool } from '../lib/tools-fr';
 
 // Real Tool implementations
 import { MortgageCalculator } from './tools/MortgageCalculator';
@@ -34,6 +35,7 @@ interface ToolWrapperProps {
   onNavigateTool: (slug: string) => void;
   onNavigateBlogGuide: (slug: string) => void;
   t?: Translations;
+  lang?: SupportedLanguage;
 }
 
 export const ToolWrapper: React.FC<ToolWrapperProps> = ({
@@ -41,9 +43,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
   onNavigateHome,
   onNavigateTool,
   onNavigateBlogGuide,
-  t = TRANSLATIONS.en
+  t = TRANSLATIONS.en,
+  lang = 'en'
 }) => {
   const tool: ToolItem = TOOLS_BY_SLUG[slug] || ALL_TOOLS[0];
+  const lt = localizedTool(tool, lang);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -157,7 +161,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
             <ChevronRight className="w-3 h-3 text-slate-400" />
             <span className="text-slate-500 dark:text-slate-400">{tool.category}</span>
             <ChevronRight className="w-3 h-3 text-slate-400" />
-            <span className="font-bold text-slate-950 dark:text-white truncate">{tool.name}</span>
+            <span className="font-bold text-slate-950 dark:text-white truncate">{lt.name}</span>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -214,7 +218,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               {tool.category}
             </span>
             <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center gap-1">
-              ✓ 100% Unlocked • No Login Required
+              ✓ {t.heroBadgeUnlocked}
             </span>
             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline">
               Instant In-Browser Execution
@@ -222,10 +226,10 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
           </div>
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display text-slate-950 dark:text-white">
-            {tool.name}
+            {lt.name}
           </h1>
           <p className="mt-1.5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-4xl">
-            {tool.description}
+            {lt.description}
           </p>
         </div>
 
@@ -282,7 +286,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
                   className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <BookOpen className="w-4 h-4" />
-                  <span>{t.readCompleteGuideBtn || '📖 Read Complete Guide'}</span>
+                  <span>{t.readCompleteGuideBtn || 'Read Complete Guide'}</span>
                 </button>
               </div>
             </div>
@@ -373,20 +377,20 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
                 Related {tool.category}
               </h3>
               <div className="space-y-2">
-                {relatedTools.map(rt => (
+                {relatedTools.map(rt => { const rlt = localizedTool(rt, lang); return (
                   <button
                     key={rt.slug}
                     onClick={() => onNavigateTool(rt.slug)}
-                    className="w-full text-left p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/40 dark:hover:bg-blue-950/20 transition-all cursor-pointer group"
+                    className="w-full text-left p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-500 transition-all cursor-pointer group"
                   >
-                    <p className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {rt.name}
+                    <p className="text-xs font-bold text-slate-900 dark:text-white transition-colors">
+                      {rlt.name}
                     </p>
                     <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
-                      {rt.description}
+                      {rlt.description}
                     </p>
                   </button>
-                ))}
+                ); })}
               </div>
             </div>
 
