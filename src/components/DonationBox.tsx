@@ -178,7 +178,7 @@ export const DonationBox: React.FC<DonationBoxProps> = ({ toolName, t = TRANSLAT
           <span>•</span>
           <span>Zero User Tracking</span>
           <span>•</span>
-          <span>5000+ Free Tools Forever</span>
+          <span>250+ Free Tools Forever</span>
         </div>
       </div>
     </div>

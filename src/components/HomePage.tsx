@@ -10,7 +10,6 @@ import {
   ChevronDown, ChevronUp, HelpCircle, ThumbsUp, ThumbsDown, MessageSquare,
   FolderOpen, Layers, LockOpen, X
 } from 'lucide-react';
-import { AdSenseBanner } from './AdSenseBanner';
 import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
 import { localizedTool } from '../lib/tools-fr';
 import { LogoMark } from './LogoMark';
@@ -224,9 +223,9 @@ const PLATFORM_FAQS: PlatformFAQ[] = [
   {
     id: 'free-platform',
     category: 'Platform & Pricing',
-    question: 'How are all 5,000+ tools on Super Crown 100% free to use?',
+    question: 'How are all 250+ tools on Super Crown 100% free to use?',
     badge: '100% Free Forever',
-    answer: 'Super Crown runs entirely on client-side edge computing. When you perform mathematical calculations, PDF extractions, image compression, or document generation, your web browser executes the code locally using HTML5 Canvas, Web Workers, and Web Crypto. Because our centralized cloud bandwidth overhead is drastically minimized, we keep the entire 5,000+ tool directory free for everyone, supported by unobtrusive Google AdSense ads and voluntary user contributions.'
+    answer: 'Super Crown runs entirely on client-side edge computing. When you perform mathematical calculations, PDF extractions, image compression, or document generation, your web browser executes the code locally using HTML5 Canvas, Web Workers, and Web Crypto. Because our centralized cloud bandwidth overhead is drastically minimized, we keep the entire 250+ tool directory free for everyone, supported by unobtrusive Google AdSense ads and voluntary user contributions.'
   },
   {
     id: 'privacy-safe',
@@ -503,11 +502,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* Top AdSense Banner (728x90) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-2">
-        <AdSenseBanner position="top" />
-      </div>
-
       {/* ========================================================================= */}
       {/* 5. "MOST POPULAR TOOLS" SECTION:
           Title: Big, bold, with a left blue border 4px solid #3b82f6, icon 🔥.
@@ -595,7 +589,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
       {/* ========================================================================= */}
       {/* SECTION 2: BROWSE BY CATEGORY NAVIGATION SECTION
-          Organize 5000+ tools into intuitive groups: Finance, Converters, Productivity, Image Utilities, etc.
+          Organize 250+ tools into intuitive groups: Finance, Converters, Productivity, Image Utilities, etc.
       {/* ========================================================================= */}
       <section id="browse-categories-section" className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-b border-slate-200/80 dark:border-slate-800">
         
@@ -603,7 +597,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
             <FolderOpen className="w-4 h-4 text-slate-500 dark:text-slate-400" />
-            <span>Browse by Category • 5000+ Tools Organized</span>
+            <span>Browse by Category • 250+ Tools Organized</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-[#0f172a] dark:text-white">
@@ -749,11 +743,6 @@ export const HomePage: React.FC<HomePageProps> = ({
           })}
         </div>
       </section>
-
-      {/* Middle Native Ad Placement */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-4">
-        <AdSenseBanner position="bottom" />
-      </div>
 
       {/* ========================================================================= */}
       {/* SECTION 3: All Tools searchable grid loading from lib/tools-data.ts */}
@@ -959,7 +948,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               </h2>
             </div>
             <p className="text-xs sm:text-sm font-medium text-[#475569] dark:text-[#94a3b8] mt-1.5 max-w-2xl">
-              Learn how Super Crown operates 5,000+ daily utilities with a zero-server-upload architecture, verified privacy, and institutional-grade precision.
+              Learn how Super Crown operates 250+ daily utilities with a zero-server-upload architecture, verified privacy, and institutional-grade precision.
             </p>
           </div>
 
@@ -1147,7 +1136,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               Community Supported Infrastructure
             </span>
             <h3 className="text-2xl sm:text-3xl font-black">
-              Help Keep 5,000+ Tools 100% Free To Start
+              Help Keep 250+ Tools 100% Free To Start
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-normal leading-relaxed">
               {t.supportSubtitle}

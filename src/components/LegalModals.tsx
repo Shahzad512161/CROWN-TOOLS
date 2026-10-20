@@ -54,7 +54,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">1. Who We Are</h4>
               <p>
-                Super Crown is a high-speed digital engineering initiative designed to serve over 5,000 verified everyday tools across six specialized domains: Daily Financial Calculators, In-Browser Image Processors, Safe PDF & Document Formatters, Text and Productivity Engines, Scientific Unit Converters, and Everyday Household Utilities. Headquartered with global distributed edge servers across North America, Europe, and Asia, our team continuously benchmarks mathematical models, tax brackets, and regulatory guidelines to ensure maximum accuracy for users in the United States, United Kingdom, Canada, Pakistan, and worldwide.
+                Super Crown is a high-speed digital engineering initiative designed to serve over 250 verified everyday tools across six specialized domains: Daily Financial Calculators, In-Browser Image Processors, Safe PDF & Document Formatters, Text and Productivity Engines, Scientific Unit Converters, and Everyday Household Utilities. Headquartered with global distributed edge servers across North America, Europe, and Asia, our team continuously benchmarks mathematical models, tax brackets, and regulatory guidelines to ensure maximum accuracy for users in the United States, United Kingdom, Canada, Pakistan, and worldwide.
               </p>
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">2. Our Architecture: Zero-Logging Client Computation</h4>
@@ -64,12 +64,12 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">3. Ethical and Halal Standards</h4>
               <p>
-                We believe that the open web should foster productivity and lawful prosperity. Consequently, Super Crown adheres to strict ethical guidelines. We categorically refuse to host or facilitate copyrighted media rippers, illicit video downloaders, fraudulent identity generators, hacking scripts, gambling algorithms, or deceptive utilities. Every single one of our 5,000+ utilities is vetted to ensure 100% legal, safe, and family-friendly compliance under both international statutory standards and ethical principles.
+                We believe that the open web should foster productivity and lawful prosperity. Consequently, Super Crown adheres to strict ethical guidelines. We categorically refuse to host or facilitate copyrighted media rippers, illicit video downloaders, fraudulent identity generators, hacking scripts, gambling algorithms, or deceptive utilities. Every single one of our 250+ utilities is vetted to ensure 100% legal, safe, and family-friendly compliance under both international statutory standards and ethical principles.
               </p>
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">4. Ongoing Maintenance & Infrastructure</h4>
               <p>
-                Operating 5,000+ tools with instantaneous load times requires dedicated cloud edge bandwidth, continuous security audits, SSL encryption, and high-availability Content Delivery Networks (CDNs). Our platform is maintained by experienced full-stack engineers who review algorithms quarterly against updated IRS tax schedules, central bank exchange benchmark feeds, and standard weights and measures tables.
+                Operating 250+ tools with instantaneous load times requires dedicated cloud edge bandwidth, continuous security audits, SSL encryption, and high-availability Content Delivery Networks (CDNs). Our platform is maintained by experienced full-stack engineers who review algorithms quarterly against updated IRS tax schedules, central bank exchange benchmark feeds, and standard weights and measures tables.
               </p>
             </div>
           )}
@@ -83,7 +83,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">1. Introduction and Data Controller Information</h4>
               <p>
-                Super Crown ("we", "our", or "the Platform") respects your fundamental right to digital privacy. This Privacy Policy outlines our procedures regarding the collection, use, disclosure, and safeguarding of information when you access supercrown.tools and our suite of 5,000+ utilities. We are committed to transparency and maintaining a data-minimalist operational model.
+                Super Crown ("we", "our", or "the Platform") respects your fundamental right to digital privacy. This Privacy Policy outlines our procedures regarding the collection, use, disclosure, and safeguarding of information when you access supercrown.tools and our suite of 250+ utilities. We are committed to transparency and maintaining a data-minimalist operational model.
               </p>
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">2. Information Processed Locally vs. Information Transmitted</h4>
@@ -93,7 +93,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">3. Third-Party Advertising and Google AdSense Cookies</h4>
               <p>
-                To provide 5,000+ utilities completely free of subscription fees to users worldwide, Super Crown displays third-party advertisements served by Google AdSense and its certified advertising partners. 
+                To provide 250+ utilities completely free of subscription fees to users worldwide, Super Crown displays third-party advertisements served by Google AdSense and its certified advertising partners. 
               </p>
               <ul className="list-disc pl-5 space-y-1 text-xs">
                 <li>Third party vendors, including Google, use cookies to serve ads based on a user's prior visits to our website or other websites.</li>
@@ -118,7 +118,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
             <div className="space-y-4">
               <h4 className="text-base font-bold text-gray-900 dark:text-white">1. Agreement to Terms</h4>
               <p>
-                By visiting, viewing, or interacting with Super Crown (the "Site") and any of its associated 5,000+ tools, you acknowledge that you have read, understood, and agreed to be legally bound by these Terms of Service. If you do not accept these Terms in their entirety, you must discontinue use immediately.
+                By visiting, viewing, or interacting with Super Crown (the "Site") and any of its associated 250+ tools, you acknowledge that you have read, understood, and agreed to be legally bound by these Terms of Service. If you do not accept these Terms in their entirety, you must discontinue use immediately.
               </p>
 
               <h4 className="text-base font-bold text-gray-900 dark:text-white">2. Permitted Lawful Use and Prohibited Activities</h4>
@@ -213,7 +213,7 @@ export const LegalModal: React.FC<LegalModalProps> = ({ type, onClose }) => {
             <div className="space-y-4">
               <h4 className="text-base font-bold text-gray-900 dark:text-white">Why Community Support Matters</h4>
               <p>
-                Super Crown provides over 5,000 daily tools completely free of charge. Unlike competing commercial platforms that gate basic functionality behind $15/month subscriptions or blur calculated results, our philosophy is to keep essential tools accessible to everyone—from high school students drafting their first resume to small business contractors sending client invoices.
+                Super Crown provides over 250 daily tools completely free of charge. Unlike competing commercial platforms that gate basic functionality behind $15/month subscriptions or blur calculated results, our philosophy is to keep essential tools accessible to everyone—from high school students drafting their first resume to small business contractors sending client invoices.
               </p>
               <p>
                 Maintaining cloud infrastructure with low latency across North America, Europe, Asia, and Latin America entails substantial recurring costs for domain systems, continuous integration testing, edge DNS routing, and server uptime monitoring. Your micro-contributions through Payoneer, Binance Pay, Cryptocurrency, PayPal, or Buy Me a Coffee directly fund server capacity and enable our engineering team to build new verified utilities every month.

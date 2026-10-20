@@ -1,7 +1,7 @@
 // V9 Final - Complete Updated Header
-import React from 'react';
-import { Globe, Heart, Moon, Music2, Sun } from 'lucide-react';
-import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
+import React, { useEffect, useRef, useState } from 'react';
+import { Check, ChevronDown, Globe, Heart, Moon, Music2, Sun } from 'lucide-react';
+import { SUPPORTED_LANGUAGES, SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
 import { DonationHeart } from './DonationHeart';
 import { LogoMark } from './LogoMark';
 
@@ -28,6 +28,26 @@ export default function Header({
   t = TRANSLATIONS.en,
   activePage = 'home'
 }: HeaderProps) {
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+  const currentLangInfo = SUPPORTED_LANGUAGES.find((l) => l.code === currentLang) ?? SUPPORTED_LANGUAGES[0];
+
+  useEffect(() => {
+    if (!langMenuOpen) return;
+    const onPointerDown = (e: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) setLangMenuOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLangMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [langMenuOpen]);
+
   return (
     <header className="w-full sticky top-0 z-[100] select-none shadow-xs">
       {/* ========================================================================= */}
@@ -62,22 +82,50 @@ export default function Header({
               support@supercrowntools.com
             </a>
 
-            {/* Language switcher: EN | FR (URL prefix /en or /fr) */}
-            <div className="flex items-center gap-1 bg-white/10 border border-white/15 rounded-full p-0.5" role="group" aria-label={t.selectLanguage}>
-              <Globe className="w-3.5 h-3.5 text-white/60 ml-1.5" />
-              {(['en', 'es', 'fr', 'ar', 'ru'] as const).map((l) => (
-                <button
-                  key={l}
-                  type="button"
-                  onClick={() => onChangeLang?.(l)}
-                  className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold cursor-pointer transition-colors ${
-                    currentLang === l ? 'bg-white text-black' : 'text-white/70 hover:text-white'
-                  }`}
-                  aria-pressed={currentLang === l}
+            {/* Language dropdown (URL prefix /en, /es, /fr, /ar, /ru) */}
+            <div className="relative" ref={langMenuRef}>
+              <button
+                type="button"
+                onClick={() => setLangMenuOpen((open) => !open)}
+                className="flex items-center gap-1.5 bg-white/10 hover:bg-white/15 border border-white/15 rounded-full ps-3 pe-2 py-1 text-[12px] font-semibold text-white cursor-pointer transition-colors"
+                aria-haspopup="listbox"
+                aria-expanded={langMenuOpen}
+                aria-label={t.selectLanguage}
+              >
+                <Globe className="w-3.5 h-3.5 text-white/60" />
+                <span>{currentLangInfo.nativeName}</span>
+                <ChevronDown className={`w-3.5 h-3.5 text-white/60 transition-transform ${langMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {langMenuOpen && (
+                <div
+                  className="absolute end-0 top-full mt-2 w-44 rounded-xl bg-neutral-900 border border-white/15 shadow-xl py-1.5 z-50"
+                  role="listbox"
+                  aria-label={t.selectLanguage}
                 >
-                  {l.toUpperCase()}
-                </button>
-              ))}
+                  {SUPPORTED_LANGUAGES.map((l) => (
+                    <button
+                      key={l.code}
+                      type="button"
+                      role="option"
+                      aria-selected={currentLang === l.code}
+                      onClick={() => {
+                        onChangeLang?.(l.code);
+                        setLangMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between gap-2 px-3 py-2 text-[13px] cursor-pointer transition-colors ${
+                        currentLang === l.code ? 'text-white font-bold bg-white/10' : 'text-white/70 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      <span className="flex items-baseline gap-2 min-w-0">
+                        <span className="truncate">{l.nativeName}</span>
+                        <span className="text-[11px] text-white/40 shrink-0">{l.name}</span>
+                      </span>
+                      {currentLang === l.code && <Check className="w-3.5 h-3.5 shrink-0" />}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Day / Night toggle button */}
@@ -114,14 +162,14 @@ export default function Header({
               <LogoMark className="w-8 h-8 text-amber-500" />
             </div>
             <div className="flex flex-col leading-none">
-              <h1 className="text-[19px] sm:text-[22px] font-display tracking-tight text-[#0f172a] dark:text-white flex items-center gap-1.5">
+              <div className="text-[19px] sm:text-[22px] font-display tracking-tight text-[#0f172a] dark:text-white flex items-center gap-1.5">
                 Super Crown Tools
                 <span className="text-[10px] sm:text-[11px] font-bold text-amber-500 uppercase tracking-wider bg-amber-100 dark:bg-amber-950/70 px-1.5 py-0.5 rounded border border-amber-300 dark:border-amber-700/60 hidden sm:inline-block">
-                  5000+
+                  250+
                 </span>
-              </h1>
+              </div>
               <span className="text-[11px] sm:text-[12px] font-medium text-slate-500 dark:text-slate-400 mt-1">
-                5000+ Free Online Tools
+                250+ Free Online Tools
               </span>
             </div>
           </button>

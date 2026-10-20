@@ -42,7 +42,7 @@ export const CurrencyConverter: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const benchmarkAmounts = [10, 50, 100, 500, 1000, 5000];
+  const benchmarkAmounts = [10, 50, 100, 500, 1000, 250];
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">

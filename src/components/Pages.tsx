@@ -36,7 +36,7 @@ export const AboutPage: React.FC<PageProps> = ({ onNavigateHome, onNavigateBlog 
             About Super Crown Tools
           </h1>
           <p className="mt-3 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-            Empowering 2M+ users across the United States, United Kingdom, Canada, and Europe with 5,000+ completely unlocked, client-side browser utilities.
+            Empowering 2M+ users across the United States, United Kingdom, Canada, and Europe with 250+ completely unlocked, client-side browser utilities.
           </p>
         </div>
 
@@ -51,7 +51,7 @@ export const AboutPage: React.FC<PageProps> = ({ onNavigateHome, onNavigateBlog 
               Super Crown Tools was launched with a single, unwavering principle: <strong>essential calculation utilities must be accessible to every person on Earth without barriers</strong>. In recent years, the internet has become saturated with tools that hide behind paywalls, aggressive click-to-unlock overlays, forced software downloads, or mandatory account creation just to perform basic math or convert a file.
             </p>
             <p>
-              We decided to do things differently. Every single one of our 5,000+ tools—from our advanced USA Mortgage Amortization Engine and Auto Insurance Estimators to our client-side PDF processors and Unit Converters—is <strong>100% unlocked from the moment you open the page</strong>. No blur, no "Click to Unlock", and no login required.
+              We decided to do things differently. Every single one of our 250+ tools—from our advanced USA Mortgage Amortization Engine and Auto Insurance Estimators to our client-side PDF processors and Unit Converters—is <strong>100% unlocked from the moment you open the page</strong>. No blur, no "Click to Unlock", and no login required.
             </p>
           </section>
 
@@ -106,7 +106,7 @@ export const AboutPage: React.FC<PageProps> = ({ onNavigateHome, onNavigateBlog 
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white transition-all cursor-pointer shadow-md"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>Explore 5000+ Free Tools</span>
+              <span>Explore 250+ Free Tools</span>
             </button>
             <button
               onClick={onNavigateBlog}

@@ -142,7 +142,7 @@ Total Estimated Taxes: $${Math.round(totalTaxes).toLocaleString()} (${effectiveT
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-bold">$</span>
               <input
                 type="number"
-                min="5000"
+                min="250"
                 max="2000000"
                 step="2500"
                 value={grossSalary}

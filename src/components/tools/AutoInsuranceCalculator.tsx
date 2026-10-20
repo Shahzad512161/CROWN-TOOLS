@@ -153,7 +153,7 @@ State Benchmark Average: $${selectedState.avgAnnual.toLocaleString()}/yr`;
             </div>
             <input
               type="range"
-              min="5000"
+              min="250"
               max="95000"
               step="1000"
               value={vehicleValue}

@@ -54,7 +54,7 @@ export const BlogIndex: React.FC<BlogIndexProps> = ({
             <span>Super Crown Knowledge Base • 800+ Words Educational Guides</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
-            Complete Guides & Tutorials for 5000+ Tools
+            Complete Guides & Tutorials for 250+ Tools
           </h1>
           <p className="mt-3 text-slate-600 dark:text-slate-400 text-sm sm:text-base">
             Master essential daily calculators, conversion algorithms, productivity hacks, and financial benchmarks with research-backed educational tutorials.
@@ -87,16 +87,6 @@ export const BlogIndex: React.FC<BlogIndexProps> = ({
                 {cat}
               </button>
             ))}
-          </div>
-        </div>
-
-        {/* AdSense Placement: Above Post Grid */}
-        <div className="mb-8 p-3 rounded-xl border border-dashed border-amber-300 dark:border-amber-700/50 bg-amber-50/50 dark:bg-amber-950/20 text-center">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
-            Advertisement • Google AdSense Responsive Unit
-          </span>
-          <div className="h-16 flex items-center justify-center text-xs text-slate-400">
-            (AdSense In-Feed / Banner Placeholder)
           </div>
         </div>
 
@@ -248,16 +238,6 @@ export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
           </button>
         </div>
 
-        {/* AdSense Placement: 1 in header area */}
-        <div className="my-6 p-4 rounded-xl border border-dashed border-amber-300 dark:border-amber-700/60 bg-amber-50/60 dark:bg-amber-950/20 text-center">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
-            AdSense Top Leaderboard Unit
-          </span>
-          <div className="h-14 flex items-center justify-center text-xs text-slate-400">
-            (Header Ad Placeholder • 728x90 / Responsive Display)
-          </div>
-        </div>
-
         {/* Table of Contents */}
         <div className="my-6 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <h2 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3 uppercase tracking-wide text-xs">
@@ -322,16 +302,6 @@ export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
               {post.conclusion}
             </p>
           </section>
-        </div>
-
-        {/* AdSense Placement: Below Tool / Article Content */}
-        <div className="my-8 p-4 rounded-xl border border-dashed border-amber-300 dark:border-amber-700/60 bg-amber-50/60 dark:bg-amber-950/20 text-center">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
-            AdSense Content Banner
-          </span>
-          <div className="h-20 flex items-center justify-center text-xs text-slate-400">
-            (In-Article Ad Placeholder • 336x280 Large Rectangle)
-          </div>
         </div>
 
         {/* FAQ Section with Google FAQ Schema */}

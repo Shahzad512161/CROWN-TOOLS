@@ -269,7 +269,7 @@ Payment Notes: ${paymentNotes}`;
           >
             <div className="flex justify-between items-start border-b border-gray-200 pb-5 mb-5">
               <div>
-                <h1 className="text-xl font-black text-gray-900 uppercase tracking-wider">{senderName}</h1>
+                <div className="text-xl font-black text-gray-900 uppercase tracking-wider">{senderName}</div>
                 <p className="text-[11px] text-gray-600 whitespace-pre-line mt-1">{senderDetails}</p>
               </div>
               <div className="text-right">

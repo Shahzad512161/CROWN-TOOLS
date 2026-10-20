@@ -25,7 +25,7 @@ export const POST_LIMITS: PostLimit[] = [
   { id: 'linkedin', platform: 'LinkedIn', charLimit: 3000, note: 'Posts up to 3,000 characters; only the first ~210 show before "see more".' },
   { id: 'facebook', platform: 'Facebook', charLimit: 63206, note: 'Posts can be very long, but engagement drops sharply after a few hundred characters.' },
   { id: 'youtube-title', platform: 'YouTube title', charLimit: 100, note: 'Titles up to 100 characters; keep the hook in the first 50.' },
-  { id: 'youtube-desc', platform: 'YouTube description', charLimit: 5000, note: 'Descriptions up to 5,000 characters.' },
+  { id: 'youtube-desc', platform: 'YouTube description', charLimit: 250, note: 'Descriptions up to 250 characters.' },
   { id: 'pinterest', platform: 'Pinterest', charLimit: 500, note: 'Pin descriptions up to 500 characters; titles up to 100.' },
 ];
 

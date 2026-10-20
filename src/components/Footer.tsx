@@ -40,7 +40,7 @@ export const Footer: React.FC<FooterProps> = ({
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              5000+ Free Online Tools – 100% Unlocked, Legit, Safe & Private. High-precision calculators, document tools, and unit converters for USA, UK, Canada & global users.
+              250+ Free Online Tools – 100% Unlocked, Legit, Safe & Private. High-precision calculators, document tools, and unit converters for USA, UK, Canada & global users.
             </p>
             <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold text-[11px]">
               <ShieldCheck className="w-4 h-4 shrink-0" />
@@ -138,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({
               Zero Lock & Safe Web Guarantee
             </h4>
             <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
-              No piracy, zero scrapers, and zero lock screens. All 5,000 calculations and text transformations are rendered 100% client-side for maximum speed and data privacy.
+              No piracy, zero scrapers, and zero lock screens. All 250 calculations and text transformations are rendered 100% client-side for maximum speed and data privacy.
             </p>
             <div className="pt-2 flex items-center gap-2 text-[11px] text-slate-500">
               <span>Support Email:</span>
@@ -152,7 +152,7 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left text-[11px]">
           <p className="text-slate-500 dark:text-slate-400">
-            © 2026 Super Crown Tools. All 5,000+ tools are 100% unlocked and free for public use.
+            © 2026 Super Crown Tools. All 250+ tools are 100% unlocked and free for public use.
           </p>
           <div className="flex items-center gap-3">
             <span className="text-slate-400">

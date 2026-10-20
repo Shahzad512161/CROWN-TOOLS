@@ -1,12 +1,24 @@
 // Shared PDF engine core for all Super Crown PDF tools.
 // Everything runs 100% in the browser: files never leave the user's device.
 import { PDFDocument, StandardFonts, degrees, rgb, PDFName, PDFString, PDFHexString } from '@cantoo/pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
-// @ts-ignore - Vite URL import for the pdf.js worker bundle
-import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import JSZip from 'jszip';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl as string;
+// pdf.js is heavy (~350 KB gz) and only tools that READ/render existing PDFs
+// need it — load it lazily on first use so write-only tools never pay for it.
+type PdfJsLib = typeof import('pdfjs-dist');
+let pdfjsPromise: Promise<PdfJsLib> | null = null;
+export function loadPdfJsLib(): Promise<PdfJsLib> {
+  if (!pdfjsPromise) {
+    pdfjsPromise = (async () => {
+      const lib = await import('pdfjs-dist');
+      // @ts-ignore - Vite URL import for the pdf.js worker bundle
+      const workerUrl = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default;
+      lib.GlobalWorkerOptions.workerSrc = workerUrl as string;
+      return lib;
+    })();
+  }
+  return pdfjsPromise;
+}
 
 export { PDFDocument, StandardFonts, degrees, rgb, PDFName, PDFString, PDFHexString };
 export type { PDFPage } from '@cantoo/pdf-lib';
@@ -75,9 +87,10 @@ export async function savePdf(doc: PDFDocument): Promise<Uint8Array> {
 // pdf.js helpers
 // ---------------------------------------------------------------------------
 
-export type PdfJsDoc = Awaited<ReturnType<typeof pdfjsLib.getDocument>['promise']>;
+export type PdfJsDoc = import('pdfjs-dist').PDFDocumentProxy;
 
 export async function openPdfJs(bytes: Uint8Array, password?: string): Promise<PdfJsDoc> {
+  const pdfjsLib = await loadPdfJsLib();
   const task = pdfjsLib.getDocument({ data: bytes.slice() as any, password });
   return task.promise;
 }

@@ -101,7 +101,7 @@ Total Cost of Loan: $${Math.round(totalLoanRepayment).toLocaleString()}`;
                 type="number"
                 min="20000"
                 max="5000000"
-                step="5000"
+                step="250"
                 value={homePrice}
                 onChange={(e) => setHomePrice(Number(e.target.value) || 0)}
                 className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500"

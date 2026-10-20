@@ -240,7 +240,7 @@ ${skills}`;
           >
             {/* Header */}
             <div className="text-center border-b-2 border-gray-900 pb-3 mb-4">
-              <h1 className="text-2xl font-bold tracking-wider uppercase font-sans text-gray-900">{fullName}</h1>
+              <div className="text-2xl font-bold tracking-wider uppercase font-sans text-gray-900">{fullName}</div>
               <p className="text-xs font-semibold text-gray-700 uppercase tracking-wide mt-0.5 font-sans">{jobTitle}</p>
               <p className="text-[10px] text-gray-600 mt-1 font-sans">
                 {location} • {phone} • {email}

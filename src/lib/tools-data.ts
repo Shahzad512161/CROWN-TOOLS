@@ -3189,7 +3189,7 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
   }
 ];
 
-// Helper to systematically generate the rest of the 5000 tools
+// Helper to systematically generate the rest of the 250 tools
 // Exactly fulfilling the requested breakdown:
 // Daily Calculators: 1000
 // Image Tools: 1000
@@ -3197,7 +3197,7 @@ const CURATED_ADDITIONAL_TOOLS: Partial<ToolItem>[] = [
 // Text & AI Tools: 500
 // Unit Converters: 1000
 // Home & Daily Life: 700
-// Total = 5000 tools!
+// Total = 250 tools!
 
 function generateFullToolsCatalog(): ToolItem[] {
   const result: ToolItem[] = [];
@@ -3241,7 +3241,7 @@ function generateFullToolsCatalog(): ToolItem[] {
           },
           {
             question: 'Is this tool completely free to use?',
-            answer: 'Yes, all 5000+ tools on Super Crown are 100% free with no registration or subscriptions.'
+            answer: 'Yes, all 250+ tools on Super Crown are 100% free with no registration or subscriptions.'
           },
           {
             question: 'Can I use this on mobile devices?',
@@ -3503,7 +3503,7 @@ function generateFullToolsCatalog(): ToolItem[] {
   return result;
 }
 
-// Generate the 5,000 tools catalog once
+// Generate the 250 tools catalog once
 export const ALL_TOOLS: ToolItem[] = generateFullToolsCatalog();
 
 // Quick lookup map by slug

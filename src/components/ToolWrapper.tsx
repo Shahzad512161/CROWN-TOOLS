@@ -8,26 +8,111 @@ import {
 } from 'lucide-react';
 import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
 import { localizedTool } from '../lib/tools-fr';
+import { CHROME, localizedCategory } from '../lib/strings-chrome';
+import { lookup } from '../lib/LangContext';
+import { localizedOverview, localizedFaqs } from '../lib/tool-content';
 
-// Real Tool implementations
-import { MortgageCalculator } from './tools/MortgageCalculator';
-import { AutoInsuranceCalculator } from './tools/AutoInsuranceCalculator';
-import { LoanCalculator } from './tools/LoanCalculator';
-import { TaxCalculator } from './tools/TaxCalculator';
-import { ResumeBuilder } from './tools/ResumeBuilder';
-import { InvoiceGenerator } from './tools/InvoiceGenerator';
-import { CurrencyConverter } from './tools/CurrencyConverter';
-import { PdfToWordConverter } from './tools/PdfToWordConverter';
-import { MultiCalculator } from './tools/MultiCalculator';
-import { GenericToolEngine } from './tools/GenericToolEngine';
-import { PDF_TOOL_COMPONENTS } from './tools/pdf';
-import { SEO_TOOL_COMPONENTS } from './tools/seo';
-import { DEV_TOOL_COMPONENTS } from './tools/dev';
-import { IMAGE_TOOL_COMPONENTS } from './tools/image';
-import { MEDIA_TOOL_COMPONENTS } from './tools/media';
-import { AI_TOOL_COMPONENTS } from './tools/ai';
-import { SOCIAL_TOOL_COMPONENTS } from './tools/social';
-import { STUDENT_TOOL_COMPONENTS } from './tools/student';
+// Tool implementations are lazy-loaded per suite (see ToolBody below) so a
+// tool page only downloads the code for the one tool being opened.
+import { TOOL_SUITE_MAP, PDF_SLUG_COMPONENT, SuiteId } from '../lib/tool-suites';
+import { COMMON } from '../lib/LangContext';
+
+// PDF/Word tools load per source-file group (the full PDF registry chunk
+// alone would break the per-page weight budget).
+const PDF_GROUP_LOADERS: Record<string, () => Promise<Record<string, ToolComp>>> = {
+  PdfOrganizeTools: () => import('./tools/pdf/PdfOrganizeTools') as unknown as Promise<Record<string, ToolComp>>,
+  PdfConvertTools: () => import('./tools/pdf/PdfConvertTools') as unknown as Promise<Record<string, ToolComp>>,
+  PdfInteractiveTools: () => import('./tools/pdf/PdfInteractiveTools') as unknown as Promise<Record<string, ToolComp>>,
+  PdfCompetitorToolsA: () => import('./tools/pdf/PdfCompetitorToolsA') as unknown as Promise<Record<string, ToolComp>>,
+  PdfCompetitorToolsB: () => import('./tools/pdf/PdfCompetitorToolsB') as unknown as Promise<Record<string, ToolComp>>,
+  WordToolsA: () => import('./tools/word/WordToolsA') as unknown as Promise<Record<string, ToolComp>>,
+  WordToolsB: () => import('./tools/word/WordToolsB') as unknown as Promise<Record<string, ToolComp>>
+};
+
+type ToolComp = React.ComponentType<{ tool: ToolItem }>;
+
+const SUITE_LOADERS: Record<SuiteId, () => Promise<Record<string, ToolComp>>> = {
+  pdf: () => import('./tools/pdf').then((m) => m.PDF_TOOL_COMPONENTS),
+  seo: () => import('./tools/seo').then((m) => m.SEO_TOOL_COMPONENTS),
+  dev: () => import('./tools/dev').then((m) => m.DEV_TOOL_COMPONENTS),
+  image: () => import('./tools/image').then((m) => m.IMAGE_TOOL_COMPONENTS),
+  media: () => import('./tools/media').then((m) => m.MEDIA_TOOL_COMPONENTS),
+  ai: () => import('./tools/ai').then((m) => m.AI_TOOL_COMPONENTS),
+  social: () => import('./tools/social').then((m) => m.SOCIAL_TOOL_COMPONENTS),
+  student: () => import('./tools/student').then((m) => m.STUDENT_TOOL_COMPONENTS)
+};
+
+const STANDALONE_LOADERS: Record<string, () => Promise<ToolComp>> = {
+  'mortgage-calculator-usa': () => import('./tools/MortgageCalculator').then((m) => () => <m.MortgageCalculator />),
+  'auto-insurance-calculator': () => import('./tools/AutoInsuranceCalculator').then((m) => () => <m.AutoInsuranceCalculator />),
+  'loan-calculator-usa': () => import('./tools/LoanCalculator').then((m) => () => <m.LoanCalculator />),
+  'tax-calculator-2026-usa': () => import('./tools/TaxCalculator').then((m) => () => <m.TaxCalculator />),
+  'resume-builder-usa-format': () => import('./tools/ResumeBuilder').then((m) => () => <m.ResumeBuilder />),
+  'invoice-generator-pro': () => import('./tools/InvoiceGenerator').then((m) => () => <m.InvoiceGenerator />),
+  'live-currency-converter': () => import('./tools/CurrencyConverter').then((m) => () => <m.CurrencyConverter />),
+  'pdf-to-word-converter': () => import('./tools/PdfToWordConverter').then((m) => () => <m.PdfToWordConverter />)
+};
+
+const MULTI_SLUGS = [
+  'multi-calculator-all-in-one',
+  'bmi-calorie-deficit-calculator',
+  'bmi-calculator',
+  'age-calculator',
+  'scientific-calculator',
+  'compound-interest-calculator',
+  'tip-bill-splitter-calculator',
+  'tip-calculator',
+  'calorie-calculator'
+];
+
+/** Loads and renders only the component the open tool needs. */
+const ToolBody: React.FC<{ tool: ToolItem; lang: SupportedLanguage }> = ({ tool, lang }) => {
+  const [Comp, setComp] = useState<ToolComp | null>(null);
+  React.useEffect(() => {
+    let live = true;
+    setComp(null);
+    const load = async (): Promise<ToolComp> => {
+      const suite = TOOL_SUITE_MAP[tool.slug];
+      if (suite === 'pdf' && PDF_SLUG_COMPONENT[tool.slug]) {
+        const info = PDF_SLUG_COMPONENT[tool.slug];
+        const mod = await PDF_GROUP_LOADERS[info.group]();
+        if (mod[info.name]) return mod[info.name];
+      }
+      if (suite) {
+        const map = await SUITE_LOADERS[suite]();
+        if (map[tool.slug]) return map[tool.slug];
+      }
+      if (STANDALONE_LOADERS[tool.slug]) return STANDALONE_LOADERS[tool.slug]();
+      if (MULTI_SLUGS.includes(tool.slug)) {
+        const m = await import('./tools/MultiCalculator');
+        return () => <m.MultiCalculator toolSlug={tool.slug} />;
+      }
+      const g = await import('./tools/GenericToolEngine');
+      return g.GenericToolEngine;
+    };
+    load()
+      .then((C) => {
+        if (live) setComp(() => C);
+      })
+      .catch(() => {
+        if (live) setComp(() => () => null);
+      });
+    return () => {
+      live = false;
+    };
+  }, [tool.slug]);
+
+  if (!Comp) {
+    return (
+      <div className="animate-pulse space-y-3" aria-busy="true" aria-label={lookup(COMMON, lang, 'working')}>
+        <div className="h-10 rounded-xl bg-slate-200 dark:bg-slate-800" />
+        <div className="h-40 rounded-xl bg-slate-200 dark:bg-slate-800" />
+        <div className="h-10 w-1/3 rounded-full bg-slate-200 dark:bg-slate-800" />
+      </div>
+    );
+  }
+  return <Comp tool={tool} />;
+};
 
 interface ToolWrapperProps {
   slug: string;
@@ -48,6 +133,8 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
 }) => {
   const tool: ToolItem = TOOLS_BY_SLUG[slug] || ALL_TOOLS[0];
   const lt = localizedTool(tool, lang);
+  const c = (k: string) => lookup(CHROME, lang, k);
+  const catLabel = localizedCategory(tool.category, t);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -70,79 +157,8 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     .filter(item => item.category === tool.category && item.slug !== tool.slug)
     .slice(0, 4);
 
-  // Render the corresponding unlocked tool
-  const renderInteractiveTool = () => {
-    // Real PDF suite (single registry — slug keys live next to the components)
-    const PdfTool = PDF_TOOL_COMPONENTS[tool.slug];
-    if (PdfTool) {
-      return <PdfTool tool={tool} />;
-    }
-    // Real SEO suite (single registry — slug keys live next to the components)
-    const SeoTool = SEO_TOOL_COMPONENTS[tool.slug];
-    if (SeoTool) {
-      return <SeoTool tool={tool} />;
-    }
-    // Real Developer suite (single registry — slug keys live next to the components)
-    const DevTool = DEV_TOOL_COMPONENTS[tool.slug];
-    if (DevTool) {
-      return <DevTool tool={tool} />;
-    }
-    // Real Image studio suite (round 2)
-    const ImageTool = IMAGE_TOOL_COMPONENTS[tool.slug];
-    if (ImageTool) {
-      return <ImageTool tool={tool} />;
-    }
-    // Real Video & Audio suite (FFmpeg.wasm + native capture/speech)
-    const MediaTool = MEDIA_TOOL_COMPONENTS[tool.slug];
-    if (MediaTool) {
-      return <MediaTool tool={tool} />;
-    }
-    // Real AI suite (Gemini-powered, key-gated)
-    const AiTool = AI_TOOL_COMPONENTS[tool.slug];
-    if (AiTool) {
-      return <AiTool tool={tool} />;
-    }
-    // Real Social Media suite (creators, formatting, growth)
-    const SocialTool = SOCIAL_TOOL_COMPONENTS[tool.slug];
-    if (SocialTool) {
-      return <SocialTool tool={tool} />;
-    }
-    // Real Student & Everyday suite (study help + daily utilities)
-    const StudentTool = STUDENT_TOOL_COMPONENTS[tool.slug];
-    if (StudentTool) {
-      return <StudentTool tool={tool} />;
-    }
-    switch (tool.slug) {
-      case 'mortgage-calculator-usa':
-        return <MortgageCalculator />;
-      case 'auto-insurance-calculator':
-        return <AutoInsuranceCalculator />;
-      case 'loan-calculator-usa':
-        return <LoanCalculator />;
-      case 'tax-calculator-2026-usa':
-        return <TaxCalculator />;
-      case 'resume-builder-usa-format':
-        return <ResumeBuilder />;
-      case 'invoice-generator-pro':
-        return <InvoiceGenerator />;
-      case 'live-currency-converter':
-        return <CurrencyConverter />;
-      case 'pdf-to-word-converter':
-        return <PdfToWordConverter />;
-      case 'multi-calculator-all-in-one':
-      case 'bmi-calorie-deficit-calculator':
-      case 'bmi-calculator':
-      case 'age-calculator':
-      case 'scientific-calculator':
-      case 'compound-interest-calculator':
-      case 'tip-bill-splitter-calculator':
-      case 'tip-calculator':
-      case 'calorie-calculator':
-        return <MultiCalculator toolSlug={tool.slug} />;
-      default:
-        return <GenericToolEngine tool={tool} />;
-    }
-  };
+  // Render the corresponding unlocked tool (lazy-loaded per suite)
+  const renderInteractiveTool = () => <ToolBody tool={tool} lang={lang} />;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#111827] text-slate-900 dark:text-slate-100 transition-colors duration-200">
@@ -155,11 +171,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               onClick={onNavigateHome}
               className="flex items-center gap-1 hover:text-blue-600 font-medium transition-colors cursor-pointer"
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>5000+ Tools</span>
+              <ArrowLeft className="w-3.5 h-3.5 rtl:rotate-180" />
+              <span>{c('crumbTools')}</span>
             </button>
-            <ChevronRight className="w-3 h-3 text-slate-400" />
-            <span className="text-slate-500 dark:text-slate-400">{tool.category}</span>
+            <ChevronRight className="w-3 h-3 text-slate-400 rtl:rotate-180" />
+            <span className="text-slate-500 dark:text-slate-400">{catLabel}</span>
             <ChevronRight className="w-3 h-3 text-slate-400" />
             <span className="font-bold text-slate-950 dark:text-white truncate">{lt.name}</span>
           </div>
@@ -169,10 +185,10 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
             <button
               onClick={handleCopyLink}
               className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors cursor-pointer"
-              title="Copy shareable link to this unlocked tool"
+              title={c('shareTitle')}
             >
               {copiedLink ? <Check className="w-3 h-3 text-emerald-500" /> : <Share2 className="w-3 h-3" />}
-              <span className="hidden sm:inline">{copiedLink ? 'Copied' : 'Share'}</span>
+              <span className="hidden sm:inline">{copiedLink ? c('copiedLink') : c('shareBtn')}</span>
             </button>
 
             {/* Bookmark button */}
@@ -190,38 +206,25 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
 
             {/* Unlocked & Verified Badge */}
             <span className="hidden md:inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-              <ShieldCheck className="w-3.5 h-3.5" /> 100% Unlocked & Free
+              <ShieldCheck className="w-3.5 h-3.5" /> {c('unlockedFreeBadge')}
             </span>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        
-        {/* ========================================================================= */}
-        {/* AD PLACEHOLDER 1: Header slot (Top of tool page) */}
-        {/* ========================================================================= */}
-        <div className="mb-6 p-3 rounded-xl border border-dashed border-amber-300 dark:border-amber-700/60 bg-amber-50/50 dark:bg-amber-950/20 text-center">
-          <div className="flex items-center justify-between text-[10px] text-amber-700 dark:text-amber-400 font-bold uppercase tracking-wider px-2">
-            <span>Google AdSense Header Unit</span>
-            <span>Responsive 728x90 / Leaderboard</span>
-          </div>
-          <div className="h-14 sm:h-16 flex items-center justify-center text-xs text-slate-400 font-medium">
-            (Ad Slot #1 • Above Unlocked Tool)
-          </div>
-        </div>
 
         {/* Tool Header Meta Title & Tagline */}
         <div className="mb-6">
           <div className="flex flex-wrap items-center gap-2 mb-2">
             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-              {tool.category}
+              {catLabel}
             </span>
             <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 flex items-center gap-1">
               ✓ {t.heroBadgeUnlocked}
             </span>
             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:inline">
-              Instant In-Browser Execution
+              {c('instantBrowser')}
             </span>
           </div>
 
@@ -244,10 +247,10 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-800 text-xs">
                 <span className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                  Interactive Tool Workspace
+                  {c('workspaceLabel')}
                 </span>
                 <span className="text-[11px] text-slate-400">
-                  Client-side • Zero Data Retention
+                  {c('workspaceNote')}
                 </span>
               </div>
 
@@ -260,26 +263,24 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-blue-600" />
-                  About {tool.name} & How It Works
+                  {c('aboutHeading').replace('{name}', lt.name)}
                 </h2>
-                <span className="text-xs text-slate-400 font-medium">150-Word Overview</span>
+                <span className="text-xs text-slate-400 font-medium">{c('overviewTag')}</span>
               </div>
 
               <div className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3">
                 <p>
-                  {tool.overviewContent || (
-                    `The Super Crown ${tool.name} is engineered to provide precise, institutional-grade calculation support directly inside your web browser. Built specifically for homeowners, students, freelancers, and working professionals across the USA, UK, Canada, and Europe, this utility completely eliminates manual math errors, subscription paywalls, and intrusive software downloads.`
-                  )}
+                  {localizedOverview(tool, lang, lt.name)}
                 </p>
                 <p>
-                  Every computation is performed using verified standard formulas (such as standard amortization algorithms, IRS-aligned tax tables, WHO health index metrics, or ISO standard conversion matrices). Because all computations execute entirely client-side using modern web technologies, your sensitive numbers and financial entries remain strictly confined to your device memory with zero server logging or tracking.
+                  {c('overviewP2')}
                 </p>
               </div>
 
               {/* d) Button: "📖 Read Complete Guide" linking to /blog/[tool-name] */}
               <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
                 <div className="text-xs text-slate-500">
-                  Want the full mathematical derivation, edge-case analysis, and expert tips?
+                  {c('guideTeaser')}
                 </div>
                 <button
                   onClick={() => onNavigateBlogGuide(tool.slug)}
@@ -291,62 +292,36 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               </div>
             </div>
 
-            {/* ========================================================================= */}
-            {/* AD PLACEHOLDER 2: Below Tool Unit (In-Content Slot) */}
-            {/* ========================================================================= */}
-            <div className="p-4 rounded-xl border border-dashed border-amber-300 dark:border-amber-700/60 bg-amber-50/50 dark:bg-amber-950/20 text-center">
-              <div className="flex items-center justify-between text-[10px] text-amber-700 dark:text-amber-400 font-bold uppercase tracking-wider mb-1">
-                <span>Google AdSense Slot #2</span>
-                <span>Below-Tool In-Content Banner</span>
-              </div>
-              <div className="h-20 sm:h-24 flex items-center justify-center text-xs text-slate-400 font-medium">
-                (AdSense Responsive Banner / Native Article Unit)
-              </div>
-            </div>
-
             {/* c) FAQSection Component with 4 FAQs and FAQ Schema JSON-LD */}
-            <FAQSection toolName={tool.name} faqs={tool.faq} />
+            <FAQSection toolName={lt.name} faqs={localizedFaqs(tool, lang, lt.name)} />
 
           </div>
 
-          {/* RIGHT 4 COLS: SIDEBAR (AD PLACEHOLDER 3, QUICK SPECS & RELATED TOOLS) */}
+          {/* RIGHT 4 COLS: SIDEBAR (QUICK SPECS & RELATED TOOLS) */}
           <div className="lg:col-span-4 space-y-6">
-            
-            {/* ========================================================================= */}
-            {/* AD PLACEHOLDER 3: Sidebar Slot (300x250 or 300x600 Half-Page) */}
-            {/* ========================================================================= */}
-            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-amber-400 dark:border-amber-700/60 p-4 text-center shadow-xs">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 block mb-2">
-                Ad Space • 300x250 Medium Rectangle
-              </span>
-              <div className="h-60 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/40 flex flex-col items-center justify-center text-xs text-slate-400 font-medium p-4">
-                <span>Google AdSense</span>
-                <span className="text-[10px] text-slate-500 mt-1">Sidebar Ad Placement #3</span>
-              </div>
-            </div>
 
             {/* Tool Trust & Safety Box */}
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                Guaranteed Legit & Safe
+                {c('trustHeading')}
               </h3>
               <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-400">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span>100% Unlocked — No Login Required</span>
+                  <span>{c('trust1')}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span>Zero Server Logging — Private to You</span>
+                  <span>{c('trust2')}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span>No Piracy or Copyrighted Media Ripping</span>
+                  <span>{c('trust3')}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                  <span>Fully AdSense & GDPR Compliant</span>
+                  <span>{c('trust4')}</span>
                 </li>
               </ul>
             </div>
@@ -357,16 +332,16 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
                 <BookOpen className="w-4 h-4" />
               </div>
               <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5">
-                Detailed 800-Word Guide Available
+                {c('guideCardTitle')}
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
-                Read our in-depth educational article explaining formulas, step-by-step applications, and common pitfalls.
+                {c('guideCardText')}
               </p>
               <button
                 onClick={() => onNavigateBlogGuide(tool.slug)}
                 className="w-full py-2 px-3 text-xs font-bold rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer text-center block"
               >
-                Read Complete Guide →
+                {t.readCompleteGuideBtn}
               </button>
             </div>
 
@@ -374,7 +349,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-amber-500" />
-                Related {tool.category}
+                {c('relatedHeading').replace('{category}', catLabel)}
               </h3>
               <div className="space-y-2">
                 {relatedTools.map(rt => { const rlt = localizedTool(rt, lang); return (
