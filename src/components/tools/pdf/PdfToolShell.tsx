@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Upload, X, FileText, Loader2, CheckCircle2, AlertTriangle, Play } from 'lucide-react';
 import type { ToolItem } from '../../../lib/tools-data';
 import { formatBytes } from '../../../lib/pdf/core';
+import { useLang, useStrings, COMMON } from '../../../lib/LangContext';
+import { PDF_STRINGS } from '../../../lib/strings/pdf';
 
 export type ShellStatus = 'idle' | 'working' | 'done' | 'error';
 
@@ -37,6 +39,10 @@ export const PdfToolShell: React.FC<Props> = ({
   onFilesChange,
   children,
 }) => {
+  const lang = useLang();
+  void lang;
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [files, setFilesState] = useState<File[]>([]);
   const [status, setStatusState] = useState<ShellStatus>('idle');
   const [message, setMessage] = useState<string>('');
@@ -64,13 +70,13 @@ export const PdfToolShell: React.FC<Props> = ({
 
   const runProcess = async () => {
     if (!onProcess || status === 'working') return;
-    setStatus('working', 'Processing… your file never leaves this browser.');
+    setStatus('working', s('shellProcessingNote'));
     try {
       const msg = await onProcess(files);
-      setStatus('done', msg || 'Done. Your download should start automatically.');
+      setStatus('done', msg || s('shellDoneDefault'));
     } catch (err: any) {
       console.error(err);
-      setStatus('error', err?.message || 'Something went wrong while processing this file.');
+      setStatus('error', err?.message || s('shellErrorDefault'));
     }
   };
 
@@ -81,8 +87,8 @@ export const PdfToolShell: React.FC<Props> = ({
       <div className="flex items-center gap-2 mb-4">
         <FileText className="w-5 h-5 text-orange-500" />
         <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
-        <span className="ml-auto text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-full">
-          100% in-browser · no upload
+        <span className="ms-auto text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-full">
+          {s('shellInBrowserBadge')}
         </span>
       </div>
 
@@ -119,10 +125,10 @@ export const PdfToolShell: React.FC<Props> = ({
             />
             <Upload className="w-9 h-9 text-orange-500 mx-auto mb-2" />
             <span className="text-sm font-bold text-gray-900 dark:text-white block">
-              {files.length ? 'Add more files or click to replace' : 'Select files or drag & drop here'}
+              {files.length ? s('shellAddMore') : s('shellSelectFiles')}
             </span>
             <span className="text-[11px] text-gray-500 block mt-1">
-              {dropzoneHint || `Accepted: ${accept} · processed locally, nothing is uploaded`}
+              {dropzoneHint || s('shellAcceptedTemplate').replace('{accept}', accept)}
             </span>
           </div>
 
@@ -138,8 +144,8 @@ export const PdfToolShell: React.FC<Props> = ({
                   <span className="text-gray-400 shrink-0">{formatBytes(f.size)}</span>
                   <button
                     onClick={() => setFiles(files.filter((_, j) => j !== i))}
-                    className="ml-auto p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 cursor-pointer"
-                    aria-label={`Remove ${f.name}`}
+                    className="ms-auto p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 cursor-pointer"
+                    aria-label={s('shellRemoveFile').replace('{name}', f.name)}
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -163,7 +169,7 @@ export const PdfToolShell: React.FC<Props> = ({
           }`}
         >
           {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-          <span>{busy ? 'Processing…' : actionLabel || `Run ${tool.name}`}</span>
+          <span>{busy ? c('processing') : actionLabel || s('shellRunTool').replace('{name}', tool.name)}</span>
         </button>
       )}
 

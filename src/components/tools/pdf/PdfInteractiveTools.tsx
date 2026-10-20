@@ -18,6 +18,8 @@ import {
 } from '../../../lib/pdf/core';
 import { PdfToolShell, OptLabel, OptInput, OptSelect, OptCheck } from './PdfToolShell';
 import { imagesToPdfBytes } from './PdfConvertTools';
+import { useLang, useStrings, COMMON } from '../../../lib/LangContext';
+import { PDF_STRINGS, pluralize } from '../../../lib/strings/pdf';
 
 // ---------------------------------------------------------------------------
 // Shared helpers
@@ -145,6 +147,7 @@ async function buildTextPdfBytes(title: string, body: string): Promise<Uint8Arra
 // ---------------------------------------------------------------------------
 
 function usePdfPreview() {
+  const s = useStrings(PDF_STRINGS);
   const [bytes, setBytes] = useState<Uint8Array | null>(null);
   const [doc, setDoc] = useState<PdfJsDoc | null>(null);
   const [fileName, setFileName] = useState('');
@@ -173,7 +176,7 @@ function usePdfPreview() {
       setPageCount(d.numPages);
       setPage(1);
     } catch (e: any) {
-      setLoadError(e?.message || 'Could not open this PDF. It may be corrupted or password-protected.');
+      setLoadError(e?.message || s('errOpenPdf'));
       setBytes(null);
       setDoc(null);
       setPageCount(0);
@@ -208,19 +211,22 @@ const PageNav: React.FC<{
   page: number;
   pageCount: number;
   onChange: (p: number) => void;
-}> = ({ page, pageCount, onChange }) => (
+}> = ({ page, pageCount, onChange }) => {
+  const s = useStrings(PDF_STRINGS);
+  return (
   <div className="flex items-center justify-center gap-2 mt-3">
     <button type="button" className={btnGhost} disabled={page <= 1} onClick={() => onChange(page - 1)}>
-      <ChevronLeft className="w-4 h-4" /> Prev
+      <ChevronLeft className="w-4 h-4 rtl:-scale-x-100" /> {s('prevBtn')}
     </button>
     <span className="text-xs font-bold text-gray-700 dark:text-gray-200">
-      Page {page} of {pageCount}
+      {s('pageOfNav').replace('{page}', String(page)).replace('{total}', String(pageCount))}
     </span>
     <button type="button" className={btnGhost} disabled={page >= pageCount} onClick={() => onChange(page + 1)}>
-      Next <ChevronRight className="w-4 h-4" />
+      {s('nextBtn')} <ChevronRight className="w-4 h-4 rtl:-scale-x-100" />
     </button>
   </div>
-);
+  );
+};
 
 const LoadErrorBox: React.FC<{ message: string }> = ({ message }) => (
   <div className="mt-4 text-xs font-semibold text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl px-3 py-2.5">
@@ -245,6 +251,9 @@ interface Ann {
 }
 
 export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const pv = usePdfPreview();
   const [mode, setMode] = useState<'text' | 'image' | 'rect'>('text');
   const [textVal, setTextVal] = useState('');
@@ -319,7 +328,7 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept=".pdf,application/pdf"
-      actionLabel="Apply edits & download"
+      actionLabel={s('editApplyAction')}
       onFilesChange={(files) => {
         setAnnotations({});
         void pv.load(files);
@@ -329,11 +338,11 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         const apply = async () => {
           if (!pv.bytes) return;
           if (totalAnns === 0) {
-            ctx.setStatus('error', 'Click on the page preview to place at least one element first.');
+            ctx.setStatus('error', s('errEditPlaceFirst'));
             return;
           }
           try {
-            ctx.setStatus('working', 'Placing your elements into the PDF…');
+            ctx.setStatus('working', s('editPlacing'));
             const doc = await loadPdf(pv.bytes);
             const font = await doc.embedFont(StandardFonts.Helvetica);
             const pages = doc.getPages();
@@ -374,9 +383,9 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             }
             const out = await savePdf(doc);
             downloadBytes(out, `${baseName(pv.fileName)}-edited.pdf`);
-            ctx.setStatus('done', `Done — ${totalAnns} element(s) added. Your edited PDF is downloading.`);
+            ctx.setStatus('done', s('editDoneResult').replace('{count}', String(totalAnns)));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not apply the edits to this PDF.');
+            ctx.setStatus('error', e?.message || s('errEditApply'));
           }
         };
 
@@ -384,30 +393,30 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="mt-5">
             {pv.loadError && <LoadErrorBox message={pv.loadError} />}
             {!pv.doc && !pv.loadError && (
-              <p className="text-xs text-gray-500">Choose a PDF above, then click anywhere on the page preview to place elements.</p>
+              <p className="text-xs text-gray-500">{s('editChoose2')}</p>
             )}
             {pv.doc && (
               <>
                 <div className="flex flex-wrap gap-2 mb-3">
                   <button type="button" className={btnTab(mode === 'text')} onClick={() => setMode('text')}>
-                    <Type className="w-4 h-4" /> Add text
+                    <Type className="w-4 h-4" /> {s('addTextBtn')}
                   </button>
                   <button type="button" className={btnTab(mode === 'image')} onClick={() => setMode('image')}>
-                    <ImagePlus className="w-4 h-4" /> Add image
+                    <ImagePlus className="w-4 h-4" /> {s('addImageBtn')}
                   </button>
                   <button type="button" className={btnTab(mode === 'rect')} onClick={() => setMode('rect')}>
-                    <Square className="w-4 h-4" /> Add rectangle
+                    <Square className="w-4 h-4" /> {s('addRectangleBtn')}
                   </button>
                 </div>
 
                 {mode === 'text' && (
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                     <div className="sm:col-span-1">
-                      <OptLabel>Text to place</OptLabel>
-                      <OptInput value={textVal} onChange={(e) => setTextVal(e.target.value)} placeholder="Type text, then click the page" />
+                      <OptLabel>{s('textToPlace')}</OptLabel>
+                      <OptInput value={textVal} onChange={(e) => setTextVal(e.target.value)} placeholder={s('typeTextPlaceholder')} />
                     </div>
                     <div>
-                      <OptLabel>Font size (pt)</OptLabel>
+                      <OptLabel>{s('fontSizePt')}</OptLabel>
                       <OptInput
                         type="number"
                         min={8}
@@ -417,7 +426,7 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                       />
                     </div>
                     <div>
-                      <OptLabel>Color</OptLabel>
+                      <OptLabel>{s('colorLabel')}</OptLabel>
                       <input
                         type="color"
                         value={color}
@@ -429,19 +438,19 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 )}
                 {mode === 'image' && (
                   <div className="mb-3">
-                    <OptLabel>Image to place (PNG or JPG)</OptLabel>
+                    <OptLabel>{s('imageToPlace')}</OptLabel>
                     <input
                       type="file"
                       accept="image/png,image/jpeg"
                       onChange={(e) => void handleImagePick(e.target.files?.[0])}
-                      className="block w-full text-xs text-gray-600 dark:text-gray-300 file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
+                      className="block w-full text-xs text-gray-600 dark:text-gray-300 file:me-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
                     />
-                    {imgDataUrl && <p className="text-[11px] text-emerald-600 mt-1 font-semibold">Image ready — click the page to place it.</p>}
+                    {imgDataUrl && <p className="text-[11px] text-emerald-600 mt-1 font-semibold">{s('imageReady')}</p>}
                   </div>
                 )}
                 {mode === 'rect' && (
                   <div className="mb-3 max-w-[220px]">
-                    <OptLabel>Rectangle color</OptLabel>
+                    <OptLabel>{s('rectangleColor')}</OptLabel>
                     <input
                       type="color"
                       value={color}
@@ -458,7 +467,7 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   <img
                     ref={imgRef}
                     src={pv.pageImg}
-                    alt={`Page ${pv.page} preview`}
+                    alt={s('pagePreviewAlt').replace('{n}', String(pv.page))}
                     className="w-full block"
                     draggable={false}
                     onLoad={(e) => setDispW(e.currentTarget.clientWidth)}
@@ -519,16 +528,15 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                           key={`${pStr}-${i}`}
                           className="flex items-center gap-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2"
                         >
-                          <span className="font-bold text-gray-700 dark:text-gray-200 capitalize">{ann.kind}</span>
+                          <span className="font-bold text-gray-700 dark:text-gray-200">{ann.kind === 'text' ? s('kindText') : ann.kind === 'image' ? s('kindImage') : s('kindRectangle')}</span>
                           <span className="text-gray-500 truncate">
-                            page {pStr}
-                            {ann.text ? ` · “${ann.text}”` : ''} · x {ann.xPct.toFixed(0)}%, y {ann.yPct.toFixed(0)}%
+                            {s('editAnnLine').replace('{page}', pStr).replace('{text}', ann.text ? ` · “${ann.text}”` : '').replace('{x}', ann.xPct.toFixed(0)).replace('{y}', ann.yPct.toFixed(0))}
                           </span>
                           <button
                             type="button"
                             onClick={() => removeAnn(Number(pStr), i)}
-                            className="ml-auto p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 cursor-pointer"
-                            aria-label="Remove element"
+                            className="ms-auto p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 cursor-pointer"
+                            aria-label={s('removeElement')}
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -539,7 +547,7 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 )}
 
                 <button type="button" className={btnPrimary} disabled={ctx.status === 'working'} onClick={() => void apply()}>
-                  <Play className="w-4 h-4" /> Apply edits & download PDF
+                  <Play className="w-4 h-4" /> {s('editApplyBtn')}
                 </button>
               </>
             )}
@@ -564,6 +572,9 @@ const SIGN_STYLES: { label: string; family: string }[] = [
 type SigPos = 'bottom-right' | 'bottom-left' | 'bottom-center' | 'center';
 
 export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [bytes, setBytes] = useState<Uint8Array | null>(null);
   const [fileName, setFileName] = useState('');
   const [pageCount, setPageCount] = useState(0);
@@ -596,7 +607,7 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setPageCount(d.numPages);
       setPageNum(d.numPages);
     } catch (e: any) {
-      setLoadError(e?.message || 'Could not open this PDF. It may be corrupted or password-protected.');
+      setLoadError(e?.message || s('errOpenPdf'));
       setBytes(null);
       setPageCount(0);
     }
@@ -652,13 +663,13 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const getSignature = async (): Promise<{ data: Uint8Array; png: boolean; aspect: number }> => {
     if (tab === 'draw') {
-      if (!drawRef.current || !hasDrawn) throw new Error('Draw your signature in the box first.');
+      if (!drawRef.current || !hasDrawn) throw new Error(s('errDrawSignature'));
       const blob = await canvasToBlob(drawRef.current, 'image/png');
       return { data: new Uint8Array(await blob.arrayBuffer()), png: true, aspect: 520 / 200 };
     }
     if (tab === 'type') {
       const name = typeName.trim();
-      if (!name) throw new Error('Type your name first so it can be rendered as a signature.');
+      if (!name) throw new Error(s('errTypeName'));
       const canvas = document.createElement('canvas');
       canvas.width = 640;
       canvas.height = 220;
@@ -676,7 +687,7 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       const blob = await canvasToBlob(canvas, 'image/png');
       return { data: new Uint8Array(await blob.arrayBuffer()), png: true, aspect: 640 / 220 };
     }
-    if (!uploadUrl) throw new Error('Upload a signature image first.');
+    if (!uploadUrl) throw new Error(s('errUploadSignature'));
     const data = await dataUrlToBytes(uploadUrl);
     return { data, png: uploadUrl.startsWith('data:image/png'), aspect: uploadAspect };
   };
@@ -686,11 +697,11 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {(ctx) => {
         const apply = async () => {
           if (!bytes) {
-            ctx.setStatus('error', 'Choose a PDF first.');
+            ctx.setStatus('error', s('errChoosePdfFirst'));
             return;
           }
           try {
-            ctx.setStatus('working', 'Stamping your signature onto the PDF…');
+            ctx.setStatus('working', s('signStamping'));
             const sig = await getSignature();
             const doc = await loadPdf(bytes);
             const pageIdx = Math.min(doc.getPageCount(), Math.max(1, pageNum)) - 1;
@@ -710,9 +721,9 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             page.drawImage(img, { x, y, width: w, height: h });
             const out = await savePdf(doc);
             downloadBytes(out, `${baseName(fileName)}-signed.pdf`);
-            ctx.setStatus('done', 'Signed PDF downloaded.');
+            ctx.setStatus('done', s('signedDownloaded'));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not sign this PDF.');
+            ctx.setStatus('error', e?.message || s('errSignFailed'));
           }
         };
 
@@ -721,13 +732,13 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             {loadError && <LoadErrorBox message={loadError} />}
             <div className="flex flex-wrap gap-2 mb-3">
               <button type="button" className={btnTab(tab === 'draw')} onClick={() => setTab('draw')}>
-                <PenLine className="w-4 h-4" /> Draw
+                <PenLine className="w-4 h-4" /> {s('signModeDraw')}
               </button>
               <button type="button" className={btnTab(tab === 'type')} onClick={() => setTab('type')}>
-                <Type className="w-4 h-4" /> Type
+                <Type className="w-4 h-4" /> {s('typeTab')}
               </button>
               <button type="button" className={btnTab(tab === 'upload')} onClick={() => setTab('upload')}>
-                <Upload className="w-4 h-4" /> Upload image
+                <Upload className="w-4 h-4" /> {s('signModeUpload')}
               </button>
             </div>
 
@@ -746,22 +757,22 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   />
                 </div>
                 <button type="button" className={`${btnGhost} mt-2`} onClick={clearDraw}>
-                  <Eraser className="w-4 h-4" /> Clear signature
+                  <Eraser className="w-4 h-4" /> {s('clearSignature')}
                 </button>
               </div>
             )}
             {tab === 'type' && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <OptLabel>Your name</OptLabel>
-                  <OptInput value={typeName} onChange={(e) => setTypeName(e.target.value)} placeholder="e.g. John Smith" />
+                  <OptLabel>{s('signNameLabel')}</OptLabel>
+                  <OptInput value={typeName} onChange={(e) => setTypeName(e.target.value)} placeholder={s('egName')} />
                 </div>
                 <div>
-                  <OptLabel>Signature style</OptLabel>
+                  <OptLabel>{s('signatureStyle')}</OptLabel>
                   <OptSelect value={typeStyle} onChange={(e) => setTypeStyle(e.target.value)}>
-                    {SIGN_STYLES.map((s) => (
-                      <option key={s.label} value={s.family}>
-                        {s.label}
+                    {SIGN_STYLES.map((style, i) => (
+                      <option key={style.label} value={style.family}>
+                        {s('handwriting')} {i + 1}
                       </option>
                     ))}
                   </OptSelect>
@@ -775,16 +786,16 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             )}
             {tab === 'upload' && (
               <div>
-                <OptLabel>Signature image (PNG with transparency works best)</OptLabel>
+                <OptLabel>{s('signatureImageLabel')}</OptLabel>
                 <input
                   type="file"
                   accept="image/png,image/jpeg"
                   onChange={(e) => void handleUploadPick(e.target.files?.[0])}
-                  className="block w-full text-xs text-gray-600 dark:text-gray-300 file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
+                  className="block w-full text-xs text-gray-600 dark:text-gray-300 file:me-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
                 />
                 {uploadUrl && (
                   <div className="mt-2 inline-block border border-dashed border-gray-300 rounded-xl bg-white p-2">
-                    <img src={uploadUrl} alt="Signature preview" className="max-h-24" />
+                    <img src={uploadUrl} alt={s('signaturePreviewAlt')} className="max-h-24" />
                   </div>
                 )}
               </div>
@@ -792,7 +803,7 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
               <div>
-                <OptLabel>Page{pageCount ? ` (1–${pageCount})` : ''}</OptLabel>
+                <OptLabel>{c('page')}{pageCount ? ` (1–${pageCount})` : ''}</OptLabel>
                 <OptInput
                   type="number"
                   min={1}
@@ -802,16 +813,16 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
               </div>
               <div>
-                <OptLabel>Position</OptLabel>
+                <OptLabel>{s('positionLabel')}</OptLabel>
                 <OptSelect value={pos} onChange={(e) => setPos(e.target.value as SigPos)}>
-                  <option value="bottom-right">Bottom right</option>
-                  <option value="bottom-left">Bottom left</option>
-                  <option value="bottom-center">Bottom center</option>
-                  <option value="center">Center of page</option>
+                  <option value="bottom-right">{s('posBottomRight')}</option>
+                  <option value="bottom-left">{s('posBottomLeft')}</option>
+                  <option value="bottom-center">{s('posBottomCenter')}</option>
+                  <option value="center">{s('centerOfPage')}</option>
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Signature width: {sigWidth} pt</OptLabel>
+                <OptLabel>{s('signatureWidth').replace('{w}', String(sigWidth))}</OptLabel>
                 <input
                   type="range"
                   min={90}
@@ -824,7 +835,7 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
 
             <button type="button" className={btnPrimary} disabled={!bytes || ctx.status === 'working'} onClick={() => void apply()}>
-              <PenLine className="w-4 h-4" /> Sign & download PDF
+              <PenLine className="w-4 h-4" /> {s('signDownloadBtn')}
             </button>
           </div>
         );
@@ -846,6 +857,9 @@ interface RedactRect {
 }
 
 export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const pv = usePdfPreview();
   const [rects, setRects] = useState<Record<number, RedactRect[]>>({});
   const [liveRect, setLiveRect] = useState<RedactRect | null>(null);
@@ -908,11 +922,11 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           if (!pv.doc) return;
           const q = phrase.trim().toLowerCase();
           if (!q) {
-            ctx.setStatus('error', 'Type a word or phrase to search for first.');
+            ctx.setStatus('error', s('errTypePhrase'));
             return;
           }
           try {
-            ctx.setStatus('working', `Searching every page for “${phrase.trim()}”…`);
+            ctx.setStatus('working', s('searchingPhrase').replace('{phrase}', phrase.trim()));
             const additions: Record<number, RedactRect[]> = {};
             let count = 0;
             for (let p = 1; p <= pv.doc!.numPages; p++) {
@@ -934,7 +948,7 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               }
             }
             if (count === 0) {
-              ctx.setStatus('error', `No matches found for “${phrase.trim()}” in the text layer of this PDF.`);
+              ctx.setStatus('error', s('noMatchesPhrase').replace('{phrase}', phrase.trim()));
               return;
             }
             setRects((prev) => {
@@ -945,20 +959,20 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               }
               return next;
             });
-            ctx.setStatus('done', `Added ${count} redaction box(es). Review them, then apply the redaction.`);
+            ctx.setStatus('done', s('addedBoxes').replace('{count}', String(count)));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Search failed for this PDF.');
+            ctx.setStatus('error', e?.message || s('errSearchFailed'));
           }
         };
 
         const apply = async () => {
           if (!pv.bytes || !pv.doc) return;
           if (totalRects === 0) {
-            ctx.setStatus('error', 'Draw at least one redaction box (or search for a phrase) first.');
+            ctx.setStatus('error', s('errDrawBox'));
             return;
           }
           try {
-            ctx.setStatus('working', 'Applying redactions — redacted pages are flattened to images…');
+            ctx.setStatus('working', s('redactApplying'));
             const srcDoc = await loadPdf(pv.bytes);
             const out = await PDFDocument.create();
             for (let p = 1; p <= pv.pageCount; p++) {
@@ -988,9 +1002,9 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             }
             const outBytes = await savePdf(out);
             downloadBytes(outBytes, `${baseName(pv.fileName)}-redacted.pdf`);
-            ctx.setStatus('done', 'Redacted PDF downloaded. The covered content is permanently removed.');
+            ctx.setStatus('done', s('redactDone2'));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not apply the redaction.');
+            ctx.setStatus('error', e?.message || s('errRedactApply'));
           }
         };
 
@@ -998,7 +1012,7 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="mt-5">
             {pv.loadError && <LoadErrorBox message={pv.loadError} />}
             {!pv.doc && !pv.loadError && (
-              <p className="text-xs text-gray-500">Choose a PDF above, then drag on the page preview to draw black redaction boxes.</p>
+              <p className="text-xs text-gray-500">{s('redactChoose2')}</p>
             )}
             {pv.doc && (
               <>
@@ -1007,11 +1021,11 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     <OptInput
                       value={phrase}
                       onChange={(e) => setPhrase(e.target.value)}
-                      placeholder="Redact a word or phrase everywhere, e.g. a name or email"
+                      placeholder={s('redactPhrasePlaceholder')}
                     />
                   </div>
                   <button type="button" className={btnGhost} onClick={() => void redactPhrase()}>
-                    <Search className="w-4 h-4" /> Find & box it
+                    <Search className="w-4 h-4" /> {s('findBoxIt')}
                   </button>
                 </div>
 
@@ -1021,7 +1035,7 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   onPointerMove={onDragMove}
                   onPointerUp={onDragEnd}
                 >
-                  <img src={pv.pageImg} alt={`Page ${pv.page} preview`} className="w-full block" draggable={false} />
+                  <img src={pv.pageImg} alt={s('pagePreviewAlt').replace('{n}', String(pv.page))} className="w-full block" draggable={false} />
                   {pageRects.map((r, i) => (
                     <div
                       key={i}
@@ -1039,7 +1053,7 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 <PageNav page={pv.page} pageCount={pv.pageCount} onChange={(p) => pv.setPage(Math.min(pv.pageCount, Math.max(1, p)))} />
 
                 <p className="mt-3 text-[11px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2">
-                  Redacted pages are flattened to images — the hidden text is permanently removed, not just covered.
+                  {s('redactWarning')}
                 </p>
 
                 {totalRects > 0 && (
@@ -1050,15 +1064,15 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                           key={`${pStr}-${i}`}
                           className="flex items-center gap-2 text-xs bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2"
                         >
-                          <span className="font-bold text-gray-700 dark:text-gray-200">Redaction box</span>
+                          <span className="font-bold text-gray-700 dark:text-gray-200">{s('redactionBox')}</span>
                           <span className="text-gray-500">
-                            page {pStr} · x {r.xPct.toFixed(0)}%, y {r.yPct.toFixed(0)}% · {r.wPct.toFixed(0)}% × {r.hPct.toFixed(0)}%
+                            {s('redactInfoLine').replace('{page}', pStr).replace('{x}', r.xPct.toFixed(0)).replace('{y}', r.yPct.toFixed(0)).replace('{w}', r.wPct.toFixed(0)).replace('{h}', r.hPct.toFixed(0))}
                           </span>
                           <button
                             type="button"
                             onClick={() => removeRect(Number(pStr), i)}
-                            className="ml-auto p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 cursor-pointer"
-                            aria-label="Remove redaction box"
+                            className="ms-auto p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 cursor-pointer"
+                            aria-label={s('removeRedactionBox')}
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -1069,7 +1083,7 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 )}
 
                 <button type="button" className={btnPrimary} disabled={ctx.status === 'working'} onClick={() => void apply()}>
-                  <Play className="w-4 h-4" /> Apply redaction & download
+                  <Play className="w-4 h-4" /> {s('applyRedactionBtn')}
                 </button>
               </>
             )}
@@ -1160,6 +1174,9 @@ function diffPage(page: number, aText: string, bText: string): PageDiff {
 }
 
 export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [fileA, setFileA] = useState<File | null>(null);
   const [fileB, setFileB] = useState<File | null>(null);
   const [result, setResult] = useState<CompareResult | null>(null);
@@ -1182,8 +1199,8 @@ export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <span key={i}>{wd.w} </span>
         )
       )}
-      {words.length > 4000 && <span className="text-gray-400">… (truncated for display)</span>}
-      {words.length === 0 && <span className="text-gray-400 italic">No extractable text on this page.</span>}
+      {words.length > 4000 && <span className="text-gray-400">{s('truncatedDisplay')}</span>}
+      {words.length === 0 && <span className="text-gray-400 italic">{s('noTextOnPage')}</span>}
     </p>
   );
 
@@ -1192,12 +1209,12 @@ export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       {(ctx) => {
         const compare = async () => {
           if (!fileA || !fileB) {
-            ctx.setStatus('error', 'Choose both PDF A and PDF B first.');
+            ctx.setStatus('error', s('errChooseBoth'));
             return;
           }
           try {
             setResult(null);
-            ctx.setStatus('working', 'Extracting text from both PDFs and comparing page by page…');
+            ctx.setStatus('working', s('compareWorking'));
             const [bytesA, bytesB] = await Promise.all([fileToBytes(fileA), fileToBytes(fileB)]);
             const [pagesA, pagesB] = await Promise.all([extractAllText(bytesA), extractAllText(bytesB)]);
             const total = Math.max(pagesA.length, pagesB.length);
@@ -1215,10 +1232,10 @@ export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             setResult({ pagesCompared: total, identicalCount, totalAdded, totalRemoved, pages });
             ctx.setStatus(
               'done',
-              `Compared ${total} page(s): ${identicalCount} identical, ${total - identicalCount} changed · ${totalAdded} word(s) added, ${totalRemoved} removed.`
+              s('compareDone').replace('{total}', String(total)).replace('{identical}', String(identicalCount)).replace('{changed}', String(total - identicalCount)).replace('{added}', String(totalAdded)).replace('{removed}', String(totalRemoved))
             );
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not compare these PDFs. One of them may be corrupted or password-protected.');
+            ctx.setStatus('error', e?.message || s('errCompareFailed'));
           }
         };
 
@@ -1226,45 +1243,45 @@ export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="mt-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <OptLabel>Document A (original)</OptLabel>
+                <OptLabel>{s('docAOriginal')}</OptLabel>
                 <input
                   type="file"
                   accept=".pdf,application/pdf"
                   onChange={(e) => setFileA(e.target.files?.[0] || null)}
-                  className="block w-full text-xs text-gray-600 dark:text-gray-300 file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
+                  className="block w-full text-xs text-gray-600 dark:text-gray-300 file:me-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
                 />
                 {fileA && <p className="text-[11px] text-gray-500 mt-1 truncate">{fileA.name}</p>}
               </div>
               <div>
-                <OptLabel>Document B (revised)</OptLabel>
+                <OptLabel>{s('docBRevised')}</OptLabel>
                 <input
                   type="file"
                   accept=".pdf,application/pdf"
                   onChange={(e) => setFileB(e.target.files?.[0] || null)}
-                  className="block w-full text-xs text-gray-600 dark:text-gray-300 file:mr-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
+                  className="block w-full text-xs text-gray-600 dark:text-gray-300 file:me-3 file:px-3 file:py-2 file:rounded-xl file:border file:border-gray-200 file:bg-gray-50 file:font-semibold file:cursor-pointer"
                 />
                 {fileB && <p className="text-[11px] text-gray-500 mt-1 truncate">{fileB.name}</p>}
               </div>
             </div>
 
             <button type="button" className={btnPrimary} disabled={!fileA || !fileB || ctx.status === 'working'} onClick={() => void compare()}>
-              <ArrowLeftRight className="w-4 h-4" /> Compare documents
+              <ArrowLeftRight className="w-4 h-4" /> {s('compareDocuments')}
             </button>
 
             {result && (
               <div className="mt-5 space-y-3">
                 <div className="flex flex-wrap gap-2 text-[11px] font-bold">
                   <span className="px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
-                    {result.pagesCompared} pages compared
+                    {s('pagesCompared').replace('{count}', String(result.pagesCompared))}
                   </span>
                   <span className="px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700">
-                    {result.identicalCount} identical
+                    {s('identicalCount').replace('{count}', String(result.identicalCount))}
                   </span>
                   <span className="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                    +{result.totalAdded} words added in B
+                    {s('wordsAddedB').replace('{count}', String(result.totalAdded))}
                   </span>
                   <span className="px-2.5 py-1 rounded-full bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800">
-                    −{result.totalRemoved} words removed from A
+                    {s('wordsRemovedA').replace('{count}', String(result.totalRemoved))}
                   </span>
                 </div>
 
@@ -1274,20 +1291,20 @@ export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                       key={pd.page}
                       className="text-xs font-semibold text-gray-500 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2"
                     >
-                      Page {pd.page} — identical
+                      {s('pageIdentical').replace('{page}', String(pd.page))}
                     </div>
                   ) : (
                     <div key={pd.page} className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
                       <div className="px-3 py-2 bg-gray-50 dark:bg-gray-800 text-xs font-bold text-gray-800 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700">
-                        Page {pd.page} — differences found
+                        {s('pageDifferences').replace('{page}', String(pd.page))}
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2">
-                        <div className="p-3 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700">
-                          <span className="block text-[10px] font-bold uppercase tracking-wider text-red-500 mb-1.5">A — removed words struck through</span>
+                        <div className="p-3 border-b md:border-b-0 md:border-e border-gray-200 dark:border-gray-700">
+                          <span className="block text-[10px] font-bold uppercase tracking-wider text-red-500 mb-1.5">{s('aRemovedLabel')}</span>
                           {renderWords(pd.aWords, 'a')}
                         </div>
                         <div className="p-3">
-                          <span className="block text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1.5">B — added words highlighted</span>
+                          <span className="block text-[10px] font-bold uppercase tracking-wider text-emerald-600 mb-1.5">{s('bAddedLabel')}</span>
                           {renderWords(pd.bWords, 'b')}
                         </div>
                       </div>
@@ -1309,6 +1326,9 @@ export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const OcrPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [progress, setProgress] = useState('');
   const [ocrText, setOcrText] = useState('');
   const [busy, setBusy] = useState(false);
@@ -1319,21 +1339,19 @@ export const OcrPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         const runOcr = async () => {
           const file = ctx.files[0];
           if (!file) {
-            ctx.setStatus('error', 'Choose a scanned PDF first.');
+            ctx.setStatus('error', s('errChooseScanned'));
             return;
           }
           setBusy(true);
           setOcrText('');
           let worker: Awaited<ReturnType<typeof Tesseract.createWorker>> | null = null;
           try {
-            ctx.setStatus('working', 'Loading the OCR engine…');
-            setProgress('Loading OCR engine (first use downloads it from a CDN)…');
+            ctx.setStatus('working', s('ocrLoadingEngine'));
+            setProgress(s('ocrLoadingProgress'));
             try {
               worker = await Tesseract.createWorker('eng');
             } catch {
-              throw new Error(
-                'Could not load the OCR engine. It downloads from a CDN on first use — check your internet connection and try again.'
-              );
+              throw new Error(s('errOcrEngine'));
             }
             const bytes = await fileToBytes(file);
             const doc = await openPdfJs(bytes);
@@ -1341,8 +1359,8 @@ export const OcrPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             const font = await out.embedFont(StandardFonts.Helvetica);
             const allText: string[] = [];
             for (let p = 1; p <= doc.numPages; p++) {
-              setProgress(`Running OCR on page ${p} of ${doc.numPages}…`);
-              ctx.setStatus('working', `Running OCR on page ${p} of ${doc.numPages}…`);
+              setProgress(s('ocrRecognizingPage').replace('{n}', String(p)).replace('{total}', String(doc.numPages)));
+              ctx.setStatus('working', s('ocrRecognizingPage').replace('{n}', String(p)).replace('{total}', String(doc.numPages)));
               const pg = await doc.getPage(p);
               const vp = pg.getViewport({ scale: 1 });
               const pageW = vp.width;
@@ -1399,10 +1417,10 @@ export const OcrPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             const outBytes = await savePdf(out);
             downloadBytes(outBytes, `${baseName(file)}-ocr.pdf`);
             setOcrText(allText.join('\n\n'));
-            ctx.setStatus('done', 'Searchable PDF downloaded — the recognized text is embedded as an invisible layer, and shown below.');
+            ctx.setStatus('done', s('ocrDone2'));
           } catch (e: any) {
             setProgress('');
-            ctx.setStatus('error', e?.message || 'OCR failed for this PDF.');
+            ctx.setStatus('error', e?.message || s('errOcrFailed'));
           } finally {
             if (worker) {
               try {
@@ -1418,19 +1436,18 @@ export const OcrPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         return (
           <div className="mt-5">
             <p className="text-xs text-gray-500 mb-1">
-              Best for scanned / image-only PDFs. Each page is recognized with the Tesseract OCR engine and rebuilt as a searchable page
-              with an invisible text layer.
+              {s('ocrIntro')}
             </p>
             {progress && <p className="text-xs font-semibold text-orange-600 mt-2">{progress}</p>}
             <button type="button" className={btnPrimary} disabled={!ctx.files.length || busy} onClick={() => void runOcr()}>
-              <ScanLine className="w-4 h-4" /> {busy ? 'Running OCR…' : 'Run OCR & download searchable PDF'}
+              <ScanLine className="w-4 h-4" /> {busy ? s('ocrRunning') : s('ocrAction')}
             </button>
             {ocrText && (
               <div className="mt-4">
                 <div className="flex items-center justify-between mb-1">
-                  <OptLabel>Recognized text</OptLabel>
+                  <OptLabel>{s('recognizedText')}</OptLabel>
                   <button type="button" className={btnGhost} onClick={() => downloadText(ocrText, `${baseName(ctx.files[0])}-ocr.txt`)}>
-                    <Download className="w-3.5 h-3.5" /> Download .txt
+                    <Download className="w-3.5 h-3.5" /> {s('downloadTxtFile')}
                   </button>
                 </div>
                 <textarea
@@ -1460,16 +1477,19 @@ interface FormFieldState {
 }
 
 const FIELD_KIND_LABELS: Record<string, string> = {
-  PDFTextField: 'Text field',
-  PDFCheckBox: 'Checkbox',
-  PDFDropdown: 'Dropdown',
-  PDFRadioGroup: 'Radio group',
-  PDFOptionList: 'Option list',
-  PDFButton: 'Button',
-  PDFSignature: 'Signature field',
+  PDFTextField: 'fieldText',
+  PDFCheckBox: 'fieldCheckbox',
+  PDFDropdown: 'fieldDropdown',
+  PDFRadioGroup: 'fieldRadio',
+  PDFOptionList: 'fieldOptionList',
+  PDFButton: 'fieldButton',
+  PDFSignature: 'fieldSignature',
 };
 
 export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [bytes, setBytes] = useState<Uint8Array | null>(null);
   const [fileName, setFileName] = useState('');
   const [pageCount, setPageCount] = useState(0);
@@ -1521,7 +1541,7 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       setFieldStates(states);
       setLoaded(true);
     } catch (e: any) {
-      setLoadError(e?.message || 'Could not read this PDF. It may be corrupted or encrypted.');
+      setLoadError(e?.message || s('errReadCorruptEncrypted'));
       setBytes(null);
     }
   };
@@ -1536,7 +1556,7 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         const applyFilled = async () => {
           if (!bytes) return;
           try {
-            ctx.setStatus('working', 'Writing your answers into the form…');
+            ctx.setStatus('working', s('formsWriting'));
             const doc = await loadPdf(bytes);
             const form = doc.getForm();
             for (const fs of fieldStates) {
@@ -1562,9 +1582,9 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             if (flatten) form.flatten();
             const out = await savePdf(doc);
             downloadBytes(out, `${baseName(fileName)}-filled.pdf`);
-            ctx.setStatus('done', flatten ? 'Filled and flattened PDF downloaded.' : 'Filled PDF downloaded — fields stay editable.');
+            ctx.setStatus('done', flatten ? s('formsDoneFlattened') : s('formsDoneKept'));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not fill this form.');
+            ctx.setStatus('error', e?.message || s('errFillForm'));
           }
         };
 
@@ -1572,15 +1592,15 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           if (!bytes) return;
           const name = newName.trim();
           if (!name) {
-            ctx.setStatus('error', 'Give the new field a name first.');
+            ctx.setStatus('error', s('errFieldNameFirst'));
             return;
           }
           if (fieldStates.some((f) => f.name === name)) {
-            ctx.setStatus('error', `A field named “${name}” already exists in this PDF.`);
+            ctx.setStatus('error', s('fieldExists').replace('{name}', name));
             return;
           }
           try {
-            ctx.setStatus('working', 'Adding the new field…');
+            ctx.setStatus('working', s('formsAdding'));
             const doc = await loadPdf(bytes);
             const form = doc.getForm();
             const pageIdx = Math.min(doc.getPageCount(), Math.max(1, newPage)) - 1;
@@ -1608,9 +1628,9 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             }
             const out = await savePdf(doc);
             downloadBytes(out, `${baseName(fileName)}-form.pdf`);
-            ctx.setStatus('done', `Field “${name}” added. Download the updated PDF and re-open it here to fill the new field.`);
+            ctx.setStatus('done', s('fieldAdded').replace('{name}', name));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not add the field.');
+            ctx.setStatus('error', e?.message || s('errAddField'));
           }
         };
 
@@ -1619,27 +1639,27 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             {loadError && <LoadErrorBox message={loadError} />}
             {loaded && fieldStates.length === 0 && (
               <div className="text-xs font-semibold text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 rounded-xl px-3 py-2.5 mb-4">
-                No fillable form fields found in this PDF. You can still add one below.
+                {s('formsNoneBanner')}
               </div>
             )}
             {loaded && fieldStates.length > 0 && (
               <>
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-3">
-                  <ClipboardList className="w-4 h-4 text-orange-500" /> Fill the form ({fieldStates.length} field{fieldStates.length === 1 ? '' : 's'})
+                  <ClipboardList className="w-4 h-4 text-orange-500" /> {s('fillFormHeading').replace('{fields}', pluralize(lang, fieldStates.length, 'wordFormField', 'wordFormFields'))}
                 </h3>
                 <div className="space-y-3">
                   {fieldStates.map((fs, i) => (
                     <div key={fs.name}>
                       <OptLabel>
-                        {fs.name} <span className="text-gray-400 font-medium">· {FIELD_KIND_LABELS[fs.kind] || fs.kind}</span>
+                        {fs.name} <span className="text-gray-400 font-medium">· {FIELD_KIND_LABELS[fs.kind] ? s(FIELD_KIND_LABELS[fs.kind]) : fs.kind}</span>
                       </OptLabel>
                       {fs.kind === 'PDFTextField' ? (
                         <OptInput value={String(fs.value ?? '')} onChange={(e) => setValue(i, e.target.value)} />
                       ) : fs.kind === 'PDFCheckBox' ? (
-                        <OptCheck label="Checked" checked={!!fs.value} onChange={(v) => setValue(i, v)} />
+                        <OptCheck label={s('fieldChecked')} checked={!!fs.value} onChange={(v) => setValue(i, v)} />
                       ) : fs.options ? (
                         <OptSelect value={String(fs.value ?? '')} onChange={(e) => setValue(i, e.target.value)}>
-                          <option value="">— Select —</option>
+                          <option value="">{s('selectPlaceholder')}</option>
                           {fs.options.map((o) => (
                             <option key={o} value={o}>
                               {o}
@@ -1647,16 +1667,16 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                           ))}
                         </OptSelect>
                       ) : (
-                        <p className="text-[11px] text-gray-400">This field type can be viewed but not edited here.</p>
+                        <p className="text-[11px] text-gray-400">{s('fieldNotEditable')}</p>
                       )}
                     </div>
                   ))}
                 </div>
                 <div className="mt-3">
-                  <OptCheck label="Flatten form after filling (locks the answers in permanently)" checked={flatten} onChange={setFlatten} />
+                  <OptCheck label={s('flattenAfterFilling')} checked={flatten} onChange={setFlatten} />
                 </div>
                 <button type="button" className={btnPrimary} disabled={ctx.status === 'working'} onClick={() => void applyFilled()}>
-                  <Play className="w-4 h-4" /> Apply answers & download
+                  <Play className="w-4 h-4" /> {s('applyAnswersBtn')}
                 </button>
               </>
             )}
@@ -1664,43 +1684,43 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             {loaded && (
               <div className="mt-6 border-t border-dashed border-gray-200 dark:border-gray-700 pt-5">
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-3">
-                  <Plus className="w-4 h-4 text-orange-500" /> Add a new field
+                  <Plus className="w-4 h-4 text-orange-500" /> {s('addNewField')}
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   <div>
-                    <OptLabel>Field name</OptLabel>
+                    <OptLabel>{s('fieldNameLabel')}</OptLabel>
                     <OptInput value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="e.g. signature_date" />
                   </div>
                   <div>
-                    <OptLabel>Type</OptLabel>
+                    <OptLabel>{s('typeLabel')}</OptLabel>
                     <OptSelect value={newType} onChange={(e) => setNewType(e.target.value as 'text' | 'checkbox')}>
-                      <option value="text">Text field</option>
-                      <option value="checkbox">Checkbox</option>
+                      <option value="text">{s('fieldText')}</option>
+                      <option value="checkbox">{s('fieldCheckbox')}</option>
                     </OptSelect>
                   </div>
                   <div>
-                    <OptLabel>Page{pageCount ? ` (1–${pageCount})` : ''}</OptLabel>
+                    <OptLabel>{c('page')}{pageCount ? ` (1–${pageCount})` : ''}</OptLabel>
                     <OptInput type="number" min={1} max={pageCount || 1} value={newPage} onChange={(e) => setNewPage(Math.max(1, Number(e.target.value) || 1))} />
                   </div>
                   <div>
-                    <OptLabel>X position (%)</OptLabel>
+                    <OptLabel>{s('xPositionPct')}</OptLabel>
                     <OptInput type="number" min={0} max={95} value={newX} onChange={(e) => setNewX(Math.min(95, Math.max(0, Number(e.target.value) || 0)))} />
                   </div>
                   <div>
-                    <OptLabel>Y position from top (%)</OptLabel>
+                    <OptLabel>{s('yPositionPct')}</OptLabel>
                     <OptInput type="number" min={0} max={95} value={newY} onChange={(e) => setNewY(Math.min(95, Math.max(0, Number(e.target.value) || 0)))} />
                   </div>
                   <div>
-                    <OptLabel>Width (% of page, text only)</OptLabel>
+                    <OptLabel>{s('widthPctTextOnly')}</OptLabel>
                     <OptInput type="number" min={5} max={100} value={newW} onChange={(e) => setNewW(Math.min(100, Math.max(5, Number(e.target.value) || 40)))} />
                   </div>
                 </div>
                 <button type="button" className={btnPrimary} disabled={ctx.status === 'working'} onClick={() => void addField()}>
-                  <Plus className="w-4 h-4" /> Add field & download updated PDF
+                  <Plus className="w-4 h-4" /> {s('addFieldDownloadBtn')}
                 </button>
               </div>
             )}
-            {!loaded && !loadError && <p className="text-xs text-gray-500">Choose a PDF above to inspect and fill its form fields.</p>}
+            {!loaded && !loadError && <p className="text-xs text-gray-500">{s('formsChoose2')}</p>}
           </div>
         );
       }}
@@ -1713,6 +1733,9 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [cameraOn, setCameraOn] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -1738,7 +1761,7 @@ export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         const openCamera = async () => {
           try {
             if (!navigator.mediaDevices?.getUserMedia) {
-              throw new Error('Camera access is not available in this browser or context (a secure HTTPS page is required).');
+              throw new Error(s('errCameraUnavailable'));
             }
             const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
             streamRef.current = stream;
@@ -1748,14 +1771,14 @@ export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             });
             ctx.setStatus('idle', '');
           } catch (e: any) {
-            ctx.setStatus('error', `Camera unavailable: ${e?.message || 'permission was denied.'}`);
+            ctx.setStatus('error', s('cameraUnavailable').replace('{msg}', e?.message || s('permissionDenied')));
           }
         };
 
         const capture = async () => {
           const video = videoRef.current;
           if (!video || !video.videoWidth) {
-            ctx.setStatus('error', 'The camera is not ready yet — wait for the preview and try again.');
+            ctx.setStatus('error', s('errCameraNotReady'));
             return;
           }
           try {
@@ -1767,23 +1790,23 @@ export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             const file = new File([blob], `scan-${Date.now()}.jpg`, { type: 'image/jpeg' });
             ctx.setFiles([...ctx.files, file]);
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not capture the photo.');
+            ctx.setStatus('error', e?.message || s('errCapture'));
           }
         };
 
         const convert = async () => {
           if (!ctx.files.length) {
-            ctx.setStatus('error', 'Capture or upload at least one page photo first.');
+            ctx.setStatus('error', s('errCaptureFirst'));
             return;
           }
           setBusy(true);
           try {
-            ctx.setStatus('working', 'Building your PDF from the scanned pages…');
-            const out = await imagesToPdfBytes(ctx.files, pageSize, margin);
+            ctx.setStatus('working', s('scanBuilding'));
+            const out = await imagesToPdfBytes(ctx.files, pageSize, margin, lang);
             downloadBytes(out, 'scanned-document.pdf');
-            ctx.setStatus('done', `PDF created from ${ctx.files.length} page(s).`);
+            ctx.setStatus('done', s('scanCreated').replace('{count}', String(ctx.files.length)));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not build the PDF from these images.');
+            ctx.setStatus('error', e?.message || s('errScanBuild'));
           } finally {
             setBusy(false);
           }
@@ -1794,15 +1817,15 @@ export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <div className="flex flex-wrap gap-2">
               {!cameraOn ? (
                 <button type="button" className={btnGhost} onClick={() => void openCamera()}>
-                  <Camera className="w-4 h-4" /> Open camera
+                  <Camera className="w-4 h-4" /> {s('openCamera')}
                 </button>
               ) : (
                 <>
                   <button type="button" className={btnGhost} onClick={() => void capture()}>
-                    <Camera className="w-4 h-4" /> Capture photo
+                    <Camera className="w-4 h-4" /> {s('capturePhoto')}
                   </button>
                   <button type="button" className={btnGhost} onClick={stopCamera}>
-                    <VideoOff className="w-4 h-4" /> Close camera
+                    <VideoOff className="w-4 h-4" /> {s('closeCamera')}
                   </button>
                 </>
               )}
@@ -1813,29 +1836,29 @@ export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
             )}
             <p className="text-[11px] text-gray-500 mt-2">
-              Or just upload photos of pages using the box above — they become the PDF pages in order.
+              {s('scanUploadHint')}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
               <div>
-                <OptLabel>Page size</OptLabel>
+                <OptLabel>{s('pageSizeLabel')}</OptLabel>
                 <OptSelect value={pageSize} onChange={(e) => setPageSize(e.target.value as 'fit' | 'a4')}>
-                  <option value="fit">Fit to each photo</option>
-                  <option value="a4">A4 pages</option>
+                  <option value="fit">{s('fitToEachPhoto')}</option>
+                  <option value="a4">{s('a4Pages')}</option>
                 </OptSelect>
               </div>
               <div>
-                <OptLabel>Margin</OptLabel>
+                <OptLabel>{s('marginLabel')}</OptLabel>
                 <OptSelect value={String(margin)} onChange={(e) => setMargin(Number(e.target.value))}>
-                  <option value="0">No margin</option>
-                  <option value="18">Small (18 pt)</option>
-                  <option value="36">Medium (36 pt)</option>
+                  <option value="0">{s('marginNoneOpt')}</option>
+                  <option value="18">{s('marginSmallOpt')}</option>
+                  <option value="36">{s('marginMediumOpt')}</option>
                 </OptSelect>
               </div>
             </div>
 
             <button type="button" className={btnPrimary} disabled={!ctx.files.length || busy} onClick={() => void convert()}>
-              <Play className="w-4 h-4" /> Convert {ctx.files.length || ''} page(s) to PDF
+              <Play className="w-4 h-4" /> {s('convertPagesToPdf').replace('{count}', String(ctx.files.length || ''))}
             </button>
           </div>
         );
@@ -1852,20 +1875,22 @@ function getGeminiKey(): string {
   return ((import.meta as any).env?.VITE_GEMINI_API_KEY as string) || '';
 }
 
-const MissingKeyNotice: React.FC = () => (
+const MissingKeyNotice: React.FC = () => {
+  const s = useStrings(PDF_STRINGS);
+  return (
   <div className="mt-4 text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2.5">
-    AI tools need a free Gemini API key. Get one at <span className="font-bold">aistudio.google.com</span>, then add{' '}
-    <code className="bg-amber-100 dark:bg-amber-900/60 px-1 py-0.5 rounded">VITE_GEMINI_API_KEY=your-key</code> to a{' '}
-    <code className="bg-amber-100 dark:bg-amber-900/60 px-1 py-0.5 rounded">.env</code> file in the project root and restart the dev
-    server.
+    {s('missingKey2Before')} <span className="font-bold">aistudio.google.com</span>, {s('missingKey2Middle')}{' '}
+    <code className="bg-amber-100 dark:bg-amber-900/60 px-1 py-0.5 rounded">VITE_GEMINI_API_KEY=your-key</code> {s('missingKey2After')}{' '}
+    <code className="bg-amber-100 dark:bg-amber-900/60 px-1 py-0.5 rounded">.env</code> {s('missingKey2End')}
   </div>
-);
+  );
+};
 
-async function geminiText(apiKey: string, prompt: string): Promise<string> {
+async function geminiText(apiKey: string, prompt: string, emptyMsg: string): Promise<string> {
   const ai = new GoogleGenAI({ apiKey });
   const res: any = await ai.models.generateContent({ model: 'gemini-2.5-flash', contents: prompt });
   const text = (res?.text ?? '') as string;
-  if (!text || !text.trim()) throw new Error('The AI returned an empty response. Please try again.');
+  if (!text || !text.trim()) throw new Error(emptyMsg);
   return text;
 }
 
@@ -1895,6 +1920,9 @@ function chunkText(text: string, max = 3500): string[] {
 }
 
 export const AiSummarizePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const apiKey = getGeminiKey();
   const [style, setStyle] = useState<'brief' | 'detailed' | 'bullets'>('brief');
   const [summary, setSummary] = useState('');
@@ -1905,23 +1933,23 @@ export const AiSummarizePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         const file = ctx.files[0];
         const run = async () => {
           if (!file) {
-            ctx.setStatus('error', 'Choose a PDF first.');
+            ctx.setStatus('error', s('errChoosePdfFirst'));
             return;
           }
           if (!apiKey) {
-            ctx.setStatus('error', 'No Gemini API key is configured (see the note above).');
+            ctx.setStatus('error', s('errNoGeminiKey'));
             return;
           }
           try {
             setSummary('');
-            ctx.setStatus('working', 'Extracting the document text…');
+            ctx.setStatus('working', s('extractingText'));
             const pages = await extractAllText(await fileToBytes(file));
             const text = pages.join('\n\n').trim();
             if (!text) {
-              throw new Error('No extractable text was found in this PDF. If it is a scanned document, run the OCR tool on it first.');
+              throw new Error(s('errNoTextOcrFirst'));
             }
             const truncated = text.slice(0, 60000);
-            ctx.setStatus('working', 'Asking Gemini to summarize the document…');
+            ctx.setStatus('working', s('summarizingGemini'));
             const styleHint =
               style === 'brief'
                 ? 'a brief style: one short, clear paragraph'
@@ -1930,22 +1958,23 @@ export const AiSummarizePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   : 'a bullet-point style: the key takeaways as a bullet list, one point per line starting with "- "';
             const out = await geminiText(
               apiKey,
-              `You are an expert document summarizer. Summarize the following document in ${styleHint}. Output only the summary, no preamble.\n\n--- DOCUMENT ---\n${truncated}`
+              `You are an expert document summarizer. Summarize the following document in ${styleHint}. Output only the summary, no preamble.\n\n--- DOCUMENT ---\n${truncated}`,
+              s('geminiEmptyResponse')
             );
             setSummary(out);
-            ctx.setStatus('done', 'Summary ready — read it below or download it.');
+            ctx.setStatus('done', s('summaryReady'));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Summarization failed. Check your API key and connection.');
+            ctx.setStatus('error', e?.message || s('errSummarizeFailed'));
           }
         };
 
         const downloadPdf = async () => {
           if (!summary || !file) return;
           try {
-            const out = await buildTextPdfBytes(`Summary of ${file.name}`, summary);
+            const out = await buildTextPdfBytes(s('summaryOf').replace('{name}', file.name), summary);
             downloadBytes(out, `${baseName(file)}-summary.pdf`);
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not build the summary PDF.');
+            ctx.setStatus('error', e?.message || s('errSummaryPdf'));
           }
         };
 
@@ -1953,28 +1982,28 @@ export const AiSummarizePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div>
             {!apiKey && <MissingKeyNotice />}
             <div className="mt-4 max-w-[260px]">
-              <OptLabel>Summary style</OptLabel>
+              <OptLabel>{s('summaryStyle')}</OptLabel>
               <OptSelect value={style} onChange={(e) => setStyle(e.target.value as 'brief' | 'detailed' | 'bullets')}>
-                <option value="brief">Brief — one paragraph</option>
-                <option value="detailed">Detailed — full summary</option>
-                <option value="bullets">Bullet key points</option>
+                <option value="brief">{s('summaryBriefOpt')}</option>
+                <option value="detailed">{s('summaryDetailedOpt')}</option>
+                <option value="bullets">{s('summaryBulletsOpt')}</option>
               </OptSelect>
             </div>
             <button type="button" className={btnPrimary} disabled={!apiKey || !file || ctx.status === 'working'} onClick={() => void run()}>
-              <Sparkles className="w-4 h-4" /> Extract & summarize
+              <Sparkles className="w-4 h-4" /> {s('extractSummarizeBtn')}
             </button>
             {summary && (
               <div className="mt-4">
-                <OptLabel>Summary</OptLabel>
+                <OptLabel>{s('summaryHeading')}</OptLabel>
                 <div className="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900 px-4 py-3 max-h-[380px] overflow-y-auto">
                   <p className="text-sm text-gray-800 dark:text-gray-100 whitespace-pre-wrap leading-relaxed">{summary}</p>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
                   <button type="button" className={btnGhost} onClick={() => file && downloadText(summary, `${baseName(file)}-summary.txt`)}>
-                    <Download className="w-3.5 h-3.5" /> Download .txt
+                    <Download className="w-3.5 h-3.5" /> {s('downloadTxtFile')}
                   </button>
                   <button type="button" className={btnGhost} onClick={() => void downloadPdf()}>
-                    <FileText className="w-3.5 h-3.5" /> Download .pdf
+                    <FileText className="w-3.5 h-3.5" /> {s('downloadPdfFile')}
                   </button>
                 </div>
               </div>
@@ -1991,6 +2020,10 @@ const TRANSLATE_LANGUAGES = [
 ];
 
 export const TranslatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const uiLang = useLang();
+  void uiLang;
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const apiKey = getGeminiKey();
   const [lang, setLang] = useState('English');
   const [result, setResult] = useState('');
@@ -2003,45 +2036,46 @@ export const TranslatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
         const run = async () => {
           if (!file) {
-            ctx.setStatus('error', 'Choose a PDF first.');
+            ctx.setStatus('error', s('errChoosePdfFirst'));
             return;
           }
           if (!apiKey) {
-            ctx.setStatus('error', 'No Gemini API key is configured (see the note above).');
+            ctx.setStatus('error', s('errNoGeminiKey'));
             return;
           }
           try {
             setResult('');
-            ctx.setStatus('working', 'Extracting the document text…');
+            ctx.setStatus('working', s('extractingText'));
             const pages = await extractAllText(await fileToBytes(file));
             const full = pages.join('\n\n').trim();
             if (!full) {
-              throw new Error('No extractable text was found in this PDF. If it is a scanned document, run the OCR tool on it first.');
+              throw new Error(s('errNoTextOcrFirst'));
             }
             const chunks = chunkText(full, 3500);
             const translated: string[] = [];
             for (let i = 0; i < chunks.length; i++) {
-              ctx.setStatus('working', `Translating chunk ${i + 1} of ${chunks.length} to ${lang}…`);
+              ctx.setStatus('working', s('translatingChunk').replace('{n}', String(i + 1)).replace('{total}', String(chunks.length)).replace('{lang}', lang));
               const out = await geminiText(
                 apiKey,
-                `Translate the following text to ${lang}. Output only the translation — no notes, no preamble, keep paragraph breaks.\n\n${chunks[i]}`
+                `Translate the following text to ${lang}. Output only the translation — no notes, no preamble, keep paragraph breaks.\n\n${chunks[i]}`,
+                s('geminiEmptyResponse')
               );
               translated.push(out.trim());
             }
             setResult(translated.join('\n\n'));
-            ctx.setStatus('done', `Translation to ${lang} is ready below.`);
+            ctx.setStatus('done', s('translationReady').replace('{lang}', lang));
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Translation failed. Check your API key and connection.');
+            ctx.setStatus('error', e?.message || s('errTranslateFailed'));
           }
         };
 
         const downloadPdf = async () => {
           if (!result || !file) return;
           try {
-            const out = await buildTextPdfBytes(`Translated to ${lang} — ${file.name}`, result);
+            const out = await buildTextPdfBytes(s('translatedToTitle').replace('{lang}', lang).replace('{name}', file.name), result);
             downloadBytes(out, `${baseName(file)}-translated.pdf`);
           } catch (e: any) {
-            ctx.setStatus('error', e?.message || 'Could not build the translated PDF.');
+            ctx.setStatus('error', e?.message || s('errTranslatedPdf'));
           }
         };
 
@@ -2049,7 +2083,7 @@ export const TranslatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div>
             {!apiKey && <MissingKeyNotice />}
             <div className="mt-4 max-w-[260px]">
-              <OptLabel>Translate to</OptLabel>
+              <OptLabel>{s('translateToLabel')}</OptLabel>
               <OptSelect value={lang} onChange={(e) => setLang(e.target.value)}>
                 {TRANSLATE_LANGUAGES.map((l) => (
                   <option key={l} value={l}>
@@ -2059,11 +2093,11 @@ export const TranslatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </OptSelect>
             </div>
             <button type="button" className={btnPrimary} disabled={!apiKey || !file || ctx.status === 'working'} onClick={() => void run()}>
-              <Languages className="w-4 h-4" /> Extract & translate
+              <Languages className="w-4 h-4" /> {s('extractTranslateBtn')}
             </button>
             {result && (
               <div className="mt-4">
-                <OptLabel>Translation ({lang})</OptLabel>
+                <OptLabel>{s('translationHeadingTpl').replace('{lang}', lang)}</OptLabel>
                 <textarea
                   readOnly
                   value={result}
@@ -2072,15 +2106,15 @@ export const TranslatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 />
                 <div className="flex flex-wrap gap-2 mt-3">
                   <button type="button" className={btnGhost} onClick={() => file && downloadText(result, `${baseName(file)}-translated.txt`)}>
-                    <Download className="w-3.5 h-3.5" /> Download .txt
+                    <Download className="w-3.5 h-3.5" /> {s('downloadTxtFile')}
                   </button>
                   {latin1Only ? (
                     <button type="button" className={btnGhost} onClick={() => void downloadPdf()}>
-                      <FileText className="w-3.5 h-3.5" /> Download .pdf
+                      <FileText className="w-3.5 h-3.5" /> {s('downloadPdfFile')}
                     </button>
                   ) : (
                     <span className="text-[11px] font-semibold text-amber-700 dark:text-amber-400 self-center">
-                      The translated script needs a Unicode font for PDF export — use the .txt download.
+                      {s('unicodeFontNote')}
                     </span>
                   )}
                 </div>

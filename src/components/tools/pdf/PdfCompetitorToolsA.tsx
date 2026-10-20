@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import { Download, Plus, Trash2, X } from 'lucide-react';
 import type { ToolItem } from '../../../lib/tools-data';
+import { COMMON, lookup, useLang, useStrings } from '../../../lib/LangContext';
+import { PDF_STRINGS, pluralize } from '../../../lib/strings/pdf';
 import {
   PDFDocument,
   PDFName,
@@ -31,20 +33,19 @@ import { OptCheck, OptInput, OptLabel, OptSelect, PdfToolShell } from './PdfTool
 
 const ACCEPT = '.pdf,application/pdf';
 
-const READ_ERROR = 'Could not read this PDF — it may be corrupt or password-protected.';
 
-function readError(fileName?: string): string {
+function readError(fileName?: string, lang: 'en' | 'es' | 'fr' | 'ar' | 'ru' = 'en'): string {
   return fileName
-    ? `Could not read ${fileName} — it may be corrupt or password-protected.`
-    : READ_ERROR;
+    ? lookup(PDF_STRINGS, lang, 'readErrorNamed').replace('{name}', fileName)
+    : lookup(PDF_STRINGS, lang, 'readError');
 }
 
 /** Load a PDF, converting low-level failures into a clear message. */
-async function loadOrThrow(bytes: Uint8Array, fileName?: string): Promise<PDFDocument> {
+async function loadOrThrow(bytes: Uint8Array, fileName?: string, lang: 'en' | 'es' | 'fr' | 'ar' | 'ru' = 'en'): Promise<PDFDocument> {
   try {
     return await loadPdf(bytes);
   } catch {
-    throw new Error(readError(fileName));
+    throw new Error(readError(fileName, lang));
   }
 }
 
@@ -74,13 +75,16 @@ function hexToRgb(hex: string) {
   return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
 }
 
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
 // ---------------------------------------------------------------------------
 // 1. Delete PDF Pages (visual thumbnail picker)
 // ---------------------------------------------------------------------------
 
 export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [srcBytes, setSrcBytes] = useState<Uint8Array | null>(null);
   const [srcName, setSrcName] = useState('document.pdf');
   const [thumbs, setThumbs] = useState<string[]>([]);
@@ -122,25 +126,25 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const applyDelete = async (setStatus: (s: any, m?: string) => void) => {
     if (!srcBytes) return;
     if (selected.size === 0) {
-      setStatus('error', 'Click one or more page thumbnails to select the pages you want to delete.');
+      setStatus('error', s('errDeleteSelect'));
       return;
     }
     if (selected.size >= pageCount) {
-      setStatus('error', 'You selected every page — a PDF must keep at least one page.');
+      setStatus('error', s('errDeleteAll'));
       return;
     }
-    setStatus('working', 'Deleting the selected pages…');
+    setStatus('working', s('deletingPages'));
     try {
-      const src = await loadOrThrow(srcBytes, srcName);
+      const src = await loadOrThrow(srcBytes, srcName, lang);
       const keep = src.getPageIndices().filter((i) => !selected.has(i));
       const data = await buildFromIndices(src, keep);
       downloadBytes(data, `${baseName(srcName)}-pages-deleted.pdf`);
       setStatus(
         'done',
-        `Deleted ${plural(selected.size, 'page')} — the new PDF has ${plural(keep.length, 'page')}.`
+        s('deleteDoneA').replace('{deleted}', pluralize(lang, selected.size, 'wordPage', 'wordPages')).replace('{kept}', pluralize(lang, keep.length, 'wordPage', 'wordPages'))
       );
     } catch (err: any) {
-      setStatus('error', err?.message || 'Could not delete the selected pages.');
+      setStatus('error', err?.message || s('errDeleteFailed'));
     }
   };
 
@@ -148,25 +152,24 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      dropzoneHint="Select one PDF, then click the pages you want to remove"
+      dropzoneHint={s('deleteHintA')}
       onFilesChange={handleFilesChange}
     >
       {(ctx) => {
         if (!ctx.files.length) {
           return (
             <p className="text-[11px] text-gray-500 mt-4">
-              Choose a PDF above — its pages will appear here as thumbnails. Click pages to mark
-              them for deletion.
+              {s('deleteChoose')}
             </p>
           );
         }
         if (loading) {
-          return <p className="text-xs text-gray-500 mt-4">Loading page thumbnails…</p>;
+          return <p className="text-xs text-gray-500 mt-4">{s('loadingThumbnails')}</p>;
         }
         if (!srcBytes) {
           return (
             <p className="text-xs text-red-500 mt-4">
-              {READ_ERROR} Try a different file.
+              {s('readErrorTryOther')}
             </p>
           );
         }
@@ -175,16 +178,15 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="mt-4">
             <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className="text-[11px] text-gray-500">
-                {selected.size} of {plural(pageCount, 'page')} selected for deletion ·{' '}
-                {pageCount - selected.size} will remain
+                {s('deleteHeaderLine').replace('{selected}', String(selected.size)).replace('{pages}', pluralize(lang, pageCount, 'wordPage', 'wordPages')).replace('{remain}', String(pageCount - selected.size))}
               </span>
               {selected.size > 0 && (
                 <button
                   type="button"
                   onClick={() => setSelected(new Set())}
-                  className="ml-auto px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
+                  className="ms-auto px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
                 >
-                  Clear selection
+                  {s('clearSelection')}
                 </button>
               )}
             </div>
@@ -196,29 +198,29 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     key={i}
                     type="button"
                     onClick={() => toggle(i)}
-                    className={`relative border rounded-xl p-2 text-left cursor-pointer transition-colors ${
+                    className={`relative border rounded-xl p-2 text-start cursor-pointer transition-colors ${
                       isSel
                         ? 'border-red-500 bg-red-50 dark:bg-red-950/30 ring-2 ring-red-400'
                         : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 hover:border-orange-400'
                     }`}
-                    aria-label={`Toggle page ${i + 1} for deletion`}
+                    aria-label={s('togglePageDeletion').replace('{n}', String(i + 1))}
                   >
                     <div className="relative overflow-hidden rounded-lg bg-white flex items-center justify-center min-h-[110px]">
                       {thumbs[i] ? (
                         <img
                           src={thumbs[i]}
-                          alt={`Page ${i + 1}`}
+                          alt={`${c('page')} ${i + 1}`}
                           className={`max-h-[150px] w-auto object-contain ${isSel ? 'opacity-40' : ''}`}
                         />
                       ) : (
-                        <span className="text-[11px] text-gray-400">Page {i + 1}</span>
+                        <span className="text-[11px] text-gray-400">{c('page')} {i + 1}</span>
                       )}
-                      <span className="absolute top-1 left-1 text-[10px] font-black bg-black/70 text-white rounded-md px-1.5 py-0.5">
+                      <span className="absolute top-1 start-1 text-[10px] font-black bg-black/70 text-white rounded-md px-1.5 py-0.5">
                         {i + 1}
                       </span>
                       {isSel && (
                         <span className="absolute inset-x-0 bottom-1 text-center text-[10px] font-black uppercase tracking-wide text-red-600">
-                          Will be deleted
+                          {s('willBeDeleted')}
                         </span>
                       )}
                     </div>
@@ -228,8 +230,7 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
             {pageCount > thumbs.length && thumbs.length > 0 && (
               <p className="text-[11px] text-gray-500 mt-2">
-                Thumbnails are shown for the first {thumbs.length} pages; later pages are shown as
-                numbered tiles but can still be selected.
+                {s('thumbsNote').replace('{count}', String(thumbs.length))}
               </p>
             )}
             <button
@@ -239,8 +240,7 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               className="w-full mt-4 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white shadow cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              Delete {selected.size > 0 ? plural(selected.size, 'selected page') : 'pages'} &amp;
-              download
+              {selected.size > 0 ? s('deleteBtnTpl').replace('{selected}', pluralize(lang, selected.size, 'wordSelectedPage', 'wordSelectedPages')) : s('deleteBtnNone')}
             </button>
           </div>
         );
@@ -254,6 +254,10 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const ExtractPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [ranges, setRanges] = useState('1-3');
   const [separate, setSeparate] = useState(false);
 
@@ -261,10 +265,10 @@ export const ExtractPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Extract pages"
+      actionLabel={s('extractPagesAction')}
       onProcess={async (files) => {
         const bytes = await fileToBytes(files[0]);
-        const src = await loadOrThrow(bytes, files[0].name);
+        const src = await loadOrThrow(bytes, files[0].name, lang);
         const count = src.getPageCount();
         const base = baseName(files[0]);
 
@@ -285,7 +289,7 @@ export const ExtractPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           }
           if (!outputs.length) {
             throw new Error(
-              `No valid pages in that range — this PDF has ${plural(count, 'page')}.`
+              s('errNoValidPagesRange').replace('{pages}', pluralize(lang, count, 'wordPage', 'wordPages'))
             );
           }
           if (outputs.length === 1) {
@@ -293,42 +297,41 @@ export const ExtractPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           } else {
             await downloadZip(outputs, `${base}-extracted.zip`);
           }
-          return `Extracted ${outputs.length} separate PDF file${outputs.length === 1 ? '' : 's'} from ${files[0].name}.`;
+          return s('extractSeparateResult').replace('{count}', String(outputs.length)).replace('{name}', files[0].name);
         }
 
         const pages = parsePageRanges(ranges, count);
         if (!pages.length) {
-          throw new Error(`No valid pages in that range — this PDF has ${plural(count, 'page')}.`);
+          throw new Error(s('errNoValidPagesRange').replace('{pages}', pluralize(lang, count, 'wordPage', 'wordPages')));
         }
         const data = await buildFromIndices(
           src,
           pages.map((p) => p - 1)
         );
         downloadBytes(data, `${base}-extracted.pdf`);
-        return `Extracted ${plural(pages.length, 'page')} into a new PDF.`;
+        return s('extractIntoNewPdf').replace('{pages}', pluralize(lang, pages.length, 'wordPage', 'wordPages'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Pages to extract</OptLabel>
+            <OptLabel>{s('pagesToExtract')}</OptLabel>
             <OptInput
               type="text"
               value={ranges}
               onChange={(e) => setRanges(e.target.value)}
-              placeholder="e.g. 1-3, 5, 8-10"
+              placeholder={s('rangePlaceholderEx')} dir="ltr"
             />
           </div>
           <div className="flex items-end pb-1">
             <OptCheck
-              label="One PDF per range group (ZIP)"
+              label={s('onePdfPerGroup')}
               checked={separate}
               onChange={setSeparate}
             />
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            With the ZIP option on, each comma-separated group (e.g. “1-3” and “5”) becomes its own
-            PDF file.
+            {s('extractZipNote')}
           </p>
         </div>
       )}
@@ -341,6 +344,10 @@ export const ExtractPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const AlternateMixPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [startWith, setStartWith] = useState<'first' | 'second'>('first');
 
   return (
@@ -349,15 +356,15 @@ export const AlternateMixPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       accept={ACCEPT}
       multiple
       minFiles={2}
-      actionLabel="Mix pages alternately"
-      dropzoneHint="Select 2 or more PDFs — their pages will be interleaved (A1, B1, A2, B2, …)"
+      actionLabel={s('mixActionAlt')}
+      dropzoneHint={s('mixHintAlt')}
       onProcess={async (files) => {
         if (files.length < 2) {
-          throw new Error('Select at least two PDF files to mix.');
+          throw new Error(s('errMixTwo'));
         }
         const docs: PDFDocument[] = [];
         for (const f of files) {
-          docs.push(await loadOrThrow(await fileToBytes(f), f.name));
+          docs.push(await loadOrThrow(await fileToBytes(f), f.name, lang));
         }
         // Order of documents to cycle through, starting with the chosen file.
         const order = docs.map((_, i) => i);
@@ -378,24 +385,23 @@ export const AlternateMixPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           }
         }
         downloadBytes(await savePdf(out), `${baseName(files[0])}-mixed.pdf`);
-        return `Interleaved ${plural(added, 'page')} from ${plural(files.length, 'file')} into one mixed PDF.`;
+        return s('mixResultAlt').replace('{pages}', pluralize(lang, added, 'wordPage', 'wordPages')).replace('{files}', pluralize(lang, files.length, 'wordFile', 'wordFiles'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Start with</OptLabel>
+            <OptLabel>{s('startWith')}</OptLabel>
             <OptSelect
               value={startWith}
               onChange={(e) => setStartWith(e.target.value as 'first' | 'second')}
             >
-              <option value="first">First file</option>
-              <option value="second">Second file</option>
+              <option value="first">{s('firstFile')}</option>
+              <option value="second">{s('secondFile')}</option>
             </OptSelect>
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            Perfect for combining single-sided scans of a double-sided document: scan the fronts in
-            one file and the backs in another, then mix them together.
+            {s('mixNoteAlt')}
           </p>
         </div>
       )}
@@ -408,23 +414,27 @@ export const AlternateMixPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const SplitByBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   return (
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Split at bookmarks"
-      dropzoneHint="Select a PDF with a bookmark outline — one file is created per bookmark section"
+      actionLabel={s('splitBookmarksAction')}
+      dropzoneHint={s('splitBookmarksHint2')}
       onProcess={async (files) => {
         const bytes = await fileToBytes(files[0]);
         let jsDoc;
         try {
           jsDoc = await openPdfJs(bytes);
         } catch {
-          throw new Error(READ_ERROR);
+          throw new Error(s('readError'));
         }
         const outline: any[] = (await jsDoc.getOutline()) || [];
         if (!outline.length) {
-          throw new Error('This PDF has no bookmarks/outline to split by.');
+          throw new Error(s('errNoBookmarks'));
         }
 
         // Flatten the outline depth-first, resolving destinations to pages.
@@ -441,7 +451,7 @@ export const SplitByBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 const page =
                   typeof first === 'number' ? first : await jsDoc.getPageIndex(first);
                 if (typeof page === 'number' && page >= 0 && page < jsDoc.numPages) {
-                  flat.push({ title: String(item.title || 'Untitled').trim() || 'Untitled', page });
+                  flat.push({ title: String(item.title || s('untitled')).trim() || s('untitled'), page });
                 }
               }
             } catch {
@@ -461,12 +471,12 @@ export const SplitByBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         }
         const points = [...byPage.keys()].sort((a, b) => a - b);
         if (!points.length) {
-          throw new Error('The bookmarks in this PDF could not be resolved to pages.');
+          throw new Error(s('errBookmarksResolve'));
         }
 
         const sections: { title: string; start: number; end: number }[] = [];
         if (points[0] > 0) {
-          sections.push({ title: 'Front matter', start: 0, end: points[0] });
+          sections.push({ title: s('frontMatter'), start: 0, end: points[0] });
         }
         points.forEach((start, i) => {
           sections.push({
@@ -476,7 +486,7 @@ export const SplitByBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           });
         });
 
-        const src = await loadOrThrow(bytes, files[0].name);
+        const src = await loadOrThrow(bytes, files[0].name, lang);
         const base = baseName(files[0]);
         const outputs: { name: string; data: Uint8Array }[] = [];
         for (let i = 0; i < sections.length; i++) {
@@ -491,14 +501,14 @@ export const SplitByBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           });
         }
         if (!outputs.length) {
-          throw new Error('No sections could be built from this PDF’s bookmarks.');
+          throw new Error(s('errNoSections'));
         }
         if (outputs.length === 1) {
           downloadBytes(outputs[0].data, outputs[0].name);
         } else {
           await downloadZip(outputs, `${base}-by-bookmarks.zip`);
         }
-        return `Split into ${plural(outputs.length, 'section')} at the PDF’s bookmarks.`;
+        return s('splitBookmarksResult2').replace('{sections}', pluralize(lang, outputs.length, 'wordSection', 'wordSections'));
       }}
     />
   );
@@ -509,6 +519,10 @@ export const SplitByBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const SplitInHalf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [dir, setDir] = useState<'horizontal' | 'vertical'>('horizontal');
   const [reversed, setReversed] = useState(false);
 
@@ -516,11 +530,11 @@ export const SplitInHalf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Split pages in half"
-      dropzoneHint="For scanned two-page spreads: each page becomes two half-size pages"
+      actionLabel={s('splitHalfAction')}
+      dropzoneHint={s('splitHalfHint2')}
       onProcess={async (files) => {
         const bytes = await fileToBytes(files[0]);
-        const src = await loadOrThrow(bytes, files[0].name);
+        const src = await loadOrThrow(bytes, files[0].name, lang);
         const out = await PDFDocument.create();
         const count = src.getPageCount();
         for (let i = 0; i < count; i++) {
@@ -540,13 +554,13 @@ export const SplitInHalf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           ordered.forEach((p) => out.addPage(p));
         }
         downloadBytes(await savePdf(out), `${baseName(files[0])}-split-half.pdf`);
-        return `${plural(count, 'spread page')} became ${plural(count * 2, 'single page')}.`;
+        return s('splitHalfResult2').replace('{spread}', pluralize(lang, count, 'wordSpreadPage', 'wordSpreadPages')).replace('{single}', pluralize(lang, count * 2, 'wordSinglePage', 'wordSinglePages'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Split direction</OptLabel>
+            <OptLabel>{s('splitDirection')}</OptLabel>
             <OptSelect
               value={dir}
               onChange={(e) => {
@@ -554,32 +568,31 @@ export const SplitInHalf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 setReversed(false);
               }}
             >
-              <option value="horizontal">Horizontal (left / right halves)</option>
-              <option value="vertical">Vertical (top / bottom halves)</option>
+              <option value="horizontal">{s('splitHalfHorizontal2')}</option>
+              <option value="vertical">{s('splitHalfVertical2')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Half order</OptLabel>
+            <OptLabel>{s('halfOrder')}</OptLabel>
             <OptSelect
               value={reversed ? 'reversed' : 'natural'}
               onChange={(e) => setReversed(e.target.value === 'reversed')}
             >
               {dir === 'horizontal' ? (
                 <>
-                  <option value="natural">Left half, then right half</option>
-                  <option value="reversed">Right half, then left half</option>
+                  <option value="natural">{s('leftThenRight')}</option>
+                  <option value="reversed">{s('rightThenLeft')}</option>
                 </>
               ) : (
                 <>
-                  <option value="natural">Bottom half, then top half</option>
-                  <option value="reversed">Top half, then bottom half</option>
+                  <option value="natural">{s('bottomThenTop')}</option>
+                  <option value="reversed">{s('topThenBottom')}</option>
                 </>
               )}
             </OptSelect>
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            For book spreads scanned sideways, the bottom-then-top order keeps the reading sequence
-            correct.
+            {s('splitHalfNote')}
           </p>
         </div>
       )}
@@ -592,21 +605,25 @@ export const SplitInHalf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const SplitBySize: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [sizeStr, setSizeStr] = useState('2');
 
   return (
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Split by size"
+      actionLabel={s('splitSizeAction')}
       onProcess={async (files) => {
         const mb = parseFloat(sizeStr);
         if (!Number.isFinite(mb) || mb < 0.1) {
-          throw new Error('Enter a maximum part size of at least 0.1 MB.');
+          throw new Error(s('errSplitSizeMin'));
         }
         const targetBytes = mb * 1024 * 1024;
         const bytes = await fileToBytes(files[0]);
-        const src = await loadOrThrow(bytes, files[0].name);
+        const src = await loadOrThrow(bytes, files[0].name, lang);
         const count = src.getPageCount();
 
         // Greedy chunking: keep adding pages to the current part while a
@@ -630,7 +647,7 @@ export const SplitBySize: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         if (chunks.length === 1) {
           const data = await buildFromIndices(src, chunks[0]);
           downloadBytes(data, `${base}.pdf`);
-          return `The whole document (${formatBytes(data.length)}) already fits under ${mb} MB — saved as a single file.`;
+          return s('splitSizeFits').replace('{size}', formatBytes(data.length)).replace('{mb}', String(mb));
         }
         const outputs: { name: string; data: Uint8Array }[] = [];
         for (let i = 0; i < chunks.length; i++) {
@@ -641,15 +658,15 @@ export const SplitBySize: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         }
         await downloadZip(outputs, `${base}-split-by-size.zip`);
         const summary = outputs
-          .map((o, i) => `part ${i + 1}: ${plural(chunks[i].length, 'page')}, ${formatBytes(o.data.length)}`)
+          .map((o, i) => `${s('partWord')} ${i + 1}: ${pluralize(lang, chunks[i].length, 'wordPage', 'wordPages')}, ${formatBytes(o.data.length)}`)
           .join(' · ');
-        return `Split into ${outputs.length} parts under ${mb} MB each — ${summary}.`;
+        return s('splitSizeResult2').replace('{count}', String(outputs.length)).replace('{mb}', String(mb)).replace('{summary}', summary);
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Maximum size per part (MB)</OptLabel>
+            <OptLabel>{s('maxSizePerPart')}</OptLabel>
             <OptInput
               type="number"
               min="0.1"
@@ -659,8 +676,7 @@ export const SplitBySize: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            Handy for email attachment limits. A single page that is larger than the limit on its
-            own is kept as its own part.
+            {s('splitSizeNote2')}
           </p>
         </div>
       )}
@@ -673,6 +689,10 @@ export const SplitBySize: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const SplitByText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [text, setText] = useState('');
   const [discard, setDiscard] = useState(false);
 
@@ -680,18 +700,18 @@ export const SplitByText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Split by text"
+      actionLabel={s('splitTextAction')}
       onProcess={async (files) => {
         const needle = text.trim();
         if (!needle) {
-          throw new Error('Enter the text to split on — for example “Chapter” or “Invoice”.');
+          throw new Error(s('errSplitTextEnter'));
         }
         const bytes = await fileToBytes(files[0]);
         let jsDoc;
         try {
           jsDoc = await openPdfJs(bytes);
         } catch {
-          throw new Error(READ_ERROR);
+          throw new Error(s('readError'));
         }
         const total = jsDoc.numPages;
         const matches: number[] = []; // 0-based pages containing the text
@@ -702,7 +722,7 @@ export const SplitByText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           }
         }
         if (!matches.length) {
-          throw new Error(`The text "${needle}" was not found in this PDF.`);
+          throw new Error(s('splitTextNotFound2').replace('{term}', needle));
         }
 
         // Section boundaries: a section starts at each match page; any pages
@@ -715,7 +735,7 @@ export const SplitByText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           sections.push({ start, end: i + 1 < matches.length ? matches[i + 1] : total });
         });
 
-        const src = await loadOrThrow(bytes, files[0].name);
+        const src = await loadOrThrow(bytes, files[0].name, lang);
         const base = baseName(files[0]);
         const outputs: { name: string; data: Uint8Array }[] = [];
         for (const s of sections) {
@@ -729,37 +749,36 @@ export const SplitByText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           });
         }
         if (!outputs.length) {
-          throw new Error('Discarding the separator pages would leave nothing to save.');
+          throw new Error(s('errDiscardAll'));
         }
         if (outputs.length === 1) {
           downloadBytes(outputs[0].data, outputs[0].name);
         } else {
           await downloadZip(outputs, `${base}-split-by-text.zip`);
         }
-        return `Found “${needle}” on ${plural(matches.length, 'page')} and created ${plural(outputs.length, 'section')}.`;
+        return s('splitTextResult2').replace('{needle}', needle).replace('{pages}', pluralize(lang, matches.length, 'wordPage', 'wordPages')).replace('{sections}', pluralize(lang, outputs.length, 'wordSection', 'wordSections'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Split before pages containing</OptLabel>
+            <OptLabel>{s('splitBeforePages')}</OptLabel>
             <OptInput
               type="text"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="e.g. Chapter, Invoice, Appendix"
+              placeholder={s('egChapterInvoice')}
             />
           </div>
           <div className="flex items-end pb-1">
             <OptCheck
-              label="Discard the separator pages themselves"
+              label={s('discardSeparator')}
               checked={discard}
               onChange={setDiscard}
             />
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            Each new file starts at a page containing your text — ideal for splitting merged
-            invoices, statements, or chapters.
+            {s('splitTextNote2')}
           </p>
         </div>
       )}
@@ -772,30 +791,34 @@ export const SplitByText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const FlattenPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [mode, setMode] = useState<'forms' | 'everything'>('forms');
 
   return (
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Flatten PDF"
+      actionLabel={s('flattenAction')}
       onProcess={async (files) => {
         const bytes = await fileToBytes(files[0]);
         const base = baseName(files[0]);
 
         if (mode === 'forms') {
-          const doc = await loadOrThrow(bytes, files[0].name);
+          const doc = await loadOrThrow(bytes, files[0].name, lang);
           const form = doc.getForm();
           const count = form.getFields().length;
           if (count === 0) {
             const rebuilt = await buildFromIndices(doc, doc.getPageIndices());
             downloadBytes(rebuilt, `${base}-flattened.pdf`);
-            return 'No form fields found — document re-saved unchanged. Use “Flatten everything” to also bake in annotations.';
+            return s('flattenNoFields');
           }
           form.updateFieldAppearances();
           form.flatten();
           downloadBytes(await savePdf(doc), `${base}-flattened.pdf`);
-          return `Flattened ${plural(count, 'form field')} into the page content — the values are now permanent and the fields can no longer be edited.`;
+          return s('flattenFormsResult2').replace('{fields}', pluralize(lang, count, 'wordFormField', 'wordFormFields'));
         }
 
         // Flatten everything: rasterize each page so forms, annotations and
@@ -804,7 +827,7 @@ export const FlattenPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         try {
           jsDoc = await openPdfJs(bytes);
         } catch {
-          throw new Error(READ_ERROR);
+          throw new Error(s('readError'));
         }
         const out = await PDFDocument.create();
         for (let i = 1; i <= jsDoc.numPages; i++) {
@@ -817,24 +840,23 @@ export const FlattenPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           newPage.drawImage(img, { x: 0, y: 0, width: vp.width, height: vp.height });
         }
         downloadBytes(await savePdf(out), `${base}-flattened.pdf`);
-        return `Flattened all ${plural(jsDoc.numPages, 'page')} — form fields, annotations and layers are baked in as page images, so the text is no longer selectable.`;
+        return s('flattenEverythingResult').replace('{pages}', pluralize(lang, jsDoc.numPages, 'wordPage', 'wordPages'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Flatten mode</OptLabel>
+            <OptLabel>{s('flattenModeLabel')}</OptLabel>
             <OptSelect
               value={mode}
               onChange={(e) => setMode(e.target.value as 'forms' | 'everything')}
             >
-              <option value="forms">Form fields only (keeps text &amp; vectors)</option>
-              <option value="everything">Everything (bake all pages to images)</option>
+              <option value="forms">{s('flattenFormsOnly')}</option>
+              <option value="everything">{s('flattenEverythingOpt')}</option>
             </OptSelect>
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            Flattening makes filled form values permanent. “Everything” also merges annotations and
-            layers, but the pages become images.
+            {s('flattenNote2')}
           </p>
         </div>
       )}
@@ -847,6 +869,10 @@ export const FlattenPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const BatesNumbering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [prefix, setPrefix] = useState('CASE-');
   const [startNum, setStartNum] = useState('1');
   const [digits, setDigits] = useState('6');
@@ -860,26 +886,26 @@ export const BatesNumbering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       tool={tool}
       accept={ACCEPT}
       multiple
-      actionLabel="Apply Bates numbers"
-      dropzoneHint="Select one or more PDFs — numbering continues across files in order"
+      actionLabel={s('batesAction')}
+      dropzoneHint={s('batesHint2')}
       onProcess={async (files) => {
         const start = parseInt(startNum, 10);
         const pad = parseInt(digits, 10);
         const size = parseFloat(fontSize);
         if (!Number.isFinite(start) || start < 0) {
-          throw new Error('Enter a valid starting number (0 or higher).');
+          throw new Error(s('errBatesStart'));
         }
         if (!Number.isFinite(pad) || pad < 1 || pad > 12) {
-          throw new Error('Padding must be between 1 and 12 digits.');
+          throw new Error(s('errBatesPadding'));
         }
         if (!Number.isFinite(size) || size < 6 || size > 24) {
-          throw new Error('Font size must be between 6 and 24 pt.');
+          throw new Error(s('errBatesFontSize'));
         }
         let n = start;
         let totalPages = 0;
         const outputs: { name: string; data: Uint8Array }[] = [];
         for (const file of files) {
-          const doc = await loadOrThrow(await fileToBytes(file), file.name);
+          const doc = await loadOrThrow(await fileToBytes(file), file.name, lang);
           const font = await doc.embedFont(StandardFonts.Helvetica);
           for (const page of doc.getPages()) {
             const label = `${prefix}${String(n).padStart(pad, '0')}`;
@@ -900,22 +926,22 @@ export const BatesNumbering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         } else {
           await downloadZip(outputs, 'bates-numbered.zip');
         }
-        return `Stamped Bates numbers ${range} across ${plural(totalPages, 'page')} in ${plural(files.length, 'file')}.`;
+        return s('batesResult2').replace('{range}', range).replace('{pages}', pluralize(lang, totalPages, 'wordPage', 'wordPages')).replace('{files}', pluralize(lang, files.length, 'wordFile', 'wordFiles'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Prefix</OptLabel>
+            <OptLabel>{s('batesPrefix')}</OptLabel>
             <OptInput
               type="text"
               value={prefix}
               onChange={(e) => setPrefix(e.target.value)}
-              placeholder="e.g. CASE-"
+              placeholder={s('batesPrefixPlaceholder')} dir="ltr"
             />
           </div>
           <div>
-            <OptLabel>Starting number</OptLabel>
+            <OptLabel>{s('startingNumber')}</OptLabel>
             <OptInput
               type="number"
               min="0"
@@ -924,7 +950,7 @@ export const BatesNumbering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
           </div>
           <div>
-            <OptLabel>Digits (zero-padded)</OptLabel>
+            <OptLabel>{s('batesDigits')}</OptLabel>
             <OptInput
               type="number"
               min="1"
@@ -934,20 +960,20 @@ export const BatesNumbering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
           </div>
           <div>
-            <OptLabel>Position</OptLabel>
+            <OptLabel>{s('positionLabel')}</OptLabel>
             <OptSelect
               value={position}
               onChange={(e) =>
                 setPosition(e.target.value as 'bottom-right' | 'bottom-center' | 'top-right')
               }
             >
-              <option value="bottom-right">Bottom right</option>
-              <option value="bottom-center">Bottom center</option>
-              <option value="top-right">Top right</option>
+              <option value="bottom-right">{s('posBottomRight')}</option>
+              <option value="bottom-center">{s('posBottomCenter')}</option>
+              <option value="top-right">{s('posTopRight')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Font size (pt)</OptLabel>
+            <OptLabel>{s('fontSizePt')}</OptLabel>
             <OptInput
               type="number"
               min="6"
@@ -957,8 +983,7 @@ export const BatesNumbering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            The numbering used in legal discovery — every page of every exhibit gets a unique,
-            sequential stamp.
+            {s('batesNote2')}
           </p>
         </div>
       )}
@@ -976,6 +1001,10 @@ interface BookmarkRow {
 }
 
 export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [srcBytes, setSrcBytes] = useState<Uint8Array | null>(null);
   const [srcName, setSrcName] = useState('document.pdf');
   const [pageCount, setPageCount] = useState(0);
@@ -1004,7 +1033,7 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const applyPreset = async (setStatus: (s: any, m?: string) => void) => {
     if (!srcBytes) return;
-    setStatus('working', 'Reading the first line of every page…');
+    setStatus('working', s('bookmarksReading'));
     try {
       const jsDoc = await openPdfJs(srcBytes);
       const next: BookmarkRow[] = [];
@@ -1014,13 +1043,13 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           text
             .split('\n')
             .map((s) => s.trim())
-            .find(Boolean) || `Page ${p}`;
+            .find(Boolean) || `${c('page')} ${p}`;
         next.push({ title: firstLine.slice(0, 80), page: String(p) });
       }
       setRows(next);
-      setStatus('done', `Created ${plural(next.length, 'bookmark row')} — edit any titles, then apply.`);
+      setStatus('done', s('bookmarksPresetDone').replace('{rows}', pluralize(lang, next.length, 'wordBookmarkRow', 'wordBookmarkRows')));
     } catch {
-      setStatus('error', READ_ERROR);
+      setStatus('error', s('readError'));
     }
   };
 
@@ -1034,15 +1063,15 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     if (!valid.length) {
       setStatus(
         'error',
-        `Add at least one bookmark with a title and a page between 1 and ${pageCount}.`
+        s('bookmarksNeedValid').replace('{count}', String(pageCount))
       );
       return;
     }
     const sorted = [...valid].sort((a, b) => a.page - b.page);
     setBuilding(true);
-    setStatus('working', 'Building the bookmark outline…');
+    setStatus('working', s('bookmarksBuilding'));
     try {
-      const doc = await loadOrThrow(srcBytes, srcName);
+      const doc = await loadOrThrow(srcBytes, srcName, lang);
       const context = doc.context;
       const outlinesDict: any = context.obj({
         Type: PDFName.of('Outlines'),
@@ -1078,10 +1107,10 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       downloadBytes(await savePdf(doc), `${baseName(srcName)}-bookmarked.pdf`);
       setStatus(
         'done',
-        `Added ${plural(sorted.length, 'bookmark')} — the PDF now opens with its table of contents visible.`
+        s('bookmarksAddedDone').replace('{bookmarks}', pluralize(lang, sorted.length, 'wordBookmark', 'wordBookmarks'))
       );
     } catch (err: any) {
-      setStatus('error', err?.message || 'Could not add the bookmarks.');
+      setStatus('error', err?.message || s('errBookmarksAdd'));
     } finally {
       setBuilding(false);
     }
@@ -1091,19 +1120,19 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      dropzoneHint="Select one PDF to give it a clickable bookmark outline"
+      dropzoneHint={s('bookmarksHint2')}
       onFilesChange={handleFilesChange}
     >
       {(ctx) => {
         if (!ctx.files.length) {
           return (
             <p className="text-[11px] text-gray-500 mt-4">
-              Choose a PDF above, then list the bookmarks you want — each one jumps to its page.
+              {s('bookmarksChoose')}
             </p>
           );
         }
         if (!srcBytes) {
-          return <p className="text-xs text-red-500 mt-4">{READ_ERROR} Try a different file.</p>;
+          return <p className="text-xs text-red-500 mt-4">{s('readErrorTryOther')}</p>;
         }
         return (
           <div className="mt-4">
@@ -1111,16 +1140,16 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               {rows.map((row, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="flex-1">
-                    {i === 0 && <OptLabel>Bookmark title</OptLabel>}
+                    {i === 0 && <OptLabel>{s('bookmarkTitleLabel')}</OptLabel>}
                     <OptInput
                       type="text"
                       value={row.title}
                       onChange={(e) => updateRow(i, { title: e.target.value })}
-                      placeholder="e.g. Introduction"
+                      placeholder={s('egIntroduction')}
                     />
                   </div>
                   <div className="w-24">
-                    {i === 0 && <OptLabel>Page</OptLabel>}
+                    {i === 0 && <OptLabel>{c('page')}</OptLabel>}
                     <OptInput
                       type="number"
                       min="1"
@@ -1133,7 +1162,7 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     type="button"
                     onClick={() => setRows((prev) => prev.filter((_, j) => j !== i))}
                     className={`p-2 rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-red-500 hover:border-red-400 cursor-pointer ${i === 0 ? 'mt-5' : ''}`}
-                    aria-label={`Remove bookmark row ${i + 1}`}
+                    aria-label={s('removeBookmarkRow').replace('{n}', String(i + 1))}
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -1146,17 +1175,17 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 onClick={() => setRows((prev) => [...prev, { title: '', page: '1' }])}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5" /> Add bookmark
+                <Plus className="w-3.5 h-3.5" /> {s('addBookmarkBtn')}
               </button>
               <button
                 type="button"
                 onClick={() => void applyPreset(ctx.setStatus)}
                 className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
               >
-                One bookmark per page (first line as title)
+                {s('oneBookmarkPerPage')}
               </button>
-              <span className="text-[11px] text-gray-500 ml-auto">
-                {plural(pageCount, 'page')} in this PDF
+              <span className="text-[11px] text-gray-500 ms-auto">
+                {s('pagesInThisPdf').replace('{pages}', pluralize(lang, pageCount, 'wordPage', 'wordPages'))}
               </span>
             </div>
             <button
@@ -1166,7 +1195,7 @@ export const CreateBookmarks: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               className="w-full mt-4 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 bg-[#f97316] hover:bg-orange-600 text-white shadow cursor-pointer disabled:opacity-50"
             >
               <Download className="w-3.5 h-3.5" />
-              {building ? 'Building…' : 'Add bookmarks & download'}
+              {building ? s('buildingLabel') : s('addBookmarksDownload')}
             </button>
           </div>
         );
@@ -1198,6 +1227,10 @@ const EMPTY_META: MetaFields = {
 };
 
 export const EditMetadata: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [srcBytes, setSrcBytes] = useState<Uint8Array | null>(null);
   const [srcName, setSrcName] = useState('document.pdf');
   const [fileSize, setFileSize] = useState(0);
@@ -1232,9 +1265,9 @@ export const EditMetadata: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
   const applyMeta = async (setStatus: (s: any, m?: string) => void) => {
     if (!srcBytes) return;
-    setStatus('working', 'Updating the document metadata…');
+    setStatus('working', s('metadataUpdating'));
     try {
-      const doc = await loadOrThrow(srcBytes, srcName);
+      const doc = await loadOrThrow(srcBytes, srcName, lang);
       doc.setTitle(meta.title);
       doc.setAuthor(meta.author);
       doc.setSubject(meta.subject);
@@ -1252,9 +1285,9 @@ export const EditMetadata: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         // Older PDFs without a mod-date entry simply skip this.
       }
       downloadBytes(await savePdf(doc), `${baseName(srcName)}-metadata.pdf`);
-      setStatus('done', 'Metadata updated and saved into the new PDF.');
+      setStatus('done', s('metadataDone2'));
     } catch (err: any) {
-      setStatus('error', err?.message || 'Could not update the metadata.');
+      setStatus('error', err?.message || s('errMetadataUpdate'));
     }
   };
 
@@ -1274,33 +1307,32 @@ export const EditMetadata: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      dropzoneHint="Select one PDF to view and edit its document properties"
+      dropzoneHint={s('metadataHint2')}
       onFilesChange={handleFilesChange}
     >
       {(ctx) => {
         if (!ctx.files.length) {
           return (
             <p className="text-[11px] text-gray-500 mt-4">
-              Choose a PDF above — its current title, author and other properties will load here
-              for editing.
+              {s('metadataChoose')}
             </p>
           );
         }
         if (!srcBytes) {
-          return <p className="text-xs text-red-500 mt-4">{READ_ERROR} Try a different file.</p>;
+          return <p className="text-xs text-red-500 mt-4">{s('readErrorTryOther')}</p>;
         }
         return (
           <div className="mt-4">
             <p className="text-[11px] text-gray-500 mb-3">
-              {srcName} · {plural(pageCount, 'page')} · {formatBytes(fileSize)}
+              {srcName} · {pluralize(lang, pageCount, 'wordPage', 'wordPages')} · {formatBytes(fileSize)}
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {field('Title', 'title', 'Document title')}
-              {field('Author', 'author', 'Author name')}
-              {field('Subject', 'subject', 'What the document is about')}
-              {field('Keywords (comma-separated)', 'keywords', 'invoice, 2026, report')}
-              {field('Creator', 'creator', 'Original creating application')}
-              {field('Producer', 'producer', 'PDF producing application')}
+              {field(s('metaTitle'), 'title', s('docTitlePlaceholder'))}
+              {field(s('metaAuthor'), 'author', s('authorNamePlaceholder'))}
+              {field(s('metaSubject'), 'subject', s('subjectPlaceholder'))}
+              {field(s('keywordsCommaLabel'), 'keywords', 'invoice, 2026, report')}
+              {field(s('metaCreator'), 'creator', s('creatorPlaceholder'))}
+              {field(s('metaProducer'), 'producer', s('producerPlaceholder'))}
             </div>
             <div className="flex flex-wrap items-center gap-2 mt-4">
               <button
@@ -1308,19 +1340,18 @@ export const EditMetadata: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 onClick={() => setMeta(EMPTY_META)}
                 className="px-3 py-2 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 cursor-pointer"
               >
-                Clear all metadata
+                {s('clearAllMetadata')}
               </button>
               <button
                 type="button"
                 onClick={() => void applyMeta(ctx.setStatus)}
-                className="ml-auto flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#f97316] hover:bg-orange-600 text-white shadow cursor-pointer"
+                className="ms-auto flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-[#f97316] hover:bg-orange-600 text-white shadow cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5" /> Save metadata &amp; download
+                <Download className="w-3.5 h-3.5" /> {s('saveMetadataDownload')}
               </button>
             </div>
             <p className="text-[11px] text-gray-500 mt-2">
-              Metadata is what PDF readers, search engines and document managers show for a file —
-              it never changes the visible pages.
+              {s('metadataNote2')}
             </p>
           </div>
         );
@@ -1334,20 +1365,24 @@ export const EditMetadata: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const FlipPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [dir, setDir] = useState<'horizontal' | 'vertical'>('horizontal');
 
   return (
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Flip pages"
+      actionLabel={s('flipAction')}
       onProcess={async (files) => {
         const bytes = await fileToBytes(files[0]);
         let jsDoc;
         try {
           jsDoc = await openPdfJs(bytes);
         } catch {
-          throw new Error(READ_ERROR);
+          throw new Error(s('readError'));
         }
         const out = await PDFDocument.create();
         for (let i = 1; i <= jsDoc.numPages; i++) {
@@ -1374,24 +1409,23 @@ export const FlipPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           newPage.drawImage(img, { x: 0, y: 0, width: vp.width, height: vp.height });
         }
         downloadBytes(await savePdf(out), `${baseName(files[0])}-flipped.pdf`);
-        return `Flipped ${plural(jsDoc.numPages, 'page')} ${dir === 'horizontal' ? 'horizontally (mirror image)' : 'vertically (upside-mirror)'} — pages rebuilt as high-resolution images.`;
+        return s('flipResult2').replace('{pages}', pluralize(lang, jsDoc.numPages, 'wordPage', 'wordPages')).replace('{dir}', dir === 'horizontal' ? s('flipDirH2') : s('flipDirV2'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Flip direction</OptLabel>
+            <OptLabel>{s('flipDirection')}</OptLabel>
             <OptSelect
               value={dir}
               onChange={(e) => setDir(e.target.value as 'horizontal' | 'vertical')}
             >
-              <option value="horizontal">Horizontal — mirror left ↔ right</option>
-              <option value="vertical">Vertical — mirror top ↔ bottom</option>
+              <option value="horizontal">{s('flipHorizontalOpt2')}</option>
+              <option value="vertical">{s('flipVerticalOpt2')}</option>
             </OptSelect>
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            Useful for fixing back-to-front scans from duplex scanners and for transfer-printing
-            layouts.
+            {s('flipNote2')}
           </p>
         </div>
       )}
@@ -1425,6 +1459,10 @@ const SHEET_SIZES: Record<string, [number, number]> = {
 };
 
 export const NupPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [perSheet, setPerSheet] = useState('4');
   const [sheetSize, setSheetSize] = useState<'a4' | 'a3' | 'letter'>('a4');
   const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
@@ -1435,7 +1473,7 @@ export const NupPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Create N-up sheets"
+      actionLabel={s('nupAction2')}
       onProcess={async (files) => {
         const n = parseInt(perSheet, 10);
         const m = parseFloat(margin);
@@ -1446,10 +1484,10 @@ export const NupPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         try {
           embedded = await out.embedPdf(bytes, Array.from({ length: (await loadPdf(bytes)).getPageCount() }, (_, i) => i));
         } catch {
-          throw new Error(READ_ERROR);
+          throw new Error(s('readError'));
         }
         if (!embedded.length) {
-          throw new Error('No pages were found in this PDF.');
+          throw new Error(s('errNoPagesFound'));
         }
         let [sheetW, sheetH] = SHEET_SIZES[sheetSize];
         if (orientation === 'landscape') {
@@ -1481,13 +1519,13 @@ export const NupPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         }
         const sheets = Math.ceil(embedded.length / n);
         downloadBytes(await savePdf(out), `${baseName(files[0])}-nup.pdf`);
-        return `Placed ${plural(embedded.length, 'page')} onto ${plural(sheets, 'sheet')}, ${n} pages per sheet.`;
+        return s('nupResult2').replace('{pages}', pluralize(lang, embedded.length, 'wordPage', 'wordPages')).replace('{sheets}', pluralize(lang, sheets, 'wordSheet', 'wordSheets')).replace('{n}', String(n));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Pages per sheet</OptLabel>
+            <OptLabel>{s('pagesPerSheet')}</OptLabel>
             <OptSelect value={perSheet} onChange={(e) => setPerSheet(e.target.value)}>
               <option value="2">2-up</option>
               <option value="4">4-up</option>
@@ -1496,7 +1534,7 @@ export const NupPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Sheet size</OptLabel>
+            <OptLabel>{s('sheetSizeLabel')}</OptLabel>
             <OptSelect
               value={sheetSize}
               onChange={(e) => setSheetSize(e.target.value as 'a4' | 'a3' | 'letter')}
@@ -1507,34 +1545,33 @@ export const NupPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Sheet orientation</OptLabel>
+            <OptLabel>{s('sheetOrientation')}</OptLabel>
             <OptSelect
               value={orientation}
               onChange={(e) => setOrientation(e.target.value as 'portrait' | 'landscape')}
             >
-              <option value="portrait">Portrait</option>
-              <option value="landscape">Landscape</option>
+              <option value="portrait">{s('portrait')}</option>
+              <option value="landscape">{s('landscape')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Outer margin (pt)</OptLabel>
+            <OptLabel>{s('outerMarginPt')}</OptLabel>
             <OptSelect value={margin} onChange={(e) => setMargin(e.target.value)}>
-              <option value="0">None (0)</option>
+              <option value="0">{s('noneZero')}</option>
               <option value="18">18 pt</option>
               <option value="36">36 pt</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Gap between pages (pt)</OptLabel>
+            <OptLabel>{s('gapBetweenPages')}</OptLabel>
             <OptSelect value={gap} onChange={(e) => setGap(e.target.value)}>
-              <option value="0">None (0)</option>
+              <option value="0">{s('noneZero')}</option>
               <option value="10">10 pt</option>
               <option value="20">20 pt</option>
             </OptSelect>
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            Print handouts, booklets and proofs with several pages on one sheet — the pages stay
-            vector-sharp.
+            {s('nupNote2')}
           </p>
         </div>
       )}
@@ -1555,6 +1592,10 @@ const PAGE_TARGETS: Record<string, [number, number]> = {
 };
 
 export const ResizePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [target, setTarget] = useState<string>('a4');
   const [mode, setMode] = useState<'fit' | 'stretch'>('fit');
   const [marginPt, setMarginPt] = useState('36');
@@ -1564,7 +1605,7 @@ export const ResizePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Resize pages"
+      actionLabel={s('resizeAction')}
       onProcess={async (files) => {
         const bytes = await fileToBytes(files[0]);
         const out = await PDFDocument.create();
@@ -1572,10 +1613,10 @@ export const ResizePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         try {
           embedded = await out.embedPdf(bytes, Array.from({ length: (await loadPdf(bytes)).getPageCount() }, (_, i) => i));
         } catch {
-          throw new Error(READ_ERROR);
+          throw new Error(s('readError'));
         }
         if (!embedded.length) {
-          throw new Error('No pages were found in this PDF.');
+          throw new Error(s('errNoPagesFound'));
         }
         const extraMargin = parseFloat(marginPt);
         for (let i = 0; i < embedded.length; i++) {
@@ -1608,34 +1649,34 @@ export const ResizePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         downloadBytes(await savePdf(out), `${baseName(files[0])}-resized.pdf`);
         const label =
           target === 'margin'
-            ? `original size plus a ${marginPt} pt margin`
+            ? s('resizeMarginLabel').replace('{margin}', String(marginPt))
             : target.toUpperCase();
-        return `Resized ${plural(embedded.length, 'page')} to ${label} (${mode === 'fit' ? 'scaled to fit, aspect kept' : 'stretched to fill'}).`;
+        return s('resizeResult2').replace('{pages}', pluralize(lang, embedded.length, 'wordPage', 'wordPages')).replace('{label}', label).replace('{mode}', mode === 'fit' ? s('resizeFitNote') : s('resizeStretchNote'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Target page size</OptLabel>
+            <OptLabel>{s('targetPageSize')}</OptLabel>
             <OptSelect value={target} onChange={(e) => setTarget(e.target.value)}>
               <option value="a3">A3 (842 × 1191 pt)</option>
               <option value="a4">A4 (595 × 842 pt)</option>
               <option value="a5">A5 (420 × 595 pt)</option>
               <option value="letter">Letter (612 × 792 pt)</option>
               <option value="legal">Legal (612 × 1008 pt)</option>
-              <option value="margin">Same size + margin</option>
+              <option value="margin">{s('sameSizeMargin')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Scaling mode</OptLabel>
+            <OptLabel>{s('scalingMode')}</OptLabel>
             <OptSelect value={mode} onChange={(e) => setMode(e.target.value as 'fit' | 'stretch')}>
-              <option value="fit">Fit (keep aspect ratio)</option>
-              <option value="stretch">Stretch (fill the page)</option>
+              <option value="fit">{s('fitKeepAspect')}</option>
+              <option value="stretch">{s('stretchFillPage')}</option>
             </OptSelect>
           </div>
           {target === 'margin' ? (
             <div>
-              <OptLabel>Margin to add (pt)</OptLabel>
+              <OptLabel>{s('marginToAdd')}</OptLabel>
               <OptInput
                 type="number"
                 min="0"
@@ -1646,14 +1687,14 @@ export const ResizePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           ) : (
             <div className="flex items-end pb-1">
               <OptCheck
-                label="Match each page's orientation"
+                label={s('matchOrientation')}
                 checked={matchOrientation}
                 onChange={setMatchOrientation}
               />
             </div>
           )}
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            Content is placed as a vector form XObject, so text stays sharp and selectable.
+            {s('resizeNote2')}
           </p>
         </div>
       )}
@@ -1666,14 +1707,18 @@ export const ResizePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const RemoveAnnotations: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   return (
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Remove annotations"
-      dropzoneHint="Strips comments, highlights, stamps, drawings and other markups — page content stays untouched"
+      actionLabel={s('removeAnnotationsAction')}
+      dropzoneHint={s('removeAnnotHint2')}
       onProcess={async (files) => {
-        const doc = await loadOrThrow(await fileToBytes(files[0]), files[0].name);
+        const doc = await loadOrThrow(await fileToBytes(files[0]), files[0].name, lang);
         let count = 0;
         for (const page of doc.getPages()) {
           try {
@@ -1688,9 +1733,9 @@ export const RemoveAnnotations: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         }
         downloadBytes(await savePdf(doc), `${baseName(files[0])}-no-annotations.pdf`);
         if (count === 0) {
-          return 'No annotations were found in this PDF (document re-saved clean).';
+          return s('removeAnnotNone2');
         }
-        return `Removed ${plural(count, 'annotation')} from the document.`;
+        return s('removeAnnotResult2').replace('{annotations}', pluralize(lang, count, 'wordAnnotation', 'wordAnnotations'));
       }}
     />
   );
@@ -1701,12 +1746,16 @@ export const RemoveAnnotations: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const HeaderFooterPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [hLeft, setHLeft] = useState('');
   const [hCenter, setHCenter] = useState('');
   const [hRight, setHRight] = useState('');
   const [fLeft, setFLeft] = useState('');
   const [fCenter, setFCenter] = useState('');
-  const [fRight, setFRight] = useState('Page {page} of {total}');
+  const [fRight, setFRight] = useState(() => s('hfPageOfTemplate'));
   const [fontSize, setFontSize] = useState('10');
   const [skipFirst, setSkipFirst] = useState(false);
 
@@ -1731,14 +1780,14 @@ export const HeaderFooterPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Add header & footer"
+      actionLabel={s('hfAction')}
       onProcess={async (files) => {
         const templates = [hLeft, hCenter, hRight, fLeft, fCenter, fRight];
         if (templates.every((t) => !t.trim())) {
-          throw new Error('Enter at least one header or footer text.');
+          throw new Error(s('hfNeedText2'));
         }
         const size = parseFloat(fontSize) || 10;
-        const doc = await loadOrThrow(await fileToBytes(files[0]), files[0].name);
+        const doc = await loadOrThrow(await fileToBytes(files[0]), files[0].name, lang);
         const font = await doc.embedFont(StandardFonts.Helvetica);
         const total = doc.getPageCount();
         const pages = doc.getPages();
@@ -1772,22 +1821,22 @@ export const HeaderFooterPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           draw(page, fill(fRight, num), 'right', footerY);
         });
         downloadBytes(await savePdf(doc), `${baseName(files[0])}-header-footer.pdf`);
-        return `Added header/footer text to ${plural(stamped, 'page')}.`;
+        return s('hfResult2').replace('{pages}', pluralize(lang, stamped, 'wordPage', 'wordPages'));
       }}
     >
       {() => (
         <div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
-            {textField('Header — left', hLeft, setHLeft, 'e.g. Company name')}
-            {textField('Header — center', hCenter, setHCenter, 'e.g. Confidential')}
-            {textField('Header — right', hRight, setHRight, 'e.g. 2026')}
-            {textField('Footer — left', fLeft, setFLeft, 'e.g. © 2026 Company')}
-            {textField('Footer — center', fCenter, setFCenter, '')}
-            {textField('Footer — right', fRight, setFRight, 'Page {page} of {total}')}
+            {textField(s('headerLeft'), hLeft, setHLeft, s('egCompanyName'))}
+            {textField(s('headerCenter'), hCenter, setHCenter, s('egConfidential'))}
+            {textField(s('headerRight'), hRight, setHRight, 'e.g. 2026')}
+            {textField(s('footerLeft'), fLeft, setFLeft, s('egCopyrightCompany'))}
+            {textField(s('footerCenter'), fCenter, setFCenter, '')}
+            {textField(s('footerRight'), fRight, setFRight, s('hfPageOfTemplate'))}
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
             <div>
-              <OptLabel>Font size</OptLabel>
+              <OptLabel>{s('fontSizeLabel')}</OptLabel>
               <OptSelect value={fontSize} onChange={(e) => setFontSize(e.target.value)}>
                 <option value="8">8 pt</option>
                 <option value="9">9 pt</option>
@@ -1796,10 +1845,10 @@ export const HeaderFooterPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </OptSelect>
             </div>
             <div className="flex items-end pb-1">
-              <OptCheck label="Skip the first page (cover)" checked={skipFirst} onChange={setSkipFirst} />
+              <OptCheck label={s('skipFirstCover')} checked={skipFirst} onChange={setSkipFirst} />
             </div>
             <p className="text-[11px] text-gray-500 self-end pb-1">
-              Use {'{page}'} and {'{total}'} as placeholders — they are replaced on every page.
+              {s('hfPlaceholdersNote2')}
             </p>
           </div>
         </div>
@@ -1813,13 +1862,17 @@ export const HeaderFooterPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const PdfBackground: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
+
   const [color, setColor] = useState('#fef3c7');
 
   return (
     <PdfToolShell
       tool={tool}
       accept={ACCEPT}
-      actionLabel="Apply background color"
+      actionLabel={s('bgAction2')}
       onProcess={async (files) => {
         const bytes = await fileToBytes(files[0]);
         const out = await PDFDocument.create();
@@ -1827,10 +1880,10 @@ export const PdfBackground: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         try {
           embedded = await out.embedPdf(bytes, Array.from({ length: (await loadPdf(bytes)).getPageCount() }, (_, i) => i));
         } catch {
-          throw new Error(READ_ERROR);
+          throw new Error(s('readError'));
         }
         if (!embedded.length) {
-          throw new Error('No pages were found in this PDF.');
+          throw new Error(s('errNoPagesFound'));
         }
         const bg = hexToRgb(color);
         for (let i = 0; i < embedded.length; i++) {
@@ -1841,33 +1894,31 @@ export const PdfBackground: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           page.drawPage(embedded[i], { x: 0, y: 0, width: w, height: h });
         }
         downloadBytes(await savePdf(out), `${baseName(files[0])}-background.pdf`);
-        return `Painted a ${color} background behind ${plural(embedded.length, 'page')}.`;
+        return s('bgResult2').replace('{color}', color).replace('{pages}', pluralize(lang, embedded.length, 'wordPage', 'wordPages'));
       }}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Background color</OptLabel>
+            <OptLabel>{s('bgColorLabel2')}</OptLabel>
             <div className="flex items-center gap-2">
               <input
                 type="color"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
                 className="w-10 h-10 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 cursor-pointer p-0.5"
-                aria-label="Pick background color"
+                aria-label={s('pickBgColor')}
               />
               <OptInput
                 type="text"
                 value={color}
                 onChange={(e) => setColor(e.target.value)}
-                placeholder="#fef3c7"
+                placeholder="#fef3c7" dir="ltr"
               />
             </div>
           </div>
           <p className="text-[11px] text-gray-500 self-end pb-1">
-            The color is painted behind the existing content. Pages that already have an opaque
-            (e.g. white) background painted into them will cover the new color — it works best on
-            transparent-background documents such as exports and scans.
+            {s('bgNote2')}
           </p>
         </div>
       )}

@@ -35,6 +35,9 @@ import {
 } from '../../../lib/pdf/core';
 import type { PdfJsDoc } from '../../../lib/pdf/core';
 import { PdfToolShell, OptLabel, OptInput, OptSelect } from './PdfToolShell';
+import { useLang, useStrings, COMMON, lookup } from '../../../lib/LangContext';
+import { PDF_STRINGS } from '../../../lib/strings/pdf';
+import type { SupportedLanguage } from '../../../lib/i18n';
 
 // ---------------------------------------------------------------------------
 // Local shared helpers
@@ -45,16 +48,14 @@ type EmbeddedImage = Awaited<ReturnType<PDFDocument['embedPng']>>;
 type EmbeddedFont = Awaited<ReturnType<PDFDocument['embedFont']>>;
 
 /** Open a PDF with pdf.js, turning low-level failures into clear messages. */
-async function openPdfOrThrow(bytes: Uint8Array): Promise<PdfJsDoc> {
+async function openPdfOrThrow(bytes: Uint8Array, lang: SupportedLanguage): Promise<PdfJsDoc> {
   try {
     return await openPdfJs(bytes);
   } catch (err: any) {
     if (err?.name === 'PasswordException') {
-      throw new Error(
-        'This PDF is password-protected. Remove the password first (e.g. with the Unlock PDF tool), then convert it.'
-      );
+      throw new Error(lookup(PDF_STRINGS, lang, 'errPasswordConvert2'));
     }
-    throw new Error('Could not read this PDF — the file appears to be corrupted or is not a valid PDF.');
+    throw new Error(lookup(PDF_STRINGS, lang, 'errCorruptConvert2'));
   }
 }
 
@@ -111,7 +112,8 @@ export async function htmlElementToPdf(
 export async function imagesToPdfBytes(
   files: File[],
   pageSize: 'fit' | 'a4' | 'letter',
-  marginPt: number
+  marginPt: number,
+  lang: SupportedLanguage
 ): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   for (const file of files) {
@@ -131,7 +133,7 @@ export async function imagesToPdfBytes(
       try {
         bitmap = await createImageBitmap(file);
       } catch {
-        throw new Error(`"${file.name}" could not be decoded as an image. Supported inputs: PNG, JPG, WebP, GIF, BMP.`);
+        throw new Error(lookup(PDF_STRINGS, lang, 'errImageDecodeNamed').replace('{name}', file.name));
       }
       const canvas = document.createElement('canvas');
       canvas.width = bitmap.width;
@@ -251,6 +253,9 @@ function wrapText(text: string, font: EmbeddedFont, size: number, maxWidth: numb
 type CompressMode = 'recommended' | 'extreme' | 'high-quality' | 'lossless';
 
 export const CompressPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [mode, setMode] = useState<CompressMode>('recommended');
 
   const process = async (files: File[]) => {
@@ -263,11 +268,11 @@ export const CompressPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       try {
         doc = await loadPdf(bytes);
       } catch {
-        throw new Error('Could not read this PDF — the file appears to be corrupted, encrypted or not a valid PDF.');
+        throw new Error(s('errCorruptEncrypted'));
       }
       const out = await savePdf(doc);
       downloadBytes(out, `${base}-compressed.pdf`);
-      return `Re-saved losslessly (structure optimized, quality and text untouched): ${formatBytes(file.size)} → ${formatBytes(out.byteLength)}.`;
+      return s('compressResultLossless').replace('{from}', formatBytes(file.size)).replace('{to}', formatBytes(out.byteLength));
     }
 
     const settings = {
@@ -276,7 +281,7 @@ export const CompressPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       'high-quality': { scale: 2.0, quality: 0.82 },
     }[mode];
 
-    const src = await openPdfOrThrow(bytes);
+    const src = await openPdfOrThrow(bytes, lang);
     const out = await PDFDocument.create();
     for (let i = 1; i <= src.numPages; i++) {
       const page = await src.getPage(i);
@@ -291,27 +296,26 @@ export const CompressPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     downloadBytes(outBytes, `${base}-compressed.pdf`);
     const pct = Math.round((1 - outBytes.byteLength / file.size) * 100);
     if (pct > 0) {
-      return `Compressed from ${formatBytes(file.size)} to ${formatBytes(outBytes.byteLength)} (${pct}% smaller). Note: pages were re-rendered as images, so text is no longer selectable.`;
+      return s('compressResultSmaller').replace('{from}', formatBytes(file.size)).replace('{to}', formatBytes(outBytes.byteLength)).replace('{pct}', String(pct));
     }
-    return `Processed at the chosen quality: ${formatBytes(file.size)} → ${formatBytes(outBytes.byteLength)}. The result is not smaller — this PDF was already well optimized; try Extreme mode for a smaller file.`;
+    return s('compressResultNotSmaller').replace('{from}', formatBytes(file.size)).replace('{to}', formatBytes(outBytes.byteLength));
   };
 
   return (
-    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel="Compress PDF" onProcess={process}>
+    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel={s('compressAction')} onProcess={process}>
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Compression level</OptLabel>
+            <OptLabel>{s('compressLevelLabel')}</OptLabel>
             <OptSelect value={mode} onChange={(e) => setMode(e.target.value as CompressMode)}>
-              <option value="recommended">Recommended (balanced)</option>
-              <option value="extreme">Extreme (smallest file)</option>
-              <option value="high-quality">High quality</option>
-              <option value="lossless">Lossless (keep text)</option>
+              <option value="recommended">{s('compressRecommended')}</option>
+              <option value="extreme">{s('compressExtreme')}</option>
+              <option value="high-quality">{s('compressHighQuality')}</option>
+              <option value="lossless">{s('compressLossless')}</option>
             </OptSelect>
           </div>
           <p className="col-span-2 text-[11px] text-gray-500 dark:text-gray-400 self-end pb-1">
-            Lossy modes re-render each page as a JPEG image — much smaller, but text stops being selectable.
-            Lossless only re-packs the file structure and keeps everything intact.
+            {s('compressNoteLossy')}
           </p>
         </div>
       )}
@@ -324,9 +328,12 @@ export const CompressPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const PdfToWordPro: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const process = async (files: File[]) => {
     const file = files[0];
-    const src = await openPdfOrThrow(await fileToBytes(file));
+    const src = await openPdfOrThrow(await fileToBytes(file), lang);
     const children: Paragraph[] = [];
     let words = 0;
     for (let i = 1; i <= src.numPages; i++) {
@@ -348,18 +355,16 @@ export const PdfToWordPro: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }
     }
     if (!words) {
-      throw new Error(
-        'No extractable text found — this looks like a scanned or image-only PDF, so there is no text layer to convert.'
-      );
+      throw new Error(s('errNoTextScanned'));
     }
     const doc = new DocxDocument({ sections: [{ children }] });
     const blob = await Packer.toBlob(doc);
     downloadBlob(blob, `${baseName(file)}.docx`);
-    return `Converted ${src.numPages} page(s) (~${words.toLocaleString()} words) into an editable Word document. Headings are detected from font size; complex tables and multi-column layouts may need light cleanup.`;
+    return s('pdfWordResult2').replace('{pages}', String(src.numPages)).replace('{words}', words.toLocaleString());
   };
 
   return (
-    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel="Convert to Word (.docx)" onProcess={process} />
+    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel={s('pdfWordAction')} onProcess={process} />
   );
 };
 
@@ -368,9 +373,12 @@ export const PdfToWordPro: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const PdfToExcel: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const process = async (files: File[]) => {
     const file = files[0];
-    const src = await openPdfOrThrow(await fileToBytes(file));
+    const src = await openPdfOrThrow(await fileToBytes(file), lang);
     const wb = XLSX.utils.book_new();
     let totalRows = 0;
     for (let i = 1; i <= src.numPages; i++) {
@@ -398,20 +406,18 @@ export const PdfToExcel: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       if (!rows.length) rows.push([]);
       totalRows += rows.filter((r) => r.some((c) => c.trim())).length;
       const ws = XLSX.utils.aoa_to_sheet(rows);
-      XLSX.utils.book_append_sheet(wb, ws, `Page ${i}`.slice(0, 31));
+      XLSX.utils.book_append_sheet(wb, ws, `${c('page')} ${i}`.slice(0, 31));
     }
     if (!totalRows) {
-      throw new Error(
-        'No extractable text found — this looks like a scanned or image-only PDF, so there is nothing to put into spreadsheet cells.'
-      );
+      throw new Error(s('errNoTextExcel2'));
     }
     const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     downloadBytes(out, `${baseName(file)}.xlsx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    return `Converted ${src.numPages} page(s) into an Excel workbook (${totalRows} text rows, one sheet per page). Columns are split where the PDF has wide horizontal gaps.`;
+    return s('pdfExcelResult2').replace('{pages}', String(src.numPages)).replace('{rows}', String(totalRows));
   };
 
   return (
-    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel="Convert to Excel (.xlsx)" onProcess={process} />
+    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel={s('pdfExcelAction')} onProcess={process} />
   );
 };
 
@@ -420,9 +426,12 @@ export const PdfToExcel: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const PdfToPowerPoint: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const process = async (files: File[]) => {
     const file = files[0];
-    const src = await openPdfOrThrow(await fileToBytes(file));
+    const src = await openPdfOrThrow(await fileToBytes(file), lang);
     const pptx = new PptxGenJS();
     pptx.defineLayout({ name: 'W', width: 13.33, height: 7.5 });
     pptx.layout = 'W';
@@ -446,14 +455,14 @@ export const PdfToPowerPoint: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }
     }
     await pptx.writeFile({ fileName: `${baseName(file)}.pptx` });
-    return `Created a PowerPoint deck with ${src.numPages} slide(s) — one per PDF page, each with a page snapshot and its extracted text.`;
+    return s('pdfPptResult2').replace('{pages}', String(src.numPages));
   };
 
   return (
     <PdfToolShell
       tool={tool}
       accept="application/pdf,.pdf"
-      actionLabel="Convert to PowerPoint (.pptx)"
+      actionLabel={s('pdfPptAction')}
       onProcess={process}
     />
   );
@@ -464,12 +473,15 @@ export const PdfToPowerPoint: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const PdfToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [md, setMd] = useState('');
   const [copied, setCopied] = useState(false);
 
   const process = async (files: File[]) => {
     const file = files[0];
-    const src = await openPdfOrThrow(await fileToBytes(file));
+    const src = await openPdfOrThrow(await fileToBytes(file), lang);
     const pageTexts: string[] = [];
     let totalWords = 0;
     for (let i = 1; i <= src.numPages; i++) {
@@ -496,13 +508,11 @@ export const PdfToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     }
     const result = pageTexts.join('\n\n---\n\n');
     if (!result.trim() || !totalWords) {
-      throw new Error(
-        'No extractable text found — this looks like a scanned or image-only PDF, so there is no text layer to convert to Markdown.'
-      );
+      throw new Error(s('errNoTextMarkdown2'));
     }
     setMd(result);
     downloadBytes(new TextEncoder().encode(result), `${baseName(file)}.md`, 'text/markdown');
-    return `Converted ${src.numPages} page(s) to Markdown (~${totalWords.toLocaleString()} words). The .md file has been downloaded — a preview is shown below.`;
+    return s('pdfMdResult2').replace('{pages}', String(src.numPages)).replace('{words}', totalWords.toLocaleString());
   };
 
   const copyMarkdown = async () => {
@@ -516,11 +526,11 @@ export const PdfToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   };
 
   return (
-    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel="Convert to Markdown" onProcess={process}>
+    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel={s('pdfMdAction')} onProcess={process}>
       {() =>
         md ? (
           <div className="mt-4">
-            <OptLabel>Markdown preview</OptLabel>
+            <OptLabel>{s('markdownPreview')}</OptLabel>
             <textarea
               readOnly
               rows={12}
@@ -532,7 +542,7 @@ export const PdfToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 hover:border-orange-400 cursor-pointer"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-              <span>{copied ? 'Copied' : 'Copy Markdown'}</span>
+              <span>{copied ? s('copiedPlain') : s('pdfMdCopy')}</span>
             </button>
           </div>
         ) : null
@@ -546,19 +556,22 @@ export const PdfToMarkdown: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const PdfToJpg: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [format, setFormat] = useState<'jpg' | 'png'>('jpg');
   const [scale, setScale] = useState('2');
   const [pagesInput, setPagesInput] = useState('');
 
   const process = async (files: File[]) => {
     const file = files[0];
-    const src = await openPdfOrThrow(await fileToBytes(file));
+    const src = await openPdfOrThrow(await fileToBytes(file), lang);
     const selected = pagesInput.trim()
       ? parsePageRanges(pagesInput, src.numPages)
       : Array.from({ length: src.numPages }, (_, i) => i + 1);
     if (!selected.length) {
       throw new Error(
-        `No valid pages in "${pagesInput}" — this PDF has ${src.numPages} page(s). Use ranges like 1-3, 5.`
+        s('errNoValidPagesInput').replace('{input}', pagesInput).replace('{pages}', String(src.numPages))
       );
     }
     const mime = format === 'jpg' ? 'image/jpeg' : 'image/png';
@@ -577,32 +590,33 @@ export const PdfToJpg: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         `${base}-pages.zip`
       );
     }
-    return `Exported ${rendered.length} page(s) as ${format.toUpperCase()} image(s)${rendered.length > 1 ? ' (zipped)' : ''}.`;
+    return s('pdfJpgExportResult').replace('{count}', String(rendered.length)).replace('{format}', format.toUpperCase()).replace('{zipped}', rendered.length > 1 ? s('zippedSuffix') : '');
   };
 
   return (
-    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel="Export page images" onProcess={process}>
+    <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel={s('pdfJpgExportAction')} onProcess={process}>
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Image format</OptLabel>
+            <OptLabel>{s('imageFormatLabel')}</OptLabel>
             <OptSelect value={format} onChange={(e) => setFormat(e.target.value as 'jpg' | 'png')}>
-              <option value="jpg">JPG (smaller)</option>
-              <option value="png">PNG (lossless)</option>
+              <option value="jpg">{s('jpgSmaller')}</option>
+              <option value="png">{s('pngLossless')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Resolution</OptLabel>
+            <OptLabel>{s('resolutionLabel')}</OptLabel>
             <OptSelect value={scale} onChange={(e) => setScale(e.target.value)}>
-              <option value="1">Standard (1x)</option>
-              <option value="1.5">High (1.5x)</option>
-              <option value="2">Very high (2x)</option>
-              <option value="3">Print (3x)</option>
+              <option value="1">{s('resStandard')}</option>
+              <option value="1.5">{s('resHigh')}</option>
+              <option value="2">{s('resVeryHigh')}</option>
+              <option value="3">{s('resPrint')}</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Pages (blank = all)</OptLabel>
+            <OptLabel>{s('pagesBlankAll')}</OptLabel>
             <OptInput
+              dir="ltr"
               value={pagesInput}
               onChange={(e) => setPagesInput(e.target.value)}
               placeholder="e.g. 1-3, 5"
@@ -619,13 +633,16 @@ export const PdfToJpg: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const JpgToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [size, setSize] = useState<'fit' | 'a4' | 'letter'>('a4');
   const [margin, setMargin] = useState('18');
 
   const process = async (files: File[]) => {
-    const out = await imagesToPdfBytes(files, size, Number(margin));
+    const out = await imagesToPdfBytes(files, size, Number(margin), lang);
     downloadBytes(out, files.length === 1 ? `${baseName(files[0])}.pdf` : 'images.pdf');
-    return `Created a ${files.length}-page PDF from your image(s) (${formatBytes(out.byteLength)}).`;
+    return s('jpgPdfResult2').replace('{count}', String(files.length)).replace('{size}', formatBytes(out.byteLength));
   };
 
   return (
@@ -633,30 +650,30 @@ export const JpgToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       tool={tool}
       accept="image/*"
       multiple
-      actionLabel="Convert images to PDF"
-      dropzoneHint="PNG, JPG, WebP, GIF or BMP — pages are added in the order shown below"
+      actionLabel={s('jpgPdfConvertAction')}
+      dropzoneHint={s('jpgPdfHint2')}
       onProcess={process}
     >
       {() => (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <div>
-            <OptLabel>Page size</OptLabel>
+            <OptLabel>{s('pageSizeLabel')}</OptLabel>
             <OptSelect value={size} onChange={(e) => setSize(e.target.value as 'fit' | 'a4' | 'letter')}>
-              <option value="fit">Fit to image</option>
+              <option value="fit">{s('fitToImage')}</option>
               <option value="a4">A4</option>
               <option value="letter">US Letter</option>
             </OptSelect>
           </div>
           <div>
-            <OptLabel>Margin</OptLabel>
+            <OptLabel>{s('marginLabel')}</OptLabel>
             <OptSelect value={margin} onChange={(e) => setMargin(e.target.value)}>
-              <option value="0">No margin</option>
-              <option value="18">Small (18 pt)</option>
-              <option value="36">Large (36 pt)</option>
+              <option value="0">{s('marginNoneOpt')}</option>
+              <option value="18">{s('marginSmallOpt')}</option>
+              <option value="36">{s('marginLargeOpt')}</option>
             </OptSelect>
           </div>
           <p className="text-[11px] text-gray-500 dark:text-gray-400 self-end pb-1">
-            Landscape images automatically get landscape pages on A4 / Letter.
+            {s('jpgPdfLandscapeNote')}
           </p>
         </div>
       )}
@@ -669,20 +686,23 @@ export const JpgToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const WordToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const process = async (files: File[]) => {
     const file = files[0];
     if (file.name.toLowerCase().endsWith('.doc')) {
-      throw new Error('Legacy .doc files are not supported by the in-browser converter — please save as .docx first.');
+      throw new Error(s('errDocLegacy'));
     }
     let html: string;
     try {
       const result = await mammoth.convertToHtml({ arrayBuffer: await file.arrayBuffer() });
       html = result.value;
     } catch {
-      throw new Error('Could not read this Word file — it appears to be corrupted or is not a valid .docx document.');
+      throw new Error(s('errDocxRead'));
     }
     if (!html.trim()) {
-      throw new Error('No readable content was found in this Word document.');
+      throw new Error(s('errDocxEmpty'));
     }
     const wrapper = document.createElement('div');
     wrapper.style.cssText =
@@ -694,15 +714,15 @@ export const WordToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     } finally {
       wrapper.remove();
     }
-    return 'Word document converted to PDF. Formatting is preserved as closely as the in-browser renderer allows.';
+    return s('wordPdfResult2');
   };
 
   return (
     <PdfToolShell
       tool={tool}
       accept=".docx,.doc"
-      actionLabel="Convert to PDF"
-      dropzoneHint="Word .docx documents (legacy .doc is not supported — save as .docx first)"
+      actionLabel={s('htmlPdfAction')}
+      dropzoneHint={s('wordPdfHint2')}
       onProcess={process}
     />
   );
@@ -715,16 +735,19 @@ export const WordToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 const MAX_SHEET_ROWS = 400;
 
 export const ExcelToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const process = async (files: File[]) => {
     const file = files[0];
     let wb: XLSX.WorkBook;
     try {
       wb = XLSX.read(new Uint8Array(await file.arrayBuffer()), { type: 'array' });
     } catch {
-      throw new Error('Could not read this file — it appears to be corrupted or is not a valid spreadsheet.');
+      throw new Error(s('errExcelRead'));
     }
     if (!wb.SheetNames.length) {
-      throw new Error('No sheets were found in this spreadsheet.');
+      throw new Error(s('errExcelNoSheets'));
     }
     let html = '';
     let truncated = false;
@@ -754,10 +777,10 @@ export const ExcelToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       html += `<h3 style="font-size:15px;margin:18px 0 8px;">${escapeHtml(name)}</h3><table style="border-collapse:collapse;width:100%;">${body}</table>`;
     }
     if (!anyRows) {
-      throw new Error('No readable table data was found in this spreadsheet.');
+      throw new Error(s('errExcelNoData'));
     }
     if (truncated) {
-      html += `<p style="font-size:11px;color:#666666;">Note: sheets longer than ${MAX_SHEET_ROWS} rows were trimmed to the first ${MAX_SHEET_ROWS} rows.</p>`;
+      html += `<p style="font-size:11px;color:#666666;">${s('excelTrimNote').replaceAll('{max}', String(MAX_SHEET_ROWS))}</p>`;
     }
     const wrapper = document.createElement('div');
     wrapper.style.cssText =
@@ -770,8 +793,8 @@ export const ExcelToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       wrapper.remove();
     }
     return (
-      `Converted ${wb.SheetNames.length} sheet(s) to a landscape PDF.` +
-      (truncated ? ` Sheets longer than ${MAX_SHEET_ROWS} rows were trimmed.` : '')
+      s('excelPdfResult2').replace('{sheets}', String(wb.SheetNames.length)) +
+      (truncated ? s('excelTrimSuffix').replace('{max}', String(MAX_SHEET_ROWS)) : '')
     );
   };
 
@@ -779,8 +802,8 @@ export const ExcelToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell
       tool={tool}
       accept=".xlsx,.xls,.csv"
-      actionLabel="Convert to PDF"
-      dropzoneHint="Excel .xlsx / .xls or CSV — every sheet becomes a table in one landscape PDF"
+      actionLabel={s('htmlPdfAction')}
+      dropzoneHint={s('excelPdfHint2')}
       onProcess={process}
     />
   );
@@ -791,19 +814,22 @@ export const ExcelToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const PowerPointToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const process = async (files: File[]) => {
     const file = files[0];
     let zip: JSZip;
     try {
       zip = await JSZip.loadAsync(await file.arrayBuffer());
     } catch {
-      throw new Error('Could not read this file — is it a valid .pptx presentation?');
+      throw new Error(s('errPptRead'));
     }
     const slidePaths = Object.keys(zip.files)
       .filter((n) => /^ppt\/slides\/slide\d+\.xml$/.test(n))
       .sort((a, b) => slideNumber(a) - slideNumber(b));
     if (!slidePaths.length) {
-      throw new Error('No slides found — is this a valid .pptx file?');
+      throw new Error(s('errPptNoSlides2'));
     }
 
     // Slide size from presentation.xml (EMU -> points: 1 pt = 12700 EMU).
@@ -900,14 +926,14 @@ export const PowerPointToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
     const outBytes = await savePdf(out);
     downloadBytes(outBytes, `${baseName(file)}.pdf`);
-    return `Converted ${slidePaths.length} slide(s) to PDF. Slide text and the first image per slide are preserved; animations and layered design elements are flattened.`;
+    return s('pptPdfResult2').replace('{count}', String(slidePaths.length));
   };
 
   return (
     <PdfToolShell
       tool={tool}
       accept=".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation"
-      actionLabel="Convert to PDF"
+      actionLabel={s('htmlPdfAction')}
       onProcess={process}
     />
   );
@@ -918,6 +944,9 @@ export const PowerPointToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
+  const lang = useLang();
+  const s = useStrings(PDF_STRINGS);
+  const c = useStrings(COMMON);
   const [url, setUrl] = useState('');
   const [html, setHtml] = useState('');
   const [orientation, setOrientation] = useState<'p' | 'l'>('p');
@@ -934,7 +963,7 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       let content = html.trim();
       if (!content) {
         const target = url.trim();
-        if (!target) throw new Error('Enter a page URL above, or paste the page HTML instead.');
+        if (!target) throw new Error(s('errHtmlNoUrl'));
         let fetched: string | null = null;
         try {
           const r = await fetch(target);
@@ -951,7 +980,7 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           }
         }
         if (!fetched) {
-          throw new Error('Could not fetch that URL (the site blocks cross-origin reads). Paste the page HTML instead.');
+          throw new Error(s('errHtmlFetch2'));
         }
         content = fetched;
       }
@@ -962,7 +991,7 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         bodyHtml = parsed.body ? parsed.body.innerHTML : content;
       }
       if (!bodyHtml.trim()) {
-        throw new Error('Nothing renderable was found in that content.');
+        throw new Error(s('errHtmlNothing'));
       }
 
       const wrapper = document.createElement('div');
@@ -976,10 +1005,10 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         wrapper.remove();
       }
       setStatus('done');
-      setMessage('Your PDF has been downloaded.');
+      setMessage(s('pdfDownloaded'));
     } catch (err: any) {
       setStatus('error');
-      setMessage(err?.message || 'Conversion failed.');
+      setMessage(err?.message || s('conversionFailed'));
     } finally {
       setBusy(false);
     }
@@ -991,8 +1020,9 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-1">
             <div className="col-span-2">
-              <OptLabel>Page URL</OptLabel>
+              <OptLabel>{s('pageUrlLabel')}</OptLabel>
               <OptInput
+                dir="ltr"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://example.com/article"
@@ -1000,27 +1030,28 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               />
             </div>
             <div>
-              <OptLabel>Orientation</OptLabel>
+              <OptLabel>{s('orientationLabel')}</OptLabel>
               <OptSelect value={orientation} onChange={(e) => setOrientation(e.target.value as 'p' | 'l')}>
-                <option value="p">Portrait (A4)</option>
-                <option value="l">Landscape (A4)</option>
+                <option value="p">{s('portraitA4')}</option>
+                <option value="l">{s('landscapeA4')}</option>
               </OptSelect>
             </div>
           </div>
 
           <div className="mt-4">
-            <OptLabel>…or paste HTML</OptLabel>
+            <OptLabel>{s('htmlPasteLabel')}</OptLabel>
             <textarea
+              dir="ltr"
               value={html}
               onChange={(e) => setHtml(e.target.value)}
               rows={6}
-              placeholder="<h1>My page</h1><p>Paste any HTML here — it takes priority over the URL.</p>"
+              placeholder={s('htmlPastePlaceholder')}
               className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs font-mono text-gray-800 dark:text-gray-100"
             />
           </div>
 
           <p className="mt-3 text-[11px] text-gray-500 dark:text-gray-400">
-            Note: scripts and some external images may not render in the in-browser converter.
+            {s('htmlNote2')}
           </p>
 
           <button
@@ -1033,7 +1064,7 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             }`}
           >
             {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
-            <span>{busy ? 'Converting…' : 'Convert to PDF'}</span>
+            <span>{busy ? s('convertingLabel') : s('htmlPdfAction')}</span>
           </button>
 
           {status === 'done' && (
