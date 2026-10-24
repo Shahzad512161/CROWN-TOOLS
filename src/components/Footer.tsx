@@ -28,7 +28,7 @@ export const Footer: React.FC<FooterProps> = ({
 
   return (
     <footer className="w-full bg-[#f8fafc] dark:bg-[#0f172a] border-t border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           
           {/* Brand Info */}
@@ -38,7 +38,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <LogoMark className="w-5 h-5 text-amber-500" />
               </div>
               <span className="text-lg font-black text-[#0f172a] dark:text-white">
-                Super Crown Tools
+                Free Omni Tools
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">

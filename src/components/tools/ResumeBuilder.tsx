@@ -65,7 +65,7 @@ PROFESSIONAL SUMMARY
 ${summary}
 
 WORK EXPERIENCE
-${experiences.map(e => `${e.title.toUpperCase()} — ${e.company} (${e.startDate} - ${e.endDate})
+${experiences.map(e => `${e.title.toUpperCase()}   ${e.company} (${e.startDate} - ${e.endDate})
 ${e.location}
 ${e.highlights}`).join('\n\n')}
 

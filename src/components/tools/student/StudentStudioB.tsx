@@ -102,7 +102,7 @@ function playBeep(freq = 880, duration = 0.6) {
     osc.stop(ctx.currentTime + duration);
     osc.onended = () => void ctx.close();
   } catch {
-    /* audio unavailable — ignore */
+    /* audio unavailable   ignore */
   }
 }
 
@@ -873,9 +873,9 @@ export const TypingTest: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 // ---------------------------------------------------------------------------
 
 const HW_FONTS = [
-  { id: 'Caveat', label: 'Caveat — neat cursive', css: '"Caveat", cursive', weight: 600 },
-  { id: 'Shadows Into Light', label: 'Shadows Into Light — casual', css: '"Shadows Into Light", cursive', weight: 400 },
-  { id: 'Patrick Hand', label: 'Patrick Hand — round print', css: '"Patrick Hand", cursive', weight: 400 },
+  { id: 'Caveat', label: 'Caveat   neat cursive', css: '"Caveat", cursive', weight: 600 },
+  { id: 'Shadows Into Light', label: 'Shadows Into Light   casual', css: '"Shadows Into Light", cursive', weight: 400 },
+  { id: 'Patrick Hand', label: 'Patrick Hand   round print', css: '"Patrick Hand", cursive', weight: 400 },
 ];
 const HW_MAX_CHARS: Record<number, number> = { 36: 38, 32: 42, 28: 48 };
 const HW_W = 1240;
@@ -921,7 +921,7 @@ export const TextToHandwriting: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       try {
         await document.fonts.load(`${font.weight} ${size}px ${font.css.split(',')[0]}`);
       } catch {
-        /* offline or blocked — canvas falls back to cursive */
+        /* offline or blocked   canvas falls back to cursive */
       }
 
       const maxChars = HW_MAX_CHARS[size] ?? 42;

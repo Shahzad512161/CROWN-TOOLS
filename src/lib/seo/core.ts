@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — SEO engine
+// Free Omni Tools   SEO engine
 // Pure, testable algorithms behind the SEO Tools suite:
 // robots.txt parsing/matching (RFC 9309 basics), keyword density
 // n-grams, readability scores, text similarity (shingles),
@@ -399,7 +399,7 @@ export function validateSitemapXml(xml: string): SitemapValidation {
     seen.add(l);
   });
   if (duplicates.length) warnings.push(`${duplicates.length} duplicate URL(s) found.`);
-  if (locs.length > 50000) errors.push(`Sitemap contains ${locs.length} URLs — the protocol limit is 50,000 per file. Split it into a sitemap index.`);
+  if (locs.length > 50000) errors.push(`Sitemap contains ${locs.length} URLs   the protocol limit is 50,000 per file. Split it into a sitemap index.`);
   if (!blocks.length && !errors.length) warnings.push('No <url> entries found.');
   return { urlCount: locs.length, isIndex, errors, warnings, duplicates };
 }
@@ -556,42 +556,42 @@ export function analyzeMetaTags(html: string, pageUrl?: string): MetaAnalysis {
   const push = (label: string, status: CheckItem['status'], detail: string) => checks.push({ label, status, detail });
 
   if (!title) push('Title tag', 'fail', 'No <title> found. Every page needs a unique, descriptive title.');
-  else if (title.length < 30) push('Title tag', 'warn', `Title is ${title.length} characters — under 30 can miss keyword opportunities.`);
-  else if (title.length <= 60) push('Title tag', 'pass', `Title is ${title.length} characters — within the ideal 30–60 range.`);
-  else if (title.length <= 70) push('Title tag', 'warn', `Title is ${title.length} characters — may be truncated in search results (~60 shown).`);
-  else push('Title tag', 'fail', `Title is ${title.length} characters — will almost certainly be truncated in search results.`);
+  else if (title.length < 30) push('Title tag', 'warn', `Title is ${title.length} characters   under 30 can miss keyword opportunities.`);
+  else if (title.length <= 60) push('Title tag', 'pass', `Title is ${title.length} characters   within the ideal 30–60 range.`);
+  else if (title.length <= 70) push('Title tag', 'warn', `Title is ${title.length} characters   may be truncated in search results (~60 shown).`);
+  else push('Title tag', 'fail', `Title is ${title.length} characters   will almost certainly be truncated in search results.`);
 
   if (!description) push('Meta description', 'fail', 'No meta description found. Google will pick random page text for the snippet.');
-  else if (description.length < 70) push('Meta description', 'warn', `Description is only ${description.length} characters — too short to sell the click.`);
-  else if (description.length <= 160) push('Meta description', 'pass', `Description is ${description.length} characters — within the ideal 70–160 range.`);
-  else push('Meta description', 'warn', `Description is ${description.length} characters — over ~160 it risks truncation.`);
+  else if (description.length < 70) push('Meta description', 'warn', `Description is only ${description.length} characters   too short to sell the click.`);
+  else if (description.length <= 160) push('Meta description', 'pass', `Description is ${description.length} characters   within the ideal 70–160 range.`);
+  else push('Meta description', 'warn', `Description is ${description.length} characters   over ~160 it risks truncation.`);
 
   push('Canonical URL', canonical ? 'pass' : 'warn', canonical ? `Canonical: ${canonical}` : 'No canonical tag. Adding one helps prevent duplicate-content issues.');
-  push('Robots meta', 'pass', robotsMeta ? `Robots directive: ${robotsMeta}` : 'No robots meta tag — the page is indexable and links are followed by default.');
-  if (robotsMeta && /noindex/i.test(robotsMeta)) push('Indexability', 'fail', 'This page has "noindex" — it will NOT appear in search results.');
-  push('Viewport (mobile)', viewport ? 'pass' : 'fail', viewport ? 'Viewport meta present — page can adapt to mobile screens.' : 'No viewport meta tag — the page will render poorly on mobile and fail mobile-friendliness checks.');
-  push('Charset', charsetM ? 'pass' : 'warn', charsetM ? `Charset declared: ${charsetM[1]}` : 'No charset declared — browsers may mis-render special characters.');
-  push('Language', langM ? 'pass' : 'warn', langM ? `html lang="${langM[1]}"` : 'No lang attribute on <html> — screen readers and search engines use it to identify the language.');
+  push('Robots meta', 'pass', robotsMeta ? `Robots directive: ${robotsMeta}` : 'No robots meta tag   the page is indexable and links are followed by default.');
+  if (robotsMeta && /noindex/i.test(robotsMeta)) push('Indexability', 'fail', 'This page has "noindex"   it will NOT appear in search results.');
+  push('Viewport (mobile)', viewport ? 'pass' : 'fail', viewport ? 'Viewport meta present   page can adapt to mobile screens.' : 'No viewport meta tag   the page will render poorly on mobile and fail mobile-friendliness checks.');
+  push('Charset', charsetM ? 'pass' : 'warn', charsetM ? `Charset declared: ${charsetM[1]}` : 'No charset declared   browsers may mis-render special characters.');
+  push('Language', langM ? 'pass' : 'warn', langM ? `html lang="${langM[1]}"` : 'No lang attribute on <html>   screen readers and search engines use it to identify the language.');
 
   const ogMissing = Object.entries(og).filter(([, v]) => !v).map(([k]) => k);
-  push('Open Graph tags', ogMissing.length === 0 ? 'pass' : 'warn', ogMissing.length === 0 ? 'All core OG tags present (title, description, image, type, url).' : `Missing: ${ogMissing.join(', ')} — social shares will look incomplete.`);
+  push('Open Graph tags', ogMissing.length === 0 ? 'pass' : 'warn', ogMissing.length === 0 ? 'All core OG tags present (title, description, image, type, url).' : `Missing: ${ogMissing.join(', ')}   social shares will look incomplete.`);
   const twPresent = Object.values(twitter).some(Boolean);
-  push('Twitter Card tags', twPresent ? 'pass' : 'warn', twPresent ? 'Twitter card tags present.' : 'No Twitter card tags — X/Twitter shares fall back to Open Graph or plain links.');
+  push('Twitter Card tags', twPresent ? 'pass' : 'warn', twPresent ? 'Twitter card tags present.' : 'No Twitter card tags   X/Twitter shares fall back to Open Graph or plain links.');
 
   const h1s = headings.filter((h) => h.level === 1);
   if (h1s.length === 1) push('H1 heading', 'pass', `Exactly one H1: "${h1s[0].text.slice(0, 80)}"`);
   else if (h1s.length === 0) push('H1 heading', 'fail', 'No H1 heading found. A page should have one clear H1.');
-  else push('H1 heading', 'warn', `${h1s.length} H1 headings found — best practice is exactly one per page.`);
+  else push('H1 heading', 'warn', `${h1s.length} H1 headings found   best practice is exactly one per page.`);
 
   const withAlt = images.filter((i) => i.alt !== null && i.alt.trim() !== '').length;
   if (images.length === 0) push('Image alt text', 'pass', 'No images on the page.');
   else if (withAlt === images.length) push('Image alt text', 'pass', `All ${images.length} images have alt text.`);
   else if (withAlt / images.length >= 0.8) push('Image alt text', 'warn', `${images.length - withAlt} of ${images.length} images are missing alt text.`);
-  else push('Image alt text', 'fail', `${images.length - withAlt} of ${images.length} images are missing alt text — hurts accessibility and image search.`);
+  else push('Image alt text', 'fail', `${images.length - withAlt} of ${images.length} images are missing alt text   hurts accessibility and image search.`);
 
   if (wordCount >= 300) push('Content length', 'pass', `${wordCount} words of visible text.`);
-  else if (wordCount >= 100) push('Content length', 'warn', `Only ${wordCount} words of visible text — thin content struggles to rank.`);
-  else push('Content length', 'fail', `Only ${wordCount} words of visible text — this is very thin content.`);
+  else if (wordCount >= 100) push('Content length', 'warn', `Only ${wordCount} words of visible text   thin content struggles to rank.`);
+  else push('Content length', 'fail', `Only ${wordCount} words of visible text   this is very thin content.`);
 
   const internal = links.filter((l) => l.internal === true).length;
   const external = links.filter((l) => l.internal === false).length;
@@ -639,21 +639,21 @@ export function onPageSeoAudit(html: string, keyword: string, pageUrl?: string):
 
   if (kw) {
     const inTitle = meta.title?.toLowerCase().includes(kw);
-    push('Keyword in title', inTitle ? 'pass' : 'fail', inTitle ? 'Target keyword appears in the title tag.' : 'Target keyword is missing from the title tag — the strongest on-page signal.');
+    push('Keyword in title', inTitle ? 'pass' : 'fail', inTitle ? 'Target keyword appears in the title tag.' : 'Target keyword is missing from the title tag   the strongest on-page signal.');
     const inDesc = meta.description?.toLowerCase().includes(kw);
-    push('Keyword in description', inDesc ? 'pass' : 'warn', inDesc ? 'Keyword appears in the meta description.' : 'Keyword missing from the meta description — including it lifts click-through.');
+    push('Keyword in description', inDesc ? 'pass' : 'warn', inDesc ? 'Keyword appears in the meta description.' : 'Keyword missing from the meta description   including it lifts click-through.');
     const h1 = meta.headings.find((h) => h.level === 1);
     const inH1 = h1?.text.toLowerCase().includes(kw);
     push('Keyword in H1', inH1 ? 'pass' : 'fail', inH1 ? 'Keyword appears in the H1.' : 'Keyword is missing from the H1 heading.');
     const first100 = words.slice(0, 100).join(' ');
     const inIntro = first100.includes(kw.replace(/\s+/g, ' ')) || phraseOccurrences(words.slice(0, 100).join(' '), kw) > 0;
-    push('Keyword in first 100 words', inIntro ? 'pass' : 'warn', inIntro ? 'Keyword appears early in the content.' : 'Keyword does not appear in the first 100 words — introduce it in the opening paragraph.');
+    push('Keyword in first 100 words', inIntro ? 'pass' : 'warn', inIntro ? 'Keyword appears early in the content.' : 'Keyword does not appear in the first 100 words   introduce it in the opening paragraph.');
     if (occurrences === 0) push('Keyword density', 'fail', 'Keyword never appears in the body text.');
-    else if (density < 0.5) push('Keyword density', 'warn', `Density is ${density}% (${occurrences} mentions) — a little low; 0.5–2.5% is a healthy range.`);
-    else if (density <= 2.5) push('Keyword density', 'pass', `Density is ${density}% (${occurrences} mentions) — inside the healthy 0.5–2.5% range.`);
-    else push('Keyword density', 'fail', `Density is ${density}% (${occurrences} mentions) — over 2.5% risks keyword-stuffing penalties.`);
+    else if (density < 0.5) push('Keyword density', 'warn', `Density is ${density}% (${occurrences} mentions)   a little low; 0.5–2.5% is a healthy range.`);
+    else if (density <= 2.5) push('Keyword density', 'pass', `Density is ${density}% (${occurrences} mentions)   inside the healthy 0.5–2.5% range.`);
+    else push('Keyword density', 'fail', `Density is ${density}% (${occurrences} mentions)   over 2.5% risks keyword-stuffing penalties.`);
     const inH2 = meta.headings.some((h) => h.level === 2 && h.text.toLowerCase().includes(kw));
-    push('Keyword in an H2', inH2 ? 'pass' : 'warn', inH2 ? 'Keyword appears in at least one H2 subheading.' : 'No H2 contains the keyword — use it in a subheading where it reads naturally.');
+    push('Keyword in an H2', inH2 ? 'pass' : 'warn', inH2 ? 'Keyword appears in at least one H2 subheading.' : 'No H2 contains the keyword   use it in a subheading where it reads naturally.');
     const images = extractImages(html);
     if (images.length) {
       const inAlt = images.some((i) => i.alt?.toLowerCase().includes(kw));
@@ -662,19 +662,19 @@ export function onPageSeoAudit(html: string, keyword: string, pageUrl?: string):
     if (pageUrl) {
       const slugPart = pageUrl.toLowerCase().split('/').filter(Boolean).pop() || '';
       const inUrl = slugPart.replace(/-/g, ' ').includes(kw) || pageUrl.toLowerCase().includes(kw.replace(/\s+/g, '-'));
-      push('Keyword in URL', inUrl ? 'pass' : 'warn', inUrl ? 'Keyword appears in the URL.' : 'Keyword is not in the URL slug — keyword URLs are a small positive signal.');
+      push('Keyword in URL', inUrl ? 'pass' : 'warn', inUrl ? 'Keyword appears in the URL.' : 'Keyword is not in the URL slug   keyword URLs are a small positive signal.');
     }
   }
 
   const internal = meta.links.internal;
   const external = meta.links.external;
-  push('Internal links', internal > 0 ? 'pass' : 'warn', internal > 0 ? `${internal} internal link(s) help spread authority and guide crawlers.` : 'No internal links found — link to related pages on your site.');
-  push('Outbound links', external > 0 ? 'pass' : 'warn', external > 0 ? `${external} outbound link(s) to other sites.` : 'No outbound links — citing authoritative sources supports E-E-A-T.');
+  push('Internal links', internal > 0 ? 'pass' : 'warn', internal > 0 ? `${internal} internal link(s) help spread authority and guide crawlers.` : 'No internal links found   link to related pages on your site.');
+  push('Outbound links', external > 0 ? 'pass' : 'warn', external > 0 ? `${external} outbound link(s) to other sites.` : 'No outbound links   citing authoritative sources supports E-E-A-T.');
   const r = readability(text);
   if (r.words >= 50) {
-    if (r.fleschReadingEase >= 60) push('Readability', 'pass', `Flesch Reading Ease ${r.fleschReadingEase} — easy to read for a broad audience.`);
-    else if (r.fleschReadingEase >= 40) push('Readability', 'warn', `Flesch Reading Ease ${r.fleschReadingEase} — somewhat difficult; shorten sentences to improve engagement.`);
-    else push('Readability', 'fail', `Flesch Reading Ease ${r.fleschReadingEase} — difficult to read; simplify the writing.`);
+    if (r.fleschReadingEase >= 60) push('Readability', 'pass', `Flesch Reading Ease ${r.fleschReadingEase}   easy to read for a broad audience.`);
+    else if (r.fleschReadingEase >= 40) push('Readability', 'warn', `Flesch Reading Ease ${r.fleschReadingEase}   somewhat difficult; shorten sentences to improve engagement.`);
+    else push('Readability', 'fail', `Flesch Reading Ease ${r.fleschReadingEase}   difficult to read; simplify the writing.`);
   }
 
   const weights = checks.reduce((acc, c) => acc + (c.status === 'pass' ? 1 : c.status === 'warn' ? 0.5 : 0), 0);
@@ -712,16 +712,16 @@ export function analyzeHeadline(headline: string): HeadlineAnalysis {
   const push = (label: string, status: CheckItem['status'], detail: string) => checks.push({ label, status, detail });
   let score = 0;
 
-  if (words.length >= 5 && words.length <= 12) { push('Length (words)', 'pass', `${words.length} words — in the 5–12 sweet spot for clicks and sharing.`); score += 18; }
-  else if (words.length > 0 && words.length < 5) { push('Length (words)', 'warn', `Only ${words.length} words — short headlines under-explain the value.`); score += 8; }
-  else if (words.length > 12) { push('Length (words)', 'warn', `${words.length} words — long headlines get cut off in feeds and results.`); score += 8; }
+  if (words.length >= 5 && words.length <= 12) { push('Length (words)', 'pass', `${words.length} words   in the 5–12 sweet spot for clicks and sharing.`); score += 18; }
+  else if (words.length > 0 && words.length < 5) { push('Length (words)', 'warn', `Only ${words.length} words   short headlines under-explain the value.`); score += 8; }
+  else if (words.length > 12) { push('Length (words)', 'warn', `${words.length} words   long headlines get cut off in feeds and results.`); score += 8; }
   else push('Length (words)', 'fail', 'Headline is empty.');
 
-  if (h.length >= 30 && h.length <= 65) { push('Length (characters)', 'pass', `${h.length} characters — fits search results and social cards.`); score += 14; }
-  else if (h.length > 0) { push('Length (characters)', 'warn', `${h.length} characters — aim for 30–65 so it is not truncated in Google results.`); score += 6; }
+  if (h.length >= 30 && h.length <= 65) { push('Length (characters)', 'pass', `${h.length} characters   fits search results and social cards.`); score += 14; }
+  else if (h.length > 0) { push('Length (characters)', 'warn', `${h.length} characters   aim for 30–65 so it is not truncated in Google results.`); score += 6; }
 
   const hasNumber = /\d/.test(h);
-  push('Number', hasNumber ? 'pass' : 'warn', hasNumber ? 'Contains a number — list/number headlines earn measurably more clicks.' : 'No number. Adding one (e.g. "7 Ways…") usually lifts click-through.');
+  push('Number', hasNumber ? 'pass' : 'warn', hasNumber ? 'Contains a number   list/number headlines earn measurably more clicks.' : 'No number. Adding one (e.g. "7 Ways…") usually lifts click-through.');
   if (hasNumber) score += 16;
 
   const powerWordsFound = words.filter((w) => POWER_WORDS.has(w));
@@ -729,7 +729,7 @@ export function analyzeHeadline(headline: string): HeadlineAnalysis {
   score += Math.min(16, powerWordsFound.length * 8);
 
   const emotionalWordsFound = words.filter((w) => EMOTIONAL_WORDS.has(w));
-  push('Emotional pull', emotionalWordsFound.length ? 'pass' : 'warn', emotionalWordsFound.length ? `Emotional words: ${[...new Set(emotionalWordsFound)].join(', ')}.` : 'No emotional words — a little feeling makes headlines memorable.');
+  push('Emotional pull', emotionalWordsFound.length ? 'pass' : 'warn', emotionalWordsFound.length ? `Emotional words: ${[...new Set(emotionalWordsFound)].join(', ')}.` : 'No emotional words   a little feeling makes headlines memorable.');
   score += Math.min(10, emotionalWordsFound.length * 5);
 
   const isQuestion = h.includes('?');
@@ -743,12 +743,12 @@ export function analyzeHeadline(headline: string): HeadlineAnalysis {
 
   const uncommon = words.filter((w) => !STOPWORDS.has(w)).length;
   const commonWordPercent = words.length ? Math.round(((words.length - uncommon) / words.length) * 100) : 0;
-  if (commonWordPercent >= 20 && commonWordPercent <= 40) { push('Word balance', 'pass', `${commonWordPercent}% common words — natural, readable balance.`); score += 8; }
-  else push('Word balance', 'warn', `${commonWordPercent}% common words (ideal 20–40%) — too few reads jargon-heavy, too many reads bland.`);
+  if (commonWordPercent >= 20 && commonWordPercent <= 40) { push('Word balance', 'pass', `${commonWordPercent}% common words   natural, readable balance.`); score += 8; }
+  else push('Word balance', 'warn', `${commonWordPercent}% common words (ideal 20–40%)   too few reads jargon-heavy, too many reads bland.`);
 
   if (h === h.toUpperCase() && /[A-Z]/.test(h)) { push('Capitalization', 'fail', 'ALL CAPS reads as shouting and hurts trust.'); score -= 10; }
   const clickbait = [...CLICKBAIT_WORDS].filter((w) => lower.includes(w));
-  if (clickbait.length) { push('Clickbait risk', 'warn', `Clickbait phrasing detected (${clickbait.join(', ')}) — can earn clicks but damages trust and invites demotion.`); score -= 5; }
+  if (clickbait.length) { push('Clickbait risk', 'warn', `Clickbait phrasing detected (${clickbait.join(', ')})   can earn clicks but damages trust and invites demotion.`); score -= 5; }
 
   score = Math.max(0, Math.min(100, score));
   const scoreLabel = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Needs work';

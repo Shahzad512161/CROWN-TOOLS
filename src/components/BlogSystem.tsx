@@ -55,7 +55,7 @@ export const BlogIndex: React.FC<BlogIndexProps> = ({
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#111827] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+      <div className=" mx-auto">
 
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-slate-500 mb-6">

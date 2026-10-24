@@ -74,7 +74,7 @@ function getObjAsync(page: any, id: string): Promise<any> {
     const v = page.objs.get(id);
     if (v) return Promise.resolve(v);
   } catch {
-    /* not resolved yet — fall through to callback form */
+    /* not resolved yet   fall through to callback form */
   }
   return new Promise((resolve) => {
     let done = false;
@@ -625,7 +625,7 @@ export const PdfToEpub: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         })
         .join('\n');
       chapters.push(
-        `<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>${s('chapterWord')} ${chNum} — ${escapeHtml(title)}</title></head><body><h1>${s('chapterWord')} ${chNum}</h1>\n${body}\n</body></html>`
+        `<!DOCTYPE html>\n<html xmlns="http://www.w3.org/1999/xhtml"><head><title>${s('chapterWord')} ${chNum}   ${escapeHtml(title)}</title></head><body><h1>${s('chapterWord')} ${chNum}</h1>\n${body}\n</body></html>`
       );
     }
 

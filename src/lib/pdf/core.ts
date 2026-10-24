@@ -4,7 +4,7 @@ import { PDFDocument, StandardFonts, degrees, rgb, PDFName, PDFString, PDFHexStr
 import JSZip from 'jszip';
 
 // pdf.js is heavy (~350 KB gz) and only tools that READ/render existing PDFs
-// need it — load it lazily on first use so write-only tools never pay for it.
+// need it   load it lazily on first use so write-only tools never pay for it.
 type PdfJsLib = typeof import('pdfjs-dist');
 let pdfjsPromise: Promise<PdfJsLib> | null = null;
 export function loadPdfJsLib(): Promise<PdfJsLib> {

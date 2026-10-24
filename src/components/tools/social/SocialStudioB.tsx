@@ -101,7 +101,7 @@ const LINK_PRESET_LABEL_KEYS: Record<string, string> = {
 };
 
 /* ================================================================
-   1. Social Video Resizer — FFmpeg crop/pad to a platform aspect
+   1. Social Video Resizer   FFmpeg crop/pad to a platform aspect
    ================================================================ */
 export const SocialVideoResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(SOCIAL_STRINGS);
@@ -188,7 +188,7 @@ export const SocialVideoResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   2. Post Ideas Generator — deterministic 30-day calendar
+   2. Post Ideas Generator   deterministic 30-day calendar
    ================================================================ */
 export const PostIdeasGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(SOCIAL_STRINGS);
@@ -197,7 +197,7 @@ export const PostIdeasGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const [days, setDays] = useState<CalendarDay[]>([]);
 
   const effectiveNiche = custom.trim() || niche;
-  const asText = days.map((d) => `Day ${d.day} — ${d.format} — ${d.idea}`).join('\n');
+  const asText = days.map((d) => `Day ${d.day}   ${d.format}   ${d.idea}`).join('\n');
 
   return (
     <SocialCard tool={tool} note={s('postIdeasNote')}>
@@ -242,7 +242,7 @@ export const PostIdeasGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   3. Giveaway Picker — random winner from comment entries
+   3. Giveaway Picker   random winner from comment entries
    ================================================================ */
 export const GiveawayPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(SOCIAL_STRINGS);
@@ -338,7 +338,7 @@ export const GiveawayPicker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   4. Post Card Maker — tweet-style design mockup card (canvas)
+   4. Post Card Maker   tweet-style design mockup card (canvas)
    ================================================================ */
 function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
   const lines: string[] = [];
@@ -365,7 +365,7 @@ export const PostCardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [name, setName] = useState('Your Name');
   const [handle, setHandle] = useState('yourhandle');
-  const [text, setText] = useState('This is my post. Design a clean social media card for thumbnails, presentations and content previews — no account needed.');
+  const [text, setText] = useState('This is my post. Design a clean social media card for thumbnails, presentations and content previews   no account needed.');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [avatarColor, setAvatarColor] = useState('#db2777');
   const [showStats, setShowStats] = useState(true);
@@ -525,7 +525,7 @@ export const PostCardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   5. Link in Bio Builder — standalone HTML page generator
+   5. Link in Bio Builder   standalone HTML page generator
    ================================================================ */
 const LINK_PRESETS: { id: string; label: string; bg: string; card: string; text: string }[] = [
   { id: 'light', label: 'Light', bg: '#f8fafc', card: '#ffffff', text: '#0f172a' },
@@ -661,7 +661,7 @@ export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   6. Emoji Board — tap to build a copy-ready emoji tray
+   6. Emoji Board   tap to build a copy-ready emoji tray
    ================================================================ */
 export const EmojiBoard: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(SOCIAL_STRINGS);
@@ -724,7 +724,7 @@ export const EmojiBoard: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   7. AI Hashtag Generator — Gemini
+   7. AI Hashtag Generator   Gemini
    ================================================================ */
 const HASHTAG_AI_NICHES = ['Fitness', 'Food', 'Travel', 'Fashion', 'Beauty', 'Business', 'Photography', 'Tech', 'Pets', 'Music', 'Gaming', 'General'];
 
@@ -747,7 +747,7 @@ export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       `- Return exactly 30 hashtags, lowercase, each starting with #.\n` +
       `- Output exactly 3 lines: line 1 = 10 high-reach hashtags, line 2 = 10 medium-reach hashtags, line 3 = 10 niche-specific hashtags.\n` +
       `- Hashtags on each line separated by single spaces.\n` +
-      `- No explanations, no headings, no numbering — only the 3 lines of hashtags.`,
+      `- No explanations, no headings, no numbering   only the 3 lines of hashtags.`,
     );
   };
 
@@ -791,7 +791,7 @@ export const AiHashtagGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   8. AI Hook Generator — first-3-seconds video hooks (Gemini)
+   8. AI Hook Generator   first-3-seconds video hooks (Gemini)
    ================================================================ */
 export const AiHookGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(SOCIAL_STRINGS);
@@ -810,7 +810,7 @@ export const AiHookGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       `Tone: ${tone}.\n\n` +
       `Rules:\n` +
       `- Return exactly 10 hooks, numbered 1 to 10, one per line.\n` +
-      `- Each hook is under 12 words — it must work as the first 3 seconds spoken on camera.\n` +
+      `- Each hook is under 12 words   it must work as the first 3 seconds spoken on camera.\n` +
       `- Be specific to the topic; vary the angles (mistake, secret, story, question, result, myth).\n` +
       `- No clickbait lies: never promise something the video cannot deliver, no fake numbers or invented claims.\n` +
       `- Plain text only: no markdown, no explanations before or after the list.`,

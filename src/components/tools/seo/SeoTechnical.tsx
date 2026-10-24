@@ -115,14 +115,14 @@ export const LinkExtractor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                     <td className="px-3 py-1.5 max-w-[260px] truncate text-gray-600 dark:text-gray-300" title={l.href}>{l.href}</td>
                     <td className="px-3 py-1.5">
                       {l.internal === null ? (
-                        <span className="text-gray-400">—</span>
+                        <span className="text-gray-400"> </span>
                       ) : (
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${l.internal ? 'bg-sky-100 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300' : 'bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300'}`}>
                           {l.internal ? s('internalWord') : s('externalWord')}
                         </span>
                       )}
                     </td>
-                    <td className="px-3 py-1.5 text-gray-600 dark:text-gray-300">{l.rel || (l.follow ? 'dofollow' : '—')}</td>
+                    <td className="px-3 py-1.5 text-gray-600 dark:text-gray-300">{l.rel || (l.follow ? 'dofollow' : ' ')}</td>
                   </tr>
                 ))}
               </tbody>
@@ -627,7 +627,7 @@ export const SeoRoiCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <Stat label={s('grossProfitPerMonth')} value={moneyFmt.format(calc.grossProfit)} />
         <Stat label={s('netPerMonth')} value={moneyFmt.format(calc.net)} />
         <Stat label="ROI" value={`${calc.roi.toFixed(1)}%`} />
-        <Stat label={s('breakEvenConversions')} value={calc.breakEven === null ? '—' : numFmt.format(Math.ceil(calc.breakEven))} />
+        <Stat label={s('breakEvenConversions')} value={calc.breakEven === null ? ' ' : numFmt.format(Math.ceil(calc.breakEven))} />
       </div>
       <div className="mt-4">
         <OptLabel>{s('projection12')}</OptLabel>
@@ -660,7 +660,7 @@ export const SeoRoiCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 <td className="px-3 py-2 text-gray-900 dark:text-white">{numFmt.format(Math.round(calc.totals.conversions))}</td>
                 <td className="px-3 py-2 text-gray-900 dark:text-white">{moneyFmt.format(calc.totals.revenue)}</td>
                 <td className="px-3 py-2 text-gray-900 dark:text-white">{moneyFmt.format(calc.totals.net)}</td>
-                <td className="px-3 py-2 text-gray-900 dark:text-white">—</td>
+                <td className="px-3 py-2 text-gray-900 dark:text-white"> </td>
               </tr>
             </tbody>
           </table>

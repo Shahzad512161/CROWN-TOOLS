@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — Media engine (pure layer)
+// Free Omni Tools   Media engine (pure layer)
 // FFmpeg argument builders, WAV PCM encoder, waveform peaks and
 // timecode helpers behind the Video & Audio suite. Everything
 // here is pure and unit-testable; the actual FFmpeg.wasm client
@@ -150,7 +150,7 @@ export function buildSpeedArgs(input: string, output: string, rate: number, form
 
 // ---------------- waveform peaks ----------------
 
-/** Absolute-max peak per bucket — for waveform rendering. */
+/** Absolute-max peak per bucket   for waveform rendering. */
 export function computePeaks(channelData: ArrayLike<number>, buckets: number): Float32Array {
   const peaks = new Float32Array(buckets);
   const perBucket = Math.max(1, Math.floor(channelData.length / buckets));

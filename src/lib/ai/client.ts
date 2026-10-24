@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — AI client (Google Gemini)
+// Free Omni Tools   AI client (Google Gemini)
 // Shared by the AI Tools suite and the PDF AI tools' pattern:
 // the site owner supplies a free Gemini API key via the
 // VITE_GEMINI_API_KEY env var; visitors' prompts go from their
@@ -30,7 +30,7 @@ function friendlyError(e: unknown): Error {
     return new Error('Gemini declined to answer that prompt (safety filters). Try rephrasing it.');
   }
   if (/fetch|network|Failed to fetch/i.test(raw)) {
-    return new Error('Could not reach the Gemini API — check your internet connection and try again.');
+    return new Error('Could not reach the Gemini API   check your internet connection and try again.');
   }
   return new Error(raw || 'The AI request failed. Please try again.');
 }

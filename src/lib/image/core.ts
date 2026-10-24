@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — Image engine (round 2)
+// Free Omni Tools   Image engine (round 2)
 // Pure helpers behind the Image studio suite: median-cut color
 // palette extraction, QR payload builders (WiFi / vCard / …),
 // ICO file assembly, ASCII-art conversion, SVG size parsing.
@@ -124,7 +124,7 @@ export function extractPalette(pixels: PixelData, count = 6): PaletteColor[] {
         share: box.pixels.length / total,
       };
     });
-  // Median-cut splits can land on identical averages (flat images, logos) —
+  // Median-cut splits can land on identical averages (flat images, logos)  
   // merge those so a single dominant color is not shown several times.
   const merged = new Map<string, PaletteColor>();
   for (const c of colors) {

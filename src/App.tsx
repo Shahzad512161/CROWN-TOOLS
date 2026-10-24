@@ -14,7 +14,7 @@ const ContactPage = React.lazy(() => import('./components/Pages').then((m) => ({
 const LegalModal = React.lazy(() => import('./components/LegalModals').then((m) => ({ default: m.LegalModal })));
 
 const ViewFallback = () => (
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-pulse" aria-busy="true">
+  <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-pulse" aria-busy="true">
     <div className="h-8 w-1/3 rounded-xl bg-slate-200 dark:bg-slate-800 mb-4" />
     <div className="h-48 rounded-[28px] bg-slate-200 dark:bg-slate-800" />
   </div>
@@ -215,26 +215,26 @@ export default function App() {
                 : currentView === 'contact'
                   ? '/contact'
                   : '/';
-    let title = `${SITE_NAME} — ${t.logoSubtitle}`;
+    let title = `${SITE_NAME}   ${t.logoSubtitle}`;
     let description = t.heroSubtitle;
     if (currentView === 'tool' && activeToolSlug && TOOLS_BY_SLUG[activeToolSlug]) {
       const lt = localizedTool(TOOLS_BY_SLUG[activeToolSlug], currentLang);
-      title = `${lt.name} — ${SITE_NAME}`;
+      title = `${lt.name}   ${SITE_NAME}`;
       description = lt.description;
     } else if (currentView === 'blog') {
-      title = `${t.navBlog} — ${SITE_NAME}`;
+      title = `${t.navBlog}   ${SITE_NAME}`;
     } else if (currentView === 'blog-post' && activeBlogSlug && TOOLS_BY_SLUG[activeBlogSlug]) {
       const post = getBlogPostForTool(TOOLS_BY_SLUG[activeBlogSlug], currentLang);
-      title = `${post.title} — ${SITE_NAME}`;
+      title = `${post.title}   ${SITE_NAME}`;
       description = post.metaDescription;
     } else if (currentView === 'about') {
-      title = `${t.navAbout} — ${SITE_NAME}`;
+      title = `${t.navAbout}   ${SITE_NAME}`;
     } else if (currentView === 'privacy') {
-      title = `${t.navPrivacy} — ${SITE_NAME}`;
+      title = `${t.navPrivacy}   ${SITE_NAME}`;
     } else if (currentView === 'contact') {
-      title = `${t.navContact} — ${SITE_NAME}`;
+      title = `${t.navContact}   ${SITE_NAME}`;
     } else if (currentView === 'not-found') {
-      title = `${lookup(CHROME, currentLang, 'notFoundTitle')} — ${SITE_NAME}`;
+      title = `${lookup(CHROME, currentLang, 'notFoundTitle')}   ${SITE_NAME}`;
     }
     document.title = title;
 
@@ -285,7 +285,7 @@ export default function App() {
       {/* ========================================================================= */}
       {/* DESIGN - 2 LINE TOP HEADER SYSTEM */}
       {/* 1. Top Black Bar (36px): [❤️ Support Mission] [support@ + Sun/Moon] */}
-      {/* 2. Main White Header (68px): [👑 Logo Super Crown Tools] [About | Privacy | Contact | Blog] [Social + Ad] */}
+      {/* 2. Main White Header (68px): [👑 Logo Free Omni Tools] [About | Privacy | Contact | Blog] [Social + Ad] */}
       {/* ========================================================================= */}
       <Header
         darkMode={darkMode}

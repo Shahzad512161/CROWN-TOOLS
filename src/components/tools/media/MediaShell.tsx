@@ -57,7 +57,7 @@ export const ProgressBar: React.FC<{ ratio: number | null; label?: string }> = (
 };
 
 export const ENGINE_NOTE =
-  'Powered by FFmpeg running as WebAssembly in your browser: the engine (~30 MB) loads once from this site when you start the first job, then everything processes locally — your media is never uploaded. The engine is single-threaded, so long or 4K files take a while; keep clips modest for the best experience.';
+  'Powered by FFmpeg running as WebAssembly in your browser: the engine (~30 MB) loads once from this site when you start the first job, then everything processes locally   your media is never uploaded. The engine is single-threaded, so long or 4K files take a while; keep clips modest for the best experience.';
 
 const sampleBtnCls =
   'px-3.5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-50';

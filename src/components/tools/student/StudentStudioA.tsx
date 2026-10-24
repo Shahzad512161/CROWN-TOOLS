@@ -479,7 +479,7 @@ export const EssayWordCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             />
           </div>
           <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-            {s('progressOf').replace('{words}', String(stats.words)).replace('{target}', String(targetNum)).replace('{pct}', String(pct))} — {diff > 0 ? s('wordsToGo').replace('{n}', String(diff)) : diff < 0 ? s('wordsOver').replace('{n}', String(Math.abs(diff))) : s('exactlyOnTarget')}
+            {s('progressOf').replace('{words}', String(stats.words)).replace('{target}', String(targetNum)).replace('{pct}', String(pct))}   {diff > 0 ? s('wordsToGo').replace('{n}', String(diff)) : diff < 0 ? s('wordsOver').replace('{n}', String(Math.abs(diff))) : s('exactlyOnTarget')}
           </p>
         </div>
       )}
@@ -497,7 +497,7 @@ export const EssayWordCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       {stats.words > 0 && (
         <div className="rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-3 text-sm text-slate-700 dark:text-slate-200">
-          Flesch Reading Ease: <span className="font-extrabold">{stats.flesch}</span> — {s(gradeKey)}
+          Flesch Reading Ease: <span className="font-extrabold">{stats.flesch}</span>   {s(gradeKey)}
         </div>
       )}
 
@@ -778,7 +778,7 @@ export const StudyPlanner: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const weekdayLabel = (name: string) => (WEEKDAY_KEYS[name] ? s(WEEKDAY_KEYS[name]) : name);
 
   const planText = plan
-    ? plan.map((d) => `${d.date} (${weekdayLabel(d.weekday)}) — ${kindLabel(d.kind).toUpperCase()}\n${d.items.map((i) => `  - ${i}`).join('\n') || `  - ${s('planRestLine')}`}`).join('\n\n')
+    ? plan.map((d) => `${d.date} (${weekdayLabel(d.weekday)})   ${kindLabel(d.kind).toUpperCase()}\n${d.items.map((i) => `  - ${i}`).join('\n') || `  - ${s('planRestLine')}`}`).join('\n\n')
     : '';
 
   const kindChip = (kind: string) =>
@@ -1114,7 +1114,7 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setParseFailed(false);
     const prompt = [
       `Create exactly ${count} multiple-choice questions at ${difficulty} difficulty from the study material below.`,
-      'Use EXACTLY this format for every question and nothing else — no introduction, no explanations, no extra text:',
+      'Use EXACTLY this format for every question and nothing else   no introduction, no explanations, no extra text:',
       'Q: <question>',
       'A) <option>',
       'B) <option>',

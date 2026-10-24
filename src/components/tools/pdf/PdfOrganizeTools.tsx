@@ -1,4 +1,4 @@
-// PDF organize / page-level tools — all processing happens 100% in the browser.
+// PDF organize / page-level tools   all processing happens 100% in the browser.
 // Merge, split, rotate, organize, crop, page numbers, watermark, protect,
 // unlock, repair, PDF/A conversion, and a page inspector.
 import React, { useState } from 'react';
@@ -1289,8 +1289,8 @@ export const PdfToPdfA: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       const copied = await out.copyPages(src, src.getPageIndices());
       copied.forEach((p) => out.addPage(p));
       out.setTitle(title);
-      out.setCreator('Super Crown Tools');
-      out.setProducer('Super Crown Tools');
+      out.setCreator('Free Omni Tools');
+      out.setProducer('Free Omni Tools');
       out.setSubject(`PDF/A-3B archival conversion of "${title}"`);
 
       const xmp = [
@@ -1303,7 +1303,7 @@ export const PdfToPdfA: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         `    <rdf:li xml:lang="x-default">${xmlEscape(title)}</rdf:li>`,
         '   </rdf:Alt></dc:title>',
         '  </rdf:Description>',
-        '  <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmp:CreatorTool="Super Crown Tools"/>',
+        '  <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmp:CreatorTool="Free Omni Tools"/>',
         ' </rdf:RDF>',
         '</x:xmpmeta>',
         '<?xpacket end="w"?>',
@@ -1360,7 +1360,7 @@ export const PdfPageInspector: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         }
         const meta: any = await doc.getMetadata().catch(() => null);
         const info: Record<string, any> = (meta?.info ?? {}) as Record<string, any>;
-        const pick = (v: any) => (v === undefined || v === null || v === '' ? '—' : String(v));
+        const pick = (v: any) => (v === undefined || v === null || v === '' ? ' ' : String(v));
 
         const sizes: { w: number; h: number }[] = [];
         for (let i = 1; i <= doc.numPages; i++) {

@@ -6,7 +6,7 @@ import type { StrDict } from '../LangContext';
  * InvoiceGenerator, PdfToWordConverter, MultiCalculator, GenericToolEngine).
  * Shared one-word actions (Copy, Download, Total, Format…) live in COMMON.
  * Templates use {placeholder} tokens replaced at the call site.
- * Document previews (resume/invoice) intentionally stay English/LTR —
+ * Document previews (resume/invoice) intentionally stay English/LTR  
  * only the surrounding app UI uses these strings.
  */
 export const CALC_STRINGS: StrDict = {

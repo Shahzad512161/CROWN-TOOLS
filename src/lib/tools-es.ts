@@ -269,7 +269,7 @@ export const TOOLS_ES: Record<string, { name: string; description: string }> = {
   "name": "Crear marcadores en PDF"
  },
  "crop-pdf": {
-  "description": "Recorta los márgenes de las páginas PDF — para todas las páginas o un rango elegido — en porcentaje o milímetros.",
+  "description": "Recorta los márgenes de las páginas PDF   para todas las páginas o un rango elegido   en porcentaje o milímetros.",
   "name": "Recortar PDF"
  },
  "delete-pdf-pages": {
@@ -321,7 +321,7 @@ export const TOOLS_ES: Record<string, { name: string; description: string }> = {
   "name": "Planificador de presupuesto de compra y coste de comidas"
  },
  "header-footer-pdf": {
-  "description": "Estampa texto personalizado de encabezado y pie de página — izquierda, centro, derecha — con marcadores de número de página en cada página.",
+  "description": "Estampa texto personalizado de encabezado y pie de página   izquierda, centro, derecha   con marcadores de número de página en cada página.",
   "name": "Añadir encabezado y pie a PDF"
  },
  "heic-to-pdf": {
@@ -345,7 +345,7 @@ export const TOOLS_ES: Record<string, { name: string; description: string }> = {
   "name": "Unir documentos de Word"
  },
  "nup-pdf": {
-  "description": "Imprime varias páginas PDF por hoja — 2, 4, 6 o 9 por hoja en A4, A3 o Letter — manteniendo las páginas nítidas en formato vectorial.",
+  "description": "Imprime varias páginas PDF por hoja   2, 4, 6 o 9 por hoja en A4, A3 o Letter   manteniendo las páginas nítidas en formato vectorial.",
   "name": "Varias páginas PDF por hoja"
  },
  "odt-to-word": {
@@ -397,7 +397,7 @@ export const TOOLS_ES: Record<string, { name: string; description: string }> = {
   "name": "PNG a PDF"
  },
  "remove-annotations-pdf": {
-  "description": "Elimina todas las anotaciones — resaltados, comentarios, sellos y marcas — de un PDF de una sola pasada.",
+  "description": "Elimina todas las anotaciones   resaltados, comentarios, sellos y marcas   de un PDF de una sola pasada.",
   "name": "Eliminar anotaciones de PDF"
  },
  "remove-watermark-pdf": {
@@ -409,7 +409,7 @@ export const TOOLS_ES: Record<string, { name: string; description: string }> = {
   "name": "Renombrar PDF por su contenido"
  },
  "resize-pdf-pages": {
-  "description": "Cambia el tamaño de página de un PDF — A3, A4, A5, Letter o Legal — escalando el contenido para ajustarlo o estirarlo.",
+  "description": "Cambia el tamaño de página de un PDF   A3, A4, A5, Letter o Legal   escalando el contenido para ajustarlo o estirarlo.",
   "name": "Redimensionar páginas PDF"
  },
  "split-pdf-by-bookmarks": {

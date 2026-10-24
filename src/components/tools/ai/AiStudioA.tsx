@@ -22,7 +22,7 @@ import {
 const countWords = (s: string) => s.trim().split(/\s+/).filter(Boolean).length;
 
 /* ================================================================
-   1. AI Writer — generate content from a topic
+   1. AI Writer   generate content from a topic
    ================================================================ */
 export const AiWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(AI_STRINGS);
@@ -49,7 +49,7 @@ export const AiWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setLocalError('');
     const headingsRule = type === 'Full blog post'
       ? 'You may use a short title on the first line and short plain-text section headings on their own lines.'
-      : 'Use plain paragraphs only — no headings, no bullet lists.';
+      : 'Use plain paragraphs only   no headings, no bullet lists.';
     await run(
       `Write ${typeDesc[type]} about the topic below.\n\n` +
       `Tone: ${tone}.\n` +
@@ -113,7 +113,7 @@ export const AiWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   2. AI Paraphraser — rewrite text in a chosen mode
+   2. AI Paraphraser   rewrite text in a chosen mode
    ================================================================ */
 export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(AI_STRINGS);
@@ -139,7 +139,7 @@ export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     await run(
       `Paraphrase the text below. ${modeInstruction[mode]}\n\n` +
       `Preserve the original meaning and all facts, names and numbers exactly.\n` +
-      `Output ONLY the rewritten text — no explanations, no preamble, no quotation marks around it.\n\n` +
+      `Output ONLY the rewritten text   no explanations, no preamble, no quotation marks around it.\n\n` +
       `Text:\n${text}`
     );
   };
@@ -191,7 +191,7 @@ export const AiParaphraser: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   3. AI Grammar Checker — corrected text + list of changes
+   3. AI Grammar Checker   corrected text + list of changes
    ================================================================ */
 export const AiGrammarChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(AI_STRINGS);
@@ -280,7 +280,7 @@ export const AiTextSummarizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     setLocalError('');
     await run(
       `Summarize the text below. ${styleInstruction[style]}\n\n` +
-      `Stay faithful to the source — do not add facts, opinions or examples that are not in it.\n` +
+      `Stay faithful to the source   do not add facts, opinions or examples that are not in it.\n` +
       `Output ONLY the summary, in plain text with no markdown and no preamble.\n\n` +
       `Text:\n${text}`
     );
@@ -323,7 +323,7 @@ export const AiTextSummarizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 /* ================================================================
-   5. AI Translator — translates text from any language into English
+   5. AI Translator   translates text from any language into English
    ================================================================ */
 export const AiTranslator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const s = useStrings(AI_STRINGS);
@@ -337,7 +337,7 @@ export const AiTranslator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     await run(
       `Detect the language of the text below automatically and translate it into natural, fluent English.\n\n` +
       `Preserve the original formatting and line breaks. Keep names, numbers and formatting intact.\n` +
-      `Output ONLY the English translation — no explanations, no transliteration, no quotation marks.\n\n` +
+      `Output ONLY the English translation   no explanations, no transliteration, no quotation marks.\n\n` +
       `Text:\n${text}`
     );
   };
@@ -390,7 +390,7 @@ export const AiStoryGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       (setting.trim() ? `Setting: ${setting.trim()}.\n` : 'Setting: one fitting the genre.\n') +
       `Length: about ${wordTarget} words.\n` +
       (twist ? 'Include one surprising plot twist near the end that still makes sense in hindsight.\n' : '') +
-      `Formatting: plain text paragraphs only — no title line, no chapter headings, no markdown.\n` +
+      `Formatting: plain text paragraphs only   no title line, no chapter headings, no markdown.\n` +
       `Output ONLY the story, starting directly with its first sentence.`
     );
   };
@@ -457,7 +457,7 @@ export const AiPoemGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const [localError, setLocalError] = useState('');
 
   const formInstruction: Record<string, string> = {
-    'Free verse': 'Write it in free verse — no fixed rhyme or meter, shaped by natural rhythm and imagery.',
+    'Free verse': 'Write it in free verse   no fixed rhyme or meter, shaped by natural rhythm and imagery.',
     'Haiku (5-7-5)': 'Write a single haiku: exactly 3 lines with 5, then 7, then 5 syllables.',
     'Sonnet (14 lines)': 'Write a sonnet: exactly 14 lines in iambic pentameter with an ABAB CDCD EFEF GG rhyme scheme.',
     Limerick: 'Write a limerick: exactly 5 lines with an AABBA rhyme scheme and a bouncy rhythm.',
@@ -473,7 +473,7 @@ export const AiPoemGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       `Write a poem about: ${topic.trim()}.\n\n` +
       `Form: ${form}. ${formInstruction[form]}\n` +
       `Mood: ${mood}.\n` +
-      `Output ONLY the poem itself — plain text, one verse line per line, no title line, no explanation, no markdown.`
+      `Output ONLY the poem itself   plain text, one verse line per line, no title line, no explanation, no markdown.`
     );
   };
 

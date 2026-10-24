@@ -36,11 +36,11 @@ export const DEV_STRINGS: StrDict = {
 
   // JSON Formatter
   jsonFormatterNote: {
-    en: 'Formatting and validation happen entirely in your browser using the native JSON parser — error positions are reported as line and column.',
+    en: 'Formatting and validation happen entirely in your browser using the native JSON parser   error positions are reported as line and column.',
     es: 'El formato y la validación se realizan por completo en tu navegador con el analizador JSON nativo: las posiciones de error se indican como línea y columna.',
-    fr: "Le formatage et la validation se font entièrement dans votre navigateur avec l'analyseur JSON natif — les positions d'erreur sont indiquées en ligne et colonne.",
-    ar: 'يتم التنسيق والتحقق بالكامل في متصفحك باستخدام محلل JSON الأصلي — وتُعرض مواضع الأخطاء برقم السطر والعمود.',
-    ru: 'Форматирование и проверка выполняются полностью в браузере с помощью встроенного парсера JSON — позиции ошибок указываются строкой и столбцом.',
+    fr: "Le formatage et la validation se font entièrement dans votre navigateur avec l'analyseur JSON natif   les positions d'erreur sont indiquées en ligne et colonne.",
+    ar: 'يتم التنسيق والتحقق بالكامل في متصفحك باستخدام محلل JSON الأصلي   وتُعرض مواضع الأخطاء برقم السطر والعمود.',
+    ru: 'Форматирование и проверка выполняются полностью в браузере с помощью встроенного парсера JSON   позиции ошибок указываются строкой и столбцом.',
   },
   sortKeys: { en: 'Sort keys', es: 'Ordenar claves', fr: 'Trier les clés', ar: 'فرز المفاتيح', ru: 'Сортировать ключи' },
   validateOnly: { en: 'Validate only', es: 'Solo validar', fr: 'Valider seulement', ar: 'التحقق فقط', ru: 'Только проверить' },
@@ -53,11 +53,11 @@ export const DEV_STRINGS: StrDict = {
     ru: 'Строка {line}, столбец {column}: {msg}',
   },
   validJsonNotice: {
-    en: 'Valid JSON — {type}, {keys} keys in total.',
-    es: 'JSON válido — {type}, {keys} claves en total.',
-    fr: 'JSON valide — {type}, {keys} clés au total.',
-    ar: 'JSON صالح — {type}، {keys} مفتاحًا في المجموع.',
-    ru: 'Допустимый JSON — {type}, всего ключей: {keys}.',
+    en: 'Valid JSON   {type}, {keys} keys in total.',
+    es: 'JSON válido   {type}, {keys} claves en total.',
+    fr: 'JSON valide   {type}, {keys} clés au total.',
+    ar: 'JSON صالح   {type}، {keys} مفتاحًا في المجموع.',
+    ru: 'Допустимый JSON   {type}, всего ключей: {keys}.',
   },
   typeArrayItems: {
     en: 'Array ({n} items)',
@@ -90,14 +90,14 @@ export const DEV_STRINGS: StrDict = {
     es: 'Los objetos y arreglos anidados se escriben en las celdas como texto JSON. Las columnas son la unión de todas las claves de los objetos, en el orden en que aparecen por primera vez.',
     fr: "Les objets et tableaux imbriqués sont écrits dans les cellules sous forme de texte JSON. Les colonnes sont l'union de toutes les clés des objets, dans l'ordre de leur première apparition.",
     ar: 'تُكتب الكائنات والمصفوفات المتداخلة في الخلايا كنص JSON. والأعمدة هي اتحاد جميع مفاتيح الكائنات، بترتيب ظهورها الأول.',
-    ru: 'Вложенные объекты и массивы записываются в ячейки как текст JSON. Столбцы — объединение всех ключей объектов в порядке их первого появления.',
+    ru: 'Вложенные объекты и массивы записываются в ячейки как текст JSON. Столбцы   объединение всех ключей объектов в порядке их первого появления.',
   },
   jsonInputArray: {
     en: 'JSON input (array of objects works best)',
     es: 'Entrada JSON (funciona mejor con un arreglo de objetos)',
     fr: 'Entrée JSON (un tableau d’objets fonctionne le mieux)',
     ar: 'إدخال JSON (تعمل مصفوفة الكائنات بشكل أفضل)',
-    ru: 'Ввод JSON (лучше всего — массив объектов)',
+    ru: 'Ввод JSON (лучше всего   массив объектов)',
   },
   convertToCsv: { en: 'Convert to CSV', es: 'Convertir a CSV', fr: 'Convertir en CSV', ar: 'تحويل إلى CSV', ru: 'Преобразовать в CSV' },
   jsonNoRows: {
@@ -184,7 +184,7 @@ export const DEV_STRINGS: StrDict = {
     es: 'La comparación es estructural: el orden de las claves del objeto no importa, pero el de los arreglos sí. Las rutas usan $ para el documento raíz.',
     fr: "La comparaison est structurelle : l'ordre des clés d'objet n'a pas d'importance, mais celui des tableaux oui. Les chemins utilisent $ pour le document racine.",
     ar: 'المقارنة بنيوية: لا يهم ترتيب مفاتيح الكائن، لكن ترتيب المصفوفة مهم. وتستخدم المسارات $ للمستند الجذري.',
-    ru: 'Сравнение структурное: порядок ключей объекта не важен, а порядок массива — важен. В путях $ обозначает корневой документ.',
+    ru: 'Сравнение структурное: порядок ключей объекта не важен, а порядок массива   важен. В путях $ обозначает корневой документ.',
   },
   jsonAOriginal: { en: 'JSON A (original)', es: 'JSON A (original)', fr: 'JSON A (original)', ar: 'JSON A (الأصلي)', ru: 'JSON A (исходный)' },
   jsonBRevised: { en: 'JSON B (revised)', es: 'JSON B (revisado)', fr: 'JSON B (révisé)', ar: 'JSON B (المعدّل)', ru: 'JSON B (изменённый)' },
@@ -217,11 +217,11 @@ export const DEV_STRINGS: StrDict = {
 
   // SQL Formatter
   sqlNote: {
-    en: 'Basic formatter — handles standard SELECT / INSERT / UPDATE / DELETE statements and puts each clause on its own line. Exotic dialect syntax (vendor-specific functions, procedural SQL) may not indent perfectly, and string literals are never altered.',
+    en: 'Basic formatter   handles standard SELECT / INSERT / UPDATE / DELETE statements and puts each clause on its own line. Exotic dialect syntax (vendor-specific functions, procedural SQL) may not indent perfectly, and string literals are never altered.',
     es: 'Formateador básico: gestiona sentencias estándar SELECT / INSERT / UPDATE / DELETE y coloca cada cláusula en su propia línea. La sintaxis de dialectos exóticos (funciones específicas del proveedor, SQL procedural) puede no indentarse perfectamente, y los literales de cadena nunca se modifican.',
-    fr: "Formateur de base — gère les instructions standard SELECT / INSERT / UPDATE / DELETE et place chaque clause sur sa propre ligne. La syntaxe de dialectes exotiques (fonctions spécifiques au fournisseur, SQL procédural) peut ne pas être parfaitement indentée, et les littéraux de chaîne ne sont jamais modifiés.",
-    ar: 'منسق أساسي — يعالج عبارات SELECT / INSERT / UPDATE / DELETE القياسية ويضع كل عبارة في سطر خاص. قد لا تُنسَّق بنية اللهجات الغريبة (دوال خاصة بالمورّد، SQL إجرائي) بشكل مثالي، ولا تُعدَّل القيم النصية الحرفية أبدًا.',
-    ru: 'Базовый форматер — обрабатывает стандартные операторы SELECT / INSERT / UPDATE / DELETE и выносит каждую секцию на отдельную строку. Экзотический диалектный синтаксис (функции конкретных СУБД, процедурный SQL) может форматироваться неидеально, а строковые литералы никогда не изменяются.',
+    fr: "Formateur de base   gère les instructions standard SELECT / INSERT / UPDATE / DELETE et place chaque clause sur sa propre ligne. La syntaxe de dialectes exotiques (fonctions spécifiques au fournisseur, SQL procédural) peut ne pas être parfaitement indentée, et les littéraux de chaîne ne sont jamais modifiés.",
+    ar: 'منسق أساسي   يعالج عبارات SELECT / INSERT / UPDATE / DELETE القياسية ويضع كل عبارة في سطر خاص. قد لا تُنسَّق بنية اللهجات الغريبة (دوال خاصة بالمورّد، SQL إجرائي) بشكل مثالي، ولا تُعدَّل القيم النصية الحرفية أبدًا.',
+    ru: 'Базовый форматер   обрабатывает стандартные операторы SELECT / INSERT / UPDATE / DELETE и выносит каждую секцию на отдельную строку. Экзотический диалектный синтаксис (функции конкретных СУБД, процедурный SQL) может форматироваться неидеально, а строковые литералы никогда не изменяются.',
   },
   sqlInput: { en: 'SQL input', es: 'Entrada SQL', fr: 'Entrée SQL', ar: 'إدخال SQL', ru: 'Ввод SQL' },
   keywordCase: {
@@ -255,11 +255,11 @@ export const DEV_STRINGS: StrDict = {
 
   // JWT Decoder
   jwtNote: {
-    en: "Decoding only reads the token's contents — anyone holding a token can do this; a JWT is signed, not encrypted, so never put secrets in one. Signature verification here supports HS256 (HMAC-SHA256) only.",
+    en: "Decoding only reads the token's contents   anyone holding a token can do this; a JWT is signed, not encrypted, so never put secrets in one. Signature verification here supports HS256 (HMAC-SHA256) only.",
     es: 'La decodificación solo lee el contenido del token: cualquiera que tenga un token puede hacerlo; un JWT está firmado, no cifrado, así que nunca pongas secretos en uno. La verificación de firma aquí solo admite HS256 (HMAC-SHA256).',
-    fr: "Le décodage lit simplement le contenu du jeton — toute personne détenant un jeton peut le faire ; un JWT est signé, pas chiffré, donc n'y mettez jamais de secrets. La vérification de signature prend ici en charge HS256 (HMAC-SHA256) uniquement.",
-    ar: 'فك الترميز يقرأ محتويات الرمز فقط — ويمكن لأي شخص يحمل رمزًا القيام بذلك؛ فرمز JWT موقّع وليس مشفّرًا، لذا لا تضع فيه أسرارًا أبدًا. يدعم التحقق من التوقيع هنا HS256 (HMAC-SHA256) فقط.',
-    ru: 'Декодирование только читает содержимое токена — это может сделать любой его обладатель; JWT подписан, а не зашифрован, поэтому никогда не помещайте в него секреты. Проверка подписи здесь поддерживает только HS256 (HMAC-SHA256).',
+    fr: "Le décodage lit simplement le contenu du jeton   toute personne détenant un jeton peut le faire ; un JWT est signé, pas chiffré, donc n'y mettez jamais de secrets. La vérification de signature prend ici en charge HS256 (HMAC-SHA256) uniquement.",
+    ar: 'فك الترميز يقرأ محتويات الرمز فقط   ويمكن لأي شخص يحمل رمزًا القيام بذلك؛ فرمز JWT موقّع وليس مشفّرًا، لذا لا تضع فيه أسرارًا أبدًا. يدعم التحقق من التوقيع هنا HS256 (HMAC-SHA256) فقط.',
+    ru: 'Декодирование только читает содержимое токена   это может сделать любой его обладатель; JWT подписан, а не зашифрован, поэтому никогда не помещайте в него секреты. Проверка подписи здесь поддерживает только HS256 (HMAC-SHA256).',
   },
   jsonWebToken: { en: 'JSON Web Token', es: 'Token web JSON', fr: 'JSON Web Token', ar: 'رمز الويب JSON', ru: 'JSON Web Token' },
   loadDemoToken: {
@@ -282,25 +282,25 @@ export const DEV_STRINGS: StrDict = {
   },
   emptyParens: { en: '(empty)', es: '(vacío)', fr: '(vide)', ar: '(فارغ)', ru: '(пусто)' },
   tokenExpired: {
-    en: 'This token is expired — its exp claim is in the past, so servers should reject it.',
+    en: 'This token is expired   its exp claim is in the past, so servers should reject it.',
     es: 'Este token está caducado: su declaración exp está en el pasado, por lo que los servidores deberían rechazarlo.',
-    fr: 'Ce jeton est expiré — sa revendication exp est dans le passé, les serveurs devraient donc le rejeter.',
-    ar: 'انتهت صلاحية هذا الرمز — فقيمة exp الخاصة به في الماضي، لذا يجب أن ترفضه الخوادم.',
-    ru: 'Срок действия токена истёк — его утверждение exp в прошлом, поэтому серверы должны его отклонять.',
+    fr: 'Ce jeton est expiré   sa revendication exp est dans le passé, les serveurs devraient donc le rejeter.',
+    ar: 'انتهت صلاحية هذا الرمز   فقيمة exp الخاصة به في الماضي، لذا يجب أن ترفضه الخوادم.',
+    ru: 'Срок действия токена истёк   его утверждение exp в прошлом, поэтому серверы должны его отклонять.',
   },
   tokenNotYetValid: {
-    en: 'This token is not yet valid — its nbf (not-before) claim is in the future.',
+    en: 'This token is not yet valid   its nbf (not-before) claim is in the future.',
     es: 'Este token aún no es válido: su declaración nbf (no antes de) está en el futuro.',
-    fr: "Ce jeton n'est pas encore valide — sa revendication nbf (pas avant) est dans le futur.",
-    ar: 'هذا الرمز غير صالح بعد — فقيمة nbf (غير صالح قبل) الخاصة به في المستقبل.',
-    ru: 'Этот токен ещё недействителен — его утверждение nbf (не раньше) находится в будущем.',
+    fr: "Ce jeton n'est pas encore valide   sa revendication nbf (pas avant) est dans le futur.",
+    ar: 'هذا الرمز غير صالح بعد   فقيمة nbf (غير صالح قبل) الخاصة به في المستقبل.',
+    ru: 'Этот токен ещё недействителен   его утверждение nbf (не раньше) находится в будущем.',
   },
   verifyLabel: {
-    en: 'Verify HS256 signature — shared secret',
-    es: 'Verificar firma HS256 — secreto compartido',
-    fr: 'Vérifier la signature HS256 — secret partagé',
-    ar: 'التحقق من توقيع HS256 — السر المشترك',
-    ru: 'Проверка подписи HS256 — общий секрет',
+    en: 'Verify HS256 signature   shared secret',
+    es: 'Verificar firma HS256   secreto compartido',
+    fr: 'Vérifier la signature HS256   secret partagé',
+    ar: 'التحقق من توقيع HS256   السر المشترك',
+    ru: 'Проверка подписи HS256   общий секрет',
   },
   verifying: { en: 'Verifying…', es: 'Verificando…', fr: 'Vérification…', ar: 'جارٍ التحقق…', ru: 'Проверка…' },
   verifyBtn: {
@@ -311,27 +311,27 @@ export const DEV_STRINGS: StrDict = {
     ru: 'Проверить подпись HS256',
   },
   signatureValid: {
-    en: 'Signature is valid — this token was signed with that secret and has not been tampered with.',
+    en: 'Signature is valid   this token was signed with that secret and has not been tampered with.',
     es: 'La firma es válida: este token se firmó con ese secreto y no ha sido alterado.',
-    fr: "La signature est valide — ce jeton a été signé avec ce secret et n'a pas été modifié.",
-    ar: 'التوقيع صالح — وُقّع هذا الرمز بذلك السر ولم يتم العبث به.',
-    ru: 'Подпись действительна — токен был подписан этим секретом и не был изменён.',
+    fr: "La signature est valide   ce jeton a été signé avec ce secret et n'a pas été modifié.",
+    ar: 'التوقيع صالح   وُقّع هذا الرمز بذلك السر ولم يتم العبث به.',
+    ru: 'Подпись действительна   токен был подписан этим секретом и не был изменён.',
   },
   signatureInvalid: {
-    en: 'Signature is INVALID — the secret is wrong, or the token was modified after signing.',
+    en: 'Signature is INVALID   the secret is wrong, or the token was modified after signing.',
     es: 'La firma NO es válida: el secreto es incorrecto o el token fue modificado después de firmarse.',
-    fr: 'La signature est INVALIDE — le secret est incorrect, ou le jeton a été modifié après sa signature.',
-    ar: 'التوقيع غير صالح — السر خاطئ، أو تم تعديل الرمز بعد توقيعه.',
-    ru: 'Подпись НЕДЕЙСТВИТЕЛЬНА — секрет неверен, или токен был изменён после подписания.',
+    fr: 'La signature est INVALIDE   le secret est incorrect, ou le jeton a été modifié après sa signature.',
+    ar: 'التوقيع غير صالح   السر خاطئ، أو تم تعديل الرمز بعد توقيعه.',
+    ru: 'Подпись НЕДЕЙСТВИТЕЛЬНА   секрет неверен, или токен был изменён после подписания.',
   },
 
   // Base64
   base64Note: {
-    en: 'Text is encoded as UTF-8 bytes first, so Unicode (emoji, accented letters, symbols…) survives the round trip — unlike a naive btoa() call, which throws on anything outside Latin-1. Decoding accepts both the standard and URL-safe alphabets.',
+    en: 'Text is encoded as UTF-8 bytes first, so Unicode (emoji, accented letters, symbols…) survives the round trip   unlike a naive btoa() call, which throws on anything outside Latin-1. Decoding accepts both the standard and URL-safe alphabets.',
     es: 'El texto se codifica primero como bytes UTF-8, de modo que Unicode (emojis, letras acentuadas, símbolos…) sobrevive a la conversión, a diferencia de una llamada ingenua a btoa(), que falla con todo lo que esté fuera de Latin-1. La decodificación acepta tanto el alfabeto estándar como el seguro para URL.',
-    fr: "Le texte est d'abord encodé en octets UTF-8, de sorte qu'Unicode (émojis, lettres accentuées, symboles…) survit à l'aller-retour — contrairement à un appel naïf à btoa(), qui échoue sur tout ce qui sort de Latin-1. Le décodage accepte les alphabets standard et adapté aux URL.",
-    ar: 'يُرمَّز النص أولاً كبايتات UTF-8، لذا يبقى Unicode (الرموز التعبيرية والحروف المُشكّلة والرموز…) سليمًا في رحلة التحويل — بخلاف استدعاء btoa() البسيط، الذي يفشل مع أي شيء خارج Latin-1. يقبل فك الترميز كلاً من الأبجدية القياسية والآمنة للروابط.',
-    ru: 'Текст сначала кодируется в байты UTF-8, поэтому Юникод (эмодзи, буквы с диакритикой, символы…) переживает преобразование — в отличие от наивного вызова btoa(), который падает на всём за пределами Latin-1. Декодирование принимает и стандартный, и URL-безопасный алфавиты.',
+    fr: "Le texte est d'abord encodé en octets UTF-8, de sorte qu'Unicode (émojis, lettres accentuées, symboles…) survit à l'aller-retour   contrairement à un appel naïf à btoa(), qui échoue sur tout ce qui sort de Latin-1. Le décodage accepte les alphabets standard et adapté aux URL.",
+    ar: 'يُرمَّز النص أولاً كبايتات UTF-8، لذا يبقى Unicode (الرموز التعبيرية والحروف المُشكّلة والرموز…) سليمًا في رحلة التحويل   بخلاف استدعاء btoa() البسيط، الذي يفشل مع أي شيء خارج Latin-1. يقبل فك الترميز كلاً من الأبجدية القياسية والآمنة للروابط.',
+    ru: 'Текст сначала кодируется в байты UTF-8, поэтому Юникод (эмодзи, буквы с диакритикой, символы…) переживает преобразование   в отличие от наивного вызова btoa(), который падает на всём за пределами Latin-1. Декодирование принимает и стандартный, и URL-безопасный алфавиты.',
   },
   urlSafeAlphabet: {
     en: 'URL-safe alphabet (- and _, no padding)',
@@ -344,22 +344,22 @@ export const DEV_STRINGS: StrDict = {
   base64ToDecode: { en: 'Base64 to decode', es: 'Base64 para decodificar', fr: 'Base64 à décoder', ar: 'Base64 المراد فك ترميزه', ru: 'Base64 для декодирования' },
   pasteBase64: { en: 'Paste Base64…', es: 'Pega Base64…', fr: 'Collez du Base64…', ar: 'الصق Base64…', ru: 'Вставьте Base64…' },
   invalidBase64: {
-    en: 'That is not valid Base64 — check for missing padding or characters outside the Base64 alphabet.',
+    en: 'That is not valid Base64   check for missing padding or characters outside the Base64 alphabet.',
     es: 'Eso no es Base64 válido: comprueba si falta relleno o hay caracteres fuera del alfabeto Base64.',
-    fr: "Ce n'est pas du Base64 valide — vérifiez le remplissage manquant ou les caractères hors de l'alphabet Base64.",
-    ar: 'هذا ليس Base64 صالحًا — تحقق من غياب الحشو أو وجود أحرف خارج أبجدية Base64.',
-    ru: 'Это недопустимый Base64 — проверьте отсутствующее дополнение или символы вне алфавита Base64.',
+    fr: "Ce n'est pas du Base64 valide   vérifiez le remplissage manquant ou les caractères hors de l'alphabet Base64.",
+    ar: 'هذا ليس Base64 صالحًا   تحقق من غياب الحشو أو وجود أحرف خارج أبجدية Base64.',
+    ru: 'Это недопустимый Base64   проверьте отсутствующее дополнение или символы вне алфавита Base64.',
   },
   inputChars: { en: 'Input chars', es: 'Caracteres de entrada', fr: "Caractères d'entrée", ar: 'أحرف الإدخال', ru: 'Символов на входе' },
   outputChars: { en: 'Output chars', es: 'Caracteres de salida', fr: 'Caractères de sortie', ar: 'أحرف الإخراج', ru: 'Символов на выходе' },
 
   // URL encoder
   urlNote: {
-    en: "encodeURIComponent escapes everything except A-Z a-z 0-9 - _ . ! ~ * ' ( ) — use it for a single value inside a query string. encodeURI leaves URL structure characters (: / ? & = #) intact — use it for a complete URL.",
+    en: "encodeURIComponent escapes everything except A-Z a-z 0-9 - _ . ! ~ * ' ( )   use it for a single value inside a query string. encodeURI leaves URL structure characters (: / ? & = #) intact   use it for a complete URL.",
     es: "encodeURIComponent escapa todo excepto A-Z a-z 0-9 - _ . ! ~ * ' ( ): úsalo para un solo valor dentro de una cadena de consulta. encodeURI deja intactos los caracteres de estructura de la URL (: / ? & = #): úsalo para una URL completa.",
-    fr: "encodeURIComponent échappe tout sauf A-Z a-z 0-9 - _ . ! ~ * ' ( ) — utilisez-le pour une valeur unique dans une chaîne de requête. encodeURI laisse intacts les caractères de structure d'URL (: / ? & = #) — utilisez-le pour une URL complète.",
-    ar: "تُهرّب encodeURIComponent كل شيء باستثناء A-Z a-z 0-9 - _ . ! ~ * ' ( ) — استخدمها لقيمة واحدة داخل سلسلة استعلام. وتترك encodeURI أحرف بنية الرابط (: / ? & = #) سليمة — استخدمها لرابط كامل.",
-    ru: "encodeURIComponent экранирует всё, кроме A-Z a-z 0-9 - _ . ! ~ * ' ( ) — используйте для одного значения внутри строки запроса. encodeURI оставляет нетронутыми структурные символы URL (: / ? & = #) — используйте для полного URL.",
+    fr: "encodeURIComponent échappe tout sauf A-Z a-z 0-9 - _ . ! ~ * ' ( )   utilisez-le pour une valeur unique dans une chaîne de requête. encodeURI laisse intacts les caractères de structure d'URL (: / ? & = #)   utilisez-le pour une URL complète.",
+    ar: "تُهرّب encodeURIComponent كل شيء باستثناء A-Z a-z 0-9 - _ . ! ~ * ' ( )   استخدمها لقيمة واحدة داخل سلسلة استعلام. وتترك encodeURI أحرف بنية الرابط (: / ? & = #) سليمة   استخدمها لرابط كامل.",
+    ru: "encodeURIComponent экранирует всё, кроме A-Z a-z 0-9 - _ . ! ~ * ' ( )   используйте для одного значения внутри строки запроса. encodeURI оставляет нетронутыми структурные символы URL (: / ? & = #)   используйте для полного URL.",
   },
   optComponent: {
     en: 'Component (query value)',
@@ -376,20 +376,20 @@ export const DEV_STRINGS: StrDict = {
     ru: 'Полный URL (encodeURI)',
   },
   malformedPercent: {
-    en: 'Malformed percent-encoding — a "%" that is not followed by two hex digits cannot be decoded.',
+    en: 'Malformed percent-encoding   a "%" that is not followed by two hex digits cannot be decoded.',
     es: 'Codificación porcentual mal formada: un "%" que no va seguido de dos dígitos hexadecimales no puede decodificarse.',
-    fr: 'Encodage en pourcentage mal formé — un « % » non suivi de deux chiffres hexadécimaux ne peut pas être décodé.',
-    ar: 'ترميز نسبي مشوّه — لا يمكن فك ترميز "%" غير المتبوع برقمين سداسيين عشريين.',
-    ru: 'Некорректное процентное кодирование — «%», за которым не следуют две шестнадцатеричные цифры, нельзя декодировать.',
+    fr: 'Encodage en pourcentage mal formé   un « % » non suivi de deux chiffres hexadécimaux ne peut pas être décodé.',
+    ar: 'ترميز نسبي مشوّه   لا يمكن فك ترميز "%" غير المتبوع برقمين سداسيين عشريين.',
+    ru: 'Некорректное процентное кодирование   «%», за которым не следуют две шестнадцатеричные цифры, нельзя декодировать.',
   },
 
   // HTML entities
   htmlNote: {
-    en: "Encoding escapes & < > &quot; and ' — the characters that break HTML when pasted as text. Decoding understands named entities (&amp;copy; &amp;mdash;…), decimal (&#169;) and hex (&#xA9;) forms.",
+    en: "Encoding escapes & < > &quot; and '   the characters that break HTML when pasted as text. Decoding understands named entities (&amp;copy; &amp;mdash;…), decimal (&#169;) and hex (&#xA9;) forms.",
     es: "La codificación escapa & < > &quot; y ': los caracteres que rompen el HTML cuando se pegan como texto. La decodificación entiende las entidades con nombre (&amp;copy; &amp;mdash;…), decimales (&#169;) y hexadecimales (&#xA9;).",
-    fr: "L'encodage échappe & < > &quot; et ' — les caractères qui cassent le HTML lorsqu'ils sont collés comme texte. Le décodage comprend les entités nommées (&amp;copy; &amp;mdash;…), décimales (&#169;) et hexadécimales (&#xA9;).",
-    ar: "يُهرّب الترميز & < > &quot; و' — وهي الأحرف التي تفسد HTML عند لصقها كنص. ويفهم فك الترميز الكيانات المسماة (&amp;copy; &amp;mdash;…) والعشرية (&#169;) والسداسية العشرية (&#xA9;).",
-    ru: "Кодирование экранирует & < > &quot; и ' — символы, которые ломают HTML при вставке текстом. Декодирование понимает именованные сущности (&amp;copy; &amp;mdash;…), десятичные (&#169;) и шестнадцатеричные (&#xA9;) формы.",
+    fr: "L'encodage échappe & < > &quot; et '   les caractères qui cassent le HTML lorsqu'ils sont collés comme texte. Le décodage comprend les entités nommées (&amp;copy; &amp;mdash;…), décimales (&#169;) et hexadécimales (&#xA9;).",
+    ar: "يُهرّب الترميز & < > &quot; و'   وهي الأحرف التي تفسد HTML عند لصقها كنص. ويفهم فك الترميز الكيانات المسماة (&amp;copy; &amp;mdash;…) والعشرية (&#169;) والسداسية العشرية (&#xA9;).",
+    ru: "Кодирование экранирует & < > &quot; и '   символы, которые ломают HTML при вставке текстом. Декодирование понимает именованные сущности (&amp;copy; &amp;mdash;…), десятичные (&#169;) и шестнадцатеричные (&#xA9;) формы.",
   },
   encodeNonAscii: {
     en: 'Encode non-ASCII as numeric entities too',
@@ -401,11 +401,11 @@ export const DEV_STRINGS: StrDict = {
 
   // Hash generator
   hashNote: {
-    en: 'A hash is a one-way fingerprint: same input, same hash, and the input cannot be recovered from it. MD5 and SHA-1 are collision-broken — fine as checksums, never for password storage or signatures. File hashing below computes SHA-256 only.',
+    en: 'A hash is a one-way fingerprint: same input, same hash, and the input cannot be recovered from it. MD5 and SHA-1 are collision-broken   fine as checksums, never for password storage or signatures. File hashing below computes SHA-256 only.',
     es: 'Un hash es una huella unidireccional: misma entrada, mismo hash, y la entrada no puede recuperarse a partir de él. MD5 y SHA-1 tienen colisiones conocidas: sirven como sumas de verificación, nunca para almacenar contraseñas ni firmas. El hash de archivos siguiente solo calcula SHA-256.',
-    fr: "Un hachage est une empreinte à sens unique : même entrée, même hachage, et l'entrée ne peut pas être retrouvée à partir de celui-ci. MD5 et SHA-1 sont cassés par collisions — acceptables comme sommes de contrôle, jamais pour le stockage de mots de passe ou les signatures. Le hachage de fichier ci-dessous calcule uniquement SHA-256.",
-    ar: 'البصمة (hash) هي بصمة أحادية الاتجاه: نفس الإدخال يعطي نفس البصمة، ولا يمكن استرجاع الإدخال منها. وقد كُسرت MD5 وSHA-1 من حيث التصادم — وهي مناسبة كمجاميع تحقق، لكن لا تستخدمها أبدًا لتخزين كلمات المرور أو التوقيعات. يحسب تجزئة الملفات أدناه SHA-256 فقط.',
-    ru: 'Хэш — это односторонний отпечаток: одинаковый ввод — одинаковый хэш, а восстановить ввод из него нельзя. MD5 и SHA-1 взломаны по коллизиям — годятся как контрольные суммы, но никогда для хранения паролей или подписей. Хэширование файла ниже вычисляет только SHA-256.',
+    fr: "Un hachage est une empreinte à sens unique : même entrée, même hachage, et l'entrée ne peut pas être retrouvée à partir de celui-ci. MD5 et SHA-1 sont cassés par collisions   acceptables comme sommes de contrôle, jamais pour le stockage de mots de passe ou les signatures. Le hachage de fichier ci-dessous calcule uniquement SHA-256.",
+    ar: 'البصمة (hash) هي بصمة أحادية الاتجاه: نفس الإدخال يعطي نفس البصمة، ولا يمكن استرجاع الإدخال منها. وقد كُسرت MD5 وSHA-1 من حيث التصادم   وهي مناسبة كمجاميع تحقق، لكن لا تستخدمها أبدًا لتخزين كلمات المرور أو التوقيعات. يحسب تجزئة الملفات أدناه SHA-256 فقط.',
+    ru: 'Хэш   это односторонний отпечаток: одинаковый ввод   одинаковый хэш, а восстановить ввод из него нельзя. MD5 и SHA-1 взломаны по коллизиям   годятся как контрольные суммы, но никогда для хранения паролей или подписей. Хэширование файла ниже вычисляет только SHA-256.',
   },
   textToHash: { en: 'Text to hash', es: 'Texto para generar hash', fr: 'Texte à hacher', ar: 'النص لحساب البصمة', ru: 'Текст для хэширования' },
   hmacLabel: {
@@ -426,11 +426,11 @@ export const DEV_STRINGS: StrDict = {
 
   // Password generator
   pwNote: {
-    en: 'Passwords are generated on this device with crypto.getRandomValues — a cryptographically secure random source — and are never sent anywhere. Use a unique password per account and store them in a password manager.',
-    es: 'Las contraseñas se generan en este dispositivo con crypto.getRandomValues —una fuente aleatoria criptográficamente segura— y nunca se envían a ninguna parte. Usa una contraseña única por cuenta y guárdalas en un gestor de contraseñas.',
-    fr: "Les mots de passe sont générés sur cet appareil avec crypto.getRandomValues — une source aléatoire cryptographiquement sûre — et ne sont jamais envoyés nulle part. Utilisez un mot de passe unique par compte et conservez-les dans un gestionnaire de mots de passe.",
-    ar: 'تُنشأ كلمات المرور على هذا الجهاز باستخدام crypto.getRandomValues — مصدر عشوائي آمن تشفيريًا — ولا تُرسل إلى أي مكان أبدًا. استخدم كلمة مرور فريدة لكل حساب واحفظها في مدير كلمات مرور.',
-    ru: 'Пароли генерируются на этом устройстве с помощью crypto.getRandomValues — криптографически стойкого источника случайности — и никуда не отправляются. Используйте уникальный пароль для каждой учётной записи и храните их в менеджере паролей.',
+    en: 'Passwords are generated on this device with crypto.getRandomValues   a cryptographically secure random source   and are never sent anywhere. Use a unique password per account and store them in a password manager.',
+    es: 'Las contraseñas se generan en este dispositivo con crypto.getRandomValues  una fuente aleatoria criptográficamente segura  y nunca se envían a ninguna parte. Usa una contraseña única por cuenta y guárdalas en un gestor de contraseñas.',
+    fr: "Les mots de passe sont générés sur cet appareil avec crypto.getRandomValues   une source aléatoire cryptographiquement sûre   et ne sont jamais envoyés nulle part. Utilisez un mot de passe unique par compte et conservez-les dans un gestionnaire de mots de passe.",
+    ar: 'تُنشأ كلمات المرور على هذا الجهاز باستخدام crypto.getRandomValues   مصدر عشوائي آمن تشفيريًا   ولا تُرسل إلى أي مكان أبدًا. استخدم كلمة مرور فريدة لكل حساب واحفظها في مدير كلمات مرور.',
+    ru: 'Пароли генерируются на этом устройстве с помощью crypto.getRandomValues   криптографически стойкого источника случайности   и никуда не отправляются. Используйте уникальный пароль для каждой учётной записи и храните их в менеджере паролей.',
   },
   pwWeak: { en: 'Weak', es: 'Débil', fr: 'Faible', ar: 'ضعيف', ru: 'Слабый' },
   pwFair: { en: 'Fair', es: 'Regular', fr: 'Moyen', ar: 'مقبول', ru: 'Средний' },
@@ -455,11 +455,11 @@ export const DEV_STRINGS: StrDict = {
     ru: 'Исключить похожие (0, O, l, 1, I)',
   },
   pwSelectSet: {
-    en: 'Select at least one character set — a password cannot be generated from an empty pool.',
+    en: 'Select at least one character set   a password cannot be generated from an empty pool.',
     es: 'Selecciona al menos un conjunto de caracteres: no se puede generar una contraseña desde un conjunto vacío.',
-    fr: 'Sélectionnez au moins un jeu de caractères — un mot de passe ne peut pas être généré à partir d’un ensemble vide.',
-    ar: 'اختر مجموعة أحرف واحدة على الأقل — لا يمكن إنشاء كلمة مرور من مجموعة فارغة.',
-    ru: 'Выберите хотя бы один набор символов — пароль нельзя сгенерировать из пустого набора.',
+    fr: 'Sélectionnez au moins un jeu de caractères   un mot de passe ne peut pas être généré à partir d’un ensemble vide.',
+    ar: 'اختر مجموعة أحرف واحدة على الأقل   لا يمكن إنشاء كلمة مرور من مجموعة فارغة.',
+    ru: 'Выберите хотя бы один набор символов   пароль нельзя сгенерировать из пустого набора.',
   },
   generateNewPasswords: {
     en: 'Generate new passwords',
@@ -471,11 +471,11 @@ export const DEV_STRINGS: StrDict = {
 
   // UUID generator
   uuidNote: {
-    en: 'Version 4 UUIDs are fully random (122 bits of entropy — collisions are practically impossible). Version 7 embeds the current millisecond timestamp first, so UUIDs sort by creation time — friendlier for database indexes.',
+    en: 'Version 4 UUIDs are fully random (122 bits of entropy   collisions are practically impossible). Version 7 embeds the current millisecond timestamp first, so UUIDs sort by creation time   friendlier for database indexes.',
     es: 'Los UUID de la versión 4 son totalmente aleatorios (122 bits de entropía: las colisiones son prácticamente imposibles). La versión 7 incrusta primero la marca de tiempo actual en milisegundos, de modo que los UUID se ordenan por hora de creación: más amigable para los índices de bases de datos.',
-    fr: "Les UUID version 4 sont entièrement aléatoires (122 bits d'entropie — les collisions sont pratiquement impossibles). La version 7 intègre d'abord l'horodatage actuel en millisecondes, de sorte que les UUID se trient par heure de création — plus pratique pour les index de bases de données.",
-    ar: 'UUID الإصدار 4 عشوائية بالكامل (122 بت من الإنتروبيا — التصادمات مستحيلة عمليًا). ويضمّن الإصدار 7 الطابع الزمني الحالي بالمللي ثانية أولاً، لذا تُرتَّب UUID حسب وقت الإنشاء — وهو ألطف لفهارس قواعد البيانات.',
-    ru: 'UUID версии 4 полностью случайны (122 бита энтропии — коллизии практически невозможны). Версия 7 сначала встраивает текущую метку времени в миллисекундах, поэтому UUID сортируются по времени создания — удобнее для индексов баз данных.',
+    fr: "Les UUID version 4 sont entièrement aléatoires (122 bits d'entropie   les collisions sont pratiquement impossibles). La version 7 intègre d'abord l'horodatage actuel en millisecondes, de sorte que les UUID se trient par heure de création   plus pratique pour les index de bases de données.",
+    ar: 'UUID الإصدار 4 عشوائية بالكامل (122 بت من الإنتروبيا   التصادمات مستحيلة عمليًا). ويضمّن الإصدار 7 الطابع الزمني الحالي بالمللي ثانية أولاً، لذا تُرتَّب UUID حسب وقت الإنشاء   وهو ألطف لفهارس قواعد البيانات.',
+    ru: 'UUID версии 4 полностью случайны (122 бита энтропии   коллизии практически невозможны). Версия 7 сначала встраивает текущую метку времени в миллисекундах, поэтому UUID сортируются по времени создания   удобнее для индексов баз данных.',
   },
   versionLabel: { en: 'Version', es: 'Versión', fr: 'Version', ar: 'الإصدار', ru: 'Версия' },
   uuidV4: { en: 'Version 4 (random)', es: 'Versión 4 (aleatoria)', fr: 'Version 4 (aléatoire)', ar: 'الإصدار 4 (عشوائي)', ru: 'Версия 4 (случайная)' },
@@ -492,11 +492,11 @@ export const DEV_STRINGS: StrDict = {
 
   // Timestamp converter
   tsNote: {
-    en: 'Unix timestamps count seconds since 1 Jan 1970 UTC — but JavaScript and many APIs use milliseconds, a 1000× trap. The auto detector treats values with 11+ digits as milliseconds; override it if a value is misread.',
+    en: 'Unix timestamps count seconds since 1 Jan 1970 UTC   but JavaScript and many APIs use milliseconds, a 1000× trap. The auto detector treats values with 11+ digits as milliseconds; override it if a value is misread.',
     es: 'Las marcas de tiempo Unix cuentan los segundos desde el 1 de enero de 1970 UTC, pero JavaScript y muchas API usan milisegundos: una trampa de 1000×. El detector automático trata los valores con 11 o más dígitos como milisegundos; anúlalo si un valor se interpreta mal.',
-    fr: 'Les horodatages Unix comptent les secondes depuis le 1er janvier 1970 UTC — mais JavaScript et de nombreuses API utilisent les millisecondes, un piège de 1000×. Le détecteur automatique traite les valeurs de 11 chiffres et plus comme des millisecondes ; remplacez-le si une valeur est mal lue.',
-    ar: 'تحسب طوابع Unix الثواني منذ 1 يناير 1970 UTC — لكن JavaScript والعديد من واجهات البرمجة تستخدم المللي ثانية، وهو فخ ×1000. يتعامل الكاشف التلقائي مع القيم ذات 11 رقمًا فأكثر كمللي ثانية؛ تجاوزه إذا قُرئت قيمة بشكل خاطئ.',
-    ru: 'Метки времени Unix считают секунды с 1 января 1970 UTC — но JavaScript и многие API используют миллисекунды, ловушка в 1000×. Автоопределитель считает значения из 11+ цифр миллисекундами; переопределите, если значение прочитано неверно.',
+    fr: 'Les horodatages Unix comptent les secondes depuis le 1er janvier 1970 UTC   mais JavaScript et de nombreuses API utilisent les millisecondes, un piège de 1000×. Le détecteur automatique traite les valeurs de 11 chiffres et plus comme des millisecondes ; remplacez-le si une valeur est mal lue.',
+    ar: 'تحسب طوابع Unix الثواني منذ 1 يناير 1970 UTC   لكن JavaScript والعديد من واجهات البرمجة تستخدم المللي ثانية، وهو فخ ×1000. يتعامل الكاشف التلقائي مع القيم ذات 11 رقمًا فأكثر كمللي ثانية؛ تجاوزه إذا قُرئت قيمة بشكل خاطئ.',
+    ru: 'Метки времени Unix считают секунды с 1 января 1970 UTC   но JavaScript и многие API используют миллисекунды, ловушка в 1000×. Автоопределитель считает значения из 11+ цифр миллисекундами; переопределите, если значение прочитано неверно.',
   },
   currentTimeLive: {
     en: 'Current time (live)',
@@ -579,11 +579,11 @@ export const DEV_STRINGS: StrDict = {
     ru: 'Следующие 5 запусков (ваше локальное время)',
   },
   cronNoRuns: {
-    en: 'No runs found in the next two years — this schedule may never fire (for example, February 31st).',
+    en: 'No runs found in the next two years   this schedule may never fire (for example, February 31st).',
     es: 'No se encontraron ejecuciones en los próximos dos años: es posible que esta programación nunca se active (por ejemplo, el 31 de febrero).',
-    fr: 'Aucune exécution trouvée dans les deux prochaines années — cette planification peut ne jamais se déclencher (par exemple, le 31 février).',
-    ar: 'لم يتم العثور على أي تنفيذ خلال العامين المقبلين — قد لا يعمل هذا الجدول أبدًا (على سبيل المثال، 31 فبراير).',
-    ru: 'Запусков в ближайшие два года не найдено — это расписание может никогда не сработать (например, 31 февраля).',
+    fr: 'Aucune exécution trouvée dans les deux prochaines années   cette planification peut ne jamais se déclencher (par exemple, le 31 février).',
+    ar: 'لم يتم العثور على أي تنفيذ خلال العامين المقبلين   قد لا يعمل هذا الجدول أبدًا (على سبيل المثال، 31 فبراير).',
+    ru: 'Запусков в ближайшие два года не найдено   это расписание может никогда не сработать (например, 31 февраля).',
   },
 
   // ---- DevWeb: Regex Tester ----
@@ -592,11 +592,11 @@ export const DEV_STRINGS: StrDict = {
   qpDate: { en: 'Date (YYYY-MM-DD)', es: 'Fecha (AAAA-MM-DD)', fr: 'Date (AAAA-MM-DD)', ar: 'التاريخ (YYYY-MM-DD)', ru: 'Дата (ГГГГ-ММ-ДД)' },
   qpPhone: { en: 'Phone', es: 'Teléfono', fr: 'Téléphone', ar: 'الهاتف', ru: 'Телефон' },
   regexNote: {
-    en: "Uses JavaScript's native RegExp engine — the same syntax your browser code runs. Zero-length matches are listed in the table but not highlighted.",
+    en: "Uses JavaScript's native RegExp engine   the same syntax your browser code runs. Zero-length matches are listed in the table but not highlighted.",
     es: 'Usa el motor RegExp nativo de JavaScript: la misma sintaxis que ejecuta el código de tu navegador. Las coincidencias de longitud cero se listan en la tabla, pero no se resaltan.',
-    fr: "Utilise le moteur RegExp natif de JavaScript — la même syntaxe que le code de votre navigateur exécute. Les correspondances de longueur nulle sont listées dans le tableau mais pas surlignées.",
-    ar: 'يستخدم محرك RegExp الأصلي في JavaScript — نفس البنية التي يعمل بها كود متصفحك. تُدرج التطابقات ذات الطول الصفري في الجدول لكنها لا تُميَّز.',
-    ru: 'Используется встроенный движок RegExp JavaScript — тот же синтаксис, что выполняет код вашего браузера. Совпадения нулевой длины перечислены в таблице, но не подсвечиваются.',
+    fr: "Utilise le moteur RegExp natif de JavaScript   la même syntaxe que le code de votre navigateur exécute. Les correspondances de longueur nulle sont listées dans le tableau mais pas surlignées.",
+    ar: 'يستخدم محرك RegExp الأصلي في JavaScript   نفس البنية التي يعمل بها كود متصفحك. تُدرج التطابقات ذات الطول الصفري في الجدول لكنها لا تُميَّز.',
+    ru: 'Используется встроенный движок RegExp JavaScript   тот же синтаксис, что выполняет код вашего браузера. Совпадения нулевой длины перечислены в таблице, но не подсвечиваются.',
   },
   patternLabel: { en: 'Pattern', es: 'Patrón', fr: 'Motif', ar: 'النمط', ru: 'Шаблон' },
   testTextLabel: { en: 'Test text', es: 'Texto de prueba', fr: 'Texte de test', ar: 'نص الاختبار', ru: 'Тестовый текст' },
@@ -647,11 +647,11 @@ export const DEV_STRINGS: StrDict = {
   pickColor: { en: 'Pick a color', es: 'Elige un color', fr: 'Choisir une couleur', ar: 'اختر لونًا', ru: 'Выберите цвет' },
   hexValue: { en: 'Hex value', es: 'Valor hexadecimal', fr: 'Valeur hexadécimale', ar: 'القيمة السداسية العشرية', ru: 'Значение HEX' },
   invalidHex: {
-    en: 'Invalid hex color — use 3 or 6 hex digits, e.g. #fff or #3b82f6.',
+    en: 'Invalid hex color   use 3 or 6 hex digits, e.g. #fff or #3b82f6.',
     es: 'Color hexadecimal no válido: usa 3 o 6 dígitos hexadecimales, ej. #fff o #3b82f6.',
-    fr: 'Couleur hexadécimale invalide — utilisez 3 ou 6 chiffres hexadécimaux, ex. #fff ou #3b82f6.',
-    ar: 'لون سداسي عشري غير صالح — استخدم 3 أو 6 أرقام سداسية عشرية، مثال #fff أو #3b82f6.',
-    ru: 'Недопустимый HEX-цвет — используйте 3 или 6 шестнадцатеричных цифр, например #fff или #3b82f6.',
+    fr: 'Couleur hexadécimale invalide   utilisez 3 ou 6 chiffres hexadécimaux, ex. #fff ou #3b82f6.',
+    ar: 'لون سداسي عشري غير صالح   استخدم 3 أو 6 أرقام سداسية عشرية، مثال #fff أو #3b82f6.',
+    ru: 'Недопустимый HEX-цвет   используйте 3 или 6 шестнадцатеричных цифр, например #fff или #3b82f6.',
   },
   luminanceLabel: { en: 'Luminance', es: 'Luminancia', fr: 'Luminance', ar: 'النصوع', ru: 'Яркость' },
   tintsShades: {
@@ -721,19 +721,19 @@ export const DEV_STRINGS: StrDict = {
 
   // URL Parser
   urlParserNote: {
-    en: 'Parsing uses the WHATWG URL standard — the same rules browsers apply. Editing a parameter value rebuilds the URL with proper encoding.',
+    en: 'Parsing uses the WHATWG URL standard   the same rules browsers apply. Editing a parameter value rebuilds the URL with proper encoding.',
     es: 'El análisis usa el estándar URL de WHATWG: las mismas reglas que aplican los navegadores. Al editar el valor de un parámetro, la URL se reconstruye con la codificación adecuada.',
-    fr: "L'analyse utilise la norme URL du WHATWG — les mêmes règles que celles appliquées par les navigateurs. Modifier la valeur d'un paramètre reconstruit l'URL avec un encodage correct.",
-    ar: 'يستخدم التحليل معيار WHATWG للروابط — نفس القواعد التي يطبقها المتصفح. وتحرير قيمة معلمة يعيد بناء الرابط بترميز صحيح.',
-    ru: 'Разбор использует стандарт WHATWG URL — те же правила, что применяют браузеры. Изменение значения параметра перестраивает URL с правильным кодированием.',
+    fr: "L'analyse utilise la norme URL du WHATWG   les mêmes règles que celles appliquées par les navigateurs. Modifier la valeur d'un paramètre reconstruit l'URL avec un encodage correct.",
+    ar: 'يستخدم التحليل معيار WHATWG للروابط   نفس القواعد التي يطبقها المتصفح. وتحرير قيمة معلمة يعيد بناء الرابط بترميز صحيح.',
+    ru: 'Разбор использует стандарт WHATWG URL   те же правила, что применяют браузеры. Изменение значения параметра перестраивает URL с правильным кодированием.',
   },
   urlToParse: { en: 'URL to parse', es: 'URL para analizar', fr: 'URL à analyser', ar: 'الرابط المراد تحليله', ru: 'URL для разбора' },
   invalidAbsoluteUrl: {
-    en: 'That is not a valid absolute URL — include the protocol, e.g. https://example.com/page?x=1',
+    en: 'That is not a valid absolute URL   include the protocol, e.g. https://example.com/page?x=1',
     es: 'Eso no es una URL absoluta válida: incluye el protocolo, ej. https://example.com/page?x=1',
-    fr: "Ce n'est pas une URL absolue valide — incluez le protocole, ex. https://example.com/page?x=1",
-    ar: 'هذا ليس رابطًا مطلقًا صالحًا — ضمّن البروتوكول، مثال https://example.com/page?x=1',
-    ru: 'Это недопустимый абсолютный URL — укажите протокол, например https://example.com/page?x=1',
+    fr: "Ce n'est pas une URL absolue valide   incluez le protocole, ex. https://example.com/page?x=1",
+    ar: 'هذا ليس رابطًا مطلقًا صالحًا   ضمّن البروتوكول، مثال https://example.com/page?x=1',
+    ru: 'Это недопустимый абсолютный URL   укажите протокол, например https://example.com/page?x=1',
   },
   rowProtocol: { en: 'Protocol', es: 'Protocolo', fr: 'Protocole', ar: 'البروتوكول', ru: 'Протокол' },
   rowUsername: { en: 'Username', es: 'Usuario', fr: "Nom d'utilisateur", ar: 'اسم المستخدم', ru: 'Имя пользователя' },
@@ -769,20 +769,20 @@ export const DEV_STRINGS: StrDict = {
 
   // Text Diff
   diffNote: {
-    en: 'Line-based diff using a longest-common-subsequence match — the same approach as classic diff tools. Character-level changes inside a line show as one removed + one added line.',
+    en: 'Line-based diff using a longest-common-subsequence match   the same approach as classic diff tools. Character-level changes inside a line show as one removed + one added line.',
     es: 'Diferencia por líneas con coincidencia de subsecuencia común más larga: el mismo enfoque de las herramientas diff clásicas. Los cambios a nivel de carácter dentro de una línea se muestran como una línea eliminada + una añadida.',
-    fr: 'Diff ligne par ligne utilisant la plus longue sous-séquence commune — la même approche que les outils diff classiques. Les modifications de caractères dans une ligne apparaissent comme une ligne supprimée + une ligne ajoutée.',
-    ar: 'فروقات مبنية على الأسطر باستخدام مطابقة أطول تسلسل فرعي مشترك — نفس نهج أدوات diff الكلاسيكية. تظهر التغييرات على مستوى الأحرف داخل سطر كسطر محذوف + سطر مضاف.',
-    ru: 'Построчный diff на основе наибольшей общей подпоследовательности — тот же подход, что и в классических инструментах diff. Изменения символов внутри строки отображаются как одна удалённая + одна добавленная строка.',
+    fr: 'Diff ligne par ligne utilisant la plus longue sous-séquence commune   la même approche que les outils diff classiques. Les modifications de caractères dans une ligne apparaissent comme une ligne supprimée + une ligne ajoutée.',
+    ar: 'فروقات مبنية على الأسطر باستخدام مطابقة أطول تسلسل فرعي مشترك   نفس نهج أدوات diff الكلاسيكية. تظهر التغييرات على مستوى الأحرف داخل سطر كسطر محذوف + سطر مضاف.',
+    ru: 'Построчный diff на основе наибольшей общей подпоследовательности   тот же подход, что и в классических инструментах diff. Изменения символов внутри строки отображаются как одна удалённая + одна добавленная строка.',
   },
   originalText: { en: 'Original text', es: 'Texto original', fr: 'Texte original', ar: 'النص الأصلي', ru: 'Исходный текст' },
   changedText: { en: 'Changed text', es: 'Texto modificado', fr: 'Texte modifié', ar: 'النص المعدّل', ru: 'Изменённый текст' },
   diffTooBig: {
-    en: 'One side has more than 1,500 lines — trim the inputs to keep the comparison fast and the browser responsive.',
+    en: 'One side has more than 1,500 lines   trim the inputs to keep the comparison fast and the browser responsive.',
     es: 'Un lado tiene más de 1.500 líneas: recorta las entradas para mantener la comparación rápida y el navegador ágil.',
-    fr: 'Un côté compte plus de 1 500 lignes — réduisez les entrées pour garder la comparaison rapide et le navigateur réactif.',
-    ar: 'يحتوي أحد الجانبين على أكثر من 1,500 سطر — قلّص المدخلات للحفاظ على سرعة المقارنة واستجابة المتصفح.',
-    ru: 'Одна из сторон содержит более 1 500 строк — сократите ввод, чтобы сравнение оставалось быстрым, а браузер — отзывчивым.',
+    fr: 'Un côté compte plus de 1 500 lignes   réduisez les entrées pour garder la comparaison rapide et le navigateur réactif.',
+    ar: 'يحتوي أحد الجانبين على أكثر من 1,500 سطر   قلّص المدخلات للحفاظ على سرعة المقارنة واستجابة المتصفح.',
+    ru: 'Одна из сторон содержит более 1 500 строк   сократите ввод, чтобы сравнение оставалось быстрым, а браузер   отзывчивым.',
   },
   unchangedLabel: { en: 'Unchanged', es: 'Sin cambios', fr: 'Inchangées', ar: 'بدون تغيير', ru: 'Без изменений' },
 
@@ -796,11 +796,11 @@ export const DEV_STRINGS: StrDict = {
   },
   searchCodes: { en: 'Search codes', es: 'Buscar códigos', fr: 'Rechercher des codes', ar: 'بحث الرموز', ru: 'Поиск кодов' },
   searchCodesPlaceholder: {
-    en: 'Search by code, name or keyword — e.g. 404, redirect, rate',
-    es: 'Busca por código, nombre o palabra clave — ej. 404, redirect, rate',
-    fr: 'Rechercher par code, nom ou mot-clé — ex. 404, redirect, rate',
-    ar: 'ابحث بالرمز أو الاسم أو الكلمة المفتاحية — مثال: 404، redirect، rate',
-    ru: 'Поиск по коду, названию или слову — например, 404, redirect, rate',
+    en: 'Search by code, name or keyword   e.g. 404, redirect, rate',
+    es: 'Busca por código, nombre o palabra clave   ej. 404, redirect, rate',
+    fr: 'Rechercher par code, nom ou mot-clé   ex. 404, redirect, rate',
+    ar: 'ابحث بالرمز أو الاسم أو الكلمة المفتاحية   مثال: 404، redirect، rate',
+    ru: 'Поиск по коду, названию или слову   например, 404, redirect, rate',
   },
   allWord: { en: 'All', es: 'Todos', fr: 'Tous', ar: 'الكل', ru: 'Все' },
   showingCodes: {
@@ -820,11 +820,11 @@ export const DEV_STRINGS: StrDict = {
 
   // Chmod Calculator
   chmodNote: {
-    en: "Each digit is read (4) + write (2) + execute (1). For directories, execute means 'can enter'. 777 gives everyone full access — avoid it on shared hosting.",
+    en: "Each digit is read (4) + write (2) + execute (1). For directories, execute means 'can enter'. 777 gives everyone full access   avoid it on shared hosting.",
     es: "Cada dígito es leer (4) + escribir (2) + ejecutar (1). En directorios, ejecutar significa 'poder entrar'. 777 da acceso total a todo el mundo: evítalo en alojamiento compartido.",
-    fr: "Chaque chiffre vaut lecture (4) + écriture (2) + exécution (1). Pour les répertoires, exécution signifie « pouvoir entrer ». 777 donne un accès complet à tout le monde — évitez-le sur un hébergement mutualisé.",
-    ar: "كل رقم هو قراءة (4) + كتابة (2) + تنفيذ (1). وبالنسبة للمجلدات، التنفيذ يعني 'يمكن الدخول'. و777 يمنح الجميع وصولاً كاملاً — تجنبه على الاستضافة المشتركة.",
-    ru: "Каждая цифра — это чтение (4) + запись (2) + выполнение (1). Для каталогов выполнение означает «можно войти». 777 даёт всем полный доступ — избегайте его на общем хостинге.",
+    fr: "Chaque chiffre vaut lecture (4) + écriture (2) + exécution (1). Pour les répertoires, exécution signifie « pouvoir entrer ». 777 donne un accès complet à tout le monde   évitez-le sur un hébergement mutualisé.",
+    ar: "كل رقم هو قراءة (4) + كتابة (2) + تنفيذ (1). وبالنسبة للمجلدات، التنفيذ يعني 'يمكن الدخول'. و777 يمنح الجميع وصولاً كاملاً   تجنبه على الاستضافة المشتركة.",
+    ru: "Каждая цифра   это чтение (4) + запись (2) + выполнение (1). Для каталогов выполнение означает «можно войти». 777 даёт всем полный доступ   избегайте его на общем хостинге.",
   },
   chmodWho: { en: 'Who', es: 'Quién', fr: 'Qui', ar: 'من', ru: 'Кто' },
   permRead: { en: 'Read', es: 'Leer', fr: 'Lecture', ar: 'قراءة', ru: 'Чтение' },
@@ -847,11 +847,11 @@ export const DEV_STRINGS: StrDict = {
 
   // User Agent Parser
   uaNote: {
-    en: 'Detection is pattern-based and covers the major browsers, operating systems and bots. Exotic or spoofed user agents may be misidentified — treat the result as a best guess.',
+    en: 'Detection is pattern-based and covers the major browsers, operating systems and bots. Exotic or spoofed user agents may be misidentified   treat the result as a best guess.',
     es: 'La detección se basa en patrones y cubre los principales navegadores, sistemas operativos y bots. Los agentes de usuario exóticos o falsificados pueden identificarse mal: trata el resultado como una mejor estimación.',
-    fr: "La détection est basée sur des motifs et couvre les principaux navigateurs, systèmes d'exploitation et robots. Les agents utilisateurs exotiques ou usurpés peuvent être mal identifiés — considérez le résultat comme une meilleure estimation.",
-    ar: 'يعتمد الكشف على الأنماط ويغطي المتصفحات وأنظمة التشغيل والبوتات الرئيسية. قد تُعرَّف وكلاء المستخدم الغريبة أو المنتحلة بشكل خاطئ — تعامل مع النتيجة كأفضل تخمين.',
-    ru: 'Определение основано на шаблонах и охватывает основные браузеры, операционные системы и ботов. Экзотические или поддельные user agent могут быть определены неверно — воспринимайте результат как наилучшее предположение.',
+    fr: "La détection est basée sur des motifs et couvre les principaux navigateurs, systèmes d'exploitation et robots. Les agents utilisateurs exotiques ou usurpés peuvent être mal identifiés   considérez le résultat comme une meilleure estimation.",
+    ar: 'يعتمد الكشف على الأنماط ويغطي المتصفحات وأنظمة التشغيل والبوتات الرئيسية. قد تُعرَّف وكلاء المستخدم الغريبة أو المنتحلة بشكل خاطئ   تعامل مع النتيجة كأفضل تخمين.',
+    ru: 'Определение основано на шаблонах и охватывает основные браузеры, операционные системы и ботов. Экзотические или поддельные user agent могут быть определены неверно   воспринимайте результат как наилучшее предположение.',
   },
   uaString: {
     en: 'User agent string',

@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — Word (.docx) engine
+// Free Omni Tools   Word (.docx) engine
 // Shared helpers for the Word Tools suite: mammoth conversion,
 // an HTML -> docx paragraph walker, and docx zip/XML surgery.
 // A .docx is a zip of XML parts; JSZip + string/XML edits cover

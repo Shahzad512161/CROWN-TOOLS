@@ -376,7 +376,7 @@ export const HtmlEntityTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         )}
       </div>
       <OptLabel>{c('input')}</OptLabel>
-      <DevTextarea rows={5} value={input} onChange={(e) => setInput(e.target.value)} placeholder={mode === 'encode' ? 'Tom & Jerry <3 "quotes" — café' : '&lt;p&gt;Tom &amp;amp; Jerry &amp;#169;&lt;/p&gt;'} spellCheck={false} />
+      <DevTextarea rows={5} value={input} onChange={(e) => setInput(e.target.value)} placeholder={mode === 'encode' ? 'Tom & Jerry <3 "quotes"   café' : '&lt;p&gt;Tom &amp;amp; Jerry &amp;#169;&lt;/p&gt;'} spellCheck={false} />
       <div className="mt-4">
         <OptLabel>{c('result')}</OptLabel>
         <DevTextarea rows={5} value={output} readOnly placeholder={s('outputPlaceholder')} spellCheck={false} />
@@ -571,7 +571,7 @@ export const PasswordGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </OptSelect>
           <div className="flex flex-wrap gap-4 mt-3">
             <Stat label={s('entropyLabel')} value={`${entropy} ${s('bitsWord')}`} />
-            <Stat label={s('strengthLabel')} value={hasSet ? entropyLabel(entropy, s) : '—'} />
+            <Stat label={s('strengthLabel')} value={hasSet ? entropyLabel(entropy, s) : ' '} />
           </div>
         </div>
       </div>

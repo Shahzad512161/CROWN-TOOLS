@@ -548,10 +548,10 @@ export const NumberBaseConverter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <div>
           <OptLabel>{s('fromBase')}</OptLabel>
           <OptSelect value={fromSelect} onChange={(e) => setFromSelect(e.target.value)}>
-            <option value="2">2 — {s('binaryWord')}</option>
-            <option value="8">8 — {s('octalWord')}</option>
-            <option value="10">10 — {s('decimalWord')}</option>
-            <option value="16">16 — {s('hexWord')}</option>
+            <option value="2">2   {s('binaryWord')}</option>
+            <option value="8">8   {s('octalWord')}</option>
+            <option value="10">10   {s('decimalWord')}</option>
+            <option value="16">16   {s('hexWord')}</option>
             <option value="custom">{s('customOpt')}</option>
           </OptSelect>
         </div>
@@ -816,16 +816,16 @@ const STATUS_CODES: StatusInfo[] = [
   { code: 201, name: 'Created', desc: 'The request succeeded and a new resource was created (typical POST result).' },
   { code: 202, name: 'Accepted', desc: 'Accepted for processing, but not yet completed (async jobs, queues).' },
   { code: 204, name: 'No Content', desc: 'Success, but there is no body to return (common for DELETE).' },
-  { code: 206, name: 'Partial Content', desc: 'Response to a Range request — used for resumable downloads and media streaming.' },
+  { code: 206, name: 'Partial Content', desc: 'Response to a Range request   used for resumable downloads and media streaming.' },
   { code: 301, name: 'Moved Permanently', desc: 'The resource permanently lives at a new URL. SEO link equity passes to the new URL.' },
   { code: 302, name: 'Found', desc: 'Temporary redirect to another URL; the original URL should be used in future.' },
   { code: 303, name: 'See Other', desc: 'Redirect to a new URL with a GET request, regardless of the original method.' },
-  { code: 304, name: 'Not Modified', desc: 'The cached version is still valid — the body is not resent.' },
+  { code: 304, name: 'Not Modified', desc: 'The cached version is still valid   the body is not resent.' },
   { code: 307, name: 'Temporary Redirect', desc: 'Temporary redirect that preserves the request method and body (unlike 302).' },
   { code: 308, name: 'Permanent Redirect', desc: 'Permanent redirect that preserves the request method and body (unlike 301).' },
   { code: 400, name: 'Bad Request', desc: 'The server cannot process the request due to malformed syntax or invalid data.' },
   { code: 401, name: 'Unauthorized', desc: 'Authentication is required or the supplied credentials were rejected.' },
-  { code: 403, name: 'Forbidden', desc: 'The server understood the request but refuses to authorize it — login will not help.' },
+  { code: 403, name: 'Forbidden', desc: 'The server understood the request but refuses to authorize it   login will not help.' },
   { code: 404, name: 'Not Found', desc: 'The requested resource does not exist on the server.' },
   { code: 405, name: 'Method Not Allowed', desc: 'The HTTP method (e.g. DELETE) is not supported for this resource.' },
   { code: 408, name: 'Request Timeout', desc: 'The client took too long to send the request.' },
@@ -833,11 +833,11 @@ const STATUS_CODES: StatusInfo[] = [
   { code: 410, name: 'Gone', desc: 'The resource was intentionally and permanently removed (stronger than 404).' },
   { code: 413, name: 'Payload Too Large', desc: 'The request body exceeds the server\'s size limit.' },
   { code: 415, name: 'Unsupported Media Type', desc: 'The server refuses the request\'s content format (Content-Type).' },
-  { code: 418, name: 'I\'m a Teapot', desc: 'An April Fools\' joke from RFC 2324 — some APIs return it for requests they refuse to serve.' },
+  { code: 418, name: 'I\'m a Teapot', desc: 'An April Fools\' joke from RFC 2324   some APIs return it for requests they refuse to serve.' },
   { code: 422, name: 'Unprocessable Content', desc: 'Syntax is valid but the data fails semantic validation (very common in JSON APIs).' },
   { code: 429, name: 'Too Many Requests', desc: 'Rate limit hit. Back off and retry later, ideally honoring Retry-After.' },
   { code: 451, name: 'Unavailable For Legal Reasons', desc: 'Access is blocked for legal reasons, e.g. court orders or regional law.' },
-  { code: 500, name: 'Internal Server Error', desc: 'A generic server-side failure — an unhandled exception or crash in the application.' },
+  { code: 500, name: 'Internal Server Error', desc: 'A generic server-side failure   an unhandled exception or crash in the application.' },
   { code: 501, name: 'Not Implemented', desc: 'The server does not support the functionality required for this request.' },
   { code: 502, name: 'Bad Gateway', desc: 'A proxy/gateway received an invalid response from the upstream server.' },
   { code: 503, name: 'Service Unavailable', desc: 'The server is temporarily down for maintenance or overloaded. Retry later.' },

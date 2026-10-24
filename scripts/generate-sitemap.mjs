@@ -64,7 +64,7 @@ writeFileSync(
 // ---- robots.txt ---------------------------------------------------------------
 writeFileSync(
   new URL('../public/robots.txt', import.meta.url),
-  `# Super Crown Tools — all content is public and crawlable in every locale.
+  `# Free Omni Tools   all content is public and crawlable in every locale.
 User-agent: *
 Allow: /
 
@@ -95,19 +95,19 @@ const catSections = [...byCategory.entries()]
   })
   .join('\n\n');
 
-const llms = `# Super Crown Tools
+const llms = `# Free Omni Tools
 
-> Free online tools that run 100% in the browser — no sign-up, no uploads, no tracking. ${slugs.size} real tools across PDF, Word, image, video & audio, SEO, developer, AI, social media, student and everyday calculators, published in five languages: English (/en), Spanish (/es), French (/fr), Arabic (/ar, right-to-left) and Russian (/ru). Every page exists under each locale prefix; swap the prefix to read the same page in another language.
+> Free online tools that run 100% in the browser   no sign-up, no uploads, no tracking. ${slugs.size} real tools across PDF, Word, image, video & audio, SEO, developer, AI, social media, student and everyday calculators, published in five languages: English (/en), Spanish (/es), French (/fr), Arabic (/ar, right-to-left) and Russian (/ru). Every page exists under each locale prefix; swap the prefix to read the same page in another language.
 
 ## Languages
 
-${LOCALES.map((l) => `- [Super Crown Tools in ${LOCALE_NAMES[l]}](${BASE}/${l})`).join('\n')}
+${LOCALES.map((l) => `- [Free Omni Tools in ${LOCALE_NAMES[l]}](${BASE}/${l})`).join('\n')}
 
 ## Main pages (English; replace /en with /es, /fr, /ar or /ru for other languages)
 
 - [Home](${BASE}/en): Browse and search all tools by category.
-- [About](${BASE}/en/about): What Super Crown Tools is and how it works.
-- [Blog](${BASE}/en/blog): In-depth guides for every tool — formulas, examples and expert tips.
+- [About](${BASE}/en/about): What Free Omni Tools is and how it works.
+- [Blog](${BASE}/en/blog): In-depth guides for every tool   formulas, examples and expert tips.
 - [Contact](${BASE}/en/contact): Get in touch with the team.
 - [Privacy Policy](${BASE}/en/privacy): How the site handles data (all tools run client-side; nothing is uploaded).
 

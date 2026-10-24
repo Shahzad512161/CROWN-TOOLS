@@ -1,4 +1,4 @@
-// Competitor-inspired PDF tools (batch A) — page-level power tools that go
+// Competitor-inspired PDF tools (batch A)   page-level power tools that go
 // beyond the basic suite: delete/extract pages, alternate mixing, bookmark /
 // size / text splitting, flattening, Bates numbering, bookmark creation,
 // metadata editing, page flipping, N-up imposition, page resizing,

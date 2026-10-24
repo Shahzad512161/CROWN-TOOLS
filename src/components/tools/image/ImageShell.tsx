@@ -86,7 +86,7 @@ export const FileDrop: React.FC<{
   );
 };
 
-/** "Try a sample photo" helper — fetches a random photo from picsum.photos. */
+/** "Try a sample photo" helper   fetches a random photo from picsum.photos. */
 export const SampleBtn: React.FC<{ onFile: (file: File) => void; label?: string }> = ({ onFile, label }) => {
   const s = useStrings(IMAGE_STRINGS);
   const [busy, setBusy] = useState(false);
@@ -100,7 +100,7 @@ export const SampleBtn: React.FC<{ onFile: (file: File) => void; label?: string 
           const res = await fetch('https://picsum.photos/900/650');
           const blob = await res.blob();
           onFile(new File([blob], 'sample-photo.jpg', { type: blob.type || 'image/jpeg' }));
-        } catch { /* offline — user can still upload */ }
+        } catch { /* offline   user can still upload */ }
         setBusy(false);
       }}
       className="px-3.5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer disabled:opacity-50"

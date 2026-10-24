@@ -1,5 +1,5 @@
 /**
- * Internationalization — English (default), Spanish, French, Arabic, Russian.
+ * Internationalization   English (default), Spanish, French, Arabic, Russian.
  *
  * Routing is locale-prefixed: /en, /es, /fr, /ar, /ru (domain/en/... etc.).
  * A bare path is canonicalized to the default locale /en. Arabic is RTL.
@@ -176,7 +176,7 @@ export const BASE_TRANSLATION_EN: Translations = {
   navDisclaimer: 'Disclaimer',
   navBlog: 'Blog',
   heroTitle: 'Every everyday tool. Free and unlocked.',
-  heroSubtitle: 'Calculators, PDF and document tools, image and media utilities — everything runs in your browser. No sign-up, no lock screens, no uploads.',
+  heroSubtitle: 'Calculators, PDF and document tools, image and media utilities   everything runs in your browser. No sign-up, no lock screens, no uploads.',
   heroGreetingSub: 'Which free tool do you need today?',
   searchButton: 'Search',
   heroBadgeUnlocked: '100% Unlocked - No Login',
@@ -221,7 +221,7 @@ export const BASE_TRANSLATION_EN: Translations = {
   unlockedBannerSubtitle: 'No registration, no credit card, no click-to-unlock blur. All 250 tools run directly in your browser.',
   supportTitle: 'Support Our Mission',
   supportSubtitle: 'We keep 250+ tools 100% Free, Safe & Legit for everyone. Your support helps us maintain high-speed servers.',
-  supportIntro: 'Super Crown Tools is built to empower 1 Million+ students, workers, and families worldwide with completely unlocked daily utilities.',
+  supportIntro: 'Free Omni Tools is built to empower 1 Million+ students, workers, and families worldwide with completely unlocked daily utilities.',
   supportPayoneer: 'Payoneer (Direct to Card)',
   supportBinance: 'Binance Pay ID: 851298616',
   supportCrypto: 'Crypto (USDT TRC20, BTC, ETH)',
@@ -261,7 +261,7 @@ export const BASE_TRANSLATION_FR: Translations = {
   navDisclaimer: 'Avertissement',
   navBlog: 'Blog',
   heroTitle: 'Tous les outils du quotidien. Gratuits et débloqués.',
-  heroSubtitle: 'Calculatrices, outils PDF et documents, images et médias — tout fonctionne dans votre navigateur. Sans inscription, sans écran de verrouillage, sans envoi de fichiers.',
+  heroSubtitle: 'Calculatrices, outils PDF et documents, images et médias   tout fonctionne dans votre navigateur. Sans inscription, sans écran de verrouillage, sans envoi de fichiers.',
   heroGreetingSub: 'De quel outil gratuit avez-vous besoin aujourd\u2019hui ?',
   searchButton: 'Rechercher',
   heroBadgeUnlocked: '100 % débloqué - Sans connexion',
@@ -306,7 +306,7 @@ export const BASE_TRANSLATION_FR: Translations = {
   unlockedBannerSubtitle: "Aucune inscription, aucune carte bancaire, aucun déblocage par clic. Les 250 outils fonctionnent directement dans votre navigateur.",
   supportTitle: 'Soutenez notre mission',
   supportSubtitle: 'Nous gardons plus de 250 outils 100 % gratuits, sûrs et légitimes pour tous. Votre soutien nous aide à maintenir des serveurs rapides.',
-  supportIntro: "Super Crown Tools aide plus d'un million d'étudiants, de travailleurs et de familles dans le monde avec des utilitaires quotidiens entièrement débloqués.",
+  supportIntro: "Free Omni Tools aide plus d'un million d'étudiants, de travailleurs et de familles dans le monde avec des utilitaires quotidiens entièrement débloqués.",
   supportPayoneer: 'Payoneer (directement sur la carte)',
   supportBinance: 'Binance Pay ID : 851298616',
   supportCrypto: 'Crypto (USDT TRC20, BTC, ETH)',
@@ -346,7 +346,7 @@ export const BASE_TRANSLATION_AR: Translations = {
   navDisclaimer: 'إخلاء المسؤولية',
   navBlog: 'المدونة',
   heroTitle: 'كل أدواتك اليومية. مجانية ومفتوحة.',
-  heroSubtitle: 'حاسبات وأدوات PDF والمستندات والصور والوسائط — كل شيء يعمل في متصفحك. بدون تسجيل، بدون شاشات قفل، بدون رفع ملفات.',
+  heroSubtitle: 'حاسبات وأدوات PDF والمستندات والصور والوسائط   كل شيء يعمل في متصفحك. بدون تسجيل، بدون شاشات قفل، بدون رفع ملفات.',
   heroGreetingSub: 'ما الأداة المجانية التي تحتاجها اليوم؟',
   searchButton: 'بحث',
   heroBadgeUnlocked: 'مفتوح 100% - بدون تسجيل دخول',
@@ -391,7 +391,7 @@ export const BASE_TRANSLATION_AR: Translations = {
   unlockedBannerSubtitle: 'بدون تسجيل، بدون بطاقة ائتمان، بدون تعتيم للنقر للفتح. جميع الأدوات الخمسة آلاف تعمل مباشرة في متصفحك.',
   supportTitle: 'ادعم مهمتنا',
   supportSubtitle: 'نبقي أكثر من 250 أداة مجانية وآمنة وشرعية 100% للجميع. دعمك يساعدنا في الحفاظ على خوادم سريعة.',
-  supportIntro: 'تم بناء Super Crown Tools لتمكين أكثر من مليون طالب وعامل وأسرة حول العالم بأدوات يومية مفتوحة بالكامل.',
+  supportIntro: 'تم بناء Free Omni Tools لتمكين أكثر من مليون طالب وعامل وأسرة حول العالم بأدوات يومية مفتوحة بالكامل.',
   supportPayoneer: 'Payoneer (مباشرة إلى البطاقة)',
   supportBinance: 'Binance Pay ID: 851298616',
   supportCrypto: 'العملات الرقمية (USDT TRC20، BTC، ETH)',
@@ -431,7 +431,7 @@ export const BASE_TRANSLATION_RU: Translations = {
   navDisclaimer: 'Отказ от ответственности',
   navBlog: 'Блог',
   heroTitle: 'Все повседневные инструменты. Бесплатно и открыто.',
-  heroSubtitle: 'Калькуляторы, инструменты для PDF и документов, изображений и медиа — всё работает прямо в вашем браузере. Без регистрации, без экранов блокировки, без загрузки файлов.',
+  heroSubtitle: 'Калькуляторы, инструменты для PDF и документов, изображений и медиа   всё работает прямо в вашем браузере. Без регистрации, без экранов блокировки, без загрузки файлов.',
   heroGreetingSub: 'Какой бесплатный инструмент вам нужен сегодня?',
   searchButton: 'Поиск',
   heroBadgeUnlocked: '100% открыто - без входа',
@@ -476,7 +476,7 @@ export const BASE_TRANSLATION_RU: Translations = {
   unlockedBannerSubtitle: 'Без регистрации, без банковской карты, без разблокировки по клику. Все 250 инструментов работают прямо в вашем браузере.',
   supportTitle: 'Поддержите нашу миссию',
   supportSubtitle: 'Мы сохраняем более 250 инструментов на 100% бесплатными, безопасными и легальными для всех. Ваша поддержка помогает нам держать быстрые серверы.',
-  supportIntro: 'Super Crown Tools создан, чтобы помочь более чем миллиону студентов, работников и семей по всему миру полностью открытыми повседневными инструментами.',
+  supportIntro: 'Free Omni Tools создан, чтобы помочь более чем миллиону студентов, работников и семей по всему миру полностью открытыми повседневными инструментами.',
   supportPayoneer: 'Payoneer (прямо на карту)',
   supportBinance: 'Binance Pay ID: 851298616',
   supportCrypto: 'Крипто (USDT TRC20, BTC, ETH)',
@@ -568,7 +568,7 @@ export const BASE_TRANSLATION_ES: Translations = {
   supportSubtitle:
     'Mantenemos más de 250 herramientas 100% gratuitas, seguras y legítimas para todos. Tu apoyo nos ayuda a mantener servidores rápidos.',
   supportIntro:
-    'Super Crown Tools está hecho para ayudar a más de 1 millón de estudiantes, trabajadores y familias en todo el mundo con utilidades diarias completamente desbloqueadas.',
+    'Free Omni Tools está hecho para ayudar a más de 1 millón de estudiantes, trabajadores y familias en todo el mundo con utilidades diarias completamente desbloqueadas.',
   supportPayoneer: 'Payoneer (directo a la tarjeta)',
   supportBinance: 'Binance Pay ID: 851298616',
   supportCrypto: 'Cripto (USDT TRC20, BTC, ETH)',

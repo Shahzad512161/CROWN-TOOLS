@@ -1,5 +1,5 @@
 // Interactive PDF tools: edit, sign, redact, compare, OCR, forms, scan, AI.
-// Every operation runs 100% in the browser — no uploads, no fake results.
+// Every operation runs 100% in the browser   no uploads, no fake results.
 import React, { useEffect, useRef, useState } from 'react';
 import {
   PenLine, Type, ImagePlus, Square, Trash2, ChevronLeft, ChevronRight,
@@ -72,7 +72,7 @@ function sanitizeForPdf(text: string): string {
   return text
     .replace(/[‘’]/g, "'")
     .replace(/[“”]/g, '"')
-    .replace(/[–—]/g, '-')
+    .replace(/[– ]/g, '-')
     .replace(/…/g, '...')
     .replace(/•/g, '-')
     .replace(/[^\x00-\xFF]/g, '');
@@ -235,7 +235,7 @@ const LoadErrorBox: React.FC<{ message: string }> = ({ message }) => (
 );
 
 // ---------------------------------------------------------------------------
-// 1. Edit PDF — click on the page preview to place text / images / rectangles
+// 1. Edit PDF   click on the page preview to place text / images / rectangles
 // ---------------------------------------------------------------------------
 
 interface Ann {
@@ -559,7 +559,7 @@ export const EditPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 2. Sign PDF — draw, type or upload a signature and stamp it onto a page
+// 2. Sign PDF   draw, type or upload a signature and stamp it onto a page
 // ---------------------------------------------------------------------------
 
 const SIGN_STYLES: { label: string; family: string }[] = [
@@ -845,7 +845,7 @@ export const SignPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 3. Redact PDF — draw black boxes over content, or find a word/phrase.
+// 3. Redact PDF   draw black boxes over content, or find a word/phrase.
 //    Redacted pages are rasterized so the hidden text is truly destroyed.
 // ---------------------------------------------------------------------------
 
@@ -1095,7 +1095,7 @@ export const RedactPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 4. Compare PDF — page-by-page word-level diff of two documents' text
+// 4. Compare PDF   page-by-page word-level diff of two documents' text
 // ---------------------------------------------------------------------------
 
 interface DiffWord {
@@ -1160,7 +1160,7 @@ function diffPage(page: number, aText: string, bText: string): PageDiff {
   if (a.join(' ') === b.join(' ')) {
     return { page, identical: true, aWords: a.map((w) => ({ w, changed: false })), bWords: b.map((w) => ({ w, changed: false })) };
   }
-  // Guard: the LCS table is quadratic — fall back to whole-page comparison on huge pages.
+  // Guard: the LCS table is quadratic   fall back to whole-page comparison on huge pages.
   if (a.length > 3000 || b.length > 3000) {
     return {
       page,
@@ -1321,7 +1321,7 @@ export const ComparePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 5. OCR PDF — recognize scanned pages with Tesseract and embed an invisible
+// 5. OCR PDF   recognize scanned pages with Tesseract and embed an invisible
 //    text layer so the result is searchable and copyable.
 // ---------------------------------------------------------------------------
 
@@ -1390,7 +1390,7 @@ export const OcrPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                       opacity: 0,
                     });
                   } catch {
-                    /* unencodable line — skip it, the visible text is still OCR'd */
+                    /* unencodable line   skip it, the visible text is still OCR'd */
                   }
                 }
               } else if (text) {
@@ -1466,7 +1466,7 @@ export const OcrPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 6. PDF Forms — fill existing AcroForm fields, or add a new field
+// 6. PDF Forms   fill existing AcroForm fields, or add a new field
 // ---------------------------------------------------------------------------
 
 interface FormFieldState {
@@ -1534,7 +1534,7 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             value = sel[0] ?? '';
           }
         } catch {
-          /* unreadable field value — leave blank */
+          /* unreadable field value   leave blank */
         }
         return { name: f.getName(), kind, value, options };
       });
@@ -1575,7 +1575,7 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                   if (fs.value) form.getOptionList(fs.name).select(String(fs.value));
                 }
               } catch {
-                /* field type mismatch in the source PDF — skip that field */
+                /* field type mismatch in the source PDF   skip that field */
               }
             }
             form.updateFieldAppearances();
@@ -1729,7 +1729,7 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 7. Scan to PDF — photograph pages with the camera (or upload photos)
+// 7. Scan to PDF   photograph pages with the camera (or upload photos)
 // ---------------------------------------------------------------------------
 
 export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -1868,7 +1868,7 @@ export const ScanToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 8 & 9. AI tools (Gemini) — summarize and translate a PDF's text
+// 8 & 9. AI tools (Gemini)   summarize and translate a PDF's text
 // ---------------------------------------------------------------------------
 
 function getGeminiKey(): string {
@@ -2057,7 +2057,7 @@ export const TranslatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               ctx.setStatus('working', s('translatingChunk').replace('{n}', String(i + 1)).replace('{total}', String(chunks.length)).replace('{lang}', lang));
               const out = await geminiText(
                 apiKey,
-                `Translate the following text to ${lang}. Output only the translation — no notes, no preamble, keep paragraph breaks.\n\n${chunks[i]}`,
+                `Translate the following text to ${lang}. Output only the translation   no notes, no preamble, keep paragraph breaks.\n\n${chunks[i]}`,
                 s('geminiEmptyResponse')
               );
               translated.push(out.trim());

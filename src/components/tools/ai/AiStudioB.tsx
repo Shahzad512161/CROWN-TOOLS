@@ -20,7 +20,7 @@ import {
 } from './AiShell';
 
 // ============================================================
-// AI Tools — group B: image generation, email, cover letter,
+// AI Tools   group B: image generation, email, cover letter,
 // bio, captions, business names, and the chat assistant.
 // All generation runs through the site owner's Gemini key
 // (see src/lib/ai/client.ts); no key → MissingKeyNotice.
@@ -195,9 +195,9 @@ export const AiEmailWriter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     const prompt = [
       'Write an email.',
       `Purpose: ${purpose}`,
-      recipient.trim() ? `Recipient's name: ${recipient.trim()}` : 'The recipient\'s name was not given — address them politely without inventing a name.',
+      recipient.trim() ? `Recipient's name: ${recipient.trim()}` : 'The recipient\'s name was not given   address them politely without inventing a name.',
       `Tone: ${tone}`,
-      points.trim() ? `Key points to cover:\n${points.trim()}` : 'No specific key points were given — write a sensible, complete email for the stated purpose.',
+      points.trim() ? `Key points to cover:\n${points.trim()}` : 'No specific key points were given   write a sensible, complete email for the stated purpose.',
       '',
       'Return the result in exactly this format:',
       'Subject: <subject line>',
@@ -379,7 +379,7 @@ export const AiBioGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   const generate = () => {
     const prompt = [
       `Write exactly 5 different ${platform} bio options.`,
-      `About the person: ${about.trim() || 'not specified — write broadly appealing bios in the chosen style'}`,
+      `About the person: ${about.trim() || 'not specified   write broadly appealing bios in the chosen style'}`,
       `Style: ${style}`,
       `Length: ${BIO_LENGTHS[platform]}.`,
       'Format: number the options 1. to 5., one bio per line, no headings and no explanations.',
@@ -524,7 +524,7 @@ export const AiBusinessNameGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) 
       `Invent exactly 15 brand name ideas for a business in this industry: ${industry.trim()}.`,
       keywords.trim() ? `Words or ideas to weave in where natural: ${keywords.trim()}` : '',
       `Preferred style: ${style}`,
-      'Format: a numbered list from 1. to 15. Each line is the name, then " — ", then a 3 to 5 word tagline idea. No headings, no explanations, no extra text.',
+      'Format: a numbered list from 1. to 15. Each line is the name, then "   ", then a 3 to 5 word tagline idea. No headings, no explanations, no extra text.',
       'Names must be original-sounding and easy to spell; do not copy famous brand names.',
     ]
       .filter(Boolean)

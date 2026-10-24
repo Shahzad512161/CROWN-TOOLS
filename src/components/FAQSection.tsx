@@ -16,7 +16,7 @@ interface FAQSectionProps {
 export const FAQSection: React.FC<FAQSectionProps> = ({ toolName, faqs }) => {
   const lang = useLang();
   const c = (k: string) => lookup(CHROME, lang, k);
-  // At least 4 FAQs for the FAQ schema — defaults come from the localized templates
+  // At least 4 FAQs for the FAQ schema   defaults come from the localized templates
   const defaultFaqs: FAQItem[] = FAQ_TEMPLATES[lang].map((f) => ({
     question: f.question.replaceAll('{name}', toolName),
     answer: f.answer.replaceAll('{name}', toolName)

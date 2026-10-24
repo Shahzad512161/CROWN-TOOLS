@@ -1,4 +1,4 @@
-// Word document surgery / management tools — merge, split, image extraction,
+// Word document surgery / management tools   merge, split, image extraction,
 // analysis, metadata editing, protection, watermarks, compression, repair,
 // comparison, and find & replace. Everything runs 100% in the browser:
 // a .docx is a zip of XML parts, edited with JSZip + DOMParser/XMLSerializer.
@@ -124,7 +124,7 @@ async function ensureContentTypeOverride(zip: JSZip, partName: string, contentTy
 }
 
 // ---------------------------------------------------------------------------
-// 1. Merge Word — content-level merge of several .docx files
+// 1. Merge Word   content-level merge of several .docx files
 // ---------------------------------------------------------------------------
 
 export const MergeWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -183,7 +183,7 @@ export const MergeWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 2. Split Word — by Heading 1 sections or every N paragraphs
+// 2. Split Word   by Heading 1 sections or every N paragraphs
 // ---------------------------------------------------------------------------
 
 export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -227,7 +227,7 @@ export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         const base = stripExt(files[0].name);
         const zip = new JSZip();
         for (let i = 0; i < groups.length; i++) {
-          const bytes = await htmlToDocxBytes(groups[i].join('\n'), `${base} — part ${i + 1}`);
+          const bytes = await htmlToDocxBytes(groups[i].join('\n'), `${base}   part ${i + 1}`);
           zip.file(`${base}-part-${String(i + 1).padStart(2, '0')}.docx`, bytes);
         }
         const zipBytes = await zip.generateAsync({ type: 'uint8array' });
@@ -257,7 +257,7 @@ export const SplitWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 3. Extract Word Images — pull every file out of word/media/
+// 3. Extract Word Images   pull every file out of word/media/
 // ---------------------------------------------------------------------------
 
 export const ExtractWordImages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -302,7 +302,7 @@ export const ExtractWordImages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 4. Word Analyzer — document statistics from text + XML structure
+// 4. Word Analyzer   document statistics from text + XML structure
 // ---------------------------------------------------------------------------
 
 interface WordStats {
@@ -465,7 +465,7 @@ export const WordAnalyzer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 5. Word Metadata Editor — docProps/core.xml (+ app.xml display)
+// 5. Word Metadata Editor   docProps/core.xml (+ app.xml display)
 // ---------------------------------------------------------------------------
 
 interface MetaFields {
@@ -726,7 +726,7 @@ export const WordMetadataEditor: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 6. Unlock Word — strip w:documentProtection + range permissions
+// 6. Unlock Word   strip w:documentProtection + range permissions
 // ---------------------------------------------------------------------------
 
 export const UnlockWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -774,7 +774,7 @@ export const UnlockWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 7. Protect Word — add w:documentProtection to word/settings.xml
+// 7. Protect Word   add w:documentProtection to word/settings.xml
 // ---------------------------------------------------------------------------
 
 const PROTECT_OPTIONS: { value: string; labelKey: string }[] = [
@@ -856,7 +856,7 @@ export const ProtectWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 8. Word Watermark — classic VML text watermark in the section header
+// 8. Word Watermark   classic VML text watermark in the section header
 // ---------------------------------------------------------------------------
 
 function watermarkParagraphXml(text: string, colorHex: string, sizePt: number): string {
@@ -1011,7 +1011,7 @@ export const WordWatermark: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 9. Compress Word — recompress embedded PNG/JPEG images via canvas
+// 9. Compress Word   recompress embedded PNG/JPEG images via canvas
 // ---------------------------------------------------------------------------
 
 export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -1041,7 +1041,7 @@ export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           const bmp = await createImageBitmap(new Blob([data as BlobPart]));
           const scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
           const downscaled = scale < 1;
-          // PNGs keep their format and are only rewritten when downscaled —
+          // PNGs keep their format and are only rewritten when downscaled  
           // this also leaves transparent PNGs untouched at native size.
           if (isPng && !downscaled) {
             bmp.close();
@@ -1068,7 +1068,7 @@ export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             replaced++;
           }
         } catch {
-          // Undecodable image — leave the original bytes untouched.
+          // Undecodable image   leave the original bytes untouched.
         }
       }
       if (!replaced) {
@@ -1093,7 +1093,7 @@ export const CompressWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 10. Repair Word — validate + rezip, or recover raw text into a clean file
+// 10. Repair Word   validate + rezip, or recover raw text into a clean file
 // ---------------------------------------------------------------------------
 
 export const RepairWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
@@ -1143,7 +1143,7 @@ export const RepairWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 11. Compare Word — word-level (or paragraph-level) LCS diff of two docs
+// 11. Compare Word   word-level (or paragraph-level) LCS diff of two docs
 // ---------------------------------------------------------------------------
 
 interface DiffToken {
@@ -1379,7 +1379,7 @@ export const CompareWord: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 };
 
 // ---------------------------------------------------------------------------
-// 12. Word Find & Replace — run-level replace across body, headers, footers
+// 12. Word Find & Replace   run-level replace across body, headers, footers
 // ---------------------------------------------------------------------------
 
 function escapeRegExp(s: string): string {

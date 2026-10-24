@@ -165,7 +165,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
       
       {/* Breadcrumb Navigation Bar */}
       <div className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xs sticky top-[104px] z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
           <div className="flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap">
             <button
               onClick={onNavigateHome}
@@ -212,7 +212,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
         {/* Tool Header Meta Title & Tagline */}
         <div className="mb-6">

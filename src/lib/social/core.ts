@@ -1,6 +1,6 @@
 /**
  * Pure helpers for the Social Media Tools suite. Everything here is
- * deterministic and unit-testable — no DOM, no network.
+ * deterministic and unit-testable   no DOM, no network.
  */
 
 // ---------------------------------------------------------------------------
@@ -318,7 +318,7 @@ export function engagementRate(input: {
   let advice = 'Below typical benchmarks. Hooks in the first 2 seconds, posting when your audience is active, and replying to comments early all move this number.';
   if (rate >= 6) {
     label = 'Excellent';
-    advice = 'Top-tier engagement. Your audience size and interaction are well matched — protect the format that is working.';
+    advice = 'Top-tier engagement. Your audience size and interaction are well matched   protect the format that is working.';
   } else if (rate >= 3) {
     label = 'High';
     advice = 'Well above average. Repurpose your best posts into new formats (Reel → carousel → Story) to compound it.';
@@ -385,7 +385,7 @@ export const IDEA_NICHES = [
 ];
 
 export const IDEA_TEMPLATES: string[] = [
-  'Share the #1 mistake beginners make in {niche} — and the fix',
+  'Share the #1 mistake beginners make in {niche}   and the fix',
   'Post a before/after transformation related to {niche}',
   'Answer the question you get asked most about {niche}',
   'Show your behind-the-scenes process, start to finish',
@@ -419,7 +419,7 @@ export const IDEA_TEMPLATES: string[] = [
   'Ask your audience their biggest {niche} struggle (and answer the top replies)',
   'Share a "one year ago vs today" progress post',
   'Post your weekly routine as a saveable carousel',
-  'Review a product/service in {niche} — honest pros and cons',
+  'Review a product/service in {niche}   honest pros and cons',
 ];
 
 const IDEA_FORMATS = ['Reel / short video', 'Carousel', 'Single photo + caption', 'Story series', 'Text post', 'Live / Q&A'];
@@ -494,7 +494,7 @@ export function buildLinkInBioHtml(input: LinkInBioInput): string {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(input.name)} — Links</title>
+<title>${escapeHtml(input.name)}   Links</title>
 <style>
   * { box-sizing: border-box; margin: 0; }
   body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: ${input.bg}; color: ${input.text}; min-height: 100vh; display: flex; justify-content: center; padding: 48px 16px; }
@@ -513,7 +513,7 @@ export function buildLinkInBioHtml(input: LinkInBioInput): string {
   <h1>${escapeHtml(input.name)}</h1>
   <p>${escapeHtml(input.bio)}</p>
 ${links}
-  <footer>Made with Super Crown Tools</footer>
+  <footer>Made with Free Omni Tools</footer>
 </main>
 </body>
 </html>`;
@@ -524,10 +524,10 @@ ${links}
 // ---------------------------------------------------------------------------
 
 export const SOCIAL_ASPECTS: { id: string; label: string; width: number; height: number }[] = [
-  { id: '9:16', label: '9:16 — Reels / TikTok / Shorts', width: 1080, height: 1920 },
-  { id: '1:1', label: '1:1 — Square post', width: 1080, height: 1080 },
-  { id: '4:5', label: '4:5 — Portrait post', width: 1080, height: 1350 },
-  { id: '16:9', label: '16:9 — YouTube / landscape', width: 1920, height: 1080 },
+  { id: '9:16', label: '9:16   Reels / TikTok / Shorts', width: 1080, height: 1920 },
+  { id: '1:1', label: '1:1   Square post', width: 1080, height: 1080 },
+  { id: '4:5', label: '4:5   Portrait post', width: 1080, height: 1350 },
+  { id: '16:9', label: '16:9   YouTube / landscape', width: 1920, height: 1080 },
 ];
 
 /**

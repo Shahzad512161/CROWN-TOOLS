@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — FFmpeg.wasm client (browser-only)
+// Free Omni Tools   FFmpeg.wasm client (browser-only)
 // Lazily loads the single-thread FFmpeg core (~30 MB of assets
 // served from this site's own static files) on first use and
 // runs one job at a time. Files exist only in the wasm virtual
@@ -55,7 +55,7 @@ export interface FfmpegJob {
 
 /** Run one FFmpeg job end-to-end; returns the output blobs in order. */
 export async function runFfmpegJob(job: FfmpegJob): Promise<Blob[]> {
-  if (busy) throw new Error('Another media job is still running — wait for it to finish.');
+  if (busy) throw new Error('Another media job is still running   wait for it to finish.');
   busy = true;
   progressHandler = job.onProgress ?? null;
   const ff = await loadFfmpeg();

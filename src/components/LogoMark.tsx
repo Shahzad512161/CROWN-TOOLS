@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Super Crown brand mark — a hand-drawn geometric crown (vector paths,
+ * Super Crown brand mark   a hand-drawn geometric crown (vector paths,
  * not generated imagery). Single color via currentColor so it follows
  * the theme: set text-amber-500 for the brand gold, or slate/white.
  */

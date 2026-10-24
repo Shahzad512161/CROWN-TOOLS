@@ -379,7 +379,7 @@ export const AudioVolumeBooster: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="space-y-3">
             <audio controls src={result.url} className="w-full" />
             <div className="grid grid-cols-2 gap-2">
-              <Stat label={s('inputSize')} value={file ? formatBytes(file.size) : '—'} />
+              <Stat label={s('inputSize')} value={file ? formatBytes(file.size) : ' '} />
               <Stat label={s('outputSize')} value={formatBytes(result.blob.size)} />
             </div>
             <BlobDownloadBtn blob={result.blob} filename={`volume-adjusted.${format}`} label={s('downloadAudioFormat').replace('{format}', format)} />
@@ -504,8 +504,8 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         </div>
 
         <div className="grid grid-cols-3 gap-2">
-          <Stat label={s('originalLength')} value={duration !== null ? formatTimecode(duration) : '—'} />
-          <Stat label={s('newLengthEst')} value={duration !== null ? formatTimecode(duration / rate) : '—'} />
+          <Stat label={s('originalLength')} value={duration !== null ? formatTimecode(duration) : ' '} />
+          <Stat label={s('newLengthEst')} value={duration !== null ? formatTimecode(duration / rate) : ' '} />
           <Stat label={s('speedLabel')} value={`${rate.toFixed(2)}×`} />
         </div>
 
@@ -530,7 +530,7 @@ export const AudioSpeedChanger: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <div className="space-y-3">
             <audio controls src={result.url} className="w-full" />
             <div className="grid grid-cols-2 gap-2">
-              <Stat label={s('inputSize')} value={file ? formatBytes(file.size) : '—'} />
+              <Stat label={s('inputSize')} value={file ? formatBytes(file.size) : ' '} />
               <Stat label={s('outputSize')} value={formatBytes(result.blob.size)} />
             </div>
             <BlobDownloadBtn blob={result.blob} filename={`speed-${rate}x.${format}`} label={s('downloadAudioFormat').replace('{format}', format)} />
@@ -1118,7 +1118,7 @@ export const TextToSpeech: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <option value="">{s('defaultVoice')}</option>
             {voices.map((v) => (
               <option key={v.voiceURI} value={v.voiceURI}>
-                {v.name} — {v.lang}
+                {v.name}   {v.lang}
               </option>
             ))}
           </OptSelect>

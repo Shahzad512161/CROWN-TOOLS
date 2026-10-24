@@ -5,7 +5,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حاسبة التأمين على السيارات"
  },
  "background-remover": {
-  "description": "أزل خلفية أي صورة باستخدام نموذج ذكاء اصطناعي يعمل بالكامل داخل متصفحك — صورة PNG شفافة في ثوانٍ ودون أي رفع للملفات.",
+  "description": "أزل خلفية أي صورة باستخدام نموذج ذكاء اصطناعي يعمل بالكامل داخل متصفحك   صورة PNG شفافة في ثوانٍ ودون أي رفع للملفات.",
   "name": "مزيل الخلفية بالذكاء الاصطناعي"
  },
  "bmi-calorie-deficit-calculator": {
@@ -13,7 +13,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حاسبة مؤشر كتلة الجسم وعجز السعرات"
  },
  "color-palette-extractor": {
-  "description": "استخرج الألوان السائدة من أي صورة في لوحة جاهزة للمصممين — قيم HEX وRGB ومتغيرات CSS وصورة للوحة.",
+  "description": "استخرج الألوان السائدة من أي صورة في لوحة جاهزة للمصممين   قيم HEX وRGB ومتغيرات CSS وصورة للوحة.",
   "name": "مستخرج لوحة الألوان"
  },
  "compare-pdf": {
@@ -25,7 +25,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حاسبة الفائدة المركبة"
  },
  "compress-pdf": {
-  "description": "قلّل حجم ملف PDF عبر الضغط الموصى به أو الشديد أو عالي الجودة — أو إعادة حفظ دون فقدان.",
+  "description": "قلّل حجم ملف PDF عبر الضغط الموصى به أو الشديد أو عالي الجودة   أو إعادة حفظ دون فقدان.",
   "name": "ضغط ملفات PDF"
  },
  "debt-snowball-calculator": {
@@ -41,7 +41,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل Excel إلى PDF"
  },
  "favicon-generator": {
-  "description": "أنشئ حزمة أيقونات مفضلة كاملة من صورة أو نص أو رمز تعبيري — ملف ICO وجميع أحجام PNG وعلامات HTML، في ملف مضغوط واحد.",
+  "description": "أنشئ حزمة أيقونات مفضلة كاملة من صورة أو نص أو رمز تعبيري   ملف ICO وجميع أحجام PNG وعلامات HTML، في ملف مضغوط واحد.",
   "name": "منشئ أيقونات Favicon"
  },
  "html-to-pdf": {
@@ -49,7 +49,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل HTML إلى PDF"
  },
  "image-background-changer": {
-  "description": "استبدل خلفية أي صورة بألوان الاستوديو أو التدرجات أو صورتك الخلفية الخاصة — مثالي لصور المنتجات.",
+  "description": "استبدل خلفية أي صورة بألوان الاستوديو أو التدرجات أو صورتك الخلفية الخاصة   مثالي لصور المنتجات.",
   "name": "مغيّر خلفية الصور"
  },
  "image-base64-encoder": {
@@ -57,11 +57,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "مشفّر الصور إلى Base64"
  },
  "image-collage-maker": {
-  "description": "اجمع حتى 9 صور في كولاج جميل — بتخطيطات شبكية وشريطية وفجوات مخصصة وزوايا دائرية وخلفيات.",
+  "description": "اجمع حتى 9 صور في كولاج جميل   بتخطيطات شبكية وشريطية وفجوات مخصصة وزوايا دائرية وخلفيات.",
   "name": "صانع الكولاج الصوري"
  },
  "image-color-picker": {
-  "description": "انقر على أي بكسل في صورة للحصول على لونه الدقيق — قيم HEX وRGB وHSL، مع لوحة للألوان المنتقاة.",
+  "description": "انقر على أي بكسل في صورة للحصول على لونه الدقيق   قيم HEX وRGB وHSL، مع لوحة للألوان المنتقاة.",
   "name": "منتقي ألوان الصور"
  },
  "image-compressor-lossless": {
@@ -73,11 +73,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "مغيّر حجم الصور الاحترافي"
  },
  "image-splitter": {
-  "description": "قسّم صورة واحدة إلى شبكة من المربعات لمنشورات الكاروسيل على إنستغرام واللافتات — ونزّل جميع المربعات في ملف ZIP.",
+  "description": "قسّم صورة واحدة إلى شبكة من المربعات لمنشورات الكاروسيل على إنستغرام واللافتات   ونزّل جميع المربعات في ملف ZIP.",
   "name": "مقسّم الصور"
  },
  "image-to-ascii-art": {
-  "description": "حوّل أي صورة إلى فن نصي ASCII — مع عرض قابل للتعديل وأنماط أحرف متنوعة، وتصدير كنص أو صورة.",
+  "description": "حوّل أي صورة إلى فن نصي ASCII   مع عرض قابل للتعديل وأنماط أحرف متنوعة، وتصدير كنص أو صورة.",
   "name": "محوّل الصور إلى فن ASCII"
  },
  "image-to-text-ocr": {
@@ -89,7 +89,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "محوّل الصور إلى WebP"
  },
  "image-watermark": {
-  "description": "اختم الصور بعلامات مائية نصية أو بشعار — في أي موضع أو بشكل مكرر، مع التحكم في الشفافية والحجم.",
+  "description": "اختم الصور بعلامات مائية نصية أو بشعار   في أي موضع أو بشكل مكرر، مع التحكم في الشفافية والحجم.",
   "name": "إضافة علامة مائية إلى الصور"
  },
  "invoice-generator-pro": {
@@ -109,7 +109,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حاسبة القروض في أمريكا"
  },
  "meme-generator": {
-  "description": "اصنع ميمات من أي صورة مع تعليقات علوية وسفلية كلاسيكية — نص بخط خارجي وحجم قابل للتعديل وتنزيل فوري بصيغة PNG.",
+  "description": "اصنع ميمات من أي صورة مع تعليقات علوية وسفلية كلاسيكية   نص بخط خارجي وحجم قابل للتعديل وتنزيل فوري بصيغة PNG.",
   "name": "منشئ الميمات"
  },
  "merge-pdf": {
@@ -185,15 +185,15 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حماية PDF"
  },
  "qr-code-generator": {
-  "description": "أنشئ رموز QR للروابط وشبكات WiFi وبطاقات الاتصال والبريد الإلكتروني والرسائل النصية — بألوان وأحجام مخصصة وتنزيل بصيغتي PNG وSVG.",
+  "description": "أنشئ رموز QR للروابط وشبكات WiFi وبطاقات الاتصال والبريد الإلكتروني والرسائل النصية   بألوان وأحجام مخصصة وتنزيل بصيغتي PNG وSVG.",
   "name": "منشئ رموز QR"
  },
  "qr-code-scanner": {
-  "description": "امسح رموز QR وفكّ ترميزها من صورة مرفوعة أو من الكاميرا — بخصوصية تامة داخل متصفحك.",
+  "description": "امسح رموز QR وفكّ ترميزها من صورة مرفوعة أو من الكاميرا   بخصوصية تامة داخل متصفحك.",
   "name": "ماسح رموز QR"
  },
  "redact-pdf": {
-  "description": "احجب النصوص والمناطق الحساسة بشكل دائم — عبر رسم مربعات أو البحث عن كلمات.",
+  "description": "احجب النصوص والمناطق الحساسة بشكل دائم   عبر رسم مربعات أو البحث عن كلمات.",
   "name": "تنقيح PDF"
  },
  "repair-pdf": {
@@ -209,7 +209,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حاسبة التقاعد 401(k)"
  },
  "rotate-pdf": {
-  "description": "دوّر جميع صفحات PDF أو نطاق صفحات تختاره بمقدار 90 أو 180 أو 270 درجة — بشكل دائم.",
+  "description": "دوّر جميع صفحات PDF أو نطاق صفحات تختاره بمقدار 90 أو 180 أو 270 درجة   بشكل دائم.",
   "name": "تدوير PDF"
  },
  "scan-to-pdf": {
@@ -237,7 +237,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حاسبة الضرائب 2026 في أمريكا"
  },
  "unlock-pdf": {
-  "description": "أزل قيود كلمة المرور عن ملف PDF — فورًا للملفات المقفّلة بالأذونات، أو باستخدام كلمة مرور المستند.",
+  "description": "أزل قيود كلمة المرور عن ملف PDF   فورًا للملفات المقفّلة بالأذونات، أو باستخدام كلمة مرور المستند.",
   "name": "فكّ قفل PDF"
  },
  "watermark-pdf": {
@@ -257,7 +257,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "ملخّص PDF بالذكاء الاصطناعي"
  },
  "alternate-mix-pdf": {
-  "description": "ادمج صفحات ملفين أو أكثر من PDF بالتناوب — مثالي لدمج المسوح أحادية الوجه للمستندات ذات الوجهين.",
+  "description": "ادمج صفحات ملفين أو أكثر من PDF بالتناوب   مثالي لدمج المسوح أحادية الوجه للمستندات ذات الوجهين.",
   "name": "تبديل ومزج صفحات PDF"
  },
  "bates-numbering-pdf": {
@@ -265,11 +265,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "ترقيم بيتس"
  },
  "create-bookmarks-pdf": {
-  "description": "أضف مخطط إشارات مرجعية إلى ملف PDF — يدويًا، أو تلقائيًا من السطر الأول من كل صفحة.",
+  "description": "أضف مخطط إشارات مرجعية إلى ملف PDF   يدويًا، أو تلقائيًا من السطر الأول من كل صفحة.",
   "name": "إنشاء إشارات PDF المرجعية"
  },
  "crop-pdf": {
-  "description": "قص هوامش صفحات PDF — لجميع الصفحات أو نطاق محدد — بالنسب المئوية أو بالمليمترات.",
+  "description": "قص هوامش صفحات PDF   لجميع الصفحات أو نطاق محدد   بالنسب المئوية أو بالمليمترات.",
   "name": "قص ملفات PDF"
  },
  "delete-pdf-pages": {
@@ -281,7 +281,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تصحيح ميلان PDF"
  },
  "edit-pdf-metadata": {
-  "description": "اعرض وغيّر عنوان ملف PDF ومؤلفه وموضوعه وكلماته المفتاحية ومنشئه ومنتجه — أو امسحها جميعًا.",
+  "description": "اعرض وغيّر عنوان ملف PDF ومؤلفه وموضوعه وكلماته المفتاحية ومنشئه ومنتجه   أو امسحها جميعًا.",
   "name": "تحرير بيانات PDF الوصفية"
  },
  "epub-to-pdf": {
@@ -289,7 +289,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل EPUB إلى PDF"
  },
  "extract-pdf-images": {
-  "description": "استخرج الصور الأصلية المضمّنة في ملف PDF كملفات PNG — دون لقطات شاشة ودون فقدان للجودة.",
+  "description": "استخرج الصور الأصلية المضمّنة في ملف PDF كملفات PNG   دون لقطات شاشة ودون فقدان للجودة.",
   "name": "استخراج الصور من PDF"
  },
  "extract-pdf-pages": {
@@ -301,11 +301,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "استخراج الصور من Word"
  },
  "flatten-pdf": {
-  "description": "سطّح حقول النماذج داخل محتوى الصفحة بحيث لا يمكن تعديل النماذج المملوءة بعد ذلك — أو سطّح كل شيء.",
+  "description": "سطّح حقول النماذج داخل محتوى الصفحة بحيث لا يمكن تعديل النماذج المملوءة بعد ذلك   أو سطّح كل شيء.",
   "name": "تسطيح ملفات PDF"
  },
  "flip-pdf-pages": {
-  "description": "اعكس صفحات PDF أفقيًا أو عموديًا — يصلح المسوح المعكوسة وصور الكاميرا.",
+  "description": "اعكس صفحات PDF أفقيًا أو عموديًا   يصلح المسوح المعكوسة وصور الكاميرا.",
   "name": "قلب صفحات PDF"
  },
  "gif-to-pdf": {
@@ -313,7 +313,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل GIF إلى PDF"
  },
  "grayscale-pdf": {
-  "description": "حوّل ملف PDF ملونًا إلى التدرج الرمادي بالأبيض والأسود — يوفّر الحبر وغالبًا ما يُصغّر حجم الملف.",
+  "description": "حوّل ملف PDF ملونًا إلى التدرج الرمادي بالأبيض والأسود   يوفّر الحبر وغالبًا ما يُصغّر حجم الملف.",
   "name": "تحويل PDF إلى التدرج الرمادي"
  },
  "grocery-budget-planner": {
@@ -321,11 +321,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "مخطط ميزانية البقالة وتكلفة الوجبات"
  },
  "header-footer-pdf": {
-  "description": "اختم نص رأس وتذييل مخصصًا — يسارًا أو وسطًا أو يمينًا — مع عناصر نائبة لأرقام الصفحات على كل صفحة.",
+  "description": "اختم نص رأس وتذييل مخصصًا   يسارًا أو وسطًا أو يمينًا   مع عناصر نائبة لأرقام الصفحات على كل صفحة.",
   "name": "إضافة رأس وتذييل إلى PDF"
  },
  "heic-to-pdf": {
-  "description": "حوّل صور HEIC من iPhone إلى PDF — يعمل حيثما يستطيع متصفحك عرض HEIC (مثل Safari).",
+  "description": "حوّل صور HEIC من iPhone إلى PDF   يعمل حيثما يستطيع متصفحك عرض HEIC (مثل Safari).",
   "name": "تحويل HEIC إلى PDF"
  },
  "home-electricity-cost-calculator": {
@@ -345,7 +345,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "دمج مستندات Word"
  },
  "nup-pdf": {
-  "description": "اطبع صفحات PDF متعددة في الورقة الواحدة — 2 أو 4 أو 6 أو 9 صفحات على A4 أو A3 أو Letter — مع بقاء الصفحات حادة كالمتجهات.",
+  "description": "اطبع صفحات PDF متعددة في الورقة الواحدة   2 أو 4 أو 6 أو 9 صفحات على A4 أو A3 أو Letter   مع بقاء الصفحات حادة كالمتجهات.",
   "name": "صفحات متعددة في ورقة PDF"
  },
  "odt-to-word": {
@@ -353,7 +353,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل ODT إلى Word"
  },
  "pdf-background": {
-  "description": "لوّن خلفية كل صفحة من صفحات PDF — للورق الرسمي والنماذج والمنشورات.",
+  "description": "لوّن خلفية كل صفحة من صفحات PDF   للورق الرسمي والنماذج والمنشورات.",
   "name": "إضافة خلفية إلى PDF"
  },
  "pdf-forms": {
@@ -361,7 +361,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "نماذج PDF"
  },
  "pdf-reader": {
-  "description": "اقرأ ملفات PDF مباشرة في متصفحك مع التكبير — دون رفع أو تثبيت، وبخصوصية تامة.",
+  "description": "اقرأ ملفات PDF مباشرة في متصفحك مع التكبير   دون رفع أو تثبيت، وبخصوصية تامة.",
   "name": "قارئ PDF"
  },
  "pdf-to-bmp": {
@@ -369,7 +369,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل PDF إلى BMP"
  },
  "pdf-to-csv": {
-  "description": "استخرج صفوف ملف PDF إلى ملف CSV — مع اكتشاف الأعمدة من تخطيط الصفحة.",
+  "description": "استخرج صفوف ملف PDF إلى ملف CSV   مع اكتشاف الأعمدة من تخطيط الصفحة.",
   "name": "تحويل PDF إلى CSV"
  },
  "pdf-to-epub": {
@@ -377,7 +377,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل PDF إلى EPUB"
  },
  "pdf-to-markdown": {
-  "description": "حوّل ملف PDF إلى Markdown نظيف — عناوين مستخرجة من أحجام الخطوط، وقوائم منظمة، وفواصل بين الصفحات.",
+  "description": "حوّل ملف PDF إلى Markdown نظيف   عناوين مستخرجة من أحجام الخطوط، وقوائم منظمة، وفواصل بين الصفحات.",
   "name": "تحويل PDF إلى Markdown"
  },
  "pdf-to-png": {
@@ -397,11 +397,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل PNG إلى PDF"
  },
  "remove-annotations-pdf": {
-  "description": "أزل جميع التعليقات التوضيحية — التظليلات والتعليقات والأختام والعلامات — من ملف PDF دفعة واحدة.",
+  "description": "أزل جميع التعليقات التوضيحية   التظليلات والتعليقات والأختام والعلامات   من ملف PDF دفعة واحدة.",
   "name": "إزالة تعليقات PDF التوضيحية"
  },
  "remove-watermark-pdf": {
-  "description": "غطِّ مناطق العلامة المائية برقَع معتمة ترسمها بنفسك — ويبقى باقي كل صفحة حادًا كالمتجهات.",
+  "description": "غطِّ مناطق العلامة المائية برقَع معتمة ترسمها بنفسك   ويبقى باقي كل صفحة حادًا كالمتجهات.",
   "name": "إزالة العلامة المائية من PDF"
  },
  "rename-pdf-by-content": {
@@ -409,11 +409,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "إعادة تسمية PDF حسب المحتوى"
  },
  "resize-pdf-pages": {
-  "description": "غيّر حجم صفحات ملف PDF — A3 أو A4 أو A5 أو Letter أو Legal — مع قياس المحتوى للملاءمة أو التمديد.",
+  "description": "غيّر حجم صفحات ملف PDF   A3 أو A4 أو A5 أو Letter أو Legal   مع قياس المحتوى للملاءمة أو التمديد.",
   "name": "تغيير حجم صفحات PDF"
  },
  "split-pdf-by-bookmarks": {
-  "description": "قسّم ملف PDF إلى مستندات منفصلة عند إشاراته المرجعية — ملف لكل فصل أو قسم.",
+  "description": "قسّم ملف PDF إلى مستندات منفصلة عند إشاراته المرجعية   ملف لكل فصل أو قسم.",
   "name": "تقسيم PDF حسب الإشارات المرجعية"
  },
  "split-pdf-by-size": {
@@ -421,15 +421,15 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تقسيم PDF حسب الحجم"
  },
  "split-pdf-by-text": {
-  "description": "قسّم ملف PDF عند ظهور كلمة أو عبارة معينة — افصل الفواتير أو كشوف الحساب أو التقارير تلقائيًا.",
+  "description": "قسّم ملف PDF عند ظهور كلمة أو عبارة معينة   افصل الفواتير أو كشوف الحساب أو التقارير تلقائيًا.",
   "name": "تقسيم PDF حسب النص"
  },
  "split-pdf-in-half": {
-  "description": "قسّم مسوح الصفحات المزدوجة إلى صفحات مفردة — صفحات A3 المزدوجة إلى A4 مزدوج، أو A4 إلى A5 مزدوج.",
+  "description": "قسّم مسوح الصفحات المزدوجة إلى صفحات مفردة   صفحات A3 المزدوجة إلى A4 مزدوج، أو A4 إلى A5 مزدوج.",
   "name": "تقسيم PDF إلى نصفين"
  },
  "split-word": {
-  "description": "قسّم مستند Word إلى ملفات منفصلة — عند كل عنوان فصل أو كل N فقرات.",
+  "description": "قسّم مستند Word إلى ملفات منفصلة   عند كل عنوان فصل أو كل N فقرات.",
   "name": "تقسيم مستند Word"
  },
  "temperature-converter-pro": {
@@ -441,15 +441,15 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "محوّل حالة النص الاحترافي"
  },
  "text-to-pdf": {
-  "description": "حوّل النص المكتوب أو الملصق — أو ملف .txt — إلى مستند PDF نظيف ومُرقّم الصفحات.",
+  "description": "حوّل النص المكتوب أو الملصق   أو ملف .txt   إلى مستند PDF نظيف ومُرقّم الصفحات.",
   "name": "تحويل النص إلى PDF"
  },
  "text-to-word": {
-  "description": "حوّل النص العادي أو Markdown إلى مستند Word منسّق — الصق النص أو ارفع ملف .txt/.md.",
+  "description": "حوّل النص العادي أو Markdown إلى مستند Word منسّق   الصق النص أو ارفع ملف .txt/.md.",
   "name": "تحويل النص إلى Word"
  },
  "tiff-to-pdf": {
-  "description": "حوّل صور TIFF — بما فيها ملفات TIFF متعددة الصفحات — إلى مستند PDF.",
+  "description": "حوّل صور TIFF   بما فيها ملفات TIFF متعددة الصفحات   إلى مستند PDF.",
   "name": "تحويل TIFF إلى PDF"
  },
  "tip-bill-splitter-calculator": {
@@ -473,7 +473,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "عدّاد الكلمات والأحرف الاحترافي"
  },
  "word-editor": {
-  "description": "حرّر مستند Word عبر الإنترنت — غيّر النص والعناوين والتنسيق، ثم نزّل ملف .docx المحدّث.",
+  "description": "حرّر مستند Word عبر الإنترنت   غيّر النص والعناوين والتنسيق، ثم نزّل ملف .docx المحدّث.",
   "name": "محرر Word"
  },
  "word-to-epub": {
@@ -485,7 +485,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل Word إلى HTML"
  },
  "word-to-jpg": {
-  "description": "حوّل مستند Word إلى صور JPG أو PNG — صورة لكل صفحة، مضغوطة في ملف zip للتنزيل.",
+  "description": "حوّل مستند Word إلى صور JPG أو PNG   صورة لكل صفحة، مضغوطة في ملف zip للتنزيل.",
   "name": "تحويل Word إلى JPG"
  },
  "word-to-markdown": {
@@ -501,7 +501,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "تحويل Word إلى نص"
  },
  "word-viewer": {
-  "description": "افتح واقرأ أي مستند Word (.docx) مباشرة في متصفحك — دون الحاجة إلى Microsoft Word.",
+  "description": "افتح واقرأ أي مستند Word (.docx) مباشرة في متصفحك   دون الحاجة إلى Microsoft Word.",
   "name": "عارض Word"
  },
  "base64-encoder-decoder": {
@@ -513,7 +513,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "حاسبة Chmod"
  },
  "code-minifier": {
-  "description": "صغّر كود HTML وCSS وJavaScript لتقليل وزن الصفحة وتحسين سرعة التحميل — مع إحصائيات الحجم قبل التصغير وبعده.",
+  "description": "صغّر كود HTML وCSS وJavaScript لتقليل وزن الصفحة وتحسين سرعة التحميل   مع إحصائيات الحجم قبل التصغير وبعده.",
   "name": "مصغّر HTML وCSS وJS"
  },
  "code-to-text-ratio-checker": {
@@ -545,7 +545,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "محوّل CSV إلى JSON"
  },
  "duplicate-content-checker": {
-  "description": "قارن بين نصين للكشف عن التكرار — مع نسبة التشابه والعبارات المشتركة والجمل المتطابقة مميّزة.",
+  "description": "قارن بين نصين للكشف عن التكرار   مع نسبة التشابه والعبارات المشتركة والجمل المتطابقة مميّزة.",
   "name": "فاحص المحتوى المكرر"
  },
  "faq-schema-generator": {
@@ -561,11 +561,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "فاحص بنية العناوين"
  },
  "headline-analyzer": {
-  "description": "قيّم العناوين من حيث جذب النقرات — الكلمات المؤثرة والجاذبية العاطفية والأرقام والطول والتنسيق وخطر العناوين الخادعة.",
+  "description": "قيّم العناوين من حيث جذب النقرات   الكلمات المؤثرة والجاذبية العاطفية والأرقام والطول والتنسيق وخطر العناوين الخادعة.",
   "name": "محلّل العناوين"
  },
  "hreflang-generator": {
-  "description": "أنشئ وسوم hreflang للمواقع متعددة اللغات — كوسوم ربط HTML أو كخريطة موقع XML كاملة بوسوم hreflang.",
+  "description": "أنشئ وسوم hreflang للمواقع متعددة اللغات   كوسوم ربط HTML أو كخريطة موقع XML كاملة بوسوم hreflang.",
   "name": "منشئ وسوم Hreflang"
  },
  "htaccess-redirect-generator": {
@@ -573,19 +573,19 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "منشئ إعادة توجيه Htaccess"
  },
  "html-entity-encoder-decoder": {
-  "description": "حوّل الأحرف الخاصة إلى كيانات HTML وبالعكس — المراجع المسمّاة والرقمية والست عشرية.",
+  "description": "حوّل الأحرف الخاصة إلى كيانات HTML وبالعكس   المراجع المسمّاة والرقمية والست عشرية.",
   "name": "مشفّر كيانات HTML وفاكّ ترميزها"
  },
  "http-status-code-reference": {
-  "description": "مرجع قابل للبحث لرموز حالة HTTP — ماذا يعني كل رمز من 1xx إلى 5xx ومتى يُستخدم.",
+  "description": "مرجع قابل للبحث لرموز حالة HTTP   ماذا يعني كل رمز من 1xx إلى 5xx ومتى يُستخدم.",
   "name": "مرجع رموز حالة HTTP"
  },
  "json-diff-checker": {
-  "description": "قارن بين مستندي JSON واعرف بدقة أي المفاتيح أُضيفت أو حُذفت أو تغيّرت — حسب المسار.",
+  "description": "قارن بين مستندي JSON واعرف بدقة أي المفاتيح أُضيفت أو حُذفت أو تغيّرت   حسب المسار.",
   "name": "فاحص فروقات JSON"
  },
  "json-formatter": {
-  "description": "نسّق JSON وتحقق من صحته وصغّره مع تحديد دقيق لمواضع الأخطاء — السطر والعمود — بالإضافة إلى فرز المفاتيح.",
+  "description": "نسّق JSON وتحقق من صحته وصغّره مع تحديد دقيق لمواضع الأخطاء   السطر والعمود   بالإضافة إلى فرز المفاتيح.",
   "name": "منسّق JSON ومدقّقه"
  },
  "json-to-csv-converter": {
@@ -593,7 +593,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "محوّل JSON إلى CSV"
  },
  "json-to-typescript": {
-  "description": "أنشئ واجهات TypeScript من عينات JSON تلقائيًا — مع معالجة الكائنات والمصفوفات المتداخلة.",
+  "description": "أنشئ واجهات TypeScript من عينات JSON تلقائيًا   مع معالجة الكائنات والمصفوفات المتداخلة.",
   "name": "محوّل JSON إلى TypeScript"
  },
  "json-to-yaml-converter": {
@@ -617,7 +617,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "فاحص كثافة الكلمات المفتاحية"
  },
  "link-extractor": {
-  "description": "استخرج كل رابط من كود HTML لأي صفحة — نص الرابط، داخلي/خارجي، dofollow/nofollow — مع التصدير إلى CSV.",
+  "description": "استخرج كل رابط من كود HTML لأي صفحة   نص الرابط، داخلي/خارجي، dofollow/nofollow   مع التصدير إلى CSV.",
   "name": "مستخرج الروابط"
  },
  "llms-txt-generator": {
@@ -629,15 +629,15 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "محلّل وسوم الميتا"
  },
  "meta-tag-generator": {
-  "description": "أنشئ وسوم ميتا كاملة — العنوان والوصف وrobots وcanonical وOpen Graph وبطاقات Twitter — مع فحص مباشر لأطوال النصوص.",
+  "description": "أنشئ وسوم ميتا كاملة   العنوان والوصف وrobots وcanonical وOpen Graph وبطاقات Twitter   مع فحص مباشر لأطوال النصوص.",
   "name": "منشئ وسوم الميتا"
  },
  "number-base-converter": {
-  "description": "حوّل الأرقام بين النظام الثنائي والثماني والعشري والست عشري وأي أساس من 2 إلى 36 — بدقة عشوائية.",
+  "description": "حوّل الأرقام بين النظام الثنائي والثماني والعشري والست عشري وأي أساس من 2 إلى 36   بدقة عشوائية.",
   "name": "محوّل أنظمة الأعداد"
  },
  "on-page-seo-analyzer": {
-  "description": "تدقيق كامل لتحسين محركات البحث داخل الصفحة مع نتيجة من 100 — مواضع الكلمات المفتاحية وكثافتها والعناوين والروابط وقابلية القراءة وفحوصات الميتا.",
+  "description": "تدقيق كامل لتحسين محركات البحث داخل الصفحة مع نتيجة من 100   مواضع الكلمات المفتاحية وكثافتها والعناوين والروابط وقابلية القراءة وفحوصات الميتا.",
   "name": "محلّل SEO داخل الصفحة"
  },
  "open-graph-generator": {
@@ -649,15 +649,15 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "منشئ كلمات المرور"
  },
  "protect-word": {
-  "description": "قيّد التحرير في مستند Word — للقراءة فقط، أو التعليقات فقط، أو تتبّع التغييرات، أو تعبئة النماذج.",
+  "description": "قيّد التحرير في مستند Word   للقراءة فقط، أو التعليقات فقط، أو تتبّع التغييرات، أو تعبئة النماذج.",
   "name": "حماية Word"
  },
  "readability-checker": {
-  "description": "قيّم محتواك بمقاييس Flesch Reading Ease وFlesch-Kincaid وGunning Fog وSMOG وColeman-Liau وARI — بالإضافة إلى تنبيهات الجمل الطويلة.",
+  "description": "قيّم محتواك بمقاييس Flesch Reading Ease وFlesch-Kincaid وGunning Fog وSMOG وColeman-Liau وARI   بالإضافة إلى تنبيهات الجمل الطويلة.",
   "name": "فاحص قابلية القراءة"
  },
  "redirect-chain-analyzer": {
-  "description": "دقّق خريطة إعادة توجيه بحثًا عن السلاسل والحلقات والقواعد المكررة — واحصل على خريطة مسطّحة من خطوة واحدة.",
+  "description": "دقّق خريطة إعادة توجيه بحثًا عن السلاسل والحلقات والقواعد المكررة   واحصل على خريطة مسطّحة من خطوة واحدة.",
   "name": "محلّل سلاسل إعادة التوجيه"
  },
  "regex-tester": {
@@ -665,11 +665,11 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "اختبار التعبيرات النمطية"
  },
  "repair-word": {
-  "description": "أصلح مستند Word تالفًا — يعيد بناء بنية الملف، أو يستعيد نصّه في ملف .docx سليم.",
+  "description": "أصلح مستند Word تالفًا   يعيد بناء بنية الملف، أو يستعيد نصّه في ملف .docx سليم.",
   "name": "إصلاح Word"
  },
  "robots-txt-generator": {
-  "description": "أنشئ ملف robots.txt صالحًا بقواعد سماح وحظر لكل روبوت ومهلة زحف وإدخالات خريطة الموقع — بالإضافة إلى إعدادات مسبقة بنقرة واحدة.",
+  "description": "أنشئ ملف robots.txt صالحًا بقواعد سماح وحظر لكل روبوت ومهلة زحف وإدخالات خريطة الموقع   بالإضافة إلى إعدادات مسبقة بنقرة واحدة.",
   "name": "منشئ ملف robots.txt"
  },
  "robots-txt-tester": {
@@ -677,19 +677,19 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "اختبار ملف robots.txt"
  },
  "schema-generator": {
-  "description": "أنشئ بيانات منظّمة بصيغة JSON-LD صالحة — Article وProduct وLocalBusiness وHowTo وBreadcrumb وOrganization وWebSite.",
+  "description": "أنشئ بيانات منظّمة بصيغة JSON-LD صالحة   Article وProduct وLocalBusiness وHowTo وBreadcrumb وOrganization وWebSite.",
   "name": "منشئ بيانات Schema المنظّمة"
  },
  "seo-roi-calculator": {
-  "description": "احسب العائد على حملة SEO — الزيارات المتوقعة والتحويلات والإيرادات ونقطة التعادل ومنحنى نمو على مدى 12 شهرًا.",
+  "description": "احسب العائد على حملة SEO   الزيارات المتوقعة والتحويلات والإيرادات ونقطة التعادل ومنحنى نمو على مدى 12 شهرًا.",
   "name": "حاسبة العائد على استثمار SEO"
  },
  "serp-snippet-preview": {
-  "description": "عاين كيف ستبدو صفحتك في نتائج بحث Google — على الحاسوب والجوال — مع فحوصات حقيقية للاقتطاع حسب عرض البكسل.",
+  "description": "عاين كيف ستبدو صفحتك في نتائج بحث Google   على الحاسوب والجوال   مع فحوصات حقيقية للاقتطاع حسب عرض البكسل.",
   "name": "معاينة مقتطف نتائج البحث"
  },
  "sitemap-validator": {
-  "description": "تحقق من خريطة موقع XML بحثًا عن الأخطاء — روابط غير صالحة وتواريخ lastmod خاطئة وأولويات غير صحيحة وروابط مكررة.",
+  "description": "تحقق من خريطة موقع XML بحثًا عن الأخطاء   روابط غير صالحة وتواريخ lastmod خاطئة وأولويات غير صحيحة وروابط مكررة.",
   "name": "مدقّق خريطة الموقع"
  },
  "sql-formatter": {
@@ -701,7 +701,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "فاحص فروقات النصوص"
  },
  "timestamp-converter": {
-  "description": "حوّل الطوابع الزمنية Unix إلى تواريخ مقروءة وبالعكس — بالثواني والميلي ثانية، وبالتوقيت العالمي UTC والمحلي والنسبي.",
+  "description": "حوّل الطوابع الزمنية Unix إلى تواريخ مقروءة وبالعكس   بالثواني والميلي ثانية، وبالتوقيت العالمي UTC والمحلي والنسبي.",
   "name": "محوّل الطابع الزمني Unix"
  },
  "unlock-word": {
@@ -713,7 +713,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "مشفّر الروابط وفاكّ ترميزها"
  },
  "url-parser": {
-  "description": "فكّك أي رابط إلى البروتوكول والمضيف ومقاطع المسار ومعلمات الاستعلام — وحرّر المعلمات لإعادة بنائه.",
+  "description": "فكّك أي رابط إلى البروتوكول والمضيف ومقاطع المسار ومعلمات الاستعلام   وحرّر المعلمات لإعادة بنائه.",
   "name": "محلّل الروابط"
  },
  "user-agent-parser": {
@@ -721,23 +721,23 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "محلّل وكيل المستخدم"
  },
  "utm-builder": {
-  "description": "أنشئ روابط حملات بمعلمات UTM لأداة Google Analytics — المصدر والوسيط والحملة والمصطلح والمحتوى.",
+  "description": "أنشئ روابط حملات بمعلمات UTM لأداة Google Analytics   المصدر والوسيط والحملة والمصطلح والمحتوى.",
   "name": "منشئ روابط UTM"
  },
  "uuid-generator": {
-  "description": "أنشئ معرّفات UUID v4 (عشوائية) وv7 (مرتّبة زمنيًا) دفعة واحدة — حتى 500 معرّف في المرة الواحدة.",
+  "description": "أنشئ معرّفات UUID v4 (عشوائية) وv7 (مرتّبة زمنيًا) دفعة واحدة   حتى 500 معرّف في المرة الواحدة.",
   "name": "منشئ UUID"
  },
  "word-analyzer": {
-  "description": "إحصائيات كاملة لمستند Word — عدد الكلمات والأحرف والعناوين والجداول والصور ووقت القراءة والكلمات الأكثر تكرارًا.",
+  "description": "إحصائيات كاملة لمستند Word   عدد الكلمات والأحرف والعناوين والجداول والصور ووقت القراءة والكلمات الأكثر تكرارًا.",
   "name": "محلّل مستندات Word"
  },
  "word-find-replace": {
-  "description": "ابحث عن نص واستبدله في مستند Word بأكمله — بما في ذلك الرؤوس والتذييلات — دفعة واحدة.",
+  "description": "ابحث عن نص واستبدله في مستند Word بأكمله   بما في ذلك الرؤوس والتذييلات   دفعة واحدة.",
   "name": "البحث والاستبدال في Word"
  },
  "word-metadata-editor": {
-  "description": "اعرض وحرّر أو أزل خصائص مستند Word — العنوان والمؤلف والموضوع والكلمات المفتاحية والمزيد.",
+  "description": "اعرض وحرّر أو أزل خصائص مستند Word   العنوان والمؤلف والموضوع والكلمات المفتاحية والمزيد.",
   "name": "محرّر بيانات Word الوصفية"
  },
  "word-watermark": {
@@ -749,15 +749,15 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "منسّق XML"
  },
  "xml-sitemap-generator": {
-  "description": "حوّل قائمة روابط إلى خريطة موقع XML صالحة مع lastmod وchangefreq وpriority — جاهزة للرفع والإرسال.",
+  "description": "حوّل قائمة روابط إلى خريطة موقع XML صالحة مع lastmod وchangefreq وpriority   جاهزة للرفع والإرسال.",
   "name": "منشئ خريطة موقع XML"
  },
  "yaml-to-json-converter": {
-  "description": "حوّل ملفات إعدادات YAML إلى JSON — مع دعم التعيينات والتسلسلات والمجموعات الانسيابية والنصوص الكتلية.",
+  "description": "حوّل ملفات إعدادات YAML إلى JSON   مع دعم التعيينات والتسلسلات والمجموعات الانسيابية والنصوص الكتلية.",
   "name": "محوّل YAML إلى JSON"
  },
  "age-calculator": {
-  "description": "اعرف عمرك الدقيق بالسنوات والأشهر والأيام — بالإضافة إلى إجمالي أيام حياتك ويوم الأسبوع الذي وُلدت فيه وبرجك والعد التنازلي لعيد ميلادك القادم.",
+  "description": "اعرف عمرك الدقيق بالسنوات والأشهر والأيام   بالإضافة إلى إجمالي أيام حياتك ويوم الأسبوع الذي وُلدت فيه وبرجك والعد التنازلي لعيد ميلادك القادم.",
   "name": "حاسبة العمر"
  },
  "ai-bio-generator": {
@@ -773,47 +773,47 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "مولّد التعليقات بالذكاء الاصطناعي"
  },
  "ai-chat": {
-  "description": "تحدث مع Google Gemini — اطرح أسئلة وتبادل الأفكار واحصل على مساعدة في البرمجة أو تدرّب على المقابلات مع مساعدين مُعدّين مسبقًا.",
+  "description": "تحدث مع Google Gemini   اطرح أسئلة وتبادل الأفكار واحصل على مساعدة في البرمجة أو تدرّب على المقابلات مع مساعدين مُعدّين مسبقًا.",
   "name": "محادثة الذكاء الاصطناعي"
  },
  "ai-cover-letter-generator": {
-  "description": "أنشئ خطاب تغطية مخصصًا بناءً على منصبك والشركة وخبرتك ومهاراتك — دون أي أقواس نائبة.",
+  "description": "أنشئ خطاب تغطية مخصصًا بناءً على منصبك والشركة وخبرتك ومهاراتك   دون أي أقواس نائبة.",
   "name": "مولّد خطاب التغطية بالذكاء الاصطناعي"
  },
  "ai-email-writer": {
-  "description": "صِغ رسائل بريد إلكتروني احترافية في ثوانٍ — اختر الغرض والنبرة وأضف نقاطك الأساسية واحصل على بريد جاهز للإرسال.",
+  "description": "صِغ رسائل بريد إلكتروني احترافية في ثوانٍ   اختر الغرض والنبرة وأضف نقاطك الأساسية واحصل على بريد جاهز للإرسال.",
   "name": "كاتب البريد الإلكتروني بالذكاء الاصطناعي"
  },
  "ai-grammar-checker": {
-  "description": "صحّح القواعد والإملاء وعلامات الترقيم — واطّلع على قائمة واضحة بما تم تغييره بالضبط.",
+  "description": "صحّح القواعد والإملاء وعلامات الترقيم   واطّلع على قائمة واضحة بما تم تغييره بالضبط.",
   "name": "مدقق القواعد بالذكاء الاصطناعي"
  },
  "ai-hashtag-generator": {
-  "description": "صِف منشورك واحصل على 30 وسمًا بالذكاء الاصطناعي مجمعة حسب مدى الانتشار لـ Instagram أو TikTok أو X — واعية بالمجال وجاهزة للصق.",
+  "description": "صِف منشورك واحصل على 30 وسمًا بالذكاء الاصطناعي مجمعة حسب مدى الانتشار لـ Instagram أو TikTok أو X   واعية بالمجال وجاهزة للصق.",
   "name": "مولّد الوسوم بالذكاء الاصطناعي"
  },
  "ai-hook-generator": {
-  "description": "أنشئ 10 عبارات افتتاحية جذابة توقف التمرير لمقاطع TikTok أو Reels أو Shorts — اختر نبرتك والصق موضوعك.",
+  "description": "أنشئ 10 عبارات افتتاحية جذابة توقف التمرير لمقاطع TikTok أو Reels أو Shorts   اختر نبرتك والصق موضوعك.",
   "name": "مولّد الخطافات بالذكاء الاصطناعي"
  },
  "ai-image-generator": {
-  "description": "أنشئ صورًا من أوصاف نصية باستخدام Google Gemini — بأنماط واقعية ورسوم توضيحية وأنمي وثلاثية الأبعاد وألوان مائية والمزيد.",
+  "description": "أنشئ صورًا من أوصاف نصية باستخدام Google Gemini   بأنماط واقعية ورسوم توضيحية وأنمي وثلاثية الأبعاد وألوان مائية والمزيد.",
   "name": "مولّد الصور بالذكاء الاصطناعي"
  },
  "ai-paraphraser": {
-  "description": "أعد كتابة أي نص بسبعة أوضاع — القياسي والسلس والرسمي والبسيط والإبداعي والأقصر أو الأطول — مع الحفاظ على المعنى.",
+  "description": "أعد كتابة أي نص بسبعة أوضاع   القياسي والسلس والرسمي والبسيط والإبداعي والأقصر أو الأطول   مع الحفاظ على المعنى.",
   "name": "أداة إعادة الصياغة بالذكاء الاصطناعي"
  },
  "ai-poem-generator": {
-  "description": "اكتب قصائد بأشكال حقيقية — هايكو أو سونيت أو ليمريك أو قصيدة غنائية أو أكروستيك أو شعر حر — حول أي موضوع وبأي مزاج.",
+  "description": "اكتب قصائد بأشكال حقيقية   هايكو أو سونيت أو ليمريك أو قصيدة غنائية أو أكروستيك أو شعر حر   حول أي موضوع وبأي مزاج.",
   "name": "مولّد القصائد بالذكاء الاصطناعي"
  },
  "ai-quiz-generator": {
-  "description": "الصق ملاحظات دراستك واحصل على اختبار اختيار من متعدد فوري مع مفتاح إجابة — ثم خض الاختبار واعرف نتيجتك.",
+  "description": "الصق ملاحظات دراستك واحصل على اختبار اختيار من متعدد فوري مع مفتاح إجابة   ثم خض الاختبار واعرف نتيجتك.",
   "name": "مولّد الاختبارات بالذكاء الاصطناعي"
  },
  "ai-story-generator": {
-  "description": "ابتكر قصصًا أصلية بثمانية أنواع — سمِّ بطلك وحدّد المشهد وأضف منعطفًا اختياريًا في الحبكة.",
+  "description": "ابتكر قصصًا أصلية بثمانية أنواع   سمِّ بطلك وحدّد المشهد وأضف منعطفًا اختياريًا في الحبكة.",
   "name": "مولّد القصص بالذكاء الاصطناعي"
  },
  "ai-text-summarizer": {
@@ -825,7 +825,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "المترجم بالذكاء الاصطناعي"
  },
  "ai-writer": {
-  "description": "أنشئ مقالات مدونة وأوصاف منتجات ومقالات ومنشورات اجتماعية حول أي موضوع — اختر النبرة والطول.",
+  "description": "أنشئ مقالات مدونة وأوصاف منتجات ومقالات ومنشورات اجتماعية حول أي موضوع   اختر النبرة والطول.",
   "name": "الكاتب بالذكاء الاصطناعي"
  },
  "audio-converter": {
@@ -833,7 +833,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "محول الصوت"
  },
  "audio-joiner": {
-  "description": "ادمج عدة ملفات صوتية في مقطع واحد — التنسيقات المختلطة مرحب بها، والإخراج بصيغة MP3 أو WAV أو M4A أو OGG.",
+  "description": "ادمج عدة ملفات صوتية في مقطع واحد   التنسيقات المختلطة مرحب بها، والإخراج بصيغة MP3 أو WAV أو M4A أو OGG.",
   "name": "دامج الصوت"
  },
  "audio-speed-changer": {
@@ -861,31 +861,31 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "منتقي الرموز التعبيرية ولوحة النسخ"
  },
  "engagement-rate-calculator": {
-  "description": "احسب معدل تفاعلك على Instagram أو TikTok أو YouTube من المتابعين والإعجابات والتعليقات والمشاركات والحفظ — مع تقييم واضح بلغة بسيطة.",
+  "description": "احسب معدل تفاعلك على Instagram أو TikTok أو YouTube من المتابعين والإعجابات والتعليقات والمشاركات والحفظ   مع تقييم واضح بلغة بسيطة.",
   "name": "حاسبة معدل التفاعل"
  },
  "equation-solver": {
-  "description": "حلّ المعادلات التربيعية والخطية بخطوات عمل كاملة — مع شرح المميز والتعويض في الصيغة والجذور.",
+  "description": "حلّ المعادلات التربيعية والخطية بخطوات عمل كاملة   مع شرح المميز والتعويض في الصيغة والجذور.",
   "name": "حاسبة المعادلات مع الخطوات"
  },
  "essay-word-counter": {
-  "description": "عُدّ الكلمات والأحرف والجمل ووقت القراءة — تتبع تقدمك نحو هدف مقالك وتحقق من قابلية القراءة.",
+  "description": "عُدّ الكلمات والأحرف والجمل ووقت القراءة   تتبع تقدمك نحو هدف مقالك وتحقق من قابلية القراءة.",
   "name": "عدّاد كلمات المقالات"
  },
  "fancy-text-generator": {
-  "description": "حوّل النص العادي إلى أنماط Unicode عريضة ومخطوطة وفراكتور ومحاطة بدوائر وأحرف صغيرة ومقلوبة للسير الذاتية والمنشورات — انقر للنسخ.",
+  "description": "حوّل النص العادي إلى أنماط Unicode عريضة ومخطوطة وفراكتور ومحاطة بدوائر وأحرف صغيرة ومقلوبة للسير الذاتية والمنشورات   انقر للنسخ.",
   "name": "مولّد النصوص المزخرفة"
  },
  "flashcard-maker": {
-  "description": "أنشئ بطاقاتك التعليمية الخاصة وادرسها بوضع القلب والخلط وصدّر مجموعتك — بديل مجاني لـ Quizlet.",
+  "description": "أنشئ بطاقاتك التعليمية الخاصة وادرسها بوضع القلب والخلط وصدّر مجموعتك   بديل مجاني لـ Quizlet.",
   "name": "صانع البطاقات التعليمية"
  },
  "giveaway-picker": {
-  "description": "الصق تعليقات مسابقتك واختر فائزًا عشوائيًا بعدالة — مع إزالة المكررات واستبعاد الفائزين السابقين.",
+  "description": "الصق تعليقات مسابقتك واختر فائزًا عشوائيًا بعدالة   مع إزالة المكررات واستبعاد الفائزين السابقين.",
   "name": "أداة اختيار الفائز في المسابقات والتعليقات"
  },
  "gpa-calculator": {
-  "description": "احسب معدلك الفصلي GPA ومعدلك التراكمي CGPA على مقاييس 4.0 القياسية أو بنظام الزائد/الناقص — واعرف المعدل الذي تحتاجه لبلوغ هدفك.",
+  "description": "احسب معدلك الفصلي GPA ومعدلك التراكمي CGPA على مقاييس 4.0 القياسية أو بنظام الزائد/الناقص   واعرف المعدل الذي تحتاجه لبلوغ هدفك.",
   "name": "حاسبة المعدل التراكمي GPA"
  },
  "hashtag-counter": {
@@ -893,43 +893,43 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "عدّاد الوسوم ومنظّفها"
  },
  "hashtag-generator": {
-  "description": "أنشئ حتى 30 وسمًا من كلماتك المفتاحية بالإضافة إلى بنك منسّق لـ 12 مجالًا متخصصًا — اللياقة والطعام والسفر والأزياء والأعمال والمزيد.",
+  "description": "أنشئ حتى 30 وسمًا من كلماتك المفتاحية بالإضافة إلى بنك منسّق لـ 12 مجالًا متخصصًا   اللياقة والطعام والسفر والأزياء والأعمال والمزيد.",
   "name": "مولّد الوسوم"
  },
  "link-in-bio-builder": {
-  "description": "ابنِ صفحة الرابط في سيرتك الخاصة ونزّلها كملف HTML واحد — استضفها مجانًا في أي مكان دون رسوم شهرية.",
+  "description": "ابنِ صفحة الرابط في سيرتك الخاصة ونزّلها كملف HTML واحد   استضفها مجانًا في أي مكان دون رسوم شهرية.",
   "name": "منشئ صفحة الرابط في السيرة"
  },
  "love-calculator": {
-  "description": "أدخل اسمين واحصل على نسبة حبكما — لعبة أسماء للمتعة فقط تعطي فيها الأسماء نفسها النتيجة نفسها دائمًا.",
+  "description": "أدخل اسمين واحصل على نسبة حبكما   لعبة أسماء للمتعة فقط تعطي فيها الأسماء نفسها النتيجة نفسها دائمًا.",
   "name": "حاسبة الحب"
  },
  "periodic-table": {
-  "description": "استكشف جميع العناصر الـ 118 — انقر أي عنصر لعرض اسمه وعدده الذري وكتلته وفئته، مع بحث ومجموعات مرمزة بالألوان.",
+  "description": "استكشف جميع العناصر الـ 118   انقر أي عنصر لعرض اسمه وعدده الذري وكتلته وفئته، مع بحث ومجموعات مرمزة بالألوان.",
   "name": "الجدول الدوري التفاعلي"
  },
  "pomodoro-timer": {
-  "description": "ادرس واعمل في جلسات تركيز مدتها 25 دقيقة مع فترات راحة تلقائية — توقيتات قابلة للتخصيص وتتبع للجلسات.",
+  "description": "ادرس واعمل في جلسات تركيز مدتها 25 دقيقة مع فترات راحة تلقائية   توقيتات قابلة للتخصيص وتتبع للجلسات.",
   "name": "مؤقّت تركيز بومودورو"
  },
  "post-card-maker": {
-  "description": "صمّم بطاقات منشورات اجتماعية نظيفة للمصغرات والعروض التقديمية ومعاينات المحتوى — سمات فاتحة وداكنة وتصدير بصيغة PNG.",
+  "description": "صمّم بطاقات منشورات اجتماعية نظيفة للمصغرات والعروض التقديمية ومعاينات المحتوى   سمات فاتحة وداكنة وتصدير بصيغة PNG.",
   "name": "صانع بطاقات المنشورات"
  },
  "post-ideas-generator": {
-  "description": "احصل على تقويم محتوى جاهز لمدة 30 يومًا لمجالك — فكرة منشور وتنسيق لكل يوم من الشهر.",
+  "description": "احصل على تقويم محتوى جاهز لمدة 30 يومًا لمجالك   فكرة منشور وتنسيق لكل يوم من الشهر.",
   "name": "مولّد أفكار منشورات التواصل الاجتماعي"
  },
  "random-number-generator": {
-  "description": "أنشئ أرقامًا عشوائية في أي نطاق وارمِ النرد من d4 إلى d100 واقلب عملة معدنية — للسحوبات والألعاب والقرارات.",
+  "description": "أنشئ أرقامًا عشوائية في أي نطاق وارمِ النرد من d4 إلى d100 واقلب عملة معدنية   للسحوبات والألعاب والقرارات.",
   "name": "مولّد الأرقام العشوائية"
  },
  "screen-recorder": {
-  "description": "سجّل شاشتك أو نافذة أو تبويب متصفح — مع الميكروفون وصوت النظام — ونزّل الفيديو. لا يُرفع أي شيء.",
+  "description": "سجّل شاشتك أو نافذة أو تبويب متصفح   مع الميكروفون وصوت النظام   ونزّل الفيديو. لا يُرفع أي شيء.",
   "name": "مسجل الشاشة"
  },
  "social-image-resizer": {
-  "description": "غيّر حجم أي صورة إلى المقاس الدقيق لـ Instagram وX وFacebook وYouTube وLinkedIn وTikTok وPinterest — قص أو ملاءمة أو تعبئة بالتمويه.",
+  "description": "غيّر حجم أي صورة إلى المقاس الدقيق لـ Instagram وX وFacebook وYouTube وLinkedIn وTikTok وPinterest   قص أو ملاءمة أو تعبئة بالتمويه.",
   "name": "أداة تغيير حجم صور التواصل الاجتماعي"
  },
  "social-post-composer": {
@@ -937,15 +937,15 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "منشئ منشورات التواصل الاجتماعي"
  },
  "social-video-resizer": {
-  "description": "حوّل أي فيديو إلى 9:16 للريلز وTikTok وShorts، أو 1:1 أو 4:5 للخلاصات، أو 16:9 — قص للملء أو وَسِّع بخلفية مموهة.",
+  "description": "حوّل أي فيديو إلى 9:16 للريلز وTikTok وShorts، أو 1:1 أو 4:5 للخلاصات، أو 16:9   قص للملء أو وَسِّع بخلفية مموهة.",
   "name": "أداة تغيير حجم فيديو التواصل الاجتماعي"
  },
  "speech-to-text": {
-  "description": "أملِ باللغة الإنجليزية — نسخ حي في متصفحك مع إمكانية النسخ والتنزيل.",
+  "description": "أملِ باللغة الإنجليزية   نسخ حي في متصفحك مع إمكانية النسخ والتنزيل.",
   "name": "تحويل الكلام إلى نص"
  },
  "stopwatch-timer": {
-  "description": "ساعة إيقاف دقيقة مع الدورات بالإضافة إلى مؤقّت تنازلي مع منبه — للتمارين والطبخ والامتحانات والعروض التقديمية.",
+  "description": "ساعة إيقاف دقيقة مع الدورات بالإضافة إلى مؤقّت تنازلي مع منبه   للتمارين والطبخ والامتحانات والعروض التقديمية.",
   "name": "ساعة الإيقاف والمؤقّت التنازلي"
  },
  "study-planner": {
@@ -953,23 +953,23 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "مخطط الدراسة"
  },
  "text-to-handwriting": {
-  "description": "حوّل النص المطبوع إلى صفحات مكتوبة بخط اليد بواقعية على ورق A4 مسطّر — اختر لون الحبر ونزّل صفحات جاهزة للطباعة.",
+  "description": "حوّل النص المطبوع إلى صفحات مكتوبة بخط اليد بواقعية على ورق A4 مسطّر   اختر لون الحبر ونزّل صفحات جاهزة للطباعة.",
   "name": "محول النص إلى خط اليد"
  },
  "text-to-speech": {
-  "description": "استمع إلى أي نص يُقرأ بصوت عالٍ بأصوات نظام طبيعية — اختر الصوت والسرعة وحدة الصوت.",
+  "description": "استمع إلى أي نص يُقرأ بصوت عالٍ بأصوات نظام طبيعية   اختر الصوت والسرعة وحدة الصوت.",
   "name": "تحويل النص إلى كلام"
  },
  "typing-speed-test": {
-  "description": "اختبر سرعة كتابتك في 30 أو 60 ثانية — نتائج حقيقية لعدد الكلمات في الدقيقة (WPM) والدقة مع تغذية راجعة حية لكل حرف.",
+  "description": "اختبر سرعة كتابتك في 30 أو 60 ثانية   نتائج حقيقية لعدد الكلمات في الدقيقة (WPM) والدقة مع تغذية راجعة حية لكل حرف.",
   "name": "اختبار سرعة الكتابة"
  },
  "username-generator": {
-  "description": "أنشئ أفكارًا جذابة لأسماء مستخدمين لـ Instagram وTikTok وX وYouTube من أي كلمة مفتاحية — بادئات ولواحق وتركيبات أنيقة.",
+  "description": "أنشئ أفكارًا جذابة لأسماء مستخدمين لـ Instagram وTikTok وX وYouTube من أي كلمة مفتاحية   بادئات ولواحق وتركيبات أنيقة.",
   "name": "مولّد أسماء المستخدمين"
  },
  "video-compressor": {
-  "description": "اضغط مقاطع MP4 إلى جزء صغير من حجمها مع التحكم في الجودة والدقة — دون رفع ودون أي حدود لحجم الملف من خادم.",
+  "description": "اضغط مقاطع MP4 إلى جزء صغير من حجمها مع التحكم في الجودة والدقة   دون رفع ودون أي حدود لحجم الملف من خادم.",
   "name": "ضاغط الفيديو"
  },
  "video-converter": {
@@ -981,7 +981,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "التقاط إطارات الفيديو"
  },
  "video-to-gif": {
-  "description": "حوّل مقاطع الفيديو إلى صور GIF متحركة عالية الجودة مع التحكم في القص والعرض ومعدل الإطارات — مُحسَّنة الألوان لحجم ملفات أصغر.",
+  "description": "حوّل مقاطع الفيديو إلى صور GIF متحركة عالية الجودة مع التحكم في القص والعرض ومعدل الإطارات   مُحسَّنة الألوان لحجم ملفات أصغر.",
   "name": "محول الفيديو إلى GIF"
  },
  "video-to-mp3": {
@@ -993,7 +993,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "أداة قص الفيديو"
  },
  "voice-recorder": {
-  "description": "سجّل الملاحظات الصوتية والصوت من الميكروفون مع مقياس مستوى حي — احفظ عددًا غير محدود من التسجيلات.",
+  "description": "سجّل الملاحظات الصوتية والصوت من الميكروفون مع مقياس مستوى حي   احفظ عددًا غير محدود من التسجيلات.",
   "name": "مسجل الصوت"
  },
  "webcam-recorder": {
@@ -1001,7 +1001,7 @@ export const TOOLS_AR: Record<string, { name: string; description: string }> = {
   "name": "مسجل كاميرا الويب"
  },
  "youtube-thumbnail-maker": {
-  "description": "صمّم مصغرات YouTube جريئة بمقاس 1280×720 مع صورتك ونص عنوان كبير وشريط مميز — دون الحاجة إلى مهارات تصميم.",
+  "description": "صمّم مصغرات YouTube جريئة بمقاس 1280×720 مع صورتك ونص عنوان كبير وشريط مميز   دون الحاجة إلى مهارات تصميم.",
   "name": "صانع مصغرات YouTube"
  }
 };

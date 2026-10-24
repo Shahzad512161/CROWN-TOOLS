@@ -12,7 +12,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Estimateur d'assurance auto"
  },
  "background-remover": {
-  "description": "Supprimez l'arrière-plan de n'importe quelle photo grâce à un modèle d'IA qui fonctionne entièrement dans votre navigateur — un PNG transparent en quelques secondes, sans téléversement.",
+  "description": "Supprimez l'arrière-plan de n'importe quelle photo grâce à un modèle d'IA qui fonctionne entièrement dans votre navigateur   un PNG transparent en quelques secondes, sans téléversement.",
   "name": "Suppresseur d'arrière-plan IA"
  },
  "bmi-calorie-deficit-calculator": {
@@ -20,7 +20,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Calculateur IMC et déficit calorique"
  },
  "color-palette-extractor": {
-  "description": "Extrayez les couleurs dominantes de n'importe quelle image dans une palette prête pour les designers — valeurs HEX et RGB, variables CSS et image de la palette.",
+  "description": "Extrayez les couleurs dominantes de n'importe quelle image dans une palette prête pour les designers   valeurs HEX et RGB, variables CSS et image de la palette.",
   "name": "Extracteur de palette de couleurs"
  },
  "compare-pdf": {
@@ -32,7 +32,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Calculateur d'intérêts composés"
  },
  "compress-pdf": {
-  "description": "Réduisez la taille de vos fichiers PDF avec une compression recommandée, extrême ou haute qualité — ou un réenregistrement sans perte.",
+  "description": "Réduisez la taille de vos fichiers PDF avec une compression recommandée, extrême ou haute qualité   ou un réenregistrement sans perte.",
   "name": "Compresser un PDF"
  },
  "debt-snowball-calculator": {
@@ -48,7 +48,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Excel en PDF"
  },
  "favicon-generator": {
-  "description": "Générez un pack favicon complet à partir d'une image, d'un texte ou d'un emoji — fichier ICO, toutes les tailles PNG et les balises HTML, le tout dans un fichier ZIP.",
+  "description": "Générez un pack favicon complet à partir d'une image, d'un texte ou d'un emoji   fichier ICO, toutes les tailles PNG et les balises HTML, le tout dans un fichier ZIP.",
   "name": "Générateur de favicon"
  },
  "html-to-pdf": {
@@ -56,7 +56,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "HTML en PDF"
  },
  "image-background-changer": {
-  "description": "Remplacez l'arrière-plan d'une photo par des couleurs studio, des dégradés ou votre propre image de fond — parfait pour les photos de produits.",
+  "description": "Remplacez l'arrière-plan d'une photo par des couleurs studio, des dégradés ou votre propre image de fond   parfait pour les photos de produits.",
   "name": "Changeur d'arrière-plan d'image"
  },
  "image-base64-encoder": {
@@ -64,11 +64,11 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Encodeur d'images en Base64"
  },
  "image-collage-maker": {
-  "description": "Combinez jusqu'à 9 photos dans un superbe collage — dispositions en grille et en bande, espacements personnalisés, coins arrondis et arrière-plans.",
+  "description": "Combinez jusqu'à 9 photos dans un superbe collage   dispositions en grille et en bande, espacements personnalisés, coins arrondis et arrière-plans.",
   "name": "Créateur de collages photo"
  },
  "image-color-picker": {
-  "description": "Cliquez sur n'importe quel pixel d'une image pour obtenir sa couleur exacte — valeurs HEX, RGB et HSL, avec une palette des couleurs sélectionnées.",
+  "description": "Cliquez sur n'importe quel pixel d'une image pour obtenir sa couleur exacte   valeurs HEX, RGB et HSL, avec une palette des couleurs sélectionnées.",
   "name": "Pipette de couleurs d'image"
  },
  "image-compressor-lossless": {
@@ -80,11 +80,11 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Redimensionneur d'images Pro"
  },
  "image-splitter": {
-  "description": "Divisez une image en une grille de tuiles pour vos publications carrousel Instagram et vos bannières — téléchargez toutes les tuiles dans un fichier ZIP.",
+  "description": "Divisez une image en une grille de tuiles pour vos publications carrousel Instagram et vos bannières   téléchargez toutes les tuiles dans un fichier ZIP.",
   "name": "Diviseur d'images"
  },
  "image-to-ascii-art": {
-  "description": "Transformez n'importe quelle photo en art textuel ASCII — largeur et styles de caractères ajustables, exportation en texte ou en image.",
+  "description": "Transformez n'importe quelle photo en art textuel ASCII   largeur et styles de caractères ajustables, exportation en texte ou en image.",
   "name": "Image en art ASCII"
  },
  "image-to-text-ocr": {
@@ -96,7 +96,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Convertisseur d'images en WebP"
  },
  "image-watermark": {
-  "description": "Apposez des filigranes texte ou logo sur vos photos — à n'importe quelle position ou en mosaïque, avec contrôle de l'opacité et de la taille.",
+  "description": "Apposez des filigranes texte ou logo sur vos photos   à n'importe quelle position ou en mosaïque, avec contrôle de l'opacité et de la taille.",
   "name": "Ajouter un filigrane à une image"
  },
  "invoice-generator-pro": {
@@ -116,7 +116,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Calculateur de prêt USA"
  },
  "meme-generator": {
-  "description": "Créez des mèmes à partir de n'importe quelle photo avec les légendes classiques en haut et en bas — texte avec contour, taille ajustable, téléchargement PNG instantané.",
+  "description": "Créez des mèmes à partir de n'importe quelle photo avec les légendes classiques en haut et en bas   texte avec contour, taille ajustable, téléchargement PNG instantané.",
   "name": "Générateur de mèmes"
  },
  "merge-pdf": {
@@ -192,15 +192,15 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Protéger un PDF"
  },
  "qr-code-generator": {
-  "description": "Créez des codes QR pour les liens, le WiFi, les cartes de contact, les e-mails et les SMS — couleurs et tailles personnalisées, téléchargements PNG et SVG.",
+  "description": "Créez des codes QR pour les liens, le WiFi, les cartes de contact, les e-mails et les SMS   couleurs et tailles personnalisées, téléchargements PNG et SVG.",
   "name": "Générateur de codes QR"
  },
  "qr-code-scanner": {
-  "description": "Scannez et décodez les codes QR à partir d'une image téléversée ou de votre caméra — en toute confidentialité, dans votre navigateur.",
+  "description": "Scannez et décodez les codes QR à partir d'une image téléversée ou de votre caméra   en toute confidentialité, dans votre navigateur.",
   "name": "Scanner de codes QR"
  },
  "redact-pdf": {
-  "description": "Masquez définitivement les textes et zones sensibles — en dessinant des cadres ou en recherchant des mots.",
+  "description": "Masquez définitivement les textes et zones sensibles   en dessinant des cadres ou en recherchant des mots.",
   "name": "Caviarder un PDF"
  },
  "repair-pdf": {
@@ -216,7 +216,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Calculateur de retraite 401(k)"
  },
  "rotate-pdf": {
-  "description": "Faites pivoter toutes les pages ou une plage de pages choisie d'un PDF de 90, 180 ou 270 degrés — de façon permanente.",
+  "description": "Faites pivoter toutes les pages ou une plage de pages choisie d'un PDF de 90, 180 ou 270 degrés   de façon permanente.",
   "name": "Pivoter un PDF"
  },
  "scan-to-pdf": {
@@ -244,7 +244,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Calculateur d'impôts 2026 USA"
  },
  "unlock-pdf": {
-  "description": "Supprimez les restrictions par mot de passe d'un PDF — instantanément pour les fichiers verrouillés par autorisations, ou avec le mot de passe du document.",
+  "description": "Supprimez les restrictions par mot de passe d'un PDF   instantanément pour les fichiers verrouillés par autorisations, ou avec le mot de passe du document.",
   "name": "Déverrouiller un PDF"
  },
  "watermark-pdf": {
@@ -264,7 +264,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Résumé de PDF par IA"
  },
  "alternate-mix-pdf": {
-  "description": "Entrelacez les pages de deux PDF ou plus — idéal pour fusionner des scans recto simple de documents recto verso.",
+  "description": "Entrelacez les pages de deux PDF ou plus   idéal pour fusionner des scans recto simple de documents recto verso.",
   "name": "Alterner et mélanger des PDF"
  },
  "bates-numbering-pdf": {
@@ -272,11 +272,11 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Numérotation Bates"
  },
  "create-bookmarks-pdf": {
-  "description": "Ajoutez un plan de signets à un PDF — manuellement, ou automatiquement à partir de la première ligne de chaque page.",
+  "description": "Ajoutez un plan de signets à un PDF   manuellement, ou automatiquement à partir de la première ligne de chaque page.",
   "name": "Créer des signets PDF"
  },
  "crop-pdf": {
-  "description": "Réduisez les marges des pages d'un PDF — pour toutes les pages ou une plage choisie — en pourcentages ou en millimètres.",
+  "description": "Réduisez les marges des pages d'un PDF   pour toutes les pages ou une plage choisie   en pourcentages ou en millimètres.",
   "name": "Rogner un PDF"
  },
  "delete-pdf-pages": {
@@ -288,7 +288,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Redresser un PDF"
  },
  "edit-pdf-metadata": {
-  "description": "Affichez et modifiez le titre, l’auteur, le sujet, les mots-clés, le créateur et le producteur d’un PDF — ou effacez-les tous.",
+  "description": "Affichez et modifiez le titre, l’auteur, le sujet, les mots-clés, le créateur et le producteur d’un PDF   ou effacez-les tous.",
   "name": "Modifier les métadonnées PDF"
  },
  "epub-to-pdf": {
@@ -296,7 +296,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "EPUB en PDF"
  },
  "extract-pdf-images": {
-  "description": "Extrayez les images originales intégrées à un PDF au format PNG — sans captures d'écran, sans perte de qualité.",
+  "description": "Extrayez les images originales intégrées à un PDF au format PNG   sans captures d'écran, sans perte de qualité.",
   "name": "Extraire les images d'un PDF"
  },
  "extract-pdf-pages": {
@@ -308,11 +308,11 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Extraire les images d'un Word"
  },
  "flatten-pdf": {
-  "description": "Aplatissez les champs de formulaire dans le contenu de la page pour que les formulaires remplis ne puissent plus être modifiés — ou aplatissez tout.",
+  "description": "Aplatissez les champs de formulaire dans le contenu de la page pour que les formulaires remplis ne puissent plus être modifiés   ou aplatissez tout.",
   "name": "Aplatir un PDF"
  },
  "flip-pdf-pages": {
-  "description": "Retournez les pages d'un PDF horizontalement ou verticalement — corrige les scans en miroir et les captures inversées.",
+  "description": "Retournez les pages d'un PDF horizontalement ou verticalement   corrige les scans en miroir et les captures inversées.",
   "name": "Retourner les pages d'un PDF"
  },
  "gif-to-pdf": {
@@ -320,7 +320,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "GIF en PDF"
  },
  "grayscale-pdf": {
-  "description": "Convertissez un PDF couleur en noir et blanc en niveaux de gris — économise l'encre et réduit souvent la taille du fichier.",
+  "description": "Convertissez un PDF couleur en noir et blanc en niveaux de gris   économise l'encre et réduit souvent la taille du fichier.",
   "name": "PDF en niveaux de gris"
  },
  "grocery-budget-planner": {
@@ -328,11 +328,11 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Planificateur de budget courses et coût des repas"
  },
  "header-footer-pdf": {
-  "description": "Apposez un texte d'en-tête et de pied de page personnalisé — à gauche, au centre, à droite — avec des marqueurs de numéro de page sur chaque page.",
+  "description": "Apposez un texte d'en-tête et de pied de page personnalisé   à gauche, au centre, à droite   avec des marqueurs de numéro de page sur chaque page.",
   "name": "Ajouter un en-tête et un pied de page à un PDF"
  },
  "heic-to-pdf": {
-  "description": "Convertissez des photos HEIC d'iPhone en PDF — fonctionne là où votre navigateur peut afficher le HEIC (par ex. Safari).",
+  "description": "Convertissez des photos HEIC d'iPhone en PDF   fonctionne là où votre navigateur peut afficher le HEIC (par ex. Safari).",
   "name": "HEIC en PDF"
  },
  "home-electricity-cost-calculator": {
@@ -352,7 +352,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Fusionner des documents Word"
  },
  "nup-pdf": {
-  "description": "Imprimez plusieurs pages PDF par feuille — 2, 4, 6 ou 9 par feuille au format A4, A3 ou Letter — en gardant des pages vectorielles nettes.",
+  "description": "Imprimez plusieurs pages PDF par feuille   2, 4, 6 ou 9 par feuille au format A4, A3 ou Letter   en gardant des pages vectorielles nettes.",
   "name": "PDF en pages multiples par feuille"
  },
  "odt-to-word": {
@@ -360,7 +360,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "ODT en Word"
  },
  "pdf-background": {
-  "description": "Appliquez une couleur d'arrière-plan derrière chaque page d'un PDF — papiers à en-tête, formulaires et documents à distribuer.",
+  "description": "Appliquez une couleur d'arrière-plan derrière chaque page d'un PDF   papiers à en-tête, formulaires et documents à distribuer.",
   "name": "Ajouter un fond à un PDF"
  },
  "pdf-forms": {
@@ -368,7 +368,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Formulaires PDF"
  },
  "pdf-reader": {
-  "description": "Lisez vos PDF directement dans votre navigateur avec zoom — aucun envoi de fichier, aucune installation, en toute confidentialité.",
+  "description": "Lisez vos PDF directement dans votre navigateur avec zoom   aucun envoi de fichier, aucune installation, en toute confidentialité.",
   "name": "Lecteur PDF"
  },
  "pdf-to-bmp": {
@@ -376,7 +376,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "PDF en BMP"
  },
  "pdf-to-csv": {
-  "description": "Extrayez les lignes d'un PDF dans un fichier CSV — les colonnes sont détectées à partir de la mise en page.",
+  "description": "Extrayez les lignes d'un PDF dans un fichier CSV   les colonnes sont détectées à partir de la mise en page.",
   "name": "PDF en CSV"
  },
  "pdf-to-epub": {
@@ -384,7 +384,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "PDF en EPUB"
  },
  "pdf-to-markdown": {
-  "description": "Transformez un PDF en Markdown propre — titres déduits de la taille des polices, listes normalisées et séparateurs de pages.",
+  "description": "Transformez un PDF en Markdown propre   titres déduits de la taille des polices, listes normalisées et séparateurs de pages.",
   "name": "PDF en Markdown"
  },
  "pdf-to-png": {
@@ -404,11 +404,11 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "PNG en PDF"
  },
  "remove-annotations-pdf": {
-  "description": "Retirez toutes les annotations — surlignages, commentaires, tampons et marques — d'un PDF en une seule fois.",
+  "description": "Retirez toutes les annotations   surlignages, commentaires, tampons et marques   d'un PDF en une seule fois.",
   "name": "Supprimer les annotations d'un PDF"
  },
  "remove-watermark-pdf": {
-  "description": "Recouvrez les zones de filigrane avec des patchs opaques que vous dessinez — le reste de chaque page reste vectoriel et net.",
+  "description": "Recouvrez les zones de filigrane avec des patchs opaques que vous dessinez   le reste de chaque page reste vectoriel et net.",
   "name": "Suppresseur de filigrane PDF"
  },
  "rename-pdf-by-content": {
@@ -416,11 +416,11 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Renommer un PDF selon son contenu"
  },
  "resize-pdf-pages": {
-  "description": "Modifiez la taille des pages d'un PDF — A3, A4, A5, Letter ou Legal — en adaptant le contenu à la page ou en l'étirant.",
+  "description": "Modifiez la taille des pages d'un PDF   A3, A4, A5, Letter ou Legal   en adaptant le contenu à la page ou en l'étirant.",
   "name": "Redimensionner les pages d'un PDF"
  },
  "split-pdf-by-bookmarks": {
-  "description": "Divisez un PDF en documents distincts à chaque signet — un fichier par chapitre ou section.",
+  "description": "Divisez un PDF en documents distincts à chaque signet   un fichier par chapitre ou section.",
   "name": "Diviser un PDF par signets"
  },
  "split-pdf-by-size": {
@@ -428,15 +428,15 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Diviser un PDF par taille"
  },
  "split-pdf-by-text": {
-  "description": "Divisez un PDF à chaque occurrence d'un mot ou d'une expression — séparez automatiquement factures, relevés ou rapports.",
+  "description": "Divisez un PDF à chaque occurrence d'un mot ou d'une expression   séparez automatiquement factures, relevés ou rapports.",
   "name": "Diviser un PDF par texte"
  },
  "split-pdf-in-half": {
-  "description": "Divisez les scans en double page en pages simples — des planches A3 en double A4, ou A4 en double A5.",
+  "description": "Divisez les scans en double page en pages simples   des planches A3 en double A4, ou A4 en double A5.",
   "name": "Diviser un PDF en deux"
  },
  "split-word": {
-  "description": "Divisez un document Word en fichiers distincts — à chaque titre de chapitre ou tous les N paragraphes.",
+  "description": "Divisez un document Word en fichiers distincts   à chaque titre de chapitre ou tous les N paragraphes.",
   "name": "Diviser un document Word"
  },
  "temperature-converter-pro": {
@@ -448,15 +448,15 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Convertisseur de casse Pro"
  },
  "text-to-pdf": {
-  "description": "Transformez un texte saisi ou collé — ou un fichier .txt — en un document PDF propre et paginé.",
+  "description": "Transformez un texte saisi ou collé   ou un fichier .txt   en un document PDF propre et paginé.",
   "name": "Texte en PDF"
  },
  "text-to-word": {
-  "description": "Transformez du texte brut ou du Markdown en un document Word formaté — collez du texte ou importez un fichier .txt/.md.",
+  "description": "Transformez du texte brut ou du Markdown en un document Word formaté   collez du texte ou importez un fichier .txt/.md.",
   "name": "Texte en Word"
  },
  "tiff-to-pdf": {
-  "description": "Convertissez des images TIFF — y compris les TIFF multipages — en un document PDF.",
+  "description": "Convertissez des images TIFF   y compris les TIFF multipages   en un document PDF.",
   "name": "TIFF en PDF"
  },
  "tip-bill-splitter-calculator": {
@@ -480,7 +480,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Compteur de mots et caractères Pro"
  },
  "word-editor": {
-  "description": "Modifiez un document Word en ligne — changez le texte, les titres et la mise en forme, puis téléchargez le .docx mis à jour.",
+  "description": "Modifiez un document Word en ligne   changez le texte, les titres et la mise en forme, puis téléchargez le .docx mis à jour.",
   "name": "Éditeur Word"
  },
  "word-to-epub": {
@@ -492,7 +492,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Word en HTML"
  },
  "word-to-jpg": {
-  "description": "Convertissez un document Word en images JPG ou PNG — une image par page, zippées pour le téléchargement.",
+  "description": "Convertissez un document Word en images JPG ou PNG   une image par page, zippées pour le téléchargement.",
   "name": "Word en JPG"
  },
  "word-to-markdown": {
@@ -508,7 +508,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Word en texte"
  },
  "word-viewer": {
-  "description": "Ouvrez et lisez n'importe quel document Word (.docx) directement dans votre navigateur — sans Microsoft Word.",
+  "description": "Ouvrez et lisez n'importe quel document Word (.docx) directement dans votre navigateur   sans Microsoft Word.",
   "name": "Visionneuse Word"
  },
  "base64-encoder-decoder": {
@@ -624,7 +624,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Vérificateur de densité de mots-clés"
  },
  "link-extractor": {
-  "description": "Extrayez tous les liens du HTML d’une page — texte d’ancre, internes/externes, dofollow/nofollow — avec export CSV.",
+  "description": "Extrayez tous les liens du HTML d’une page   texte d’ancre, internes/externes, dofollow/nofollow   avec export CSV.",
   "name": "Extracteur de liens"
  },
  "llms-txt-generator": {
@@ -744,7 +744,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Rechercher et remplacer dans Word"
  },
  "word-metadata-editor": {
-  "description": "Affichez, modifiez ou supprimez les propriétés d’un document Word — titre, auteur, sujet, mots-clés et plus encore.",
+  "description": "Affichez, modifiez ou supprimez les propriétés d’un document Word   titre, auteur, sujet, mots-clés et plus encore.",
   "name": "Éditeur de métadonnées Word"
  },
  "word-watermark": {
@@ -764,7 +764,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Convertisseur YAML vers JSON"
  },
  "age-calculator": {
-  "description": "Découvrez votre âge exact en années, mois et jours — ainsi que le nombre total de jours vécus, le jour de la semaine de votre naissance, votre signe du zodiaque et le compte à rebours jusqu’à votre prochain anniversaire.",
+  "description": "Découvrez votre âge exact en années, mois et jours   ainsi que le nombre total de jours vécus, le jour de la semaine de votre naissance, votre signe du zodiaque et le compte à rebours jusqu’à votre prochain anniversaire.",
   "name": "Calculateur d’âge"
  },
  "ai-bio-generator": {
@@ -780,47 +780,47 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Générateur de légendes IA"
  },
  "ai-chat": {
-  "description": "Discutez avec Google Gemini — posez des questions, trouvez des idées, obtenez de l’aide pour coder ou préparez vos entretiens grâce à des assistants prédéfinis.",
+  "description": "Discutez avec Google Gemini   posez des questions, trouvez des idées, obtenez de l’aide pour coder ou préparez vos entretiens grâce à des assistants prédéfinis.",
   "name": "Chat IA"
  },
  "ai-cover-letter-generator": {
-  "description": "Générez une lettre de motivation sur mesure à partir de votre poste, de l’entreprise, de votre expérience et de vos compétences — sans crochets à remplir.",
+  "description": "Générez une lettre de motivation sur mesure à partir de votre poste, de l’entreprise, de votre expérience et de vos compétences   sans crochets à remplir.",
   "name": "Générateur de lettres de motivation IA"
  },
  "ai-email-writer": {
-  "description": "Rédigez des e-mails professionnels en quelques secondes — choisissez l’objectif et le ton, ajoutez vos points clés et obtenez un e-mail prêt à envoyer.",
+  "description": "Rédigez des e-mails professionnels en quelques secondes   choisissez l’objectif et le ton, ajoutez vos points clés et obtenez un e-mail prêt à envoyer.",
   "name": "Rédacteur d’e-mails IA"
  },
  "ai-grammar-checker": {
-  "description": "Corrigez la grammaire, l’orthographe et la ponctuation — et consultez une liste claire de chaque modification apportée.",
+  "description": "Corrigez la grammaire, l’orthographe et la ponctuation   et consultez une liste claire de chaque modification apportée.",
   "name": "Correcteur grammatical IA"
  },
  "ai-hashtag-generator": {
-  "description": "Décrivez votre publication et obtenez 30 hashtags générés par IA, regroupés par portée, pour Instagram, TikTok ou X — adaptés à votre niche et prêts à coller.",
+  "description": "Décrivez votre publication et obtenez 30 hashtags générés par IA, regroupés par portée, pour Instagram, TikTok ou X   adaptés à votre niche et prêts à coller.",
   "name": "Générateur de hashtags IA"
  },
  "ai-hook-generator": {
-  "description": "Générez 10 accroches d’ouverture percutantes pour vos TikTok, Reels ou Shorts — choisissez le ton et saisissez votre sujet.",
+  "description": "Générez 10 accroches d’ouverture percutantes pour vos TikTok, Reels ou Shorts   choisissez le ton et saisissez votre sujet.",
   "name": "Générateur d’accroches IA"
  },
  "ai-image-generator": {
-  "description": "Créez des images à partir de descriptions textuelles avec Google Gemini — photoréaliste, illustration, anime, 3D, aquarelle et bien d’autres styles.",
+  "description": "Créez des images à partir de descriptions textuelles avec Google Gemini   photoréaliste, illustration, anime, 3D, aquarelle et bien d’autres styles.",
   "name": "Générateur d’images IA"
  },
  "ai-paraphraser": {
-  "description": "Réécrivez n’importe quel texte selon sept modes — standard, fluide, formel, simple, créatif, plus court ou plus long — tout en conservant le sens.",
+  "description": "Réécrivez n’importe quel texte selon sept modes   standard, fluide, formel, simple, créatif, plus court ou plus long   tout en conservant le sens.",
   "name": "Outil de paraphrase IA"
  },
  "ai-poem-generator": {
-  "description": "Écrivez des poèmes dans des formes authentiques — haïku, sonnet, limerick, ballade, acrostiche ou vers libres — sur n’importe quel sujet et n’importe quelle ambiance.",
+  "description": "Écrivez des poèmes dans des formes authentiques   haïku, sonnet, limerick, ballade, acrostiche ou vers libres   sur n’importe quel sujet et n’importe quelle ambiance.",
   "name": "Générateur de poèmes IA"
  },
  "ai-quiz-generator": {
-  "description": "Collez vos notes de cours et obtenez instantanément un quiz à choix multiples avec son corrigé — puis passez le test et découvrez votre score.",
+  "description": "Collez vos notes de cours et obtenez instantanément un quiz à choix multiples avec son corrigé   puis passez le test et découvrez votre score.",
   "name": "Générateur de quiz IA"
  },
  "ai-story-generator": {
-  "description": "Créez des histoires originales dans huit genres — nommez votre héros, plantez le décor et ajoutez un rebondissement facultatif.",
+  "description": "Créez des histoires originales dans huit genres   nommez votre héros, plantez le décor et ajoutez un rebondissement facultatif.",
   "name": "Générateur d’histoires IA"
  },
  "ai-text-summarizer": {
@@ -832,7 +832,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Traducteur IA"
  },
  "ai-writer": {
-  "description": "Générez des articles de blog, des descriptions de produits, des essais et des publications sociales sur n’importe quel sujet — choisissez le ton et la longueur.",
+  "description": "Générez des articles de blog, des descriptions de produits, des essais et des publications sociales sur n’importe quel sujet   choisissez le ton et la longueur.",
   "name": "Rédacteur IA"
  },
  "audio-converter": {
@@ -840,7 +840,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Convertisseur audio"
  },
  "audio-joiner": {
-  "description": "Fusionnez plusieurs fichiers audio en une seule piste — les formats mixtes sont acceptés, avec une sortie en MP3, WAV, M4A ou OGG.",
+  "description": "Fusionnez plusieurs fichiers audio en une seule piste   les formats mixtes sont acceptés, avec une sortie en MP3, WAV, M4A ou OGG.",
   "name": "Fusion audio"
  },
  "audio-speed-changer": {
@@ -868,31 +868,31 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Sélecteur d’emoji et presse-papiers"
  },
  "engagement-rate-calculator": {
-  "description": "Calculez votre taux d’engagement sur Instagram, TikTok ou YouTube à partir des abonnés, mentions J’aime, commentaires, partages et enregistrements — avec un verdict en langage simple.",
+  "description": "Calculez votre taux d’engagement sur Instagram, TikTok ou YouTube à partir des abonnés, mentions J’aime, commentaires, partages et enregistrements   avec un verdict en langage simple.",
   "name": "Calculateur de taux d’engagement"
  },
  "equation-solver": {
-  "description": "Résolvez des équations du second degré et linéaires avec toutes les étapes détaillées — discriminant, substitution dans la formule et racines expliquées.",
+  "description": "Résolvez des équations du second degré et linéaires avec toutes les étapes détaillées   discriminant, substitution dans la formule et racines expliquées.",
   "name": "Résolveur d’équations avec étapes"
  },
  "essay-word-counter": {
-  "description": "Comptez les mots, caractères et phrases ainsi que le temps de lecture — suivez votre progression vers l’objectif de votre essai et vérifiez sa lisibilité.",
+  "description": "Comptez les mots, caractères et phrases ainsi que le temps de lecture   suivez votre progression vers l’objectif de votre essai et vérifiez sa lisibilité.",
   "name": "Compteur de mots pour essais"
  },
  "fancy-text-generator": {
-  "description": "Transformez un texte ordinaire en styles Unicode gras, script, fraktur, entourés, en petites capitales ou à l’envers pour vos bios et publications — touchez pour copier.",
+  "description": "Transformez un texte ordinaire en styles Unicode gras, script, fraktur, entourés, en petites capitales ou à l’envers pour vos bios et publications   touchez pour copier.",
   "name": "Générateur de texte stylé"
  },
  "flashcard-maker": {
-  "description": "Créez vos propres cartes mémoire, révisez-les en mode retournement avec mélange aléatoire et exportez votre jeu — une alternative gratuite à Quizlet.",
+  "description": "Créez vos propres cartes mémoire, révisez-les en mode retournement avec mélange aléatoire et exportez votre jeu   une alternative gratuite à Quizlet.",
   "name": "Créateur de cartes mémoire"
  },
  "giveaway-picker": {
-  "description": "Collez les commentaires de votre concours et tirez un gagnant au hasard en toute équité — doublons supprimés, anciens gagnants exclus.",
+  "description": "Collez les commentaires de votre concours et tirez un gagnant au hasard en toute équité   doublons supprimés, anciens gagnants exclus.",
   "name": "Sélecteur de gagnant de concours"
  },
  "gpa-calculator": {
-  "description": "Calculez votre GPA semestriel et votre CGPA sur des échelles de 4,0 standard ou avec plus/moins — et déterminez le GPA nécessaire pour atteindre votre objectif.",
+  "description": "Calculez votre GPA semestriel et votre CGPA sur des échelles de 4,0 standard ou avec plus/moins   et déterminez le GPA nécessaire pour atteindre votre objectif.",
   "name": "Calculateur de moyenne (GPA)"
  },
  "hashtag-counter": {
@@ -900,43 +900,43 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Compteur et nettoyeur de hashtags"
  },
  "hashtag-generator": {
-  "description": "Générez jusqu’à 30 hashtags à partir de vos mots-clés, auxquels s’ajoute une banque sélectionnée pour 12 niches — fitness, cuisine, voyage, mode, business et bien plus.",
+  "description": "Générez jusqu’à 30 hashtags à partir de vos mots-clés, auxquels s’ajoute une banque sélectionnée pour 12 niches   fitness, cuisine, voyage, mode, business et bien plus.",
   "name": "Générateur de hashtags"
  },
  "link-in-bio-builder": {
-  "description": "Créez votre propre page de liens en bio et téléchargez-la sous forme d’un seul fichier HTML — hébergez-la gratuitement où vous voulez, sans frais mensuels.",
+  "description": "Créez votre propre page de liens en bio et téléchargez-la sous forme d’un seul fichier HTML   hébergez-la gratuitement où vous voulez, sans frais mensuels.",
   "name": "Créateur de page lien en bio"
  },
  "love-calculator": {
-  "description": "Saisissez deux prénoms et obtenez votre pourcentage de compatibilité amoureuse — un jeu de prénoms juste pour le plaisir, où les mêmes prénoms donnent toujours le même score.",
+  "description": "Saisissez deux prénoms et obtenez votre pourcentage de compatibilité amoureuse   un jeu de prénoms juste pour le plaisir, où les mêmes prénoms donnent toujours le même score.",
   "name": "Calculateur d’amour"
  },
  "periodic-table": {
-  "description": "Explorez les 118 éléments — cliquez sur un élément pour afficher son nom, son numéro atomique, sa masse et sa catégorie, avec recherche et groupes codés par couleur.",
+  "description": "Explorez les 118 éléments   cliquez sur un élément pour afficher son nom, son numéro atomique, sa masse et sa catégorie, avec recherche et groupes codés par couleur.",
   "name": "Tableau périodique interactif"
  },
  "pomodoro-timer": {
-  "description": "Étudiez et travaillez par sessions concentrées de 25 minutes avec des pauses automatiques — durées personnalisables et suivi des sessions.",
+  "description": "Étudiez et travaillez par sessions concentrées de 25 minutes avec des pauses automatiques   durées personnalisables et suivi des sessions.",
   "name": "Minuteur Pomodoro"
  },
  "post-card-maker": {
-  "description": "Concevez des cartes de publication épurées pour vos miniatures, présentations et aperçus de contenu — thèmes clair et sombre, export en PNG.",
+  "description": "Concevez des cartes de publication épurées pour vos miniatures, présentations et aperçus de contenu   thèmes clair et sombre, export en PNG.",
   "name": "Créateur de cartes de publication"
  },
  "post-ideas-generator": {
-  "description": "Obtenez un calendrier de contenu de 30 jours prêt à l’emploi pour votre niche — une idée de publication et un format pour chaque jour du mois.",
+  "description": "Obtenez un calendrier de contenu de 30 jours prêt à l’emploi pour votre niche   une idée de publication et un format pour chaque jour du mois.",
   "name": "Générateur d’idées de publications sociales"
  },
  "random-number-generator": {
-  "description": "Générez des nombres aléatoires dans n’importe quel intervalle, lancez des dés de d4 à d100 et jouez à pile ou face — pour les tirages, les jeux et les décisions.",
+  "description": "Générez des nombres aléatoires dans n’importe quel intervalle, lancez des dés de d4 à d100 et jouez à pile ou face   pour les tirages, les jeux et les décisions.",
   "name": "Générateur de nombres aléatoires"
  },
  "screen-recorder": {
-  "description": "Enregistrez votre écran, une fenêtre ou un onglet de navigateur — avec le micro et l’audio du système — puis téléchargez la vidéo. Rien n’est envoyé en ligne.",
+  "description": "Enregistrez votre écran, une fenêtre ou un onglet de navigateur   avec le micro et l’audio du système   puis téléchargez la vidéo. Rien n’est envoyé en ligne.",
   "name": "Enregistreur d’écran"
  },
  "social-image-resizer": {
-  "description": "Redimensionnez n’importe quelle image au format exact pour Instagram, X, Facebook, YouTube, LinkedIn, TikTok et Pinterest — recadrage, ajustement ou fond flouté.",
+  "description": "Redimensionnez n’importe quelle image au format exact pour Instagram, X, Facebook, YouTube, LinkedIn, TikTok et Pinterest   recadrage, ajustement ou fond flouté.",
   "name": "Redimensionneur d’images pour réseaux sociaux"
  },
  "social-post-composer": {
@@ -944,15 +944,15 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Compositeur de publications sociales"
  },
  "social-video-resizer": {
-  "description": "Convertissez n’importe quelle vidéo en 9:16 pour les Reels, TikTok et Shorts, en 1:1 ou 4:5 pour les fils d’actualité, ou en 16:9 — recadrage plein cadre ou remplissage avec un fond flouté.",
+  "description": "Convertissez n’importe quelle vidéo en 9:16 pour les Reels, TikTok et Shorts, en 1:1 ou 4:5 pour les fils d’actualité, ou en 16:9   recadrage plein cadre ou remplissage avec un fond flouté.",
   "name": "Redimensionneur de vidéos sociales"
  },
  "speech-to-text": {
-  "description": "Dictez en anglais — transcription en direct dans votre navigateur, avec copie et téléchargement.",
+  "description": "Dictez en anglais   transcription en direct dans votre navigateur, avec copie et téléchargement.",
   "name": "Reconnaissance vocale"
  },
  "stopwatch-timer": {
-  "description": "Un chronomètre précis avec temps intermédiaires et un minuteur à rebours avec alarme — pour le sport, la cuisine, les examens et les présentations.",
+  "description": "Un chronomètre précis avec temps intermédiaires et un minuteur à rebours avec alarme   pour le sport, la cuisine, les examens et les présentations.",
   "name": "Chronomètre et minuteur"
  },
  "study-planner": {
@@ -960,23 +960,23 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Planificateur d’études"
  },
  "text-to-handwriting": {
-  "description": "Transformez un texte tapé en pages manuscrites réalistes sur du papier A4 ligné — choisissez la couleur de l’encre et téléchargez des pages prêtes à imprimer.",
+  "description": "Transformez un texte tapé en pages manuscrites réalistes sur du papier A4 ligné   choisissez la couleur de l’encre et téléchargez des pages prêtes à imprimer.",
   "name": "Convertisseur de texte en écriture manuscrite"
  },
  "text-to-speech": {
-  "description": "Écoutez n’importe quel texte lu à voix haute avec des voix système naturelles — choisissez la voix, la vitesse et la hauteur.",
+  "description": "Écoutez n’importe quel texte lu à voix haute avec des voix système naturelles   choisissez la voix, la vitesse et la hauteur.",
   "name": "Synthèse vocale"
  },
  "typing-speed-test": {
-  "description": "Testez votre vitesse de frappe en 30 ou 60 secondes — scores réels en mots par minute et en précision, avec un retour caractère par caractère en direct.",
+  "description": "Testez votre vitesse de frappe en 30 ou 60 secondes   scores réels en mots par minute et en précision, avec un retour caractère par caractère en direct.",
   "name": "Test de vitesse de frappe"
  },
  "username-generator": {
-  "description": "Générez des idées de noms d’utilisateur accrocheurs pour Instagram, TikTok, X et YouTube à partir de n’importe quel mot-clé — préfixes, suffixes et combinaisons stylées.",
+  "description": "Générez des idées de noms d’utilisateur accrocheurs pour Instagram, TikTok, X et YouTube à partir de n’importe quel mot-clé   préfixes, suffixes et combinaisons stylées.",
   "name": "Générateur de noms d’utilisateur"
  },
  "video-compressor": {
-  "description": "Compressez vos vidéos MP4 à une fraction de leur taille grâce aux réglages de qualité et de résolution — sans envoi de fichiers ni limites de taille imposées par un serveur.",
+  "description": "Compressez vos vidéos MP4 à une fraction de leur taille grâce aux réglages de qualité et de résolution   sans envoi de fichiers ni limites de taille imposées par un serveur.",
   "name": "Compresseur vidéo"
  },
  "video-converter": {
@@ -988,7 +988,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Capture d’image vidéo"
  },
  "video-to-gif": {
-  "description": "Transformez vos clips vidéo en GIF animés de haute qualité avec des réglages de découpe, de largeur et de fréquence d’images — palette optimisée pour des fichiers légers.",
+  "description": "Transformez vos clips vidéo en GIF animés de haute qualité avec des réglages de découpe, de largeur et de fréquence d’images   palette optimisée pour des fichiers légers.",
   "name": "Convertisseur vidéo en GIF"
  },
  "video-to-mp3": {
@@ -1000,7 +1000,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Découpeur vidéo"
  },
  "voice-recorder": {
-  "description": "Enregistrez des notes vocales et de l’audio depuis votre microphone avec un indicateur de niveau en direct — sauvegardez un nombre illimité de prises.",
+  "description": "Enregistrez des notes vocales et de l’audio depuis votre microphone avec un indicateur de niveau en direct   sauvegardez un nombre illimité de prises.",
   "name": "Enregistreur vocal"
  },
  "webcam-recorder": {
@@ -1008,7 +1008,7 @@ export const TOOLS_FR: Record<string, { name: string; description: string }> = {
   "name": "Enregistreur webcam"
  },
  "youtube-thumbnail-maker": {
-  "description": "Concevez des miniatures YouTube percutantes en 1280×720 avec votre photo, un titre en gros caractères et une barre d’accentuation — aucune compétence en design requise.",
+  "description": "Concevez des miniatures YouTube percutantes en 1280×720 avec votre photo, un titre en gros caractères et une barre d’accentuation   aucune compétence en design requise.",
   "name": "Créateur de miniatures YouTube"
  }
 };

@@ -240,7 +240,7 @@ const PLATFORM_FAQS: PlatformFAQ[] = [
     category: 'Financial Accuracy',
     question: 'How accurate are the Mortgage, Tax 2026, and Auto Insurance calculators?',
     badge: 'IRS & Real-Time Verified',
-    answer: 'All financial utilities—including the USA Mortgage Calculator, 2026 Federal IRS Tax Calculator, Auto Insurance Estimator, and Loan Payoff Models—are maintained by experienced software engineers and calibrated against official IRS tax brackets, state payroll deductions, Fannie Mae amortization schedules, and interbank exchange benchmark feeds. They deliver institutional-grade estimates.'
+    answer: 'All financial utilities including the USA Mortgage Calculator, 2026 Federal IRS Tax Calculator, Auto Insurance Estimator, and Loan Payoff Models are maintained by experienced software engineers and calibrated against official IRS tax brackets, state payroll deductions, Fannie Mae amortization schedules, and interbank exchange benchmark feeds. They deliver institutional-grade estimates.'
   },
   {
     id: 'account-required',
@@ -456,9 +456,9 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="min-h-screen bg-white dark:bg-[#111827] text-slate-900 dark:text-slate-100 transition-colors duration-200">
       
       {/* ========================================================================= */}
-      {/* HERO SECTION — minimal: headline, subtitle, search. Nothing else. */}
+      {/* HERO SECTION   minimal: headline, subtitle, search. Nothing else. */}
       {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14 sm:pt-24 sm:pb-20">
+      <section className=" mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14 sm:pt-24 sm:pb-20">
         <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display text-[#0f172a] dark:text-white leading-[1.08]">
@@ -516,7 +516,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           6. BOLD 2PX VIBRANT CARDS: Rounded 24px, 2px solid border,
              hover shadow-xl & lift -translate-y-1, CATCHY & ATTRACTIVE TEXT.
       {/* ========================================================================= */}
-      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section className="py-10 px-4 sm:px-6 lg:px-8  mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div className="border-l-4 border-slate-900 dark:border-white pl-4">
             <div className="flex items-center gap-2">
@@ -598,7 +598,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* SECTION 2: BROWSE BY CATEGORY NAVIGATION SECTION
           Organize 250+ tools into intuitive groups: Finance, Converters, Productivity, Image Utilities, etc.
       {/* ========================================================================= */}
-      <section id="browse-categories-section" className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-b border-slate-200/80 dark:border-slate-800">
+      <section id="browse-categories-section" className="py-14 px-4 sm:px-6 lg:px-8  mx-auto border-t border-b border-slate-200/80 dark:border-slate-800">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-3">
@@ -759,7 +759,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* ========================================================================= */}
       {/* SECTION 3: All Tools searchable grid loading from lib/tools-data.ts */}
       {/* ========================================================================= */}
-      <section id="all-tools-section" className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section id="all-tools-section" className="py-10 px-4 sm:px-6 lg:px-8  mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2">
@@ -946,7 +946,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       {/* DYNAMIC FAQ SECTION FOR SEO & USER ENGAGEMENT */}
       {/* Category filters, real-time question search, expand/collapse, feedback & Schema */}
       {/* ========================================================================= */}
-      <section className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-100 dark:border-slate-800">
+      <section className="py-14 px-4 sm:px-6 lg:px-8  mx-auto border-t border-slate-100 dark:border-slate-800">
         
         {/* FAQ Header with Left Blue Accent */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">

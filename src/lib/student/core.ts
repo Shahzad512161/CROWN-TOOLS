@@ -1,6 +1,6 @@
 /**
  * Pure helpers for the Student & Everyday Tools suite. Deterministic and
- * unit-testable — no DOM, no network. All date math is done in UTC on
+ * unit-testable   no DOM, no network. All date math is done in UTC on
  * 'YYYY-MM-DD' strings to avoid timezone drift.
  */
 
@@ -630,10 +630,10 @@ export function solveLinear(a: number, b: number, c: number, d: number): LinearR
   steps.push(`Collect x terms on the left and numbers on the right: ${fmtNum(left)}x = ${fmtNum(right)}`);
   if (left === 0) {
     if (right === 0) {
-      steps.push('Both sides are identical — every value of x is a solution.');
+      steps.push('Both sides are identical   every value of x is a solution.');
       return { kind: 'infinite', steps };
     }
-    steps.push('The x terms cancel but the numbers differ — no value of x can satisfy this.');
+    steps.push('The x terms cancel but the numbers differ   no value of x can satisfy this.');
     return { kind: 'none', steps };
   }
   const x = right / left;
@@ -771,7 +771,7 @@ export function rollDice(sides: number, count: number, rng: () => number = Math.
 }
 
 // ---------------------------------------------------------------------------
-// Love calculator (entertainment — deterministic name hash)
+// Love calculator (entertainment   deterministic name hash)
 // ---------------------------------------------------------------------------
 
 export interface LoveResult {
@@ -794,9 +794,9 @@ export function loveScore(nameA: string, nameB: string): LoveResult {
     hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
   }
   const score = key ? 25 + (hash % 76) : 0; // 25–100 for any real pair
-  if (score >= 90) return { score, label: 'Written in the stars', message: 'Off-the-charts chemistry — at least according to this very scientific* (*not scientific) calculator.' };
+  if (score >= 90) return { score, label: 'Written in the stars', message: 'Off-the-charts chemistry   at least according to this very scientific* (*not scientific) calculator.' };
   if (score >= 75) return { score, label: 'Strong spark', message: 'Serious potential. The algorithm ships it.' };
-  if (score >= 55) return { score, label: 'Promising', message: 'A solid match with room to grow — like most real relationships.' };
+  if (score >= 55) return { score, label: 'Promising', message: 'A solid match with room to grow   like most real relationships.' };
   if (score >= 40) return { score, label: 'Slow burn', message: 'Not instant fireworks, but slow burns often last the longest.' };
   return { score, label: 'Opposites attract?', message: 'The score is low, but this thing also thinks pineapple belongs on pizza. Trust yourselves, not the calculator.' };
 }

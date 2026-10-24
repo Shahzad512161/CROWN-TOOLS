@@ -18,11 +18,11 @@ export const AI_STRINGS: StrDict = {
     ru: 'ИИ · На базе Gemini',
   },
   missingKeyNotice: {
-    en: "This AI tool needs a free Gemini API key configured by the site owner. Get one at {site}, then add {code1} to a {code2} file in the project root and restart / redeploy. Your key stays in the site config — prompts run from the visitor's browser directly to Google.",
+    en: "This AI tool needs a free Gemini API key configured by the site owner. Get one at {site}, then add {code1} to a {code2} file in the project root and restart / redeploy. Your key stays in the site config   prompts run from the visitor's browser directly to Google.",
     es: 'Esta herramienta de IA necesita una clave de API de Gemini gratuita configurada por el propietario del sitio. Consigue una en {site} y luego añade {code1} a un archivo {code2} en la raíz del proyecto y reinicia o vuelve a desplegar. Tu clave permanece en la configuración del sitio: las solicitudes van del navegador del visitante directamente a Google.',
-    fr: 'Cet outil d’IA nécessite une clé API Gemini gratuite configurée par le propriétaire du site. Obtenez-en une sur {site}, puis ajoutez {code1} à un fichier {code2} à la racine du projet et redémarrez / redéployez. Votre clé reste dans la configuration du site — les requêtes partent du navigateur du visiteur directement vers Google.',
-    ar: 'تحتاج أداة الذكاء الاصطناعي هذه إلى مفتاح Gemini API مجاني يُعدّه مالك الموقع. احصل على واحد من {site}، ثم أضف {code1} إلى ملف {code2} في جذر المشروع وأعد التشغيل / إعادة النشر. يبقى مفتاحك في إعدادات الموقع — تُرسَل الطلبات من متصفح الزائر مباشرة إلى Google.',
-    ru: 'Для этого ИИ-инструмента нужен бесплатный ключ Gemini API, настроенный владельцем сайта. Получите его на {site}, затем добавьте {code1} в файл {code2} в корне проекта и перезапустите / повторно разверните сайт. Ваш ключ остаётся в конфигурации сайта — запросы отправляются из браузера посетителя напрямую в Google.',
+    fr: 'Cet outil d’IA nécessite une clé API Gemini gratuite configurée par le propriétaire du site. Obtenez-en une sur {site}, puis ajoutez {code1} à un fichier {code2} à la racine du projet et redémarrez / redéployez. Votre clé reste dans la configuration du site   les requêtes partent du navigateur du visiteur directement vers Google.',
+    ar: 'تحتاج أداة الذكاء الاصطناعي هذه إلى مفتاح Gemini API مجاني يُعدّه مالك الموقع. احصل على واحد من {site}، ثم أضف {code1} إلى ملف {code2} في جذر المشروع وأعد التشغيل / إعادة النشر. يبقى مفتاحك في إعدادات الموقع   تُرسَل الطلبات من متصفح الزائر مباشرة إلى Google.',
+    ru: 'Для этого ИИ-инструмента нужен бесплатный ключ Gemini API, настроенный владельцем сайта. Получите его на {site}, затем добавьте {code1} в файл {code2} в корне проекта и перезапустите / повторно разверните сайт. Ваш ключ остаётся в конфигурации сайта   запросы отправляются из браузера посетителя напрямую в Google.',
   },
   aiRequestFailed: {
     en: 'The AI request failed.',
@@ -51,11 +51,11 @@ export const AI_STRINGS: StrDict = {
   writing: { en: 'Writing…', es: 'Escribiendo…', fr: 'Rédaction…', ar: 'جارٍ الكتابة…', ru: 'Пишу…' },
   thinking: { en: 'Thinking…', es: 'Pensando…', fr: 'Réflexion…', ar: 'جارٍ التفكير…', ru: 'Думаю…' },
   addKeySuffix: {
-    en: ' — add API key first',
-    es: ' — añade primero la clave API',
-    fr: ' — ajoutez d’abord la clé API',
-    ar: ' — أضف مفتاح API أولًا',
-    ru: ' — сначала добавьте ключ API',
+    en: '   add API key first',
+    es: '   añade primero la clave API',
+    fr: '   ajoutez d’abord la clé API',
+    ar: '   أضف مفتاح API أولًا',
+    ru: '   сначала добавьте ключ API',
   },
   topic: { en: 'Topic', es: 'Tema', fr: 'Sujet', ar: 'الموضوع', ru: 'Тема' },
   tone: { en: 'Tone', es: 'Tono', fr: 'Ton', ar: 'النبرة', ru: 'Тон' },
@@ -80,11 +80,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Writer ----
   writerNote: {
-    en: "Drafts come from Google Gemini and can contain factual errors — review and edit before publishing. Quality depends on the model and the site's API key quota.",
+    en: "Drafts come from Google Gemini and can contain factual errors   review and edit before publishing. Quality depends on the model and the site's API key quota.",
     es: 'Los borradores provienen de Google Gemini y pueden contener errores de hecho: revísalos y edítalos antes de publicar. La calidad depende del modelo y de la cuota de la clave API del sitio.',
-    fr: 'Les brouillons proviennent de Google Gemini et peuvent contenir des erreurs factuelles — relisez et corrigez avant de publier. La qualité dépend du modèle et du quota de la clé API du site.',
-    ar: 'تأتي المسودات من Google Gemini وقد تحتوي على أخطاء في الحقائق — راجعها وحرّرها قبل النشر. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
-    ru: 'Черновики создаёт Google Gemini, и в них могут быть фактические ошибки — проверяйте и редактируйте перед публикацией. Качество зависит от модели и квоты ключа API сайта.',
+    fr: 'Les brouillons proviennent de Google Gemini et peuvent contenir des erreurs factuelles   relisez et corrigez avant de publier. La qualité dépend du modèle et du quota de la clé API du site.',
+    ar: 'تأتي المسودات من Google Gemini وقد تحتوي على أخطاء في الحقائق   راجعها وحرّرها قبل النشر. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
+    ru: 'Черновики создаёт Google Gemini, и в них могут быть фактические ошибки   проверяйте и редактируйте перед публикацией. Качество зависит от модели и квоты ключа API сайта.',
   },
   writerTopicPlaceholder: {
     en: 'e.g. Benefits of rooftop gardening for beginners',
@@ -113,11 +113,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Paraphraser ----
   paraphraserNote: {
-    en: "The AI preserves meaning and facts, but always re-read the rewrite — nuanced or technical wording can shift slightly. Quality depends on the model and the site's API key quota.",
+    en: "The AI preserves meaning and facts, but always re-read the rewrite   nuanced or technical wording can shift slightly. Quality depends on the model and the site's API key quota.",
     es: 'La IA conserva el significado y los hechos, pero vuelve a leer siempre la reescritura: los matices o el lenguaje técnico pueden variar ligeramente. La calidad depende del modelo y de la cuota de la clave API del sitio.',
-    fr: 'L’IA conserve le sens et les faits, mais relisez toujours la réécriture — les nuances ou le vocabulaire technique peuvent légèrement changer. La qualité dépend du modèle et du quota de la clé API du site.',
-    ar: 'يحافظ الذكاء الاصطناعي على المعنى والحقائق، لكن أعد قراءة النص المعاد صياغته دائمًا — فقد تتغير الصياغات الدقيقة أو التقنية قليلًا. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
-    ru: 'ИИ сохраняет смысл и факты, но всегда перечитывайте результат — нюансы и технические формулировки могут немного измениться. Качество зависит от модели и квоты ключа API сайта.',
+    fr: 'L’IA conserve le sens et les faits, mais relisez toujours la réécriture   les nuances ou le vocabulaire technique peuvent légèrement changer. La qualité dépend du modèle et du quota de la clé API du site.',
+    ar: 'يحافظ الذكاء الاصطناعي على المعنى والحقائق، لكن أعد قراءة النص المعاد صياغته دائمًا   فقد تتغير الصياغات الدقيقة أو التقنية قليلًا. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
+    ru: 'ИИ сохраняет смысл и факты, но всегда перечитывайте результат   нюансы и технические формулировки могут немного измениться. Качество зависит от модели и квоты ключа API сайта.',
   },
   paraphrasePlaceholder: {
     en: 'Paste the text you want rewritten…',
@@ -145,11 +145,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Grammar Checker ----
   grammarNote: {
-    en: "The checker fixes clear errors and lists the big changes, but it may occasionally 'correct' an intentional style choice — keep the final say yourself. Quality depends on the model and the site's API key quota.",
+    en: "The checker fixes clear errors and lists the big changes, but it may occasionally 'correct' an intentional style choice   keep the final say yourself. Quality depends on the model and the site's API key quota.",
     es: 'El corrector arregla los errores claros y enumera los cambios principales, pero a veces puede «corregir» una elección de estilo deliberada: la última palabra la tienes tú. La calidad depende del modelo y de la cuota de la clave API del sitio.',
-    fr: 'Le correcteur corrige les erreurs évidentes et liste les changements principaux, mais il peut parfois « corriger » un choix de style volontaire — gardez le dernier mot. La qualité dépend du modèle et du quota de la clé API du site.',
-    ar: 'يصحح المدقق الأخطاء الواضحة ويسرد التغييرات الرئيسية، لكنه قد «يصحح» أحيانًا اختيارًا أسلوبيًا مقصودًا — فاحتفظ بالقرار الأخير لنفسك. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
-    ru: 'Проверка исправляет явные ошибки и перечисляет основные изменения, но иногда может «исправить» намеренный стилистический выбор — последнее слово остаётся за вами. Качество зависит от модели и квоты ключа API сайта.',
+    fr: 'Le correcteur corrige les erreurs évidentes et liste les changements principaux, mais il peut parfois « corriger » un choix de style volontaire   gardez le dernier mot. La qualité dépend du modèle et du quota de la clé API du site.',
+    ar: 'يصحح المدقق الأخطاء الواضحة ويسرد التغييرات الرئيسية، لكنه قد «يصحح» أحيانًا اختيارًا أسلوبيًا مقصودًا   فاحتفظ بالقرار الأخير لنفسك. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
+    ru: 'Проверка исправляет явные ошибки и перечисляет основные изменения, но иногда может «исправить» намеренный стилистический выбор   последнее слово остаётся за вами. Качество зависит от модели и квоты ключа API сайта.',
   },
   grammarPlaceholder: {
     en: 'Paste the text you want checked…',
@@ -170,11 +170,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Text Summarizer ----
   summarizerNote: {
-    en: "Summaries compress aggressively and can drop nuance or caveats from the source — check the original before acting on details. Quality depends on the model and the site's API key quota.",
+    en: "Summaries compress aggressively and can drop nuance or caveats from the source   check the original before acting on details. Quality depends on the model and the site's API key quota.",
     es: 'Los resúmenes comprimen mucho y pueden perder matices o advertencias del texto original: consulta la fuente antes de actuar según los detalles. La calidad depende del modelo y de la cuota de la clave API del sitio.',
-    fr: 'Les résumés compriment fortement et peuvent perdre des nuances ou des réserves du texte source — vérifiez l’original avant d’agir sur des détails. La qualité dépend du modèle et du quota de la clé API du site.',
-    ar: 'تضغط الملخصات النص بشدة وقد تُسقط بعض الفروق الدقيقة أو التحفظات من المصدر — راجع الأصل قبل التصرف بناءً على التفاصيل. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
-    ru: 'Краткие изложения сильно сжимают текст и могут упускать нюансы и оговорки оригинала — сверяйтесь с источником, прежде чем действовать. Качество зависит от модели и квоты ключа API сайта.',
+    fr: 'Les résumés compriment fortement et peuvent perdre des nuances ou des réserves du texte source   vérifiez l’original avant d’agir sur des détails. La qualité dépend du modèle et du quota de la clé API du site.',
+    ar: 'تضغط الملخصات النص بشدة وقد تُسقط بعض الفروق الدقيقة أو التحفظات من المصدر   راجع الأصل قبل التصرف بناءً على التفاصيل. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
+    ru: 'Краткие изложения сильно сжимают текст и могут упускать нюансы и оговорки оригинала   сверяйтесь с источником, прежде чем действовать. Качество зависит от модели и квоты ключа API сайта.',
   },
   textToSummarize: { en: 'Text to summarize', es: 'Texto a resumir', fr: 'Texte à résumer', ar: 'النص المراد تلخيصه', ru: 'Текст для сжатия' },
   summarizePlaceholder: {
@@ -201,11 +201,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Translator (into English by design) ----
   translatorNote: {
-    en: "Translates text from any language into English. AI translation handles everyday text well, but idioms, poetry and legal/medical wording can come out wrong — have a fluent speaker review anything important. Quality depends on the model and the site's API key quota.",
+    en: "Translates text from any language into English. AI translation handles everyday text well, but idioms, poetry and legal/medical wording can come out wrong   have a fluent speaker review anything important. Quality depends on the model and the site's API key quota.",
     es: 'Traduce textos de cualquier idioma al inglés. La traducción con IA funciona bien con textos cotidianos, pero las expresiones idiomáticas, la poesía y los textos legales o médicos pueden salir mal: pide a una persona fluida que revise lo importante. La calidad depende del modelo y de la cuota de la clave API del sitio.',
-    fr: 'Traduit un texte de n’importe quelle langue vers l’anglais. La traduction par IA convient bien aux textes du quotidien, mais les expressions idiomatiques, la poésie et les textes juridiques ou médicaux peuvent être mal rendus — faites relire tout texte important par une personne fluente. La qualité dépend du modèle et du quota de la clé API du site.',
-    ar: 'يترجم النصوص من أي لغة إلى الإنجليزية. تتعامل الترجمة بالذكاء الاصطناعي جيدًا مع النصوص اليومية، لكن التعابير الاصطلاحية والشعر والصياغات القانونية أو الطبية قد تخرج بشكل خاطئ — اطلب من متحدث طليق مراجعة أي نص مهم. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
-    ru: 'Переводит текст с любого языка на английский. ИИ-перевод хорошо справляется с повседневными текстами, но идиомы, стихи и юридические или медицинские формулировки могут передаваться неверно — важное должен проверить человек, свободно владеющий языком. Качество зависит от модели и квоты ключа API сайта.',
+    fr: 'Traduit un texte de n’importe quelle langue vers l’anglais. La traduction par IA convient bien aux textes du quotidien, mais les expressions idiomatiques, la poésie et les textes juridiques ou médicaux peuvent être mal rendus   faites relire tout texte important par une personne fluente. La qualité dépend du modèle et du quota de la clé API du site.',
+    ar: 'يترجم النصوص من أي لغة إلى الإنجليزية. تتعامل الترجمة بالذكاء الاصطناعي جيدًا مع النصوص اليومية، لكن التعابير الاصطلاحية والشعر والصياغات القانونية أو الطبية قد تخرج بشكل خاطئ   اطلب من متحدث طليق مراجعة أي نص مهم. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
+    ru: 'Переводит текст с любого языка на английский. ИИ-перевод хорошо справляется с повседневными текстами, но идиомы, стихи и юридические или медицинские формулировки могут передаваться неверно   важное должен проверить человек, свободно владеющий языком. Качество зависит от модели и квоты ключа API сайта.',
   },
   textToTranslate: { en: 'Text to translate into English', es: 'Texto a traducir al inglés', fr: 'Texte à traduire en anglais', ar: 'النص المراد ترجمته إلى الإنجليزية', ru: 'Текст для перевода на английский' },
   translatorPlaceholder: {
@@ -226,11 +226,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Story Generator ----
   storyNote: {
-    en: "Stories are original AI drafts — great for inspiration and first drafts, but characters and plots can feel familiar; make them your own in the edit. Quality depends on the model and the site's API key quota.",
+    en: "Stories are original AI drafts   great for inspiration and first drafts, but characters and plots can feel familiar; make them your own in the edit. Quality depends on the model and the site's API key quota.",
     es: 'Las historias son borradores originales de la IA: ideales como inspiración y primer borrador, pero los personajes y las tramas pueden resultar familiares; hazlos tuyos al editar. La calidad depende del modelo y de la cuota de la clave API del sitio.',
-    fr: 'Les histoires sont des brouillons originaux de l’IA — parfaits pour l’inspiration et les premiers jets, mais les personnages et les intrigues peuvent sembler familiers ; appropriez-vous-les en les retravaillant. La qualité dépend du modèle et du quota de la clé API du site.',
-    ar: 'القصص مسودات أصلية من الذكاء الاصطناعي — رائعة للإلهام والمسودات الأولى، لكن الشخصيات والحبكات قد تبدو مألوفة؛ اجعلها خاصة بك أثناء التحرير. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
-    ru: 'Истории — это оригинальные черновики ИИ: отличная основа для вдохновения и первых набросков, но персонажи и сюжеты могут показаться знакомыми — дорабатывайте их под себя. Качество зависит от модели и квоты ключа API сайта.',
+    fr: 'Les histoires sont des brouillons originaux de l’IA   parfaits pour l’inspiration et les premiers jets, mais les personnages et les intrigues peuvent sembler familiers ; appropriez-vous-les en les retravaillant. La qualité dépend du modèle et du quota de la clé API du site.',
+    ar: 'القصص مسودات أصلية من الذكاء الاصطناعي   رائعة للإلهام والمسودات الأولى، لكن الشخصيات والحبكات قد تبدو مألوفة؛ اجعلها خاصة بك أثناء التحرير. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
+    ru: 'Истории   это оригинальные черновики ИИ: отличная основа для вдохновения и первых набросков, но персонажи и сюжеты могут показаться знакомыми   дорабатывайте их под себя. Качество зависит от модели и квоты ключа API сайта.',
   },
   genre: { en: 'Genre', es: 'Género', fr: 'Genre', ar: 'النوع', ru: 'Жанр' },
   genreFantasy: { en: 'Fantasy', es: 'Fantasía', fr: 'Fantasy', ar: 'فانتازيا', ru: 'Фэнтези' },
@@ -272,11 +272,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Poem Generator ----
   poemNote: {
-    en: "The AI follows classic forms closely, but strict syllable counts (haiku, sonnets) can occasionally slip by a syllable — count before submitting anywhere formal. Quality depends on the model and the site's API key quota.",
+    en: "The AI follows classic forms closely, but strict syllable counts (haiku, sonnets) can occasionally slip by a syllable   count before submitting anywhere formal. Quality depends on the model and the site's API key quota.",
     es: 'La IA sigue de cerca las formas clásicas, pero el conteo estricto de sílabas (haikus, sonetos) puede fallar ocasionalmente por una sílaba: cuéntalas antes de enviarlo a un sitio formal. La calidad depende del modelo y de la cuota de la clave API del sitio.',
-    fr: 'L’IA suit de près les formes classiques, mais le compte strict des syllabes (haïkus, sonnets) peut parfois déraper d’une syllabe — comptez avant tout envoi formel. La qualité dépend du modèle et du quota de la clé API du site.',
-    ar: 'يلتزم الذكاء الاصطناعي بالأشكال الكلاسيكية عن قرب، لكن عدّ المقاطع الصارم (الهايكو والسونيت) قد يخطئ أحيانًا بمقطع واحد — تحقق من العد قبل الإرسال إلى أي جهة رسمية. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
-    ru: 'ИИ тщательно следует классическим формам, но строгий подсчёт слогов (хокку, сонеты) иногда может ошибаться на один слог — проверяйте перед официальной отправкой. Качество зависит от модели и квоты ключа API сайта.',
+    fr: 'L’IA suit de près les formes classiques, mais le compte strict des syllabes (haïkus, sonnets) peut parfois déraper d’une syllabe   comptez avant tout envoi formel. La qualité dépend du modèle et du quota de la clé API du site.',
+    ar: 'يلتزم الذكاء الاصطناعي بالأشكال الكلاسيكية عن قرب، لكن عدّ المقاطع الصارم (الهايكو والسونيت) قد يخطئ أحيانًا بمقطع واحد   تحقق من العد قبل الإرسال إلى أي جهة رسمية. تعتمد الجودة على النموذج وحصة مفتاح API الخاص بالموقع.',
+    ru: 'ИИ тщательно следует классическим формам, но строгий подсчёт слогов (хокку, сонеты) иногда может ошибаться на один слог   проверяйте перед официальной отправкой. Качество зависит от модели и квоты ключа API сайта.',
   },
   poemTopicPlaceholder: {
     en: 'e.g. Rain over the old city at dawn',
@@ -324,11 +324,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Image Generator ----
   imageGenNote: {
-    en: "Images are generated by Google's Gemini image model using the site owner's API key and quota. The output size and exact framing are chosen by the model — re-run or rephrase the prompt if the first result is not right.",
+    en: "Images are generated by Google's Gemini image model using the site owner's API key and quota. The output size and exact framing are chosen by the model   re-run or rephrase the prompt if the first result is not right.",
     es: 'Las imágenes las genera el modelo de imágenes Gemini de Google con la clave API y la cuota del propietario del sitio. El tamaño y el encuadre exactos los elige el modelo: vuelve a ejecutarlo o reformula la descripción si el primer resultado no es el adecuado.',
-    fr: 'Les images sont générées par le modèle d’image Gemini de Google avec la clé API et le quota du propriétaire du site. La taille et le cadrage exacts sont choisis par le modèle — relancez ou reformulez la description si le premier résultat ne convient pas.',
-    ar: 'تُولّد الصور بواسطة نموذج صور Gemini من Google باستخدام مفتاح API وحصة مالك الموقع. يختار النموذج حجم الإخراج والتأطير الدقيق — أعد التشغيل أو أعد صياغة الوصف إذا لم تكن النتيجة الأولى مناسبة.',
-    ru: 'Изображения создаёт модель Gemini от Google с использованием ключа API и квоты владельца сайта. Размер и точную композицию выбирает модель — повторите запрос или перефразируйте описание, если первый результат не подходит.',
+    fr: 'Les images sont générées par le modèle d’image Gemini de Google avec la clé API et le quota du propriétaire du site. La taille et le cadrage exacts sont choisis par le modèle   relancez ou reformulez la description si le premier résultat ne convient pas.',
+    ar: 'تُولّد الصور بواسطة نموذج صور Gemini من Google باستخدام مفتاح API وحصة مالك الموقع. يختار النموذج حجم الإخراج والتأطير الدقيق   أعد التشغيل أو أعد صياغة الوصف إذا لم تكن النتيجة الأولى مناسبة.',
+    ru: 'Изображения создаёт модель Gemini от Google с использованием ключа API и квоты владельца сайта. Размер и точную композицию выбирает модель   повторите запрос или перефразируйте описание, если первый результат не подходит.',
   },
   describeImage: { en: 'Describe the image', es: 'Describe la imagen', fr: 'Décrivez l’image', ar: 'صِف الصورة', ru: 'Опишите изображение' },
   imagePromptPlaceholder: {
@@ -369,11 +369,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Email Writer ----
   emailNote: {
-    en: 'The AI drafts the email from the details you give — always read it through and adjust names, dates and facts before sending.',
+    en: 'The AI drafts the email from the details you give   always read it through and adjust names, dates and facts before sending.',
     es: 'La IA redacta el correo con los datos que le das: léelo siempre por completo y ajusta nombres, fechas y datos antes de enviarlo.',
-    fr: 'L’IA rédige l’e-mail à partir des détails que vous fournissez — relisez-le toujours en entier et ajustez les noms, dates et faits avant l’envoi.',
-    ar: 'يصوغ الذكاء الاصطناعي البريد من التفاصيل التي تقدمها — اقرأه دائمًا بالكامل وعدّل الأسماء والتواريخ والحقائق قبل الإرسال.',
-    ru: 'ИИ составляет письмо по указанным вами данным — всегда перечитывайте его и проверяйте имена, даты и факты перед отправкой.',
+    fr: 'L’IA rédige l’e-mail à partir des détails que vous fournissez   relisez-le toujours en entier et ajustez les noms, dates et faits avant l’envoi.',
+    ar: 'يصوغ الذكاء الاصطناعي البريد من التفاصيل التي تقدمها   اقرأه دائمًا بالكامل وعدّل الأسماء والتواريخ والحقائق قبل الإرسال.',
+    ru: 'ИИ составляет письмо по указанным вами данным   всегда перечитывайте его и проверяйте имена, даты и факты перед отправкой.',
   },
   purpose: { en: 'Purpose', es: 'Motivo', fr: 'Objet', ar: 'الغرض', ru: 'Цель письма' },
   purposeJobFollowUp: { en: 'Job application follow-up', es: 'Seguimiento de candidatura laboral', fr: 'Relance de candidature', ar: 'متابعة طلب وظيفة', ru: 'Напоминание по отклику на вакансию' },
@@ -404,11 +404,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Cover Letter Generator ----
   coverNote: {
-    en: 'The letter is written only from the details you provide — check it carefully and personalise it before submitting; recruiters can tell a generic letter.',
+    en: 'The letter is written only from the details you provide   check it carefully and personalise it before submitting; recruiters can tell a generic letter.',
     es: 'La carta se escribe solo con los datos que aportas: revísala con atención y personalízala antes de enviarla; los reclutadores detectan una carta genérica.',
-    fr: 'La lettre est rédigée uniquement à partir des détails que vous fournissez — vérifiez-la soigneusement et personnalisez-la avant de l’envoyer ; les recruteurs repèrent une lettre générique.',
-    ar: 'تُكتب الرسالة فقط من التفاصيل التي تقدمها — راجعها بعناية وخصّصها قبل الإرسال؛ فمسؤولو التوظيف يميّزون الرسالة العامة.',
-    ru: 'Письмо составляется только по указанным вами данным — внимательно проверьте его и персонализируйте перед отправкой: рекрутеры сразу видят шаблонные письма.',
+    fr: 'La lettre est rédigée uniquement à partir des détails que vous fournissez   vérifiez-la soigneusement et personnalisez-la avant de l’envoyer ; les recruteurs repèrent une lettre générique.',
+    ar: 'تُكتب الرسالة فقط من التفاصيل التي تقدمها   راجعها بعناية وخصّصها قبل الإرسال؛ فمسؤولو التوظيف يميّزون الرسالة العامة.',
+    ru: 'Письмо составляется только по указанным вами данным   внимательно проверьте его и персонализируйте перед отправкой: рекрутеры сразу видят шаблонные письма.',
   },
   yourNameReq: { en: 'Your name *', es: 'Tu nombre *', fr: 'Votre nom *', ar: 'اسمك *', ru: 'Ваше имя *' },
   namePlaceholder: {
@@ -475,31 +475,31 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Bio Generator ----
   bioNote: {
-    en: 'You get 5 options to mix and match. Bios are written from what you describe — add your real profession, interests or a call to action for better results.',
+    en: 'You get 5 options to mix and match. Bios are written from what you describe   add your real profession, interests or a call to action for better results.',
     es: 'Recibes 5 opciones para combinar. Las biografías se escriben a partir de lo que describes: añade tu profesión real, tus intereses o una llamada a la acción para obtener mejores resultados.',
-    fr: 'Vous obtenez 5 options à combiner. Les bios sont rédigées à partir de votre description — ajoutez votre vraie profession, vos centres d’intérêt ou un appel à l’action pour de meilleurs résultats.',
-    ar: 'تحصل على 5 خيارات للدمج والاختيار بينها. تُكتب النبذات مما تصفه — أضف مهنتك الحقيقية أو اهتماماتك أو دعوة لاتخاذ إجراء لنتائج أفضل.',
-    ru: 'Вы получите 5 вариантов, которые можно комбинировать. Биографии пишутся по вашему описанию — укажите настоящую профессию, интересы или призыв к действию для лучшего результата.',
+    fr: 'Vous obtenez 5 options à combiner. Les bios sont rédigées à partir de votre description   ajoutez votre vraie profession, vos centres d’intérêt ou un appel à l’action pour de meilleurs résultats.',
+    ar: 'تحصل على 5 خيارات للدمج والاختيار بينها. تُكتب النبذات مما تصفه   أضف مهنتك الحقيقية أو اهتماماتك أو دعوة لاتخاذ إجراء لنتائج أفضل.',
+    ru: 'Вы получите 5 вариантов, которые можно комбинировать. Биографии пишутся по вашему описанию   укажите настоящую профессию, интересы или призыв к действию для лучшего результата.',
   },
   styleMinimal: { en: 'Minimal', es: 'Minimalista', fr: 'Minimaliste', ar: 'بسيط', ru: 'Минималистичный' },
   styleBold: { en: 'Bold', es: 'Atrevido', fr: 'Audacieux', ar: 'جريء', ru: 'Смелый' },
   aboutYou: { en: 'About you', es: 'Sobre ti', fr: 'À propos de vous', ar: 'نبذة عنك', ru: 'О себе' },
   aboutYouPlaceholder: {
-    en: 'Your profession, interests, vibe keywords — e.g. wedding photographer in Lahore, coffee lover, travel addict',
-    es: 'Tu profesión, intereses, palabras clave de tu estilo — p. ej., fotógrafo de bodas en Lahore, amante del café, adicto a los viajes',
-    fr: 'Votre profession, vos centres d’intérêt, vos mots-clés d’ambiance — par ex. photographe de mariage à Lahore, amateur de café, passionné de voyages',
-    ar: 'مهنتك واهتماماتك وكلمات تعبّر عن أسلوبك — مثال: مصور أفراح في لاهور، عاشق للقهوة، مدمن سفر',
-    ru: 'Ваша профессия, интересы, ключевые слова о вас — например, свадебный фотограф в Лахоре, кофеман, заядлый путешественник',
+    en: 'Your profession, interests, vibe keywords   e.g. wedding photographer in Lahore, coffee lover, travel addict',
+    es: 'Tu profesión, intereses, palabras clave de tu estilo   p. ej., fotógrafo de bodas en Lahore, amante del café, adicto a los viajes',
+    fr: 'Votre profession, vos centres d’intérêt, vos mots-clés d’ambiance   par ex. photographe de mariage à Lahore, amateur de café, passionné de voyages',
+    ar: 'مهنتك واهتماماتك وكلمات تعبّر عن أسلوبك   مثال: مصور أفراح في لاهور، عاشق للقهوة، مدمن سفر',
+    ru: 'Ваша профессия, интересы, ключевые слова о вас   например, свадебный фотограф в Лахоре, кофеман, заядлый путешественник',
   },
   generateBios: { en: 'Generate 5 bios', es: 'Generar 5 biografías', fr: 'Générer 5 bios', ar: 'أنشئ 5 نبذات', ru: 'Сгенерировать 5 биографий' },
 
   // ---- AI Caption Generator ----
   captionNote: {
-    en: 'Captions are suggestions — tweak the wording so it sounds like you, and check any claims before posting.',
+    en: 'Captions are suggestions   tweak the wording so it sounds like you, and check any claims before posting.',
     es: 'Los pies de foto son sugerencias: ajusta el texto para que suene a ti y verifica cualquier afirmación antes de publicar.',
-    fr: 'Les légendes sont des suggestions — ajustez la formulation pour qu’elle vous ressemble et vérifiez toute affirmation avant de publier.',
-    ar: 'التعليقات مقترحات — عدّل الصياغة لتبدو بصوتك، وتحقّق من أي ادعاءات قبل النشر.',
-    ru: 'Подписи — это предложения: подправьте формулировки под себя и проверяйте любые утверждения перед публикацией.',
+    fr: 'Les légendes sont des suggestions   ajustez la formulation pour qu’elle vous ressemble et vérifiez toute affirmation avant de publier.',
+    ar: 'التعليقات مقترحات   عدّل الصياغة لتبدو بصوتك، وتحقّق من أي ادعاءات قبل النشر.',
+    ru: 'Подписи   это предложения: подправьте формулировки под себя и проверяйте любые утверждения перед публикацией.',
   },
   postAbout: { en: 'What is the post about?', es: '¿De qué trata la publicación?', fr: 'De quoi parle la publication ?', ar: 'ما موضوع المنشور؟', ru: 'О чём пост?' },
   postAboutPlaceholder: {
@@ -515,11 +515,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Business Name Generator ----
   bizNote: {
-    en: 'Name ideas are a starting point — before committing, check that the name is not already a registered business or trademark and that the domain is available.',
+    en: 'Name ideas are a starting point   before committing, check that the name is not already a registered business or trademark and that the domain is available.',
     es: 'Las ideas de nombres son un punto de partida: antes de decidirte, comprueba que el nombre no sea ya una empresa registrada o una marca y que el dominio esté disponible.',
-    fr: 'Les idées de noms sont un point de départ — avant de vous engager, vérifiez que le nom n’est pas déjà une entreprise ou une marque déposée et que le domaine est disponible.',
-    ar: 'أفكار الأسماء نقطة انطلاق — قبل الالتزام، تحقّق من أن الاسم ليس شركة مسجّلة أو علامة تجارية بالفعل وأن النطاق متاح.',
-    ru: 'Идеи названий — это отправная точка: прежде чем остановиться на варианте, проверьте, что название не занято зарегистрированной компанией или товарным знаком и что домен свободен.',
+    fr: 'Les idées de noms sont un point de départ   avant de vous engager, vérifiez que le nom n’est pas déjà une entreprise ou une marque déposée et que le domaine est disponible.',
+    ar: 'أفكار الأسماء نقطة انطلاق   قبل الالتزام، تحقّق من أن الاسم ليس شركة مسجّلة أو علامة تجارية بالفعل وأن النطاق متاح.',
+    ru: 'Идеи названий   это отправная точка: прежде чем остановиться на варианте, проверьте, что название не занято зарегистрированной компанией или товарным знаком и что домен свободен.',
   },
   industryReq: { en: 'Industry / what the business does *', es: 'Sector / a qué se dedica el negocio *', fr: 'Secteur / activité de l’entreprise *', ar: 'المجال / نشاط العمل *', ru: 'Отрасль / чем занимается бизнес *' },
   industryPlaceholder: {
@@ -553,11 +553,11 @@ export const AI_STRINGS: StrDict = {
 
   // ---- AI Chat ----
   chatNote: {
-    en: "The conversation lives only in this tab and is gone when you leave the page. Replies come from Gemini 2.5 Flash via the site owner's API key — like all AI, it can be confidently wrong, so verify anything important.",
+    en: "The conversation lives only in this tab and is gone when you leave the page. Replies come from Gemini 2.5 Flash via the site owner's API key   like all AI, it can be confidently wrong, so verify anything important.",
     es: 'La conversación vive solo en esta pestaña y desaparece al salir de la página. Las respuestas provienen de Gemini 2.5 Flash mediante la clave API del propietario del sitio y, como toda IA, puede equivocarse con total seguridad: verifica todo lo importante.',
-    fr: 'La conversation ne vit que dans cet onglet et disparaît quand vous quittez la page. Les réponses proviennent de Gemini 2.5 Flash via la clé API du propriétaire du site — comme toute IA, il peut se tromper avec assurance : vérifiez tout ce qui compte.',
-    ar: 'تبقى المحادثة في علامة التبويب هذه فقط وتختفي عند مغادرة الصفحة. تأتي الردود من Gemini 2.5 Flash عبر مفتاح API الخاص بمالك الموقع — وكأي ذكاء اصطناعي، قد يخطئ بثقة تامة، فتحقّق من أي شيء مهم.',
-    ru: 'Разговор существует только в этой вкладке и исчезнет при уходе со страницы. Ответы даёт Gemini 2.5 Flash через ключ API владельца сайта — как и любой ИИ, он может уверенно ошибаться, поэтому проверяйте всё важное.',
+    fr: 'La conversation ne vit que dans cet onglet et disparaît quand vous quittez la page. Les réponses proviennent de Gemini 2.5 Flash via la clé API du propriétaire du site   comme toute IA, il peut se tromper avec assurance : vérifiez tout ce qui compte.',
+    ar: 'تبقى المحادثة في علامة التبويب هذه فقط وتختفي عند مغادرة الصفحة. تأتي الردود من Gemini 2.5 Flash عبر مفتاح API الخاص بمالك الموقع   وكأي ذكاء اصطناعي، قد يخطئ بثقة تامة، فتحقّق من أي شيء مهم.',
+    ru: 'Разговор существует только в этой вкладке и исчезнет при уходе со страницы. Ответы даёт Gemini 2.5 Flash через ключ API владельца сайта   как и любой ИИ, он может уверенно ошибаться, поэтому проверяйте всё важное.',
   },
   assistantPreset: { en: 'Assistant preset', es: 'Asistente predefinido', fr: 'Assistant prédéfini', ar: 'إعداد المساعد', ru: 'Пресет ассистента' },
   presetGeneral: { en: 'General assistant', es: 'Asistente general', fr: 'Assistant général', ar: 'مساعد عام', ru: 'Общий ассистент' },
@@ -579,7 +579,7 @@ export const AI_STRINGS: StrDict = {
     es: 'Escribe un mensaje… (Intro para enviar, Mayús+Intro para una línea nueva)',
     fr: 'Écrivez un message… (Entrée pour envoyer, Maj+Entrée pour une nouvelle ligne)',
     ar: 'اكتب رسالة… (Enter للإرسال، Shift+Enter لسطر جديد)',
-    ru: 'Введите сообщение… (Enter — отправить, Shift+Enter — новая строка)',
+    ru: 'Введите сообщение… (Enter   отправить, Shift+Enter   новая строка)',
   },
   chatPlaceholderNoKey: {
     en: 'Add a Gemini API key to start chatting',

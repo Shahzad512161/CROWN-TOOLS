@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 import type { SupportedLanguage } from './i18n';
 
 /**
- * Language context — App provides the current locale once; every tool
+ * Language context   App provides the current locale once; every tool
  * component reads it with useLang() instead of prop-drilling.
  */
 export const LangContext = createContext<SupportedLanguage>('en');

@@ -1,4 +1,4 @@
-# Super Crown Tools — URL rewrites for Apache (Hostinger shared hosting).
+# Free Omni Tools   URL rewrites for Apache (Hostinger shared hosting).
 # The app is a single-page application: real files (assets, sitemaps,
 # robots.txt, favicons) are served directly; every other path is rewritten
 # to index.html so deep links like /en/tool/merge-pdf work on first load.

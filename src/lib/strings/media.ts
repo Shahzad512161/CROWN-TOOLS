@@ -19,18 +19,18 @@ export const MEDIA_STRINGS: StrDict = {
   trySampleVideo: { en: 'Try a sample video', es: 'Probar un video de muestra', fr: 'Essayer une vidéo d’exemple', ar: 'جرّب مقطع فيديو تجريبيًا', ru: 'Попробовать образец видео' },
   trySampleSong: { en: 'Try a sample song', es: 'Probar una canción de muestra', fr: 'Essayer un morceau d’exemple', ar: 'جرّب أغنية تجريبية', ru: 'Попробовать образец аудио' },
   sampleUnavailable: {
-    en: 'Sample unavailable offline — upload a file instead.',
+    en: 'Sample unavailable offline   upload a file instead.',
     es: 'Muestra no disponible sin conexión: sube un archivo en su lugar.',
-    fr: 'Exemple indisponible hors ligne — importez plutôt un fichier.',
-    ar: 'العينة غير متاحة دون اتصال — ارفع ملفًا بدلاً من ذلك.',
-    ru: 'Образец недоступен офлайн — загрузите файл.',
+    fr: 'Exemple indisponible hors ligne   importez plutôt un fichier.',
+    ar: 'العينة غير متاحة دون اتصال   ارفع ملفًا بدلاً من ذلك.',
+    ru: 'Образец недоступен офлайн   загрузите файл.',
   },
   engineNote: {
-    en: 'Powered by FFmpeg running as WebAssembly in your browser: the engine (~30 MB) loads once from this site when you start the first job, then everything processes locally — your media is never uploaded. The engine is single-threaded, so long or 4K files take a while; keep clips modest for the best experience.',
+    en: 'Powered by FFmpeg running as WebAssembly in your browser: the engine (~30 MB) loads once from this site when you start the first job, then everything processes locally   your media is never uploaded. The engine is single-threaded, so long or 4K files take a while; keep clips modest for the best experience.',
     es: 'Con tecnología FFmpeg ejecutándose como WebAssembly en tu navegador: el motor (~30 MB) se carga una sola vez desde este sitio cuando inicias el primer trabajo y después todo se procesa localmente: tus archivos nunca se suben a ningún servidor. El motor es de un solo hilo, así que los archivos largos o en 4K tardan un poco; mantén los clips cortos para una mejor experiencia.',
-    fr: 'Propulsé par FFmpeg exécuté en WebAssembly dans votre navigateur : le moteur (~30 Mo) se charge une seule fois depuis ce site lors du premier traitement, puis tout est traité localement — vos fichiers ne sont jamais envoyés sur un serveur. Le moteur est mono-thread, donc les fichiers longs ou en 4K prennent du temps ; gardez des clips courts pour la meilleure expérience.',
-    ar: 'يعمل بواسطة FFmpeg الذي يعمل بتقنية WebAssembly في متصفحك: يُحمَّل المحرك (~30 ميغابايت) مرة واحدة من هذا الموقع عند بدء أول مهمة، ثم تتم كل المعالجة محليًا — لا تُرفع وسائطك إلى أي خادم أبدًا. المحرك يعمل بخيط واحد، لذا تستغرق الملفات الطويلة أو بدقة 4K وقتًا؛ اجعل المقاطع قصيرة للحصول على أفضل تجربة.',
-    ru: 'Работает на FFmpeg в виде WebAssembly прямо в вашем браузере: движок (~30 МБ) один раз загружается с этого сайта при первом задании, а дальше всё обрабатывается локально — ваши файлы никуда не отправляются. Движок однопоточный, поэтому длинные файлы и видео в 4K обрабатываются долго; для лучшего результата используйте короткие клипы.',
+    fr: 'Propulsé par FFmpeg exécuté en WebAssembly dans votre navigateur : le moteur (~30 Mo) se charge une seule fois depuis ce site lors du premier traitement, puis tout est traité localement   vos fichiers ne sont jamais envoyés sur un serveur. Le moteur est mono-thread, donc les fichiers longs ou en 4K prennent du temps ; gardez des clips courts pour la meilleure expérience.',
+    ar: 'يعمل بواسطة FFmpeg الذي يعمل بتقنية WebAssembly في متصفحك: يُحمَّل المحرك (~30 ميغابايت) مرة واحدة من هذا الموقع عند بدء أول مهمة، ثم تتم كل المعالجة محليًا   لا تُرفع وسائطك إلى أي خادم أبدًا. المحرك يعمل بخيط واحد، لذا تستغرق الملفات الطويلة أو بدقة 4K وقتًا؛ اجعل المقاطع قصيرة للحصول على أفضل تجربة.',
+    ru: 'Работает на FFmpeg в виде WebAssembly прямо в вашем браузере: движок (~30 МБ) один раз загружается с этого сайта при первом задании, а дальше всё обрабатывается локально   ваши файлы никуда не отправляются. Движок однопоточный, поэтому длинные файлы и видео в 4K обрабатываются долго; для лучшего результата используйте короткие клипы.',
   },
 
   // ---- shared labels ----
@@ -73,26 +73,26 @@ export const MEDIA_STRINGS: StrDict = {
     ru: 'Выберите хотя бы долю секунды, чтобы сохранить.',
   },
   processingFailed: {
-    en: 'Processing failed — please try again.',
+    en: 'Processing failed   please try again.',
     es: 'El procesamiento falló: inténtalo de nuevo.',
-    fr: 'Le traitement a échoué — veuillez réessayer.',
-    ar: 'فشلت المعالجة — حاول مرة أخرى.',
-    ru: 'Обработка не удалась — попробуйте ещё раз.',
+    fr: 'Le traitement a échoué   veuillez réessayer.',
+    ar: 'فشلت المعالجة   حاول مرة أخرى.',
+    ru: 'Обработка не удалась   попробуйте ещё раз.',
   },
 
   // ---- Video to GIF ----
   gifNote: {
-    en: 'GIFs balloon fast — keep clips short and narrow for a sensible file size.',
+    en: 'GIFs balloon fast   keep clips short and narrow for a sensible file size.',
     es: 'Los GIF crecen rápido: mantén los clips cortos y estrechos para un tamaño de archivo razonable.',
-    fr: 'Les GIF gonflent vite — gardez des clips courts et étroits pour une taille de fichier raisonnable.',
-    ar: 'تكبر ملفات GIF بسرعة — اجعل المقاطع قصيرة وضيقة للحصول على حجم ملف معقول.',
-    ru: 'GIF-файлы быстро разрастаются — используйте короткие и узкие клипы, чтобы размер файла был разумным.',
+    fr: 'Les GIF gonflent vite   gardez des clips courts et étroits pour une taille de fichier raisonnable.',
+    ar: 'تكبر ملفات GIF بسرعة   اجعل المقاطع قصيرة وضيقة للحصول على حجم ملف معقول.',
+    ru: 'GIF-файлы быстро разрастаются   используйте короткие и узкие клипы, чтобы размер файла был разумным.',
   },
   clipLengthSeconds: { en: 'Clip length (seconds)', es: 'Duración del clip (segundos)', fr: 'Durée du clip (secondes)', ar: 'طول المقطع (بالثواني)', ru: 'Длительность клипа (секунды)' },
   frameRate: { en: 'Frame rate', es: 'Velocidad de fotogramas', fr: 'Fréquence d’images', ar: 'معدل الإطارات', ru: 'Частота кадров' },
   creatingGif: { en: 'Creating GIF…', es: 'Creando GIF…', fr: 'Création du GIF…', ar: 'جارٍ إنشاء GIF…', ru: 'Создание GIF…' },
   createGif: { en: 'Create GIF', es: 'Crear GIF', fr: 'Créer le GIF', ar: 'إنشاء GIF', ru: 'Создать GIF' },
-  usePlayheadAsStart: { en: 'Use playhead as start', es: 'Usar el cursor como inicio', fr: 'Utiliser la tête de lecture comme début', ar: 'استخدام مؤشر التشغيل كبداية', ru: 'Начало — по курсору воспроизведения' },
+  usePlayheadAsStart: { en: 'Use playhead as start', es: 'Usar el cursor como inicio', fr: 'Utiliser la tête de lecture comme début', ar: 'استخدام مؤشر التشغيل كبداية', ru: 'Начало   по курсору воспроизведения' },
   capturingRange: {
     en: 'Capturing {from} → {to} of {total}',
     es: 'Capturando de {from} a {to} de {total}',
@@ -109,11 +109,11 @@ export const MEDIA_STRINGS: StrDict = {
     ru: 'Время начала находится за концом видео.',
   },
   nothingToCapture: {
-    en: 'Nothing left to capture — lower the start time.',
+    en: 'Nothing left to capture   lower the start time.',
     es: 'No queda nada que capturar: reduce el tiempo de inicio.',
-    fr: 'Il ne reste rien à capturer — réduisez le temps de début.',
-    ar: 'لم يتبقَّ شيء لالتقاطه — قلّل وقت البدء.',
-    ru: 'Нечего захватывать — уменьшите время начала.',
+    fr: 'Il ne reste rien à capturer   réduisez le temps de début.',
+    ar: 'لم يتبقَّ شيء لالتقاطه   قلّل وقت البدء.',
+    ru: 'Нечего захватывать   уменьшите время начала.',
   },
   generatedGifAlt: { en: 'Generated GIF', es: 'GIF generado', fr: 'GIF généré', ar: 'GIF المُنشأ', ru: 'Созданный GIF' },
   gifSize: { en: 'GIF size', es: 'Tamaño del GIF', fr: 'Taille du GIF', ar: 'حجم GIF', ru: 'Размер GIF' },
@@ -147,11 +147,11 @@ export const MEDIA_STRINGS: StrDict = {
   startEqPlayhead: { en: 'Start = playhead', es: 'Inicio = cursor', fr: 'Début = tête de lecture', ar: 'البداية = المؤشر', ru: 'Начало = курсор' },
   endEqPlayhead: { en: 'End = playhead', es: 'Fin = cursor', fr: 'Fin = tête de lecture', ar: 'النهاية = المؤشر', ru: 'Конец = курсор' },
   fastModeHint: {
-    en: 'Fast mode cuts at keyframes — edges can shift slightly.',
+    en: 'Fast mode cuts at keyframes   edges can shift slightly.',
     es: 'El modo rápido corta en fotogramas clave: los bordes pueden desplazarse ligeramente.',
-    fr: 'Le mode rapide coupe aux images clés — les bords peuvent se décaler légèrement.',
-    ar: 'الوضع السريع يقص عند الإطارات الرئيسية — قد تنزاح الحواف قليلاً.',
-    ru: 'Быстрый режим режет по ключевым кадрам — края могут слегка сместиться.',
+    fr: 'Le mode rapide coupe aux images clés   les bords peuvent se décaler légèrement.',
+    ar: 'الوضع السريع يقص عند الإطارات الرئيسية   قد تنزاح الحواف قليلاً.',
+    ru: 'Быстрый режим режет по ключевым кадрам   края могут слегка сместиться.',
   },
 
   // ---- Video Converter ----
@@ -159,11 +159,11 @@ export const MEDIA_STRINGS: StrDict = {
 
   // ---- Video to MP3 ----
   wavNote: {
-    en: 'WAV is uncompressed — no bitrate setting.',
+    en: 'WAV is uncompressed   no bitrate setting.',
     es: 'WAV no está comprimido: no tiene ajuste de tasa de bits.',
-    fr: 'Le WAV n’est pas compressé — aucun réglage de débit.',
-    ar: 'تنسيق WAV غير مضغوط — لا يوجد إعداد لمعدل البت.',
-    ru: 'WAV — это несжатый формат, настройки битрейта нет.',
+    fr: 'Le WAV n’est pas compressé   aucun réglage de débit.',
+    ar: 'تنسيق WAV غير مضغوط   لا يوجد إعداد لمعدل البت.',
+    ru: 'WAV   это несжатый формат, настройки битрейта нет.',
   },
   oggNote: {
     en: 'OGG uses a fixed quality level instead.',
@@ -179,28 +179,28 @@ export const MEDIA_STRINGS: StrDict = {
 
   // ---- Video Frame Capture ----
   frameCaptureNote: {
-    en: 'Frames are grabbed natively by the browser at the video’s full resolution — no processing engine is loaded for this tool. Seek to the exact moment (pause and use the player’s controls for precision), then capture as many frames as you like.',
+    en: 'Frames are grabbed natively by the browser at the video’s full resolution   no processing engine is loaded for this tool. Seek to the exact moment (pause and use the player’s controls for precision), then capture as many frames as you like.',
     es: 'Los fotogramas se capturan de forma nativa con el navegador a la resolución completa del video: esta herramienta no carga ningún motor de procesamiento. Busca el momento exacto (pausa y usa los controles del reproductor para mayor precisión) y captura todos los fotogramas que quieras.',
-    fr: 'Les images sont capturées nativement par le navigateur à la pleine résolution de la vidéo — aucun moteur de traitement n’est chargé pour cet outil. Placez-vous au moment exact (mettez en pause et utilisez les contrôles du lecteur pour plus de précision), puis capturez autant d’images que vous le souhaitez.',
-    ar: 'تُلتقط الإطارات بواسطة المتصفح مباشرة وبدقة الفيديو الكاملة — لا يُحمَّل أي محرك معالجة لهذه الأداة. انتقل إلى اللحظة الدقيقة (أوقف مؤقتًا واستخدم عناصر تحكم المشغل للدقة)، ثم التقط أي عدد من الإطارات تريده.',
-    ru: 'Кадры захватываются самим браузером в полном разрешении видео — для этого инструмента движок обработки не загружается. Перейдите к нужному моменту (поставьте на паузу и используйте элементы управления плеера для точности) и захватывайте сколько угодно кадров.',
+    fr: 'Les images sont capturées nativement par le navigateur à la pleine résolution de la vidéo   aucun moteur de traitement n’est chargé pour cet outil. Placez-vous au moment exact (mettez en pause et utilisez les contrôles du lecteur pour plus de précision), puis capturez autant d’images que vous le souhaitez.',
+    ar: 'تُلتقط الإطارات بواسطة المتصفح مباشرة وبدقة الفيديو الكاملة   لا يُحمَّل أي محرك معالجة لهذه الأداة. انتقل إلى اللحظة الدقيقة (أوقف مؤقتًا واستخدم عناصر تحكم المشغل للدقة)، ثم التقط أي عدد من الإطارات تريده.',
+    ru: 'Кадры захватываются самим браузером в полном разрешении видео   для этого инструмента движок обработки не загружается. Перейдите к нужному моменту (поставьте на паузу и используйте элементы управления плеера для точности) и захватывайте сколько угодно кадров.',
   },
   captureFrame: { en: 'Capture frame', es: 'Capturar fotograma', fr: 'Capturer l’image', ar: 'التقاط الإطار', ru: 'Захватить кадр' },
   jumpToTime: { en: 'Jump to time', es: 'Ir al tiempo', fr: 'Aller au temps', ar: 'الانتقال إلى وقت', ru: 'Перейти ко времени' },
   jumpAndCapture: { en: 'Jump & capture', es: 'Ir y capturar', fr: 'Aller et capturer', ar: 'انتقال والتقاط', ru: 'Перейти и захватить' },
   videoNotReady: {
-    en: 'The video is not ready yet — give it a moment to load, then try again.',
+    en: 'The video is not ready yet   give it a moment to load, then try again.',
     es: 'El video aún no está listo: espera un momento a que cargue e inténtalo de nuevo.',
-    fr: 'La vidéo n’est pas encore prête — laissez-lui un instant pour se charger, puis réessayez.',
-    ar: 'الفيديو ليس جاهزًا بعد — امنحه لحظة للتحميل ثم حاول مرة أخرى.',
-    ru: 'Видео ещё не готово — дайте ему секунду на загрузку и попробуйте снова.',
+    fr: 'La vidéo n’est pas encore prête   laissez-lui un instant pour se charger, puis réessayez.',
+    ar: 'الفيديو ليس جاهزًا بعد   امنحه لحظة للتحميل ثم حاول مرة أخرى.',
+    ru: 'Видео ещё не готово   дайте ему секунду на загрузку и попробуйте снова.',
   },
   invalidTime: {
-    en: 'Enter a valid time — seconds, mm:ss or hh:mm:ss.',
+    en: 'Enter a valid time   seconds, mm:ss or hh:mm:ss.',
     es: 'Ingresa un tiempo válido: segundos, mm:ss o hh:mm:ss.',
-    fr: 'Saisissez un temps valide — secondes, mm:ss ou hh:mm:ss.',
-    ar: 'أدخل وقتًا صالحًا — بالثواني أو mm:ss أو hh:mm:ss.',
-    ru: 'Введите корректное время — секунды, мм:сс или чч:мм:сс.',
+    fr: 'Saisissez un temps valide   secondes, mm:ss ou hh:mm:ss.',
+    ar: 'أدخل وقتًا صالحًا   بالثواني أو mm:ss أو hh:mm:ss.',
+    ru: 'Введите корректное время   секунды, мм:сс или чч:мм:сс.',
   },
   removeFrame: { en: 'Remove frame', es: 'Quitar fotograma', fr: 'Retirer l’image', ar: 'إزالة الإطار', ru: 'Удалить кадр' },
   frameAt: { en: 'Frame at {time}', es: 'Fotograma en {time}', fr: 'Image à {time}', ar: 'إطار عند {time}', ru: 'Кадр на {time}' },
@@ -209,11 +209,11 @@ export const MEDIA_STRINGS: StrDict = {
 
   // ---- Audio Converter ----
   sameFormatWarning: {
-    en: 'The source is already .{format} — converting will re-encode it, which is useful for changing the bitrate but will not improve quality.',
+    en: 'The source is already .{format}   converting will re-encode it, which is useful for changing the bitrate but will not improve quality.',
     es: 'El origen ya está en .{format}: la conversión lo recodificará, lo cual sirve para cambiar la tasa de bits, pero no mejorará la calidad.',
-    fr: 'La source est déjà en .{format} — la conversion la réencodera, ce qui est utile pour changer le débit mais n’améliorera pas la qualité.',
-    ar: 'المصدر بتنسيق .{format} بالفعل — سيعيد التحويل ترميزه، وهو مفيد لتغيير معدل البت لكنه لن يحسّن الجودة.',
-    ru: 'Источник уже в формате .{format} — конвертация перекодирует его: это полезно для смены битрейта, но качество не улучшит.',
+    fr: 'La source est déjà en .{format}   la conversion la réencodera, ce qui est utile pour changer le débit mais n’améliorera pas la qualité.',
+    ar: 'المصدر بتنسيق .{format} بالفعل   سيعيد التحويل ترميزه، وهو مفيد لتغيير معدل البت لكنه لن يحسّن الجودة.',
+    ru: 'Источник уже в формате .{format}   конвертация перекодирует его: это полезно для смены битрейта, но качество не улучшит.',
   },
 
   // ---- Audio Trimmer ----
@@ -252,11 +252,11 @@ export const MEDIA_STRINGS: StrDict = {
     ru: 'Перетащите аудиофайлы сюда или нажмите, чтобы выбрать',
   },
   joinerDropHint: {
-    en: 'Add 2–10 tracks — they play in the order shown below. Your files never leave this device.',
+    en: 'Add 2–10 tracks   they play in the order shown below. Your files never leave this device.',
     es: 'Añade de 2 a 10 pistas: se reproducen en el orden mostrado abajo. Tus archivos nunca salen de este dispositivo.',
-    fr: 'Ajoutez 2 à 10 pistes — elles se lisent dans l’ordre affiché ci-dessous. Vos fichiers ne quittent jamais cet appareil.',
-    ar: 'أضف من مسارين إلى 10 مسارات — تُشغَّل بالترتيب الموضح أدناه. ملفاتك لا تغادر هذا الجهاز أبدًا.',
-    ru: 'Добавьте от 2 до 10 дорожек — они воспроизводятся в порядке, показанном ниже. Ваши файлы никогда не покидают это устройство.',
+    fr: 'Ajoutez 2 à 10 pistes   elles se lisent dans l’ordre affiché ci-dessous. Vos fichiers ne quittent jamais cet appareil.',
+    ar: 'أضف من مسارين إلى 10 مسارات   تُشغَّل بالترتيب الموضح أدناه. ملفاتك لا تغادر هذا الجهاز أبدًا.',
+    ru: 'Добавьте от 2 до 10 дорожек   они воспроизводятся в порядке, показанном ниже. Ваши файлы никогда не покидают это устройство.',
   },
   moveUp: { en: 'Move up', es: 'Subir', fr: 'Monter', ar: 'نقل لأعلى', ru: 'Вверх' },
   moveDown: { en: 'Move down', es: 'Bajar', fr: 'Descendre', ar: 'نقل لأسفل', ru: 'Вниз' },
@@ -290,11 +290,11 @@ export const MEDIA_STRINGS: StrDict = {
   quieterEnd: { en: '−20 dB (quieter)', es: '−20 dB (más bajo)', fr: '−20 dB (plus faible)', ar: '−20 dB (أهدأ)', ru: '−20 дБ (тише)' },
   louderEnd: { en: '+30 dB (louder)', es: '+30 dB (más alto)', fr: '+30 dB (plus fort)', ar: '+30 dB (أعلى)', ru: '+30 дБ (громче)' },
   loudnormExplainer: {
-    en: 'Loudnorm measures the whole track and brings it to a broadcast loudness target (−16 LUFS) without a fixed guess — the safe option for speech, podcasts and voice notes.',
+    en: 'Loudnorm measures the whole track and brings it to a broadcast loudness target (−16 LUFS) without a fixed guess   the safe option for speech, podcasts and voice notes.',
     es: 'Loudnorm mide toda la pista y la lleva a un objetivo de sonoridad de emisión (−16 LUFS) sin estimaciones fijas: la opción segura para voz, pódcasts y notas de voz.',
-    fr: 'Loudnorm mesure l’ensemble de la piste et l’amène à une cible de sonie broadcast (−16 LUFS) sans approximation fixe — l’option sûre pour la voix, les podcasts et les notes vocales.',
-    ar: 'يقيس Loudnorm المسار بالكامل ويوصله إلى هدف جهارة البث (−16 LUFS) دون تخمين ثابت — الخيار الآمن للكلام والبودكاست والملاحظات الصوتية.',
-    ru: 'Loudnorm измеряет всю дорожку и приводит её к целевому уровню громкости вещания (−16 LUFS) без фиксированных догадок — безопасный вариант для речи, подкастов и голосовых заметок.',
+    fr: 'Loudnorm mesure l’ensemble de la piste et l’amène à une cible de sonie broadcast (−16 LUFS) sans approximation fixe   l’option sûre pour la voix, les podcasts et les notes vocales.',
+    ar: 'يقيس Loudnorm المسار بالكامل ويوصله إلى هدف جهارة البث (−16 LUFS) دون تخمين ثابت   الخيار الآمن للكلام والبودكاست والملاحظات الصوتية.',
+    ru: 'Loudnorm измеряет всю дорожку и приводит её к целевому уровню громкости вещания (−16 LUFS) без фиксированных догадок   безопасный вариант для речи, подкастов и голосовых заметок.',
   },
   clipWarning: {
     en: 'Boosting by more than +12 dB will likely make loud passages clip and distort. For speech, Normalize (loudnorm) is the safer choice.',
@@ -315,11 +315,11 @@ export const MEDIA_STRINGS: StrDict = {
 
   // ---- Audio Speed Changer ----
   speedNote: {
-    en: 'Speed changes use FFmpeg’s atempo filter, which preserves pitch — voices and music play faster or slower without sounding higher or lower.',
+    en: 'Speed changes use FFmpeg’s atempo filter, which preserves pitch   voices and music play faster or slower without sounding higher or lower.',
     es: 'Los cambios de velocidad usan el filtro atempo de FFmpeg, que conserva el tono: las voces y la música suenan más rápido o más lento sin volverse más agudas o graves.',
-    fr: 'Les changements de vitesse utilisent le filtre atempo de FFmpeg, qui préserve la hauteur — voix et musique accélèrent ou ralentissent sans sonner plus aiguës ou plus graves.',
-    ar: 'تستخدم تغييرات السرعة مرشح atempo في FFmpeg، الذي يحافظ على حدة الصوت — فتُشغَّل الأصوات والموسيقى أسرع أو أبطأ دون أن تبدو أعلى أو أخفض.',
-    ru: 'Изменение скорости использует фильтр atempo в FFmpeg, который сохраняет высоту тона — голоса и музыка звучат быстрее или медленнее, не становясь выше или ниже.',
+    fr: 'Les changements de vitesse utilisent le filtre atempo de FFmpeg, qui préserve la hauteur   voix et musique accélèrent ou ralentissent sans sonner plus aiguës ou plus graves.',
+    ar: 'تستخدم تغييرات السرعة مرشح atempo في FFmpeg، الذي يحافظ على حدة الصوت   فتُشغَّل الأصوات والموسيقى أسرع أو أبطأ دون أن تبدو أعلى أو أخفض.',
+    ru: 'Изменение скорости использует фильтр atempo в FFmpeg, который сохраняет высоту тона   голоса и музыка звучат быстрее или медленнее, не становясь выше или ниже.',
   },
   fineTuneSpeed: { en: 'Fine tune: {value}×', es: 'Ajuste fino: {value}×', fr: 'Réglage fin : {value}×', ar: 'الضبط الدقيق: {value}×', ru: 'Точная настройка: {value}×' },
   muchSlowerEnd: { en: '0.25× (much slower)', es: '0,25× (mucho más lento)', fr: '0,25× (beaucoup plus lent)', ar: '0.25× (أبطأ بكثير)', ru: '0,25× (намного медленнее)' },
@@ -338,11 +338,11 @@ export const MEDIA_STRINGS: StrDict = {
 
   // ---- Screen Recorder ----
   screenRecorderNote: {
-    en: 'Recording happens entirely in your browser with its built-in recorder — nothing is uploaded. Files are WebM in Chrome and Firefox, MP4 in Safari. System (tab/window) audio depends on your browser and OS: on Chrome desktop it works best when sharing a tab and ticking ‘Share tab audio’ in the share dialog.',
+    en: 'Recording happens entirely in your browser with its built-in recorder   nothing is uploaded. Files are WebM in Chrome and Firefox, MP4 in Safari. System (tab/window) audio depends on your browser and OS: on Chrome desktop it works best when sharing a tab and ticking ‘Share tab audio’ in the share dialog.',
     es: 'La grabación se realiza por completo en tu navegador con su grabadora integrada: no se sube nada. Los archivos son WebM en Chrome y Firefox, y MP4 en Safari. El audio del sistema (pestaña/ventana) depende de tu navegador y sistema operativo: en Chrome de escritorio funciona mejor al compartir una pestaña y marcar «Share tab audio» en el diálogo de compartir.',
-    fr: 'L’enregistrement se fait entièrement dans votre navigateur avec son enregistreur intégré — rien n’est envoyé. Les fichiers sont en WebM sous Chrome et Firefox, en MP4 sous Safari. L’audio système (onglet/fenêtre) dépend de votre navigateur et de votre système : sous Chrome sur ordinateur, il fonctionne le mieux en partageant un onglet et en cochant « Share tab audio » dans la boîte de dialogue de partage.',
-    ar: 'يتم التسجيل بالكامل في متصفحك باستخدام المسجل المدمج فيه — لا يُرفع أي شيء. تكون الملفات بصيغة WebM في Chrome وFirefox، وبصيغة MP4 في Safari. يعتمد صوت النظام (التبويب/النافذة) على متصفحك ونظام التشغيل: في Chrome على سطح المكتب يعمل بشكل أفضل عند مشاركة تبويب وتحديد "Share tab audio" في مربع حوار المشاركة.',
-    ru: 'Запись полностью выполняется в вашем браузере его встроенным рекордером — ничего не отправляется на сервер. Файлы сохраняются в WebM в Chrome и Firefox и в MP4 в Safari. Системный звук (вкладки/окна) зависит от браузера и ОС: в Chrome на компьютере лучше всего работает при демонстрации вкладки и включённой опции «Share tab audio» в диалоге доступа.',
+    fr: 'L’enregistrement se fait entièrement dans votre navigateur avec son enregistreur intégré   rien n’est envoyé. Les fichiers sont en WebM sous Chrome et Firefox, en MP4 sous Safari. L’audio système (onglet/fenêtre) dépend de votre navigateur et de votre système : sous Chrome sur ordinateur, il fonctionne le mieux en partageant un onglet et en cochant « Share tab audio » dans la boîte de dialogue de partage.',
+    ar: 'يتم التسجيل بالكامل في متصفحك باستخدام المسجل المدمج فيه   لا يُرفع أي شيء. تكون الملفات بصيغة WebM في Chrome وFirefox، وبصيغة MP4 في Safari. يعتمد صوت النظام (التبويب/النافذة) على متصفحك ونظام التشغيل: في Chrome على سطح المكتب يعمل بشكل أفضل عند مشاركة تبويب وتحديد "Share tab audio" في مربع حوار المشاركة.',
+    ru: 'Запись полностью выполняется в вашем браузере его встроенным рекордером   ничего не отправляется на сервер. Файлы сохраняются в WebM в Chrome и Firefox и в MP4 в Safari. Системный звук (вкладки/окна) зависит от браузера и ОС: в Chrome на компьютере лучше всего работает при демонстрации вкладки и включённой опции «Share tab audio» в диалоге доступа.',
   },
   includeMicrophone: { en: 'Include microphone', es: 'Incluir micrófono', fr: 'Inclure le microphone', ar: 'تضمين الميكروفون', ru: 'Включить микрофон' },
   includeSystemAudio: { en: 'Include system audio (best effort)', es: 'Incluir audio del sistema (si es posible)', fr: 'Inclure l’audio système (si possible)', ar: 'تضمين صوت النظام (حسب الإمكان)', ru: 'Включить системный звук (по возможности)' },
@@ -376,18 +376,18 @@ export const MEDIA_STRINGS: StrDict = {
 
   // ---- Webcam Recorder ----
   webcamNote: {
-    en: 'The live preview is mirrored like a mirror (optional) — the saved recording itself is not mirrored. Recordings stay on this device: WebM in Chrome and Firefox, MP4 in Safari.',
+    en: 'The live preview is mirrored like a mirror (optional)   the saved recording itself is not mirrored. Recordings stay on this device: WebM in Chrome and Firefox, MP4 in Safari.',
     es: 'La vista previa en directo se refleja como un espejo (opcional): la grabación guardada no está reflejada. Las grabaciones permanecen en este dispositivo: WebM en Chrome y Firefox, MP4 en Safari.',
-    fr: 'L’aperçu en direct est inversé comme un miroir (optionnel) — l’enregistrement sauvegardé, lui, ne l’est pas. Les enregistrements restent sur cet appareil : WebM sous Chrome et Firefox, MP4 sous Safari.',
-    ar: 'المعاينة المباشرة معكوسة كالمرآة (اختياري) — أما التسجيل المحفوظ نفسه فليس معكوسًا. تبقى التسجيلات على هذا الجهاز: WebM في Chrome وFirefox، وMP4 في Safari.',
-    ru: 'Предпросмотр в реальном времени зеркально отражён (по желанию) — сама сохранённая запись не отражается. Записи остаются на этом устройстве: WebM в Chrome и Firefox, MP4 в Safari.',
+    fr: 'L’aperçu en direct est inversé comme un miroir (optionnel)   l’enregistrement sauvegardé, lui, ne l’est pas. Les enregistrements restent sur cet appareil : WebM sous Chrome et Firefox, MP4 sous Safari.',
+    ar: 'المعاينة المباشرة معكوسة كالمرآة (اختياري)   أما التسجيل المحفوظ نفسه فليس معكوسًا. تبقى التسجيلات على هذا الجهاز: WebM في Chrome وFirefox، وMP4 في Safari.',
+    ru: 'Предпросмотр в реальном времени зеркально отражён (по желанию)   сама сохранённая запись не отражается. Записи остаются на этом устройстве: WebM в Chrome и Firefox, MP4 в Safari.',
   },
   cameraOffHint: {
-    en: 'Camera is off — click “Start camera”',
+    en: 'Camera is off   click “Start camera”',
     es: 'La cámara está apagada: haz clic en «Iniciar cámara»',
-    fr: 'La caméra est éteinte — cliquez sur « Démarrer la caméra »',
-    ar: 'الكاميرا متوقفة — انقر على "تشغيل الكاميرا"',
-    ru: 'Камера выключена — нажмите «Включить камеру»',
+    fr: 'La caméra est éteinte   cliquez sur « Démarrer la caméra »',
+    ar: 'الكاميرا متوقفة   انقر على "تشغيل الكاميرا"',
+    ru: 'Камера выключена   нажмите «Включить камеру»',
   },
   resolutionLabel: { en: 'Resolution', es: 'Resolución', fr: 'Résolution', ar: 'الدقة', ru: 'Разрешение' },
   mirrorPreview: { en: 'Mirror preview', es: 'Reflejar vista previa', fr: 'Aperçu miroir', ar: 'عكس المعاينة', ru: 'Зеркальный предпросмотр' },
@@ -411,11 +411,11 @@ export const MEDIA_STRINGS: StrDict = {
 
   // ---- Voice Recorder ----
   voiceNote: {
-    en: 'Takes are recorded by your browser and kept only in this page — nothing is uploaded or stored by this site. The browser picks the recording format: Chrome and Edge use WebM/Opus, Safari uses MP4/AAC.',
+    en: 'Takes are recorded by your browser and kept only in this page   nothing is uploaded or stored by this site. The browser picks the recording format: Chrome and Edge use WebM/Opus, Safari uses MP4/AAC.',
     es: 'Las tomas las graba tu navegador y se quedan solo en esta página: este sitio no sube ni almacena nada. El navegador elige el formato de grabación: Chrome y Edge usan WebM/Opus, Safari usa MP4/AAC.',
-    fr: 'Les prises sont enregistrées par votre navigateur et restent uniquement dans cette page — ce site ne téléverse ni ne stocke rien. Le navigateur choisit le format d’enregistrement : Chrome et Edge utilisent WebM/Opus, Safari utilise MP4/AAC.',
-    ar: 'يتم تسجيل اللقطات بواسطة متصفحك وتبقى في هذه الصفحة فقط — لا يرفع هذا الموقع أي شيء ولا يخزّنه. يختار المتصفح تنسيق التسجيل: يستخدم Chrome وEdge تنسيق WebM/Opus، ويستخدم Safari تنسيق MP4/AAC.',
-    ru: 'Записи делаются вашим браузером и остаются только на этой странице — сайт ничего не загружает и не хранит. Формат записи выбирает браузер: Chrome и Edge используют WebM/Opus, Safari — MP4/AAC.',
+    fr: 'Les prises sont enregistrées par votre navigateur et restent uniquement dans cette page   ce site ne téléverse ni ne stocke rien. Le navigateur choisit le format d’enregistrement : Chrome et Edge utilisent WebM/Opus, Safari utilise MP4/AAC.',
+    ar: 'يتم تسجيل اللقطات بواسطة متصفحك وتبقى في هذه الصفحة فقط   لا يرفع هذا الموقع أي شيء ولا يخزّنه. يختار المتصفح تنسيق التسجيل: يستخدم Chrome وEdge تنسيق WebM/Opus، ويستخدم Safari تنسيق MP4/AAC.',
+    ru: 'Записи делаются вашим браузером и остаются только на этой странице   сайт ничего не загружает и не хранит. Формат записи выбирает браузер: Chrome и Edge используют WebM/Opus, Safari   MP4/AAC.',
   },
   inputLevel: { en: 'Input level', es: 'Nivel de entrada', fr: 'Niveau d’entrée', ar: 'مستوى الإدخال', ru: 'Уровень входа' },
   takesLabel: { en: 'Takes ({n})', es: 'Tomas ({n})', fr: 'Prises ({n})', ar: 'اللقطات ({n})', ru: 'Записи ({n})' },
@@ -483,7 +483,7 @@ export const MEDIA_STRINGS: StrDict = {
     es: 'El reconocimiento de voz es una función del navegador, no algo que este sitio pueda ofrecer por sí solo.',
     fr: 'La reconnaissance vocale est une fonctionnalité du navigateur, et non quelque chose que ce site peut fournir seul.',
     ar: 'التعرف على الكلام ميزة في المتصفح، وليست شيئًا يمكن لهذا الموقع تقديمه بمفرده.',
-    ru: 'Распознавание речи — это функция браузера, а не что-то, что сайт может предоставить сам по себе.',
+    ru: 'Распознавание речи   это функция браузера, а не что-то, что сайт может предоставить сам по себе.',
   },
   sttUnsupportedPre: {
     en: 'Your browser does not support speech recognition (the Web Speech API). It works best in',

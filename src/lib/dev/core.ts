@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — Developer engine
+// Free Omni Tools   Developer engine
 // Pure helpers behind the Developer Tools suite: JSON format /
 // convert / diff, CSV, YAML (subset), JSON->TypeScript, XML and
 // SQL formatters, encodings, JWT, hashes (pure-TS MD5 + WebCrypto
@@ -290,7 +290,7 @@ function parseYamlBlock(lines: YamlLine[], start: number, indent: number): [unkn
       } else if (YAML_KEY_RE.test(itemContent) || itemContent.startsWith('- ')) {
         // Item content starts a nested block (usually a map). Treat the inline
         // content as a virtual line aligned with the item's following lines.
-        // Only the CONTIGUOUS deeper-indented run belongs to this item — a
+        // Only the CONTIGUOUS deeper-indented run belongs to this item   a
         // filter over the rest of the file would swallow sibling items' lines.
         const following: YamlLine[] = [];
         for (let j = i + 1; j < lines.length && lines[j].indent > indent; j++) following.push(lines[j]);
@@ -439,7 +439,7 @@ export function formatXml(xml: string, indentSize = 2): { ok: boolean; output?: 
       const name = tok.slice(2, -1).trim();
       depth = Math.max(0, depth - 1);
       if (stack.length && stack[stack.length - 1] !== name) {
-        return { ok: false, error: `Mismatched closing tag </${name}> — expected </${stack[stack.length - 1]}>` };
+        return { ok: false, error: `Mismatched closing tag </${name}>   expected </${stack[stack.length - 1]}>` };
       }
       stack.pop();
       // If previous line is the matching open tag with text, merge handled by text logic below
@@ -555,7 +555,7 @@ export function encodeHtmlEntities(text: string, namedOnly = false): string {
 export function decodeHtmlEntities(text: string): string {
   const named: Record<string, string> = {
     amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', copy: '©', reg: '®', trade: '™',
-    hellip: '…', mdash: '—', ndash: '–', lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”',
+    hellip: '…', mdash: ' ', ndash: '–', lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”',
     laquo: '«', raquo: '»', deg: '°', plusmn: '±', times: '×', divide: '÷', euro: '€', pound: '£', yen: '¥', cent: '¢',
   };
   return text
@@ -577,7 +577,7 @@ export function decodeJwt(token: string): JwtDecoded {
   const parts = token.trim().split('.');
   if (parts.length !== 3) throw new Error('A JWT must have exactly 3 parts separated by dots.');
   const parsePart = (p: string, label: string) => {
-    try { return JSON.parse(base64Decode(p)); } catch { throw new Error(`Could not decode the ${label} — it is not valid base64url JSON.`); }
+    try { return JSON.parse(base64Decode(p)); } catch { throw new Error(`Could not decode the ${label}   it is not valid base64url JSON.`); }
   };
   return {
     header: parsePart(parts[0], 'header'),
@@ -616,7 +616,7 @@ export async function verifyJwtHs256(token: string, secret: string): Promise<boo
 
 // ---------------- hashes ----------------
 
-/** Pure-TypeScript MD5 (RFC 1321) — WebCrypto has no MD5. */
+/** Pure-TypeScript MD5 (RFC 1321)   WebCrypto has no MD5. */
 export function md5(input: string): string {
   const bytes = new TextEncoder().encode(input);
   const bitLen = bytes.length * 8;

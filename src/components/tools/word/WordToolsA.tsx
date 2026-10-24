@@ -1,5 +1,5 @@
 // ============================================================
-// SUPER CROWN TOOLS — Word Tools A
+// Free Omni Tools   Word Tools A
 // Viewers & converters built on the shared Word engine
 // (src/lib/word/core.ts): mammoth docx -> HTML/text, an
 // HTML -> docx walker, and JSZip for EPUB / ODT packages.
@@ -94,7 +94,7 @@ const CopyButton: React.FC<{ text: string; label?: string }> = ({ text, label })
           setCopied(true);
           setTimeout(() => setCopied(false), 2000);
         } catch {
-          /* clipboard unavailable (permissions) — user can select the preview text instead */
+          /* clipboard unavailable (permissions)   user can select the preview text instead */
         }
       }}
       className="px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-1.5 cursor-pointer"
@@ -879,7 +879,7 @@ ${bodyParts.join('\n')}
 <office:document-meta xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" office:version="1.2">
   <office:meta>
     <dc:title>${escapeXml(title)}</dc:title>
-    <meta:generator>Super Crown Tools</meta:generator>
+    <meta:generator>Free Omni Tools</meta:generator>
   </office:meta>
 </office:document-meta>`;
 

@@ -1,7 +1,7 @@
 // PDF conversion tools: PDF -> Word / Excel / PowerPoint / Markdown / JPG,
 // images -> PDF, Word / Excel / PowerPoint -> PDF and HTML -> PDF.
 // Every conversion really runs 100% in the browser (pdf.js, pdf-lib, docx,
-// SheetJS, pptxgenjs, mammoth, html2canvas, jsPDF) — files are never uploaded,
+// SheetJS, pptxgenjs, mammoth, html2canvas, jsPDF)   files are never uploaded,
 // and any failure surfaces as a clear error message.
 import React, { useState } from 'react';
 import { Document as DocxDocument, Packer, Paragraph, TextRun, HeadingLevel, PageBreak } from 'docx';

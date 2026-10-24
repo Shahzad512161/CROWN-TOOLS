@@ -551,7 +551,7 @@ export const XmlSitemapGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
         <Stat label={s('validUrls')} value={urls.length} />
         <Stat label={s('linesSkipped')} value={skipped} />
-        <Stat label={s('lastmodLabel')} value={useToday ? todayStr : lastmodDate || '—'} />
+        <Stat label={s('lastmodLabel')} value={useToday ? todayStr : lastmodDate || ' '} />
       </div>
 
       {output && (

@@ -28,7 +28,7 @@ export const GEN_OVERVIEW: Record<SupportedLanguage, string> = {
   es: 'Super Crown {name} ofrece una utilidad diaria fluida para particulares, autónomos y estudiantes. Al mantener todos los cálculos en tu dispositivo, dentro de tu navegador, garantizamos resultados rápidos sin latencia de servidor ni rastreo.',
   fr: 'Super Crown {name} offre un utilitaire quotidien fluide pour les particuliers, les indépendants et les étudiants. Tous les calculs restant sur votre appareil, dans votre navigateur, nous garantissons des résultats rapides, sans latence serveur ni suivi.',
   ar: 'توفر أداة Super Crown {name} فائدة يومية سلسة للأفراد والمستقلين والطلاب. وبإبقاء جميع الحسابات على جهازك داخل متصفحك، نضمن نتائج سريعة دون تأخير الخادم أو التتبع.',
-  ru: 'Super Crown {name} — удобный повседневный инструмент для частных лиц, фрилансеров и студентов. Поскольку все расчёты выполняются на вашем устройстве в браузере, мы гарантируем быстрые результаты без задержек сервера и отслеживания.'
+  ru: 'Super Crown {name}   удобный повседневный инструмент для частных лиц, фрилансеров и студентов. Поскольку все расчёты выполняются на вашем устройстве в браузере, мы гарантируем быстрые результаты без задержек сервера и отслеживания.'
 };
 
 /** The overview paragraph for a tool page in the given locale. */

@@ -195,7 +195,7 @@ export const SocialImageResizer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <OptSelect value={presetIdx} onChange={(e) => setPresetIdx(Number(e.target.value))}>
             {SOCIAL_IMAGE_SIZES.map((sz, i) => (
               <option key={`${sz.platform}-${sz.name}`} value={i}>
-                {sz.platform} — {SIZE_NAME_KEYS[sz.name] ? s(SIZE_NAME_KEYS[sz.name]) : sz.name} ({sz.width}×{sz.height})
+                {sz.platform}   {SIZE_NAME_KEYS[sz.name] ? s(SIZE_NAME_KEYS[sz.name]) : sz.name} ({sz.width}×{sz.height})
               </option>
             ))}
           </OptSelect>
@@ -481,7 +481,7 @@ export const SocialPostComposer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 <span className={`text-xs font-semibold ${over ? 'text-red-600 dark:text-red-400' : 'text-slate-500 dark:text-slate-400'}`}>
                   {used.toLocaleString()} / {entry.charLimit.toLocaleString()}
                   {over
-                    ? ` — ${s('charsOver').replace('{n}', String(used - entry.charLimit))}`
+                    ? `   ${s('charsOver').replace('{n}', String(used - entry.charLimit))}`
                     : ` · ${s('charsLeft').replace('{n}', String(entry.charLimit - used))}`}
                 </span>
               </div>
@@ -612,14 +612,14 @@ export const HashtagCounter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <div className="space-y-3">
           <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">{s('cleanedHashtagsLabel')}</p>
-            <p className="text-sm break-all text-slate-800 dark:text-slate-100">{analysis.cleaned || '—'}</p>
+            <p className="text-sm break-all text-slate-800 dark:text-slate-100">{analysis.cleaned || ' '}</p>
             <div className="mt-2">
               <CopyBtn text={analysis.cleaned} label={s('copyCleanedHashtags')} />
             </div>
           </div>
           <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-1">{s('textWithoutHashtags')}</p>
-            <p className="text-sm whitespace-pre-wrap text-slate-800 dark:text-slate-100">{analysis.textWithoutHashtags || '—'}</p>
+            <p className="text-sm whitespace-pre-wrap text-slate-800 dark:text-slate-100">{analysis.textWithoutHashtags || ' '}</p>
             <div className="mt-2">
               <CopyBtn text={analysis.textWithoutHashtags} label={s('copyText')} />
             </div>
