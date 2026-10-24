@@ -429,9 +429,9 @@ export const FancyTextGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {FANCY_STYLES.map((style) => {
           const converted = hasText ? convertFancy(text, style.id) : '';
           return (
-            <div key={style.id} className="flex items-center gap-3 py-2.5">
-              <span className="w-32 shrink-0 text-xs font-semibold text-slate-500 dark:text-slate-400">{FANCY_NAME_KEYS[style.id] ? s(FANCY_NAME_KEYS[style.id]) : style.name}</span>
-              <span className="flex-1 min-w-0 break-all text-base text-slate-800 dark:text-slate-100">
+            <div key={style.id} className="flex flex-wrap items-center gap-1 sm:gap-3 py-2.5">
+              <span className="w-full sm:w-32 sm:shrink-0 text-xs font-semibold text-slate-500 dark:text-slate-400">{FANCY_NAME_KEYS[style.id] ? s(FANCY_NAME_KEYS[style.id]) : style.name}</span>
+              <span className="flex-1 min-w-0 break-words text-base text-slate-800 dark:text-slate-100">
                 {hasText ? converted : <span className="text-slate-400">{s('typeSomethingAbove')}</span>}
               </span>
               <CopyBtn text={converted} />

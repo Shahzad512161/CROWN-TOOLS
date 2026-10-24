@@ -193,9 +193,9 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
-      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 text-[#f97316] dark:bg-orange-950 dark:text-orange-400">
               {tool.category}
             </span>
@@ -379,7 +379,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
       ) : tool.category === 'Unit Converters' ? (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="md:col-span-6 space-y-4">
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {[
                 { id: 'length', label: s('genTabLength') },
                 { id: 'weight', label: s('genTabWeight') },

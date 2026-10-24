@@ -50,8 +50,8 @@ const Chip: React.FC<{ children: React.ReactNode; onClick: () => void; active?: 
 );
 
 const Row: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
-  <div className="flex items-center gap-3 py-2 border-b border-gray-100 dark:border-gray-800 last:border-0">
-    <span className="w-28 shrink-0 text-xs font-bold uppercase tracking-wide text-gray-500">{label}</span>
+  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3 py-2 border-b border-gray-100 dark:border-gray-800 last:border-0">
+    <span className="sm:w-28 sm:shrink-0 text-xs font-bold uppercase tracking-wide text-gray-500">{label}</span>
     <div className="flex-1 min-w-0 flex items-center gap-2 flex-wrap">{children}</div>
   </div>
 );

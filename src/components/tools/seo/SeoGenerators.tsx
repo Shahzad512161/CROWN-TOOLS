@@ -420,8 +420,8 @@ export const RobotsTxtGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             </div>
             <div className="space-y-2 mt-3">
               {g.rules.map((r, ri) => (
-                <div key={r.id} className="flex items-center gap-2">
-                  <div className="w-32 shrink-0">
+                <div key={r.id} className="flex flex-wrap items-center gap-2">
+                  <div className="w-full sm:w-32 sm:shrink-0">
                     <OptSelect value={r.type} onChange={(e) => patchRule(gi, ri, { type: e.target.value as 'allow' | 'disallow' })}>
                       <option value="disallow">Disallow</option>
                       <option value="allow">Allow</option>
