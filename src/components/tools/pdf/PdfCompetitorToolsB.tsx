@@ -302,7 +302,7 @@ export const GrayscalePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <PdfToolShell tool={tool} accept=".pdf,application/pdf" actionLabel={s('grayscaleActionCaps')} onProcess={process}>
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{c('quality')}</OptLabel>
             <OptSelect value={scale} onChange={(e) => setScale(e.target.value)}>
@@ -676,7 +676,7 @@ ${spineItems}
   return (
     <PdfToolShell tool={tool} accept=".pdf,application/pdf" actionLabel={s('epubAction')} onProcess={process}>
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('pagesPerChapter')}</OptLabel>
             <OptSelect value={perChapter} onChange={(e) => setPerChapter(e.target.value)}>
@@ -979,7 +979,7 @@ export const PdfToTiff: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <PdfToolShell tool={tool} accept=".pdf,application/pdf" actionLabel={s('tiffAction')} onProcess={process}>
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('resolutionLabel')}</OptLabel>
             <OptSelect value={dpi} onChange={(e) => setDpi(e.target.value)}>
@@ -1366,7 +1366,7 @@ export const TextToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               placeholder={s('textToPdfPlaceholder2')}
               className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm p-3 text-gray-900 dark:text-white"
             />
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
               <div>
                 <OptLabel>{s('fontLabel')}</OptLabel>
                 <OptSelect value={fontName} onChange={(e) => setFontName(e.target.value)}>
@@ -1494,7 +1494,7 @@ export const PdfToBmp: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <PdfToolShell tool={tool} accept=".pdf,application/pdf" actionLabel={s('bmpAction2')} onProcess={process}>
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('resolutionScale')}</OptLabel>
             <OptSelect value={scale} onChange={(e) => setScale(e.target.value)}>

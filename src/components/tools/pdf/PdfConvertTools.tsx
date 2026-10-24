@@ -304,7 +304,7 @@ export const CompressPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel={s('compressAction')} onProcess={process}>
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('compressLevelLabel')}</OptLabel>
             <OptSelect value={mode} onChange={(e) => setMode(e.target.value as CompressMode)}>
@@ -596,7 +596,7 @@ export const PdfToJpg: React.FC<{ tool: ToolItem }> = ({ tool }) => {
   return (
     <PdfToolShell tool={tool} accept="application/pdf,.pdf" actionLabel={s('pdfJpgExportAction')} onProcess={process}>
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('imageFormatLabel')}</OptLabel>
             <OptSelect value={format} onChange={(e) => setFormat(e.target.value as 'jpg' | 'png')}>
@@ -655,7 +655,7 @@ export const JpgToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       onProcess={process}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('pageSizeLabel')}</OptLabel>
             <OptSelect value={size} onChange={(e) => setSize(e.target.value as 'fit' | 'a4' | 'letter')}>
@@ -1018,7 +1018,7 @@ export const HtmlToPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <PdfToolShell tool={tool} accept="" hideDropzone>
       {() => (
         <div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-1">
             <div className="col-span-2">
               <OptLabel>{s('pageUrlLabel')}</OptLabel>
               <OptInput

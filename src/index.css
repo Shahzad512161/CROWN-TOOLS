@@ -93,3 +93,65 @@
     width: 100%;
   }
 }
+
+/* ============================================================================
+   RESPONSIVE SAFETY NET — 300px and up (added for the mobile fix)
+   Why this exists: ~250 tools share a handful of shells and one generic
+   engine, but individual tool bodies still used fixed multi-column grids
+   below md. The class-level fixes in the tool files do the main work;
+   this layer catches anything they missed WITHOUT changing desktop layout
+   (everything below only applies under 640px, and the 300px tweaks only
+   under 400px). No tool logic is touched here.
+   ========================================================================== */
+@media (max-width: 639.98px) {
+  /* 1. No iOS focus-zoom, and a real 44px touch target, on every form
+        control — including the many inline inputs that don't use OptInput.
+        Colour / checkbox / radio / range controls keep their own size. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+  select {
+    min-height: 44px;
+  }
+  /* 2. Grid / flex children must be allowed to shrink. A single long word,
+        URL or result value otherwise pushes the whole page sideways — the
+        original "not responsive below md" symptom. */
+  .grid > *,
+  .flex > * {
+    min-width: 0;
+  }
+  /* 3. Data tables (amortisation, conversions, diffs) scroll sideways
+        inside their card instead of squashing or breaking the page. */
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* 4. Code / output blocks and canvases never exceed the card. */
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+  /* 5. Card titles wrap instead of pushing badges off-screen. */
+  h2 {
+    overflow-wrap: break-word;
+  }
+  button {
+    touch-action: manipulation;
+  }
+}
+
+@media (max-width: 399.98px) {
+  /* 300–399px phones: the widest gaps are the first thing that eats the
+     268px of usable width, so they shrink a step. Desktop is untouched. */
+  .gap-8 { gap: 1.25rem; }
+  .gap-6 { gap: 1rem; }
+}

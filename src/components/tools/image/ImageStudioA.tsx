@@ -377,7 +377,7 @@ export const ImageBackgroundChanger: React.FC<{ tool: ToolItem }> = ({ tool }) =
                 {s('studio')}
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-3 max-w-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-sm">
               <div>
                 <OptLabel>{s('from')}</OptLabel>
                 <div className="flex items-center gap-2">

@@ -232,7 +232,7 @@ export const VideoToGif: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {file && fileUrl && (
           <>
             <video ref={videoRef} src={fileUrl} controls className="w-full max-h-64 rounded-xl bg-black" />
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <div>
                 <OptLabel>{c('start')}</OptLabel>
                 <TimecodeInput value={start} onChange={(v) => setStart(Math.max(0, v))} disabled={job.busy} />
@@ -469,7 +469,7 @@ export const VideoTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         {file && fileUrl && (
           <>
             <video ref={videoRef} src={fileUrl} controls className="w-full max-h-80 rounded-xl bg-black" />
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
               <div>
                 <OptLabel>{c('start')}</OptLabel>
                 <TimecodeInput
@@ -1117,7 +1117,7 @@ export const AudioTrimmer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             ) : peaks ? (
               <canvas ref={waveRef} width={720} height={100} className="w-full h-[100px] rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700" />
             ) : null}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
               <div>
                 <OptLabel>{c('start')}</OptLabel>
                 <TimecodeInput value={start} disabled={job.busy} onChange={(v) => setStart(Math.max(0, Math.min(v, endVal - 0.1)))} />

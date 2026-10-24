@@ -165,19 +165,19 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
       
       {/* Breadcrumb Navigation Bar */}
       <div className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xs sticky top-[104px] z-30">
-        <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
-          <div className="flex items-center gap-1.5 overflow-hidden text-ellipsis whitespace-nowrap">
+        <div className=" mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+          <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden whitespace-nowrap">
             <button
               onClick={onNavigateHome}
-              className="flex items-center gap-1 hover:text-blue-600 font-medium transition-colors cursor-pointer"
+              className="flex shrink-0 items-center gap-1 hover:text-blue-600 font-medium transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5 rtl:rotate-180" />
-              <span>{c('crumbTools')}</span>
+              <span className="hidden min-[400px]:inline">{c('crumbTools')}</span>
             </button>
-            <ChevronRight className="w-3 h-3 text-slate-400 rtl:rotate-180" />
-            <span className="text-slate-500 dark:text-slate-400">{catLabel}</span>
-            <ChevronRight className="w-3 h-3 text-slate-400" />
-            <span className="font-bold text-slate-950 dark:text-white truncate">{lt.name}</span>
+            <ChevronRight className="hidden w-3 h-3 shrink-0 text-slate-400 rtl:rotate-180 sm:block" />
+            <span className="hidden shrink-0 text-slate-500 dark:text-slate-400 sm:inline">{catLabel}</span>
+            <ChevronRight className="hidden w-3 h-3 shrink-0 text-slate-400 sm:block" />
+            <span className="min-w-0 font-bold text-slate-950 dark:text-white truncate">{lt.name}</span>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
@@ -201,7 +201,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               }`}
             >
               <Bookmark className="w-3 h-3" />
-              <span>{isBookmarked ? t.bookmarkedBtn : t.bookmarkBtn}</span>
+              <span className="hidden min-[400px]:inline">{isBookmarked ? t.bookmarkedBtn : t.bookmarkBtn}</span>
             </button>
 
             {/* Unlocked & Verified Badge */}
@@ -212,7 +212,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
         </div>
       </div>
 
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className=" mx-auto px-3 sm:px-6 lg:px-8 py-6">
 
         {/* Tool Header Meta Title & Tagline */}
         <div className="mb-6">
@@ -228,7 +228,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display text-slate-950 dark:text-white">
+          <h1 className="text-xl sm:text-3xl lg:text-4xl font-display text-slate-950 dark:text-white">
             {lt.name}
           </h1>
           <p className="mt-1.5 text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-4xl">
@@ -237,7 +237,7 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
         </div>
 
         {/* 2-COLUMN MAIN CONTENT & SIDEBAR */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
           
           {/* LEFT 8/9 COLS: TOOL ITSELF + 150-WORD INTRO + FAQ SECTION */}
           <div className="lg:col-span-8 space-y-6">

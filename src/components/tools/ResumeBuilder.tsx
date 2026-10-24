@@ -81,8 +81,8 @@ ${skills}`;
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
-      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <span>📄</span> {s('resTitle')}
@@ -112,7 +112,7 @@ ${skills}`;
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         {/* Left: Input Editor */}
         <div className="xl:col-span-6 space-y-4 max-h-[750px] overflow-y-auto pe-2">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('fullNameLabel')}</label>
               <input
@@ -133,7 +133,7 @@ ${skills}`;
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             <div>
               <label className="block text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('emailLabel')}</label>
               <input
@@ -177,7 +177,7 @@ ${skills}`;
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('experienceLabel')}</label>
             {experiences.map((exp, idx) => (
               <div key={exp.id} className="p-3 mb-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 space-y-2">
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <input
                     type="text"
                     value={exp.title}
@@ -241,7 +241,7 @@ ${skills}`;
         <div className="xl:col-span-6 bg-gray-100 dark:bg-gray-900 p-4 rounded-2xl flex justify-center items-start">
           <div
             id="printable-area"
-            className="w-full max-w-[560px] bg-white text-gray-900 p-8 rounded-lg shadow-xl border border-gray-300 text-left font-serif leading-normal"
+            className="w-full max-w-[560px] bg-white text-gray-900 p-4 sm:p-8 rounded-lg shadow-xl border border-gray-300 text-left font-serif leading-normal"
             style={{ minHeight: '650px' }}
           >
             {/* Header */}

@@ -134,9 +134,9 @@ export const GpaCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           <span>{s('colCourseOptional')}</span><span>{s('colGrade')}</span><span>{s('colCredits')}</span><span />
         </div>
         {courses.map((c, i) => (
-          <div key={i} className="grid grid-cols-[1fr_96px_84px_36px] sm:grid-cols-[1fr_110px_110px_36px] gap-2 items-center">
+          <div key={i} className="grid grid-cols-[1fr_1fr_36px] sm:grid-cols-[1fr_110px_110px_36px] gap-2 items-center">
             <input
-              className={inputCls}
+              className={`${inputCls} col-span-3 sm:col-span-1`}
               placeholder={s('coursePlaceholder').replace('{n}', String(i + 1))}
               value={c.name}
               onChange={(e) => updateCourse(i, { name: e.target.value })}
@@ -190,7 +190,7 @@ export const GpaCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-3">
         <SectionTitle>{s('cumulativeCgpa')}</SectionTitle>
-        <div className="grid grid-cols-2 gap-3 max-w-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
           <div>
             <OptLabel>{s('prevCgpa')}</OptLabel>
             <input className={inputCls} type="number" step="0.01" min="0" placeholder="e.g. 3.40" value={prevGpa} onChange={(e) => setPrevGpa(e.target.value)} />
@@ -213,7 +213,7 @@ export const GpaCalculator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4 space-y-3">
         <SectionTitle>{s('targetPlanner')}</SectionTitle>
-        <div className="grid grid-cols-2 gap-3 max-w-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
           <div>
             <OptLabel>{s('targetCgpa')}</OptLabel>
             <input className={inputCls} type="number" step="0.01" min="0" placeholder="e.g. 3.50" value={targetGpa} onChange={(e) => setTargetGpa(e.target.value)} />
@@ -364,7 +364,7 @@ export const CitationGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             <OptLabel>{s('journalName')}</OptLabel>
             <input className={inputCls} placeholder="e.g. Nature" value={journal} onChange={(e) => setJournal(e.target.value)} />
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             <div>
               <OptLabel>{s('volume')}</OptLabel>
               <input className={inputCls} placeholder="12" value={volume} onChange={(e) => setVolume(e.target.value)} />
@@ -1019,7 +1019,7 @@ export const EquationSolver: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <StudentCard tool={tool} note={s('eqNote')}>
       <div className="space-y-3">
         <SectionTitle><span dir="ltr">{s('quadTitle')}</span></SectionTitle>
-        <div className="grid grid-cols-3 gap-3 max-w-md">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md">
           {coefInput(qa, setQa, 'a')}
           {coefInput(qb, setQb, 'b')}
           {coefInput(qc, setQc, 'c')}
@@ -1041,7 +1041,7 @@ export const EquationSolver: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       <div className="space-y-3 border-t border-slate-200 dark:border-slate-700 pt-4">
         <SectionTitle><span dir="ltr">{s('linTitle')}</span></SectionTitle>
-        <div className="grid grid-cols-4 gap-3 max-w-lg">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg">
           {coefInput(la, setLa, 'a')}
           {coefInput(lb, setLb, 'b')}
           {coefInput(lc, setLc, 'c')}
@@ -1150,7 +1150,7 @@ export const AiQuizGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           disabled={!keyReady}
         />
       </div>
-      <div className="grid grid-cols-2 gap-3 max-w-md">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md">
         <div>
           <OptLabel>{s('questionsLabel')}</OptLabel>
           <OptSelect value={count} onChange={(e) => setCount(e.target.value)} disabled={!keyReady}>

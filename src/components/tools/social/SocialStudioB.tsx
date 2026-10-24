@@ -503,7 +503,7 @@ export const PostCardMaker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <OptCheck label={s('showStatsRow')} checked={showStats} onChange={setShowStats} />
       </div>
       {showStats && (
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <div>
             <OptLabel>{s('repliesLabel')}</OptLabel>
             <OptInput value={replies} onChange={(e) => setReplies(e.target.value)} />
@@ -607,7 +607,7 @@ export const LinkInBioBuilder: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <ColorField label={s('backgroundLabel')} field="bg" />
         <ColorField label={s('linkCardsLabel')} field="card" />
         <ColorField label={s('textLabel')} field="text" />

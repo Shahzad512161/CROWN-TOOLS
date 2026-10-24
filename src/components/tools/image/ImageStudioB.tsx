@@ -585,7 +585,7 @@ export const ImageSplitter: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 ))}
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <OptLabel>{s('rows')}</OptLabel>
                 <OptSelect value={rows} onChange={(e) => { setRows(Number(e.target.value)); setZipBlob(null); }}>

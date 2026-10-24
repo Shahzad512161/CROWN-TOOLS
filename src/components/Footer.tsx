@@ -133,9 +133,9 @@ export const Footer: React.FC<FooterProps> = ({
             <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
               {s('footerGuaranteeText')}
             </p>
-            <div className="pt-2 flex items-center gap-2 text-[11px] text-slate-500">
+            <div className="pt-2 flex flex-wrap items-center gap-2 text-[11px] text-slate-500">
               <span>{s('footerSupportEmail')}</span>
-              <a href="mailto:support@supercrowntools.com" className="font-mono text-blue-600 dark:text-blue-400 font-bold hover:underline">
+              <a href="mailto:support@supercrowntools.com" className="font-mono text-blue-600 dark:text-blue-400 font-bold hover:underline break-all">
                 support@supercrowntools.com
               </a>
             </div>

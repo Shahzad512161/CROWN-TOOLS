@@ -190,7 +190,7 @@ export const DeletePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
               {tiles.map((i) => {
                 const isSel = selected.has(i);
                 return (
@@ -313,7 +313,7 @@ export const ExtractPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('pagesToExtract')}</OptLabel>
             <OptInput
@@ -389,7 +389,7 @@ export const AlternateMixPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('startWith')}</OptLabel>
             <OptSelect
@@ -558,7 +558,7 @@ export const SplitInHalf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('splitDirection')}</OptLabel>
             <OptSelect
@@ -664,7 +664,7 @@ export const SplitBySize: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('maxSizePerPart')}</OptLabel>
             <OptInput
@@ -760,7 +760,7 @@ export const SplitByText: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('splitBeforePages')}</OptLabel>
             <OptInput
@@ -844,7 +844,7 @@ export const FlattenPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('flattenModeLabel')}</OptLabel>
             <OptSelect
@@ -930,7 +930,7 @@ export const BatesNumbering: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('batesPrefix')}</OptLabel>
             <OptInput
@@ -1413,7 +1413,7 @@ export const FlipPdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('flipDirection')}</OptLabel>
             <OptSelect
@@ -1523,7 +1523,7 @@ export const NupPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('pagesPerSheet')}</OptLabel>
             <OptSelect value={perSheet} onChange={(e) => setPerSheet(e.target.value)}>
@@ -1655,7 +1655,7 @@ export const ResizePdfPages: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('targetPageSize')}</OptLabel>
             <OptSelect value={target} onChange={(e) => setTarget(e.target.value)}>
@@ -1826,7 +1826,7 @@ export const HeaderFooterPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     >
       {() => (
         <div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
             {textField(s('headerLeft'), hLeft, setHLeft, s('egCompanyName'))}
             {textField(s('headerCenter'), hCenter, setHCenter, s('egConfidential'))}
             {textField(s('headerRight'), hRight, setHRight, 'e.g. 2026')}
@@ -1834,7 +1834,7 @@ export const HeaderFooterPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
             {textField(s('footerCenter'), fCenter, setFCenter, '')}
             {textField(s('footerRight'), fRight, setFRight, s('hfPageOfTemplate'))}
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
             <div>
               <OptLabel>{s('fontSizeLabel')}</OptLabel>
               <OptSelect value={fontSize} onChange={(e) => setFontSize(e.target.value)}>
@@ -1898,7 +1898,7 @@ export const PdfBackground: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('bgColorLabel2')}</OptLabel>
             <div className="flex items-center gap-2">

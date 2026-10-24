@@ -80,8 +80,8 @@ Payment Notes: ${paymentNotes}`;
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
-      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <span>🧾</span> {s('invTitle')}
@@ -111,7 +111,7 @@ Payment Notes: ${paymentNotes}`;
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
         {/* Editor Column */}
         <div className="xl:col-span-6 space-y-4 max-h-[750px] overflow-y-auto pe-2">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('invoiceNumberLabel')}</label>
               <input
@@ -139,7 +139,7 @@ Payment Notes: ${paymentNotes}`;
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('yourBusinessLabel')}</label>
               <input
@@ -174,7 +174,7 @@ Payment Notes: ${paymentNotes}`;
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('issueDateLabel')}</label>
               <input
@@ -243,7 +243,7 @@ Payment Notes: ${paymentNotes}`;
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('taxVatLabel')}</label>
               <input
@@ -270,7 +270,7 @@ Payment Notes: ${paymentNotes}`;
         <div className="xl:col-span-6 bg-gray-100 dark:bg-gray-900 p-4 rounded-2xl flex justify-center items-start">
           <div
             id="printable-area"
-            className="w-full max-w-[560px] bg-white text-gray-900 p-8 rounded-lg shadow-xl border border-gray-300 text-left text-xs"
+            className="w-full max-w-[560px] bg-white text-gray-900 p-4 sm:p-8 rounded-lg shadow-xl border border-gray-300 text-left text-xs"
             style={{ minHeight: '650px' }}
           >
             <div className="flex justify-between items-start border-b border-gray-200 pb-5 mb-5">

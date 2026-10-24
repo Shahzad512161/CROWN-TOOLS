@@ -79,8 +79,8 @@ export const MortgageCalculator: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
-      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <span>🏠</span> {s('mtgTitle')}
@@ -131,7 +131,7 @@ export const MortgageCalculator: React.FC = () => {
           </div>
 
           {/* Down Payment */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                 {s('downPaymentPct')}
@@ -168,7 +168,7 @@ export const MortgageCalculator: React.FC = () => {
           </div>
 
           {/* Interest Rate & Term */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                 {s('interestRateApr')}
@@ -201,7 +201,7 @@ export const MortgageCalculator: React.FC = () => {
           </div>
 
           {/* Taxes, Insurance & HOA */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             <div>
               <label className="block text-[11px] font-semibold text-gray-600 dark:text-gray-400 mb-1">
                 {s('propertyTaxPct')}
@@ -248,7 +248,7 @@ export const MortgageCalculator: React.FC = () => {
               <span className="text-xs uppercase font-bold tracking-wider text-orange-600 dark:text-orange-400">
                 {s('estimatedMonthlyPayment')}
               </span>
-              <div className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
                 ${Math.round(totalMonthlyPayment).toLocaleString(lang)}
                 <span className="text-sm font-medium text-gray-500">{s('perMonth')}</span>
               </div>

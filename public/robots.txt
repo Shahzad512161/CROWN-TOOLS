@@ -1,5 +1,5 @@
-# Free Omni Tools   all content is public and crawlable in every locale.
+# Free Omni Tools — all content is public and crawlable in every locale.
 User-agent: *
 Allow: /
 
-Sitemap: https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/sitemap.xml
+Sitemap: https://freeomnitools.online/sitemap.xml

@@ -192,7 +192,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <div className="flex items-center gap-2">
@@ -225,7 +225,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
               <span className="text-[11px] text-gray-500 block">{s('genImageHint')}</span>
             </label>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                   {c('format')}
@@ -418,7 +418,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{s('genFrom')}</label>
                 <select
@@ -507,7 +507,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
             <span className="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400">
               {s('genConvertedResult')}
             </span>
-            <div className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white my-3">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 dark:text-white my-3">
               {convertUnit().toLocaleString(lang, { maximumFractionDigits: 4 })}
               <span className="text-sm font-semibold text-gray-500 ms-1.5">{unitLabel(toUnit)}</span>
             </div>
@@ -527,7 +527,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
         /* Daily Calculators & Home & Daily Life default engine */
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="md:col-span-7 space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                   {s('genPrimaryInput')}
@@ -556,7 +556,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">
                 {s('genCalcMode')}
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 {[
                   { id: 'percent', label: s('genOpPercent') },
                   { id: 'compound', label: s('genOpCompound') },
@@ -585,7 +585,7 @@ export const GenericToolEngine: React.FC<GenericToolEngineProps> = ({ tool }) =>
             <span className="text-xs uppercase font-bold text-orange-600 dark:text-orange-400">
               {s('genCalculatedValue')}
             </span>
-            <div className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white my-3">
+            <div className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 dark:text-white my-3">
               {calculateResult().toLocaleString(lang, { maximumFractionDigits: 2 })}
             </div>
             <p className="text-xs text-gray-600 dark:text-gray-300">

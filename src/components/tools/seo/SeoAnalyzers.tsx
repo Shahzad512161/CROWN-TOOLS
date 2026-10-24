@@ -755,7 +755,7 @@ export const HeadingChecker: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         </p>
       ) : (
         <div className="mt-5 space-y-5">
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-2">
             {[1, 2, 3, 4, 5, 6].map((lvl) => (
               <Stat key={lvl} label={`H${lvl} ${s('countWord')}`} value={counts[lvl] || 0} />
             ))}

@@ -895,7 +895,7 @@ export const SchemaGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               <OptLabel>{s('priceReq')}</OptLabel>
               <OptInput value={pPrice} onChange={(e) => setPPrice(e.target.value)} placeholder="49.99" inputMode="decimal" />
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div>
                 <OptLabel>{s('currencyLabel')}</OptLabel>
                 <OptSelect value={pCurrency} onChange={(e) => setPCurrency(e.target.value)}>

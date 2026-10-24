@@ -1,311 +1,313 @@
 # Free Omni Tools
 
-> Free online tools that run 100% in the browser   no sign-up, no uploads, no tracking. 251 real tools across PDF, Word, image, video & audio, SEO, developer, AI, social media, student and everyday calculators, published in five languages: English (/en), Spanish (/es), French (/fr), Arabic (/ar, right-to-left) and Russian (/ru). Every page exists under each locale prefix; swap the prefix to read the same page in another language.
+> Free online tools that run 100% in the browser — no sign-up, no uploads, no tracking. 7300 tool pages and 7300 matching blog guides, published in five languages: English (/en), Spanish (/es), French (/fr), Arabic (/ar, right-to-left) and Russian (/ru). Every page exists under each locale prefix; swap the prefix to read the same page in another language.
+
+> Complete catalog: the full list of all 7300 tools (and their blog guides) in every language is in the sitemap index at https://freeomnitools.online/sitemap.xml — one sitemap per language (sitemap-en.xml, sitemap-es.xml, sitemap-fr.xml, sitemap-ar.xml, sitemap-ru.xml). The 251 curated tools listed below are the hand-written set; the remaining pages are the programmatic catalog, each with a working in-browser tool.
 
 ## Languages
 
-- [Free Omni Tools in English](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en)
-- [Free Omni Tools in Español](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/es)
-- [Free Omni Tools in Français](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/fr)
-- [Free Omni Tools in العربية](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/ar)
-- [Free Omni Tools in Русский](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/ru)
+- [Free Omni Tools in English](https://freeomnitools.online/en)
+- [Free Omni Tools in Español](https://freeomnitools.online/es)
+- [Free Omni Tools in Français](https://freeomnitools.online/fr)
+- [Free Omni Tools in العربية](https://freeomnitools.online/ar)
+- [Free Omni Tools in Русский](https://freeomnitools.online/ru)
 
 ## Main pages (English; replace /en with /es, /fr, /ar or /ru for other languages)
 
-- [Home](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en): Browse and search all tools by category.
-- [About](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/about): What Free Omni Tools is and how it works.
-- [Blog](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/blog): In-depth guides for every tool   formulas, examples and expert tips.
-- [Contact](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/contact): Get in touch with the team.
-- [Privacy Policy](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/privacy): How the site handles data (all tools run client-side; nothing is uploaded).
+- [Home](https://freeomnitools.online/en): Browse and search all tools by category.
+- [About](https://freeomnitools.online/en/about): What Free Omni Tools is and how it works.
+- [Blog](https://freeomnitools.online/en/blog): In-depth guides for every tool — formulas, examples and expert tips.
+- [Contact](https://freeomnitools.online/en/contact): Get in touch with the team.
+- [Privacy Policy](https://freeomnitools.online/en/privacy): How the site handles data (all tools run client-side; nothing is uploaded).
 
-## Tools
+## Curated tools
 
 ### AI Tools
 
-- [AI Bio Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-bio-generator): Get five ready-to-use profile bios for Instagram, X, LinkedIn, TikTok or Facebook in your style.
-- [AI Business Name Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-business-name-generator): Get 15 brandable business name ideas with taglines for any industry and style.
-- [AI Caption Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-caption-generator): Generate scroll-stopping social media captions with hashtags for Instagram, Facebook, X, LinkedIn and TikTok.
-- [AI Chat](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-chat): Chat with Google Gemini   ask questions, brainstorm, get code help or practice interviews with preset assistants.
-- [AI Cover Letter Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-cover-letter-generator): Generate a tailored cover letter from your role, company, experience and skills   no placeholder brackets.
-- [AI Email Writer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-email-writer): Draft professional emails in seconds   pick the purpose and tone, add your key points, get a ready-to-send email.
-- [AI Grammar Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-grammar-checker): Fix grammar, spelling and punctuation   and see a clear list of exactly what was changed.
-- [AI Image Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-image-generator): Create images from text prompts with Google Gemini   photorealistic, illustration, anime, 3D, watercolor and more styles.
-- [AI Paraphrasing Tool](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-paraphraser): Rewrite any text in seven modes   standard, fluent, formal, simple, creative, shorter or longer   while keeping the meaning.
-- [AI Poem Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-poem-generator): Write poems in real forms   haiku, sonnet, limerick, ballad, acrostic or free verse   on any topic and mood.
-- [AI Story Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-story-generator): Create original stories in eight genres   name your hero, set the scene, add an optional plot twist.
-- [AI Text Summarizer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-text-summarizer): Summarize long articles and documents as a short paragraph, bullet points or key takeaways.
-- [AI Translator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-translator): Translate text from any language into natural, fluent English with AI translation.
-- [AI Writer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-writer): Generate blog posts, product descriptions, essays and social posts on any topic   pick the tone and length.
+- [AI Bio Generator](https://freeomnitools.online/en/tool/ai-bio-generator): Get five ready-to-use profile bios for Instagram, X, LinkedIn, TikTok or Facebook in your style.
+- [AI Business Name Generator](https://freeomnitools.online/en/tool/ai-business-name-generator): Get 15 brandable business name ideas with taglines for any industry and style.
+- [AI Caption Generator](https://freeomnitools.online/en/tool/ai-caption-generator): Generate scroll-stopping social media captions with hashtags for Instagram, Facebook, X, LinkedIn and TikTok.
+- [AI Chat](https://freeomnitools.online/en/tool/ai-chat): Chat with Google Gemini   ask questions, brainstorm, get code help or practice interviews with preset assistants.
+- [AI Cover Letter Generator](https://freeomnitools.online/en/tool/ai-cover-letter-generator): Generate a tailored cover letter from your role, company, experience and skills   no placeholder brackets.
+- [AI Email Writer](https://freeomnitools.online/en/tool/ai-email-writer): Draft professional emails in seconds   pick the purpose and tone, add your key points, get a ready-to-send email.
+- [AI Grammar Checker](https://freeomnitools.online/en/tool/ai-grammar-checker): Fix grammar, spelling and punctuation   and see a clear list of exactly what was changed.
+- [AI Image Generator](https://freeomnitools.online/en/tool/ai-image-generator): Create images from text prompts with Google Gemini   photorealistic, illustration, anime, 3D, watercolor and more styles.
+- [AI Paraphrasing Tool](https://freeomnitools.online/en/tool/ai-paraphraser): Rewrite any text in seven modes   standard, fluent, formal, simple, creative, shorter or longer   while keeping the meaning.
+- [AI Poem Generator](https://freeomnitools.online/en/tool/ai-poem-generator): Write poems in real forms   haiku, sonnet, limerick, ballad, acrostic or free verse   on any topic and mood.
+- [AI Story Generator](https://freeomnitools.online/en/tool/ai-story-generator): Create original stories in eight genres   name your hero, set the scene, add an optional plot twist.
+- [AI Text Summarizer](https://freeomnitools.online/en/tool/ai-text-summarizer): Summarize long articles and documents as a short paragraph, bullet points or key takeaways.
+- [AI Translator](https://freeomnitools.online/en/tool/ai-translator): Translate text from any language into natural, fluent English with AI translation.
+- [AI Writer](https://freeomnitools.online/en/tool/ai-writer): Generate blog posts, product descriptions, essays and social posts on any topic   pick the tone and length.
 
 ### Daily Calculators
 
-- [401(k) Retirement Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/retirement-401k-calculator): Forecast your retirement nest egg, employer match contributions, and annual withdrawals based on inflation and return rates.
-- [Auto Insurance Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/auto-insurance-calculator): Estimate your USA & UK car insurance premiums based on vehicle type, driver age, US state, coverage limits, and deductible.
-- [BMI & Calorie Deficit Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/bmi-calorie-deficit-calculator): Calculate your Body Mass Index (BMI), Basal Metabolic Rate (BMR), and exact daily calorie deficit for healthy weight management.
-- [Compound Interest Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/compound-interest-calculator): Calculate the exponential growth of your savings and investment portfolio with annual, monthly, or daily compounding.
-- [Debt Snowball vs Avalanche Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/debt-snowball-calculator): Compare the Dave Ramsey Debt Snowball method against the Debt Avalanche method to eliminate credit card and student debt.
-- [Invoice Generator Pro](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/invoice-generator-pro): Create professional business invoices for US, UK & Canadian clients with auto tax calculation, multiple currencies, and PDF export.
-- [Loan Calculator USA](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/loan-calculator-usa): Calculate monthly payments, total interest, and payoff timelines for personal loans, auto loans, and business financing.
-- [Mortgage Calculator USA](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/mortgage-calculator-usa): Calculate monthly US mortgage payments, principal, interest, property tax, PMI, and home insurance with full amortization.
-- [Multi Calculator Suite (All-In-One)](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/multi-calculator-all-in-one): All-in-one calculator suite featuring Age & Birthday, BMI & Calorie, Loan & EMI, Mortgage, Tip Splitter, and Compound Growth in tabs.
-- [Student Loan Payoff Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/student-loan-payoff-calculator): Calculate federal and private student loan amortization, SAVE plan repayment estimates, and interest reduction strategies.
-- [Tax Calculator 2026 USA](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/tax-calculator-2026-usa): Calculate 2026 US Federal Income Tax, FICA (Social Security & Medicare), State Tax, and net take-home salary by state.
+- [401(k) Retirement Calculator](https://freeomnitools.online/en/tool/retirement-401k-calculator): Forecast your retirement nest egg, employer match contributions, and annual withdrawals based on inflation and return rates.
+- [Auto Insurance Calculator](https://freeomnitools.online/en/tool/auto-insurance-calculator): Estimate your USA & UK car insurance premiums based on vehicle type, driver age, US state, coverage limits, and deductible.
+- [BMI & Calorie Deficit Calculator](https://freeomnitools.online/en/tool/bmi-calorie-deficit-calculator): Calculate your Body Mass Index (BMI), Basal Metabolic Rate (BMR), and exact daily calorie deficit for healthy weight management.
+- [Compound Interest Calculator](https://freeomnitools.online/en/tool/compound-interest-calculator): Calculate the exponential growth of your savings and investment portfolio with annual, monthly, or daily compounding.
+- [Debt Snowball vs Avalanche Calculator](https://freeomnitools.online/en/tool/debt-snowball-calculator): Compare the Dave Ramsey Debt Snowball method against the Debt Avalanche method to eliminate credit card and student debt.
+- [Invoice Generator Pro](https://freeomnitools.online/en/tool/invoice-generator-pro): Create professional business invoices for US, UK & Canadian clients with auto tax calculation, multiple currencies, and PDF export.
+- [Loan Calculator USA](https://freeomnitools.online/en/tool/loan-calculator-usa): Calculate monthly payments, total interest, and payoff timelines for personal loans, auto loans, and business financing.
+- [Mortgage Calculator USA](https://freeomnitools.online/en/tool/mortgage-calculator-usa): Calculate monthly US mortgage payments, principal, interest, property tax, PMI, and home insurance with full amortization.
+- [Multi Calculator Suite (All-In-One)](https://freeomnitools.online/en/tool/multi-calculator-all-in-one): All-in-one calculator suite featuring Age & Birthday, BMI & Calorie, Loan & EMI, Mortgage, Tip Splitter, and Compound Growth in tabs.
+- [Student Loan Payoff Calculator](https://freeomnitools.online/en/tool/student-loan-payoff-calculator): Calculate federal and private student loan amortization, SAVE plan repayment estimates, and interest reduction strategies.
+- [Tax Calculator 2026 USA](https://freeomnitools.online/en/tool/tax-calculator-2026-usa): Calculate 2026 US Federal Income Tax, FICA (Social Security & Medicare), State Tax, and net take-home salary by state.
 
 ### Developer Tools
 
-- [Base64 Encoder & Decoder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/base64-encoder-decoder): Encode and decode Base64 with full Unicode support and URL-safe alphabet option.
-- [Chmod Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/chmod-calculator): Convert Linux file permissions between rwx checkboxes, octal numbers and symbolic notation.
-- [Color Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/color-converter): Convert colors between HEX, RGB, HSL, HSV and CMYK, with shades, tints and WCAG contrast ratios.
-- [Cron Expression Parser](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/cron-expression-parser): Explain cron expressions in plain English and preview the next run times.
-- [CSS Gradient Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/css-gradient-generator): Design linear and radial CSS gradients visually with multiple color stops and copy-ready code.
-- [CSV to JSON Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/csv-to-json-converter): Convert CSV data into JSON with automatic type inference for numbers, booleans and nulls.
-- [Hash Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/hash-generator): Generate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes of any text, plus keyed HMAC signatures.
-- [HTML Entity Encoder & Decoder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/html-entity-encoder-decoder): Convert special characters to HTML entities and back   named, numeric and hex references.
-- [HTTP Status Code Reference](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/http-status-code-reference): Searchable reference of HTTP status codes   what each 1xx–5xx code means and when it is used.
-- [JSON Diff Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/json-diff-checker): Compare two JSON documents and see exactly which keys were added, removed or changed   by path.
-- [JSON Formatter & Validator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/json-formatter): Format, validate and minify JSON with precise error locations   line and column   plus key sorting.
-- [JSON to CSV Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/json-to-csv-converter): Convert JSON arrays and objects into clean CSV spreadsheets instantly.
-- [JSON to TypeScript](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/json-to-typescript): Generate TypeScript interfaces from sample JSON automatically   nested objects and arrays handled.
-- [JSON to YAML Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/json-to-yaml-converter): Convert JSON into clean, readable YAML for configs, Kubernetes and CI pipelines.
-- [JWT Decoder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/jwt-decoder): Decode JWT header and payload, inspect claims with human-readable dates, and verify HS256 signatures.
-- [Number Base Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/number-base-converter): Convert numbers between binary, octal, decimal, hex and any base 2–36   arbitrary precision.
-- [Password Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/password-generator): Generate strong random passwords on-device with crypto-grade randomness and an entropy meter.
-- [Regex Tester](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/regex-tester): Test regular expressions live with match highlighting, capture groups and named groups.
-- [SQL Formatter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/sql-formatter): Format SQL queries with clause line breaks and keyword casing for readable queries.
-- [Text Diff Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/text-diff-checker): Compare two texts line by line and highlight additions and removals.
-- [Unix Timestamp Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/timestamp-converter): Convert Unix timestamps to human dates and back   seconds and milliseconds, UTC, local and relative time.
-- [URL Encoder & Decoder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/url-encoder-decoder): Percent-encode or decode URLs and query components safely and instantly.
-- [URL Parser](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/url-parser): Break a URL into protocol, host, path segments and query parameters   and edit parameters to rebuild it.
-- [User Agent Parser](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/user-agent-parser): Parse any user-agent string into browser, version, OS, device type and rendering engine.
-- [UUID Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/uuid-generator): Generate UUID v4 (random) and v7 (time-ordered) identifiers in bulk   up to 500 at once.
-- [XML Formatter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/xml-formatter): Pretty-print and validate XML with tag-balance checking, or minify it back down.
-- [YAML to JSON Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/yaml-to-json-converter): Convert YAML configs into JSON   mappings, sequences, flow collections and block scalars supported.
+- [Base64 Encoder & Decoder](https://freeomnitools.online/en/tool/base64-encoder-decoder): Encode and decode Base64 with full Unicode support and URL-safe alphabet option.
+- [Chmod Calculator](https://freeomnitools.online/en/tool/chmod-calculator): Convert Linux file permissions between rwx checkboxes, octal numbers and symbolic notation.
+- [Color Converter](https://freeomnitools.online/en/tool/color-converter): Convert colors between HEX, RGB, HSL, HSV and CMYK, with shades, tints and WCAG contrast ratios.
+- [Cron Expression Parser](https://freeomnitools.online/en/tool/cron-expression-parser): Explain cron expressions in plain English and preview the next run times.
+- [CSS Gradient Generator](https://freeomnitools.online/en/tool/css-gradient-generator): Design linear and radial CSS gradients visually with multiple color stops and copy-ready code.
+- [CSV to JSON Converter](https://freeomnitools.online/en/tool/csv-to-json-converter): Convert CSV data into JSON with automatic type inference for numbers, booleans and nulls.
+- [Hash Generator](https://freeomnitools.online/en/tool/hash-generator): Generate MD5, SHA-1, SHA-256, SHA-384 and SHA-512 hashes of any text, plus keyed HMAC signatures.
+- [HTML Entity Encoder & Decoder](https://freeomnitools.online/en/tool/html-entity-encoder-decoder): Convert special characters to HTML entities and back   named, numeric and hex references.
+- [HTTP Status Code Reference](https://freeomnitools.online/en/tool/http-status-code-reference): Searchable reference of HTTP status codes   what each 1xx–5xx code means and when it is used.
+- [JSON Diff Checker](https://freeomnitools.online/en/tool/json-diff-checker): Compare two JSON documents and see exactly which keys were added, removed or changed   by path.
+- [JSON Formatter & Validator](https://freeomnitools.online/en/tool/json-formatter): Format, validate and minify JSON with precise error locations   line and column   plus key sorting.
+- [JSON to CSV Converter](https://freeomnitools.online/en/tool/json-to-csv-converter): Convert JSON arrays and objects into clean CSV spreadsheets instantly.
+- [JSON to TypeScript](https://freeomnitools.online/en/tool/json-to-typescript): Generate TypeScript interfaces from sample JSON automatically   nested objects and arrays handled.
+- [JSON to YAML Converter](https://freeomnitools.online/en/tool/json-to-yaml-converter): Convert JSON into clean, readable YAML for configs, Kubernetes and CI pipelines.
+- [JWT Decoder](https://freeomnitools.online/en/tool/jwt-decoder): Decode JWT header and payload, inspect claims with human-readable dates, and verify HS256 signatures.
+- [Number Base Converter](https://freeomnitools.online/en/tool/number-base-converter): Convert numbers between binary, octal, decimal, hex and any base 2–36   arbitrary precision.
+- [Password Generator](https://freeomnitools.online/en/tool/password-generator): Generate strong random passwords on-device with crypto-grade randomness and an entropy meter.
+- [Regex Tester](https://freeomnitools.online/en/tool/regex-tester): Test regular expressions live with match highlighting, capture groups and named groups.
+- [SQL Formatter](https://freeomnitools.online/en/tool/sql-formatter): Format SQL queries with clause line breaks and keyword casing for readable queries.
+- [Text Diff Checker](https://freeomnitools.online/en/tool/text-diff-checker): Compare two texts line by line and highlight additions and removals.
+- [Unix Timestamp Converter](https://freeomnitools.online/en/tool/timestamp-converter): Convert Unix timestamps to human dates and back   seconds and milliseconds, UTC, local and relative time.
+- [URL Encoder & Decoder](https://freeomnitools.online/en/tool/url-encoder-decoder): Percent-encode or decode URLs and query components safely and instantly.
+- [URL Parser](https://freeomnitools.online/en/tool/url-parser): Break a URL into protocol, host, path segments and query parameters   and edit parameters to rebuild it.
+- [User Agent Parser](https://freeomnitools.online/en/tool/user-agent-parser): Parse any user-agent string into browser, version, OS, device type and rendering engine.
+- [UUID Generator](https://freeomnitools.online/en/tool/uuid-generator): Generate UUID v4 (random) and v7 (time-ordered) identifiers in bulk   up to 500 at once.
+- [XML Formatter](https://freeomnitools.online/en/tool/xml-formatter): Pretty-print and validate XML with tag-balance checking, or minify it back down.
+- [YAML to JSON Converter](https://freeomnitools.online/en/tool/yaml-to-json-converter): Convert YAML configs into JSON   mappings, sequences, flow collections and block scalars supported.
 
 ### Home & Daily Life
 
-- [Grocery Budget & Meal Cost Planner](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/grocery-budget-planner): Plan your weekly household grocery spending, calculate cost per meal, and stop overspending at US supermarkets.
-- [Home Electricity Cost Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/home-electricity-cost-calculator): Calculate the true electricity running cost of air conditioners, space heaters, refrigerators, and computers in kWh.
-- [Tip & Bill Splitter Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/tip-bill-splitter-calculator): Calculate standard US tipping percentages (15%, 18%, 20%, 25%) and split restaurant bills evenly among friends.
+- [Grocery Budget & Meal Cost Planner](https://freeomnitools.online/en/tool/grocery-budget-planner): Plan your weekly household grocery spending, calculate cost per meal, and stop overspending at US supermarkets.
+- [Home Electricity Cost Calculator](https://freeomnitools.online/en/tool/home-electricity-cost-calculator): Calculate the true electricity running cost of air conditioners, space heaters, refrigerators, and computers in kWh.
+- [Tip & Bill Splitter Calculator](https://freeomnitools.online/en/tool/tip-bill-splitter-calculator): Calculate standard US tipping percentages (15%, 18%, 20%, 25%) and split restaurant bills evenly among friends.
 
 ### Image Tools
 
-- [Add Watermark to Image](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-watermark): Stamp text or logo watermarks on photos   any position or tiled, with opacity and size controls.
-- [AI Background Remover](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/background-remover): Remove the background from any photo with an AI model that runs entirely in your browser   transparent PNG in seconds, no uploads.
-- [Color Palette Extractor](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/color-palette-extractor): Pull the dominant colors out of any image as a designer-ready palette   HEX and RGB values, CSS variables and a palette image.
-- [Favicon Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/favicon-generator): Generate a complete favicon package from an image, text or emoji   ICO file, every PNG size and the HTML tags, zipped.
-- [Image Background Changer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-background-changer): Replace a photo background with studio colors, gradients or your own backdrop image   perfect for product photos.
-- [Image Color Picker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-color-picker): Click any pixel in an image to get its exact color   HEX, RGB and HSL values, with a picked-colors palette.
-- [Image Compressor Lossless](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-compressor-lossless): Compress JPG, PNG, and WebP images up to 80% without visible quality loss directly in your browser.
-- [Image Resizer Pro](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-resizer-pro): Resize image dimensions by pixels or percentage with aspect ratio lock for social media banners, passports, and web design.
-- [Image Splitter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-splitter): Split one image into a grid of tiles for Instagram carousel posts and banners   download all tiles as a ZIP.
-- [Image to ASCII Art](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-to-ascii-art): Turn any photo into ASCII text art   adjustable width and character styles, export as text or image.
-- [Image to Base64 Encoder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-base64-encoder): Convert any image file into raw Data URI Base64 code for direct embedding in HTML, CSS, and JSON payloads.
-- [Image to Text (OCR)](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-to-text-ocr): Extract editable text from photos and screenshots with English OCR, right in your browser.
-- [Image to WebP Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-to-webp-converter): Convert PNG and JPEG images to Google WebP format for blazing-fast web page loading and superior SEO Core Web Vitals.
-- [Meme Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/meme-generator): Make memes from any photo with classic top and bottom captions   stroke text, adjustable size, instant PNG download.
-- [Passport Photo Maker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/passport-photo-maker): Crop and size photos to official passport and visa dimensions (US, UK/EU, China, Canada, Australia) at 300 DPI, with a printable 4×6 sheet.
-- [Photo Collage Maker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/image-collage-maker): Combine up to 9 photos into a beautiful collage   grid and strip layouts, custom gaps, rounded corners and backgrounds.
-- [Photo Filter Editor](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/photo-filter-editor): Enhance photos with brightness, contrast, saturation and more, plus one-tap presets like Vivid, Mono, Sepia and Vintage.
-- [Profile Picture Maker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/profile-picture-maker): Create polished profile pictures with circular crops, stylish rings and custom backgrounds for social media.
-- [QR Code Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/qr-code-generator): Create QR codes for links, WiFi, contact cards, email and SMS   custom colors and sizes, PNG and SVG downloads.
-- [QR Code Scanner](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/qr-code-scanner): Scan and decode QR codes from an uploaded image or your camera   privately, in your browser.
-- [SVG to PNG Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/svg-to-png-converter): Convert SVG graphics to crisp PNG images at any size, with transparent or colored backgrounds.
+- [Add Watermark to Image](https://freeomnitools.online/en/tool/image-watermark): Stamp text or logo watermarks on photos   any position or tiled, with opacity and size controls.
+- [AI Background Remover](https://freeomnitools.online/en/tool/background-remover): Remove the background from any photo with an AI model that runs entirely in your browser   transparent PNG in seconds, no uploads.
+- [Color Palette Extractor](https://freeomnitools.online/en/tool/color-palette-extractor): Pull the dominant colors out of any image as a designer-ready palette   HEX and RGB values, CSS variables and a palette image.
+- [Favicon Generator](https://freeomnitools.online/en/tool/favicon-generator): Generate a complete favicon package from an image, text or emoji   ICO file, every PNG size and the HTML tags, zipped.
+- [Image Background Changer](https://freeomnitools.online/en/tool/image-background-changer): Replace a photo background with studio colors, gradients or your own backdrop image   perfect for product photos.
+- [Image Color Picker](https://freeomnitools.online/en/tool/image-color-picker): Click any pixel in an image to get its exact color   HEX, RGB and HSL values, with a picked-colors palette.
+- [Image Compressor Lossless](https://freeomnitools.online/en/tool/image-compressor-lossless): Compress JPG, PNG, and WebP images up to 80% without visible quality loss directly in your browser.
+- [Image Resizer Pro](https://freeomnitools.online/en/tool/image-resizer-pro): Resize image dimensions by pixels or percentage with aspect ratio lock for social media banners, passports, and web design.
+- [Image Splitter](https://freeomnitools.online/en/tool/image-splitter): Split one image into a grid of tiles for Instagram carousel posts and banners   download all tiles as a ZIP.
+- [Image to ASCII Art](https://freeomnitools.online/en/tool/image-to-ascii-art): Turn any photo into ASCII text art   adjustable width and character styles, export as text or image.
+- [Image to Base64 Encoder](https://freeomnitools.online/en/tool/image-base64-encoder): Convert any image file into raw Data URI Base64 code for direct embedding in HTML, CSS, and JSON payloads.
+- [Image to Text (OCR)](https://freeomnitools.online/en/tool/image-to-text-ocr): Extract editable text from photos and screenshots with English OCR, right in your browser.
+- [Image to WebP Converter](https://freeomnitools.online/en/tool/image-to-webp-converter): Convert PNG and JPEG images to Google WebP format for blazing-fast web page loading and superior SEO Core Web Vitals.
+- [Meme Generator](https://freeomnitools.online/en/tool/meme-generator): Make memes from any photo with classic top and bottom captions   stroke text, adjustable size, instant PNG download.
+- [Passport Photo Maker](https://freeomnitools.online/en/tool/passport-photo-maker): Crop and size photos to official passport and visa dimensions (US, UK/EU, China, Canada, Australia) at 300 DPI, with a printable 4×6 sheet.
+- [Photo Collage Maker](https://freeomnitools.online/en/tool/image-collage-maker): Combine up to 9 photos into a beautiful collage   grid and strip layouts, custom gaps, rounded corners and backgrounds.
+- [Photo Filter Editor](https://freeomnitools.online/en/tool/photo-filter-editor): Enhance photos with brightness, contrast, saturation and more, plus one-tap presets like Vivid, Mono, Sepia and Vintage.
+- [Profile Picture Maker](https://freeomnitools.online/en/tool/profile-picture-maker): Create polished profile pictures with circular crops, stylish rings and custom backgrounds for social media.
+- [QR Code Generator](https://freeomnitools.online/en/tool/qr-code-generator): Create QR codes for links, WiFi, contact cards, email and SMS   custom colors and sizes, PNG and SVG downloads.
+- [QR Code Scanner](https://freeomnitools.online/en/tool/qr-code-scanner): Scan and decode QR codes from an uploaded image or your camera   privately, in your browser.
+- [SVG to PNG Converter](https://freeomnitools.online/en/tool/svg-to-png-converter): Convert SVG graphics to crisp PNG images at any size, with transparent or colored backgrounds.
 
 ### PDF Tools
 
-- [Add Header & Footer to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/header-footer-pdf): Stamp custom header and footer text   left, center, right   with page-number placeholders on every page.
-- [Add Page Numbers](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/page-numbers-pdf): Insert page numbers into a PDF with your choice of position, format, size, and starting number.
-- [Add PDF Background](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-background): Paint a background color behind every page of a PDF   letterheads, forms, and handouts.
-- [Add Watermark to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/watermark-pdf): Stamp text or image watermarks over PDF pages with custom size, opacity, and placement.
-- [AI PDF Summarizer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-pdf-summarizer): Extract a PDF's text and generate a brief, detailed, or bullet summary with AI (Gemini).
-- [Alternate & Mix PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/alternate-mix-pdf): Interleave pages from two or more PDFs   perfect for merging single-sided scans of two-sided documents.
-- [Bates Numbering](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/bates-numbering-pdf): Stamp sequential Bates numbers (e.g. CASE-000001) across one or many PDF files for legal discovery.
-- [Compare PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/compare-pdf): Compare two PDF documents side by side and highlight the words that were added or removed.
-- [Compress PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/compress-pdf): Reduce PDF file size with recommended, extreme, or high-quality compression   or a lossless re-save.
-- [Create PDF Bookmarks](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/create-bookmarks-pdf): Add a bookmark outline to a PDF   manually, or automatically from the first line of each page.
-- [Crop PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/crop-pdf): Trim the margins of PDF pages   for all pages or a chosen range   in percent or millimeters.
-- [Delete PDF Pages](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/delete-pdf-pages): Click the pages you want to remove from a PDF and download the cleaned document.
-- [Deskew PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/deskew-pdf): Detect the skew angle of scanned pages and straighten them automatically.
-- [Edit PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/edit-pdf): Add text, images, and shapes anywhere on a PDF page and download the edited document.
-- [Edit PDF Metadata](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/edit-pdf-metadata): View and change a PDF's title, author, subject, keywords, creator, and producer   or clear them all.
-- [EPUB to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/epub-to-pdf): Convert an EPUB eBook into a paginated PDF document, chapter by chapter.
-- [Excel to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/excel-to-pdf): Convert Excel and CSV spreadsheets into tidy, landscape PDF documents.
-- [Extract Images from PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/extract-pdf-images): Extract the original embedded images out of a PDF as PNG files   no screenshots, no quality loss.
-- [Extract PDF Pages](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/extract-pdf-pages): Pull selected page ranges out of a PDF into one new document, or one file per range.
-- [Flatten PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/flatten-pdf): Flatten form fields into the page content so filled forms can no longer be edited   or flatten everything.
-- [Flip PDF Pages](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/flip-pdf-pages): Mirror PDF pages horizontally or vertically   fixes mirrored scans and camera captures.
-- [GIF to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/gif-to-pdf): Convert GIF images into a PDF document (first frame of animated GIFs).
-- [Grayscale PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/grayscale-pdf): Convert a color PDF to black & white grayscale   saves ink and often shrinks the file.
-- [HEIC to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/heic-to-pdf): Convert iPhone HEIC photos into a PDF   works where your browser can display HEIC (e.g. Safari).
-- [HTML to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/html-to-pdf): Convert a web page URL or pasted HTML code into a PDF document.
-- [JPG to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/jpg-to-pdf): Convert JPG, PNG, and other images into a PDF with fit, A4, or Letter pages and adjustable margins.
-- [Merge PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/merge-pdf): Combine multiple PDF files into one document, in the exact order you choose.
-- [N-up PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/nup-pdf): Print multiple PDF pages per sheet   2, 4, 6, or 9-up on A4, A3, or Letter   keeping pages vector-sharp.
-- [OCR PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ocr-pdf): Recognize the text in scanned PDFs and rebuild them as searchable documents with an invisible text layer.
-- [Organize PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/organize-pdf): Reorder, rotate, and delete PDF pages visually, and insert blank pages exactly where you need them.
-- [PDF Forms](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-forms): Detect and fill the form fields of a PDF, or add new fillable text fields and checkboxes.
-- [PDF Page Counter & Metadata Inspector](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-page-counter-inspector): Inspect PDF document properties, count pages, detect dimensions, title, author, and encryption state safely.
-- [PDF Reader](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-reader): Read PDFs right in your browser with zoom   no uploads, no installs, completely private.
-- [PDF to BMP](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-bmp): Convert PDF pages into BMP images at up to 3x resolution.
-- [PDF to CSV](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-csv): Extract the rows of a PDF into a CSV file   columns detected from the page layout.
-- [PDF to EPUB](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-epub): Convert a PDF into a reflowable EPUB eBook with chapters you can read on any e-reader.
-- [PDF to Excel](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-excel): Pull the text of PDF pages into Excel spreadsheets, one sheet per page, rows and columns detected from layout.
-- [PDF to JPG](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-jpg): Convert PDF pages into high-quality JPG or PNG images, individually or as a ZIP.
-- [PDF to Markdown](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-markdown): Turn a PDF into clean Markdown   headings from font sizes, normalized lists, page separators.
-- [PDF to PDF/A](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-pdfa): Rebuild a PDF with PDF/A-3B identification (XMP) metadata for long-term archiving.
-- [PDF to PNG](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-png): Convert PDF pages into transparent-quality PNG images at up to 3x resolution.
-- [PDF to PowerPoint](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-powerpoint): Turn each PDF page into a PowerPoint slide with the page image plus editable extracted text.
-- [PDF to Text](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-text): Extract all the text from a PDF into a plain .txt file, with a live preview and counts.
-- [PDF to TIFF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-tiff): Convert PDF pages into a multi-page TIFF file at 150 or 300 DPI for print and fax workflows.
-- [PDF to Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-word): Convert PDF documents into editable Word (.docx) files with headings and paragraphs preserved.
-- [PDF to Word Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pdf-to-word-converter): Extract text, preserve paragraphs, and convert PDF documents into editable Word (.docx) & text format securely in your browser.
-- [PDF Watermark Remover](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/remove-watermark-pdf): Cover watermark areas with opaque patches you draw   the rest of every page stays vector-sharp.
-- [PNG to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/png-to-pdf): Convert PNG images into a PDF with fit, A4, or Letter pages and adjustable margins.
-- [PowerPoint to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/powerpoint-to-pdf): Convert PowerPoint (.pptx) slides into a PDF document with slide text and images.
-- [Protect PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/protect-pdf): Encrypt a PDF with a password and control printing, copying, and editing permissions.
-- [Redact PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/redact-pdf): Permanently black out sensitive text and areas   by drawing boxes or by searching for words.
-- [Remove PDF Annotations](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/remove-annotations-pdf): Strip all annotations   highlights, comments, stamps, and markups   from a PDF in one pass.
-- [Rename PDF by Content](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/rename-pdf-by-content): Rename PDF files automatically using the first line of text inside each document.
-- [Repair PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/repair-pdf): Recover pages from damaged or corrupt PDF files by rebuilding the document structure.
-- [Resize PDF Pages](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/resize-pdf-pages): Change the page size of a PDF   A3, A4, A5, Letter, or Legal   scaling content to fit or stretch.
-- [Rotate PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/rotate-pdf): Rotate all pages or a chosen page range of a PDF by 90, 180, or 270 degrees   permanently.
-- [Scan to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/scan-to-pdf): Capture document pages with your camera or upload photos and combine them into one PDF.
-- [Sign PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/sign-pdf): Draw, type, or upload your signature and place it on any page of a PDF document.
-- [Split PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/split-pdf): Separate PDF pages by custom ranges, extract selected pages, or split into single-page files.
-- [Split PDF by Bookmarks](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/split-pdf-by-bookmarks): Split a PDF into separate documents at its bookmarks   one file per chapter or section.
-- [Split PDF by Size](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/split-pdf-by-size): Split a large PDF into smaller documents that each stay under a target file size in MB.
-- [Split PDF by Text](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/split-pdf-by-text): Split a PDF wherever a word or phrase appears   separate invoices, statements, or reports automatically.
-- [Split PDF in Half](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/split-pdf-in-half): Split two-page-spread scans into single pages   A3 spreads to double A4, or A4 to double A5.
-- [Text & Word to PDF Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-pdf-converter-safe): Format, style, and generate standard PDF documents from text, notes, and rich documents 100% in-browser.
-- [Text to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/text-to-pdf): Turn typed or pasted text   or a .txt file   into a clean, paginated PDF document.
-- [TIFF to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/tiff-to-pdf): Convert TIFF images   including multi-page TIFFs   into a PDF document.
-- [Translate PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/translate-pdf): Translate a whole PDF document into English with AI, keeping the page order and structure.
-- [Unlock PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/unlock-pdf): Remove password restrictions from a PDF   instantly for permission-locked files, or with the document password.
-- [WebP to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/webp-to-pdf): Convert WebP images into a PDF document in seconds.
-- [Word to PDF](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-pdf): Convert Word (.docx) documents into clean, printable PDF files directly in your browser.
+- [Add Header & Footer to PDF](https://freeomnitools.online/en/tool/header-footer-pdf): Stamp custom header and footer text   left, center, right   with page-number placeholders on every page.
+- [Add Page Numbers](https://freeomnitools.online/en/tool/page-numbers-pdf): Insert page numbers into a PDF with your choice of position, format, size, and starting number.
+- [Add PDF Background](https://freeomnitools.online/en/tool/pdf-background): Paint a background color behind every page of a PDF   letterheads, forms, and handouts.
+- [Add Watermark to PDF](https://freeomnitools.online/en/tool/watermark-pdf): Stamp text or image watermarks over PDF pages with custom size, opacity, and placement.
+- [AI PDF Summarizer](https://freeomnitools.online/en/tool/ai-pdf-summarizer): Extract a PDF's text and generate a brief, detailed, or bullet summary with AI (Gemini).
+- [Alternate & Mix PDF](https://freeomnitools.online/en/tool/alternate-mix-pdf): Interleave pages from two or more PDFs   perfect for merging single-sided scans of two-sided documents.
+- [Bates Numbering](https://freeomnitools.online/en/tool/bates-numbering-pdf): Stamp sequential Bates numbers (e.g. CASE-000001) across one or many PDF files for legal discovery.
+- [Compare PDF](https://freeomnitools.online/en/tool/compare-pdf): Compare two PDF documents side by side and highlight the words that were added or removed.
+- [Compress PDF](https://freeomnitools.online/en/tool/compress-pdf): Reduce PDF file size with recommended, extreme, or high-quality compression   or a lossless re-save.
+- [Create PDF Bookmarks](https://freeomnitools.online/en/tool/create-bookmarks-pdf): Add a bookmark outline to a PDF   manually, or automatically from the first line of each page.
+- [Crop PDF](https://freeomnitools.online/en/tool/crop-pdf): Trim the margins of PDF pages   for all pages or a chosen range   in percent or millimeters.
+- [Delete PDF Pages](https://freeomnitools.online/en/tool/delete-pdf-pages): Click the pages you want to remove from a PDF and download the cleaned document.
+- [Deskew PDF](https://freeomnitools.online/en/tool/deskew-pdf): Detect the skew angle of scanned pages and straighten them automatically.
+- [Edit PDF](https://freeomnitools.online/en/tool/edit-pdf): Add text, images, and shapes anywhere on a PDF page and download the edited document.
+- [Edit PDF Metadata](https://freeomnitools.online/en/tool/edit-pdf-metadata): View and change a PDF's title, author, subject, keywords, creator, and producer   or clear them all.
+- [EPUB to PDF](https://freeomnitools.online/en/tool/epub-to-pdf): Convert an EPUB eBook into a paginated PDF document, chapter by chapter.
+- [Excel to PDF](https://freeomnitools.online/en/tool/excel-to-pdf): Convert Excel and CSV spreadsheets into tidy, landscape PDF documents.
+- [Extract Images from PDF](https://freeomnitools.online/en/tool/extract-pdf-images): Extract the original embedded images out of a PDF as PNG files   no screenshots, no quality loss.
+- [Extract PDF Pages](https://freeomnitools.online/en/tool/extract-pdf-pages): Pull selected page ranges out of a PDF into one new document, or one file per range.
+- [Flatten PDF](https://freeomnitools.online/en/tool/flatten-pdf): Flatten form fields into the page content so filled forms can no longer be edited   or flatten everything.
+- [Flip PDF Pages](https://freeomnitools.online/en/tool/flip-pdf-pages): Mirror PDF pages horizontally or vertically   fixes mirrored scans and camera captures.
+- [GIF to PDF](https://freeomnitools.online/en/tool/gif-to-pdf): Convert GIF images into a PDF document (first frame of animated GIFs).
+- [Grayscale PDF](https://freeomnitools.online/en/tool/grayscale-pdf): Convert a color PDF to black & white grayscale   saves ink and often shrinks the file.
+- [HEIC to PDF](https://freeomnitools.online/en/tool/heic-to-pdf): Convert iPhone HEIC photos into a PDF   works where your browser can display HEIC (e.g. Safari).
+- [HTML to PDF](https://freeomnitools.online/en/tool/html-to-pdf): Convert a web page URL or pasted HTML code into a PDF document.
+- [JPG to PDF](https://freeomnitools.online/en/tool/jpg-to-pdf): Convert JPG, PNG, and other images into a PDF with fit, A4, or Letter pages and adjustable margins.
+- [Merge PDF](https://freeomnitools.online/en/tool/merge-pdf): Combine multiple PDF files into one document, in the exact order you choose.
+- [N-up PDF](https://freeomnitools.online/en/tool/nup-pdf): Print multiple PDF pages per sheet   2, 4, 6, or 9-up on A4, A3, or Letter   keeping pages vector-sharp.
+- [OCR PDF](https://freeomnitools.online/en/tool/ocr-pdf): Recognize the text in scanned PDFs and rebuild them as searchable documents with an invisible text layer.
+- [Organize PDF](https://freeomnitools.online/en/tool/organize-pdf): Reorder, rotate, and delete PDF pages visually, and insert blank pages exactly where you need them.
+- [PDF Forms](https://freeomnitools.online/en/tool/pdf-forms): Detect and fill the form fields of a PDF, or add new fillable text fields and checkboxes.
+- [PDF Page Counter & Metadata Inspector](https://freeomnitools.online/en/tool/pdf-page-counter-inspector): Inspect PDF document properties, count pages, detect dimensions, title, author, and encryption state safely.
+- [PDF Reader](https://freeomnitools.online/en/tool/pdf-reader): Read PDFs right in your browser with zoom   no uploads, no installs, completely private.
+- [PDF to BMP](https://freeomnitools.online/en/tool/pdf-to-bmp): Convert PDF pages into BMP images at up to 3x resolution.
+- [PDF to CSV](https://freeomnitools.online/en/tool/pdf-to-csv): Extract the rows of a PDF into a CSV file   columns detected from the page layout.
+- [PDF to EPUB](https://freeomnitools.online/en/tool/pdf-to-epub): Convert a PDF into a reflowable EPUB eBook with chapters you can read on any e-reader.
+- [PDF to Excel](https://freeomnitools.online/en/tool/pdf-to-excel): Pull the text of PDF pages into Excel spreadsheets, one sheet per page, rows and columns detected from layout.
+- [PDF to JPG](https://freeomnitools.online/en/tool/pdf-to-jpg): Convert PDF pages into high-quality JPG or PNG images, individually or as a ZIP.
+- [PDF to Markdown](https://freeomnitools.online/en/tool/pdf-to-markdown): Turn a PDF into clean Markdown   headings from font sizes, normalized lists, page separators.
+- [PDF to PDF/A](https://freeomnitools.online/en/tool/pdf-to-pdfa): Rebuild a PDF with PDF/A-3B identification (XMP) metadata for long-term archiving.
+- [PDF to PNG](https://freeomnitools.online/en/tool/pdf-to-png): Convert PDF pages into transparent-quality PNG images at up to 3x resolution.
+- [PDF to PowerPoint](https://freeomnitools.online/en/tool/pdf-to-powerpoint): Turn each PDF page into a PowerPoint slide with the page image plus editable extracted text.
+- [PDF to Text](https://freeomnitools.online/en/tool/pdf-to-text): Extract all the text from a PDF into a plain .txt file, with a live preview and counts.
+- [PDF to TIFF](https://freeomnitools.online/en/tool/pdf-to-tiff): Convert PDF pages into a multi-page TIFF file at 150 or 300 DPI for print and fax workflows.
+- [PDF to Word](https://freeomnitools.online/en/tool/pdf-to-word): Convert PDF documents into editable Word (.docx) files with headings and paragraphs preserved.
+- [PDF to Word Converter](https://freeomnitools.online/en/tool/pdf-to-word-converter): Extract text, preserve paragraphs, and convert PDF documents into editable Word (.docx) & text format securely in your browser.
+- [PDF Watermark Remover](https://freeomnitools.online/en/tool/remove-watermark-pdf): Cover watermark areas with opaque patches you draw   the rest of every page stays vector-sharp.
+- [PNG to PDF](https://freeomnitools.online/en/tool/png-to-pdf): Convert PNG images into a PDF with fit, A4, or Letter pages and adjustable margins.
+- [PowerPoint to PDF](https://freeomnitools.online/en/tool/powerpoint-to-pdf): Convert PowerPoint (.pptx) slides into a PDF document with slide text and images.
+- [Protect PDF](https://freeomnitools.online/en/tool/protect-pdf): Encrypt a PDF with a password and control printing, copying, and editing permissions.
+- [Redact PDF](https://freeomnitools.online/en/tool/redact-pdf): Permanently black out sensitive text and areas   by drawing boxes or by searching for words.
+- [Remove PDF Annotations](https://freeomnitools.online/en/tool/remove-annotations-pdf): Strip all annotations   highlights, comments, stamps, and markups   from a PDF in one pass.
+- [Rename PDF by Content](https://freeomnitools.online/en/tool/rename-pdf-by-content): Rename PDF files automatically using the first line of text inside each document.
+- [Repair PDF](https://freeomnitools.online/en/tool/repair-pdf): Recover pages from damaged or corrupt PDF files by rebuilding the document structure.
+- [Resize PDF Pages](https://freeomnitools.online/en/tool/resize-pdf-pages): Change the page size of a PDF   A3, A4, A5, Letter, or Legal   scaling content to fit or stretch.
+- [Rotate PDF](https://freeomnitools.online/en/tool/rotate-pdf): Rotate all pages or a chosen page range of a PDF by 90, 180, or 270 degrees   permanently.
+- [Scan to PDF](https://freeomnitools.online/en/tool/scan-to-pdf): Capture document pages with your camera or upload photos and combine them into one PDF.
+- [Sign PDF](https://freeomnitools.online/en/tool/sign-pdf): Draw, type, or upload your signature and place it on any page of a PDF document.
+- [Split PDF](https://freeomnitools.online/en/tool/split-pdf): Separate PDF pages by custom ranges, extract selected pages, or split into single-page files.
+- [Split PDF by Bookmarks](https://freeomnitools.online/en/tool/split-pdf-by-bookmarks): Split a PDF into separate documents at its bookmarks   one file per chapter or section.
+- [Split PDF by Size](https://freeomnitools.online/en/tool/split-pdf-by-size): Split a large PDF into smaller documents that each stay under a target file size in MB.
+- [Split PDF by Text](https://freeomnitools.online/en/tool/split-pdf-by-text): Split a PDF wherever a word or phrase appears   separate invoices, statements, or reports automatically.
+- [Split PDF in Half](https://freeomnitools.online/en/tool/split-pdf-in-half): Split two-page-spread scans into single pages   A3 spreads to double A4, or A4 to double A5.
+- [Text & Word to PDF Converter](https://freeomnitools.online/en/tool/word-to-pdf-converter-safe): Format, style, and generate standard PDF documents from text, notes, and rich documents 100% in-browser.
+- [Text to PDF](https://freeomnitools.online/en/tool/text-to-pdf): Turn typed or pasted text   or a .txt file   into a clean, paginated PDF document.
+- [TIFF to PDF](https://freeomnitools.online/en/tool/tiff-to-pdf): Convert TIFF images   including multi-page TIFFs   into a PDF document.
+- [Translate PDF](https://freeomnitools.online/en/tool/translate-pdf): Translate a whole PDF document into English with AI, keeping the page order and structure.
+- [Unlock PDF](https://freeomnitools.online/en/tool/unlock-pdf): Remove password restrictions from a PDF   instantly for permission-locked files, or with the document password.
+- [WebP to PDF](https://freeomnitools.online/en/tool/webp-to-pdf): Convert WebP images into a PDF document in seconds.
+- [Word to PDF](https://freeomnitools.online/en/tool/word-to-pdf): Convert Word (.docx) documents into clean, printable PDF files directly in your browser.
 
 ### SEO Tools
 
-- [Code to Text Ratio Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/code-to-text-ratio-checker): Measure the ratio of visible text to HTML code on a page and extract its readable text.
-- [Duplicate Content Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/duplicate-content-checker): Compare two texts for duplication   similarity percentage, shared phrases and matching sentences highlighted.
-- [FAQ Schema Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/faq-schema-generator): Turn question-and-answer pairs into valid FAQPage JSON-LD schema markup for rich search results.
-- [Heading Structure Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/heading-structure-checker): Extract the H1–H6 outline from any page's HTML and flag multiple H1s, skipped levels and empty headings.
-- [Headline Analyzer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/headline-analyzer): Score headlines for clicks   power words, emotional pull, numbers, length, format and clickbait risk.
-- [Hreflang Tag Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/hreflang-generator): Generate hreflang tags for multilingual sites   as HTML link tags or a complete hreflang XML sitemap.
-- [Htaccess Redirect Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/htaccess-redirect-generator): Generate 301/302 redirect rules for Apache (.htaccess) or Nginx in bulk, plus HTTPS and www canonical rules.
-- [HTML CSS JS Minifier](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/code-minifier): Minify HTML, CSS and JavaScript to cut page weight and improve load speed   with before/after size stats.
-- [Keyword Clustering Tool](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/keyword-clustering): Group a keyword list into topical clusters automatically, so each cluster becomes one focused page or article.
-- [Keyword Combiner](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/keyword-combiner): Combine two or three keyword lists into every permutation, with Google Ads match-type wrapping.
-- [Keyword Density Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/keyword-density-checker): Analyze 1, 2 and 3-word phrase frequency and density in your content to avoid keyword stuffing.
-- [Link Extractor](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/link-extractor): Extract every link from a page's HTML   anchor text, internal/external, dofollow/nofollow   with CSV export.
-- [LLMs.txt Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/llms-txt-generator): Create an llms.txt file that tells AI assistants (ChatGPT, Claude, Gemini) how to read and cite your website.
-- [Meta Tag Analyzer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/meta-tag-analyzer): Paste any page's HTML to audit its title, description, canonical, robots, Open Graph, headings, images and links.
-- [Meta Tag Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/meta-tag-generator): Generate complete meta tags   title, description, robots, canonical, Open Graph and Twitter cards   with live length checks.
-- [On-Page SEO Analyzer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/on-page-seo-analyzer): Full on-page SEO audit with a score out of 100   keyword placement, density, headings, links, readability and meta checks.
-- [Open Graph Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/open-graph-generator): Create Open Graph and Twitter Card tags and preview exactly how your link will look when shared on social media.
-- [Readability Checker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/readability-checker): Score your content with Flesch Reading Ease, Flesch-Kincaid, Gunning Fog, SMOG, Coleman-Liau and ARI   plus long-sentence flags.
-- [Redirect Chain Analyzer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/redirect-chain-analyzer): Audit a redirect map for chains, loops and duplicate rules   and get a flattened one-hop map back.
-- [Robots.txt Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/robots-txt-generator): Build a valid robots.txt file with per-bot allow/disallow rules, crawl-delay and sitemap entries   plus one-click presets.
-- [Robots.txt Tester](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/robots-txt-tester): Test whether URLs are allowed or blocked by a robots.txt file for any user-agent, using the real matching rules.
-- [Schema Markup Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/schema-generator): Build valid JSON-LD structured data   Article, Product, LocalBusiness, HowTo, Breadcrumb, Organization and WebSite.
-- [SEO ROI Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/seo-roi-calculator): Calculate the return on an SEO campaign   projected traffic, conversions, revenue, break-even and a 12-month ramp.
-- [SERP Snippet Preview](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/serp-snippet-preview): Preview how your page will look in Google search results   desktop and mobile   with real pixel-width truncation checks.
-- [Sitemap Validator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/sitemap-validator): Validate an XML sitemap for errors   invalid URLs, bad lastmod dates, wrong priorities and duplicates.
-- [UTM Builder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/utm-builder): Build campaign URLs with UTM parameters for Google Analytics   source, medium, campaign, term and content.
-- [XML Sitemap Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/xml-sitemap-generator): Turn a list of URLs into a valid XML sitemap with lastmod, changefreq and priority   ready to upload and submit.
+- [Code to Text Ratio Checker](https://freeomnitools.online/en/tool/code-to-text-ratio-checker): Measure the ratio of visible text to HTML code on a page and extract its readable text.
+- [Duplicate Content Checker](https://freeomnitools.online/en/tool/duplicate-content-checker): Compare two texts for duplication   similarity percentage, shared phrases and matching sentences highlighted.
+- [FAQ Schema Generator](https://freeomnitools.online/en/tool/faq-schema-generator): Turn question-and-answer pairs into valid FAQPage JSON-LD schema markup for rich search results.
+- [Heading Structure Checker](https://freeomnitools.online/en/tool/heading-structure-checker): Extract the H1–H6 outline from any page's HTML and flag multiple H1s, skipped levels and empty headings.
+- [Headline Analyzer](https://freeomnitools.online/en/tool/headline-analyzer): Score headlines for clicks   power words, emotional pull, numbers, length, format and clickbait risk.
+- [Hreflang Tag Generator](https://freeomnitools.online/en/tool/hreflang-generator): Generate hreflang tags for multilingual sites   as HTML link tags or a complete hreflang XML sitemap.
+- [Htaccess Redirect Generator](https://freeomnitools.online/en/tool/htaccess-redirect-generator): Generate 301/302 redirect rules for Apache (.htaccess) or Nginx in bulk, plus HTTPS and www canonical rules.
+- [HTML CSS JS Minifier](https://freeomnitools.online/en/tool/code-minifier): Minify HTML, CSS and JavaScript to cut page weight and improve load speed   with before/after size stats.
+- [Keyword Clustering Tool](https://freeomnitools.online/en/tool/keyword-clustering): Group a keyword list into topical clusters automatically, so each cluster becomes one focused page or article.
+- [Keyword Combiner](https://freeomnitools.online/en/tool/keyword-combiner): Combine two or three keyword lists into every permutation, with Google Ads match-type wrapping.
+- [Keyword Density Checker](https://freeomnitools.online/en/tool/keyword-density-checker): Analyze 1, 2 and 3-word phrase frequency and density in your content to avoid keyword stuffing.
+- [Link Extractor](https://freeomnitools.online/en/tool/link-extractor): Extract every link from a page's HTML   anchor text, internal/external, dofollow/nofollow   with CSV export.
+- [LLMs.txt Generator](https://freeomnitools.online/en/tool/llms-txt-generator): Create an llms.txt file that tells AI assistants (ChatGPT, Claude, Gemini) how to read and cite your website.
+- [Meta Tag Analyzer](https://freeomnitools.online/en/tool/meta-tag-analyzer): Paste any page's HTML to audit its title, description, canonical, robots, Open Graph, headings, images and links.
+- [Meta Tag Generator](https://freeomnitools.online/en/tool/meta-tag-generator): Generate complete meta tags   title, description, robots, canonical, Open Graph and Twitter cards   with live length checks.
+- [On-Page SEO Analyzer](https://freeomnitools.online/en/tool/on-page-seo-analyzer): Full on-page SEO audit with a score out of 100   keyword placement, density, headings, links, readability and meta checks.
+- [Open Graph Generator](https://freeomnitools.online/en/tool/open-graph-generator): Create Open Graph and Twitter Card tags and preview exactly how your link will look when shared on social media.
+- [Readability Checker](https://freeomnitools.online/en/tool/readability-checker): Score your content with Flesch Reading Ease, Flesch-Kincaid, Gunning Fog, SMOG, Coleman-Liau and ARI   plus long-sentence flags.
+- [Redirect Chain Analyzer](https://freeomnitools.online/en/tool/redirect-chain-analyzer): Audit a redirect map for chains, loops and duplicate rules   and get a flattened one-hop map back.
+- [Robots.txt Generator](https://freeomnitools.online/en/tool/robots-txt-generator): Build a valid robots.txt file with per-bot allow/disallow rules, crawl-delay and sitemap entries   plus one-click presets.
+- [Robots.txt Tester](https://freeomnitools.online/en/tool/robots-txt-tester): Test whether URLs are allowed or blocked by a robots.txt file for any user-agent, using the real matching rules.
+- [Schema Markup Generator](https://freeomnitools.online/en/tool/schema-generator): Build valid JSON-LD structured data   Article, Product, LocalBusiness, HowTo, Breadcrumb, Organization and WebSite.
+- [SEO ROI Calculator](https://freeomnitools.online/en/tool/seo-roi-calculator): Calculate the return on an SEO campaign   projected traffic, conversions, revenue, break-even and a 12-month ramp.
+- [SERP Snippet Preview](https://freeomnitools.online/en/tool/serp-snippet-preview): Preview how your page will look in Google search results   desktop and mobile   with real pixel-width truncation checks.
+- [Sitemap Validator](https://freeomnitools.online/en/tool/sitemap-validator): Validate an XML sitemap for errors   invalid URLs, bad lastmod dates, wrong priorities and duplicates.
+- [UTM Builder](https://freeomnitools.online/en/tool/utm-builder): Build campaign URLs with UTM parameters for Google Analytics   source, medium, campaign, term and content.
+- [XML Sitemap Generator](https://freeomnitools.online/en/tool/xml-sitemap-generator): Turn a list of URLs into a valid XML sitemap with lastmod, changefreq and priority   ready to upload and submit.
 
 ### Social Media Tools
 
-- [AI Hashtag Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-hashtag-generator): Describe your post and get 30 AI hashtags grouped by reach for Instagram, TikTok or X   niche-aware and ready to paste.
-- [AI Hook Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-hook-generator): Generate 10 scroll-stopping opening hooks for your TikTok, Reels or Shorts   pick your tone, paste your topic.
-- [Emoji Picker & Copy Board](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/emoji-picker): Browse curated emojis by category, build your caption string in the tray, and copy it in one tap.
-- [Engagement Rate Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/engagement-rate-calculator): Calculate your Instagram, TikTok or YouTube engagement rate from followers, likes, comments, shares and saves   with a plain-English verdict.
-- [Fancy Text Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/fancy-text-generator): Turn plain text into bold, script, fraktur, circled, small-caps and upside-down Unicode styles for bios and posts   tap to copy.
-- [Giveaway & Comment Picker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/giveaway-picker): Paste your giveaway comments and pick a random winner fairly   duplicates removed, previous winners excluded.
-- [Hashtag Counter & Cleaner](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/hashtag-counter): Count hashtags in any caption, spot duplicates, remove them, and check the Instagram 30-hashtag limit.
-- [Hashtag Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/hashtag-generator): Generate up to 30 hashtags from your keywords plus a curated bank for 12 niches   fitness, food, travel, fashion, business and more.
-- [Link in Bio Page Builder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/link-in-bio-builder): Build your own link-in-bio page and download it as a single HTML file   host it free anywhere, no monthly fees.
-- [Post Card Maker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/post-card-maker): Design clean social post cards for thumbnails, presentations and content previews   light and dark themes, export as PNG.
-- [Social Media Image Resizer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/social-image-resizer): Resize any image to the exact size for Instagram, X, Facebook, YouTube, LinkedIn, TikTok and Pinterest   crop, fit or blur-fill.
-- [Social Media Post Composer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/social-post-composer): Write one post and watch live character counts for X, Instagram, Threads, TikTok, LinkedIn, Facebook, YouTube and Pinterest.
-- [Social Media Post Ideas Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/post-ideas-generator): Get a ready-made 30-day content calendar for your niche   a post idea and format for every day of the month.
-- [Social Video Resizer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/social-video-resizer): Convert any video to 9:16 for Reels, TikTok and Shorts, 1:1 or 4:5 for feeds, or 16:9   crop to fill or pad with a blurred background.
-- [Username Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/username-generator): Generate catchy username ideas for Instagram, TikTok, X and YouTube from any keyword   prefixes, suffixes and stylish combinations.
-- [YouTube Thumbnail Maker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/youtube-thumbnail-maker): Design bold 1280×720 YouTube thumbnails with your photo, big title text and an accent bar   no design skills needed.
+- [AI Hashtag Generator](https://freeomnitools.online/en/tool/ai-hashtag-generator): Describe your post and get 30 AI hashtags grouped by reach for Instagram, TikTok or X   niche-aware and ready to paste.
+- [AI Hook Generator](https://freeomnitools.online/en/tool/ai-hook-generator): Generate 10 scroll-stopping opening hooks for your TikTok, Reels or Shorts   pick your tone, paste your topic.
+- [Emoji Picker & Copy Board](https://freeomnitools.online/en/tool/emoji-picker): Browse curated emojis by category, build your caption string in the tray, and copy it in one tap.
+- [Engagement Rate Calculator](https://freeomnitools.online/en/tool/engagement-rate-calculator): Calculate your Instagram, TikTok or YouTube engagement rate from followers, likes, comments, shares and saves   with a plain-English verdict.
+- [Fancy Text Generator](https://freeomnitools.online/en/tool/fancy-text-generator): Turn plain text into bold, script, fraktur, circled, small-caps and upside-down Unicode styles for bios and posts   tap to copy.
+- [Giveaway & Comment Picker](https://freeomnitools.online/en/tool/giveaway-picker): Paste your giveaway comments and pick a random winner fairly   duplicates removed, previous winners excluded.
+- [Hashtag Counter & Cleaner](https://freeomnitools.online/en/tool/hashtag-counter): Count hashtags in any caption, spot duplicates, remove them, and check the Instagram 30-hashtag limit.
+- [Hashtag Generator](https://freeomnitools.online/en/tool/hashtag-generator): Generate up to 30 hashtags from your keywords plus a curated bank for 12 niches   fitness, food, travel, fashion, business and more.
+- [Link in Bio Page Builder](https://freeomnitools.online/en/tool/link-in-bio-builder): Build your own link-in-bio page and download it as a single HTML file   host it free anywhere, no monthly fees.
+- [Post Card Maker](https://freeomnitools.online/en/tool/post-card-maker): Design clean social post cards for thumbnails, presentations and content previews   light and dark themes, export as PNG.
+- [Social Media Image Resizer](https://freeomnitools.online/en/tool/social-image-resizer): Resize any image to the exact size for Instagram, X, Facebook, YouTube, LinkedIn, TikTok and Pinterest   crop, fit or blur-fill.
+- [Social Media Post Composer](https://freeomnitools.online/en/tool/social-post-composer): Write one post and watch live character counts for X, Instagram, Threads, TikTok, LinkedIn, Facebook, YouTube and Pinterest.
+- [Social Media Post Ideas Generator](https://freeomnitools.online/en/tool/post-ideas-generator): Get a ready-made 30-day content calendar for your niche   a post idea and format for every day of the month.
+- [Social Video Resizer](https://freeomnitools.online/en/tool/social-video-resizer): Convert any video to 9:16 for Reels, TikTok and Shorts, 1:1 or 4:5 for feeds, or 16:9   crop to fill or pad with a blurred background.
+- [Username Generator](https://freeomnitools.online/en/tool/username-generator): Generate catchy username ideas for Instagram, TikTok, X and YouTube from any keyword   prefixes, suffixes and stylish combinations.
+- [YouTube Thumbnail Maker](https://freeomnitools.online/en/tool/youtube-thumbnail-maker): Design bold 1280×720 YouTube thumbnails with your photo, big title text and an accent bar   no design skills needed.
 
 ### Student & Everyday Tools
 
-- [Age Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/age-calculator): Find your exact age in years, months and days   plus total days lived, the weekday you were born, your zodiac sign and your next birthday countdown.
-- [AI Quiz Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/ai-quiz-generator): Paste your study notes and get an instant multiple-choice quiz with an answer key   then take it and see your score.
-- [Citation Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/citation-generator): Generate perfect references in APA 7, MLA 9, Chicago and Harvard formats for books, journal articles and websites.
-- [Date Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/date-calculator): Count the days between two dates (including business days) or add and subtract days from any date.
-- [Equation Solver with Steps](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/equation-solver): Solve quadratic and linear equations with full worked steps   discriminant, formula substitution and roots explained.
-- [Essay Word Counter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/essay-word-counter): Count words, characters, sentences and reading time   track progress toward your essay target and check readability.
-- [Flashcard Maker](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/flashcard-maker): Create your own flashcards, study them with flip mode and shuffling, and export your deck   a free Quizlet alternative.
-- [GPA Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/gpa-calculator): Calculate your semester GPA and CGPA on standard or plus/minus 4.0 scales   plus find the GPA you need to hit your target.
-- [Interactive Periodic Table](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/periodic-table): Explore all 118 elements   click any element for its name, atomic number, mass and category, with search and color-coded groups.
-- [Love Calculator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/love-calculator): Enter two names and get your love percentage   a just-for-fun name game where the same names always give the same score.
-- [Pomodoro Focus Timer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/pomodoro-timer): Study and work in focused 25-minute sprints with automatic breaks   customizable timings and session tracking.
-- [Random Number Generator](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/random-number-generator): Generate random numbers in any range, roll dice from d4 to d100, and flip a coin   for draws, games and decisions.
-- [Stopwatch & Countdown Timer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/stopwatch-timer): A precision stopwatch with laps plus a countdown timer with an alarm   for workouts, cooking, exams and presentations.
-- [Study Planner](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/study-planner): Enter your exam date and topics and get a day-by-day study plan with rest days and revision days built in.
-- [Text to Handwriting Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/text-to-handwriting): Turn typed text into realistic handwritten pages on ruled A4 paper   pick your ink color and download print-ready pages.
-- [Typing Speed Test](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/typing-speed-test): Test your typing speed in 30 or 60 seconds   real WPM and accuracy scores with live per-character feedback.
+- [Age Calculator](https://freeomnitools.online/en/tool/age-calculator): Find your exact age in years, months and days   plus total days lived, the weekday you were born, your zodiac sign and your next birthday countdown.
+- [AI Quiz Generator](https://freeomnitools.online/en/tool/ai-quiz-generator): Paste your study notes and get an instant multiple-choice quiz with an answer key   then take it and see your score.
+- [Citation Generator](https://freeomnitools.online/en/tool/citation-generator): Generate perfect references in APA 7, MLA 9, Chicago and Harvard formats for books, journal articles and websites.
+- [Date Calculator](https://freeomnitools.online/en/tool/date-calculator): Count the days between two dates (including business days) or add and subtract days from any date.
+- [Equation Solver with Steps](https://freeomnitools.online/en/tool/equation-solver): Solve quadratic and linear equations with full worked steps   discriminant, formula substitution and roots explained.
+- [Essay Word Counter](https://freeomnitools.online/en/tool/essay-word-counter): Count words, characters, sentences and reading time   track progress toward your essay target and check readability.
+- [Flashcard Maker](https://freeomnitools.online/en/tool/flashcard-maker): Create your own flashcards, study them with flip mode and shuffling, and export your deck   a free Quizlet alternative.
+- [GPA Calculator](https://freeomnitools.online/en/tool/gpa-calculator): Calculate your semester GPA and CGPA on standard or plus/minus 4.0 scales   plus find the GPA you need to hit your target.
+- [Interactive Periodic Table](https://freeomnitools.online/en/tool/periodic-table): Explore all 118 elements   click any element for its name, atomic number, mass and category, with search and color-coded groups.
+- [Love Calculator](https://freeomnitools.online/en/tool/love-calculator): Enter two names and get your love percentage   a just-for-fun name game where the same names always give the same score.
+- [Pomodoro Focus Timer](https://freeomnitools.online/en/tool/pomodoro-timer): Study and work in focused 25-minute sprints with automatic breaks   customizable timings and session tracking.
+- [Random Number Generator](https://freeomnitools.online/en/tool/random-number-generator): Generate random numbers in any range, roll dice from d4 to d100, and flip a coin   for draws, games and decisions.
+- [Stopwatch & Countdown Timer](https://freeomnitools.online/en/tool/stopwatch-timer): A precision stopwatch with laps plus a countdown timer with an alarm   for workouts, cooking, exams and presentations.
+- [Study Planner](https://freeomnitools.online/en/tool/study-planner): Enter your exam date and topics and get a day-by-day study plan with rest days and revision days built in.
+- [Text to Handwriting Converter](https://freeomnitools.online/en/tool/text-to-handwriting): Turn typed text into realistic handwritten pages on ruled A4 paper   pick your ink color and download print-ready pages.
+- [Typing Speed Test](https://freeomnitools.online/en/tool/typing-speed-test): Test your typing speed in 30 or 60 seconds   real WPM and accuracy scores with live per-character feedback.
 
 ### Text & AI Tools
 
-- [Lorem Ipsum Generator Pro](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/lorem-ipsum-generator-pro): Generate customizable dummy placeholder text by paragraphs, sentences, words, or lists for designers and developers.
-- [Resume Builder USA Format](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/resume-builder-usa-format): Create clean, ATS-compliant US standard professional resumes. Live editor, formatted layout, and one-click PDF print.
-- [Text Case Converter Pro](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/text-case-converter): Convert text instantly to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, kebab-case, and snake_case.
-- [Word & Character Counter Pro](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-character-counter-pro): Instant real-time word count, character count (with/without spaces), reading time, speaking time, and keyword density checker.
+- [Lorem Ipsum Generator Pro](https://freeomnitools.online/en/tool/lorem-ipsum-generator-pro): Generate customizable dummy placeholder text by paragraphs, sentences, words, or lists for designers and developers.
+- [Resume Builder USA Format](https://freeomnitools.online/en/tool/resume-builder-usa-format): Create clean, ATS-compliant US standard professional resumes. Live editor, formatted layout, and one-click PDF print.
+- [Text Case Converter Pro](https://freeomnitools.online/en/tool/text-case-converter): Convert text instantly to UPPERCASE, lowercase, Title Case, Sentence case, camelCase, kebab-case, and snake_case.
+- [Word & Character Counter Pro](https://freeomnitools.online/en/tool/word-character-counter-pro): Instant real-time word count, character count (with/without spaces), reading time, speaking time, and keyword density checker.
 
 ### Unit Converters
 
-- [Length & Distance Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/length-distance-converter): Convert between Inches, Feet, Yards, Miles, Millimeters, Centimeters, Meters, and Kilometers with exact precision.
-- [Live Currency Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/live-currency-converter): Real-time exchange rate converter for 160+ world currencies including USD, EUR, GBP, CAD, PKR, INR, AED, and SAR.
-- [Temperature Converter Pro](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/temperature-converter-pro): Convert between Fahrenheit (°F), Celsius (°C), and Kelvin (K) with step-by-step mathematical formulas.
-- [Weight & Mass Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/weight-mass-converter): Convert between Pounds (lbs), Ounces (oz), Kilograms (kg), Grams (g), Stones, and Metric Tons seamlessly.
+- [Length & Distance Converter](https://freeomnitools.online/en/tool/length-distance-converter): Convert between Inches, Feet, Yards, Miles, Millimeters, Centimeters, Meters, and Kilometers with exact precision.
+- [Live Currency Converter](https://freeomnitools.online/en/tool/live-currency-converter): Real-time exchange rate converter for 160+ world currencies including USD, EUR, GBP, CAD, PKR, INR, AED, and SAR.
+- [Temperature Converter Pro](https://freeomnitools.online/en/tool/temperature-converter-pro): Convert between Fahrenheit (°F), Celsius (°C), and Kelvin (K) with step-by-step mathematical formulas.
+- [Weight & Mass Converter](https://freeomnitools.online/en/tool/weight-mass-converter): Convert between Pounds (lbs), Ounces (oz), Kilograms (kg), Grams (g), Stones, and Metric Tons seamlessly.
 
 ### Video & Audio Tools
 
-- [Audio Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/audio-converter): Convert audio between MP3, WAV, M4A and OGG with bitrate control.
-- [Audio Joiner](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/audio-joiner): Merge multiple audio files into one track   mixed formats welcome, output as MP3, WAV, M4A or OGG.
-- [Audio Speed Changer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/audio-speed-changer): Speed up or slow down audio from 0.25× to 3× without changing the pitch.
-- [Audio Trimmer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/audio-trimmer): Trim audio with a visual waveform, precise start/end points and fade-in/fade-out effects.
-- [Audio Volume Booster](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/audio-volume-booster): Make quiet audio louder with gain control up to +30 dB, or normalize speech properly with loudnorm.
-- [Screen Recorder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/screen-recorder): Record your screen, a window or a browser tab   with microphone and system audio   and download the video. Nothing is uploaded.
-- [Speech to Text](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/speech-to-text): Dictate in English   live transcription in your browser with copy and download.
-- [Text to Speech](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/text-to-speech): Listen to any text read aloud with natural system voices   choose voice, speed and pitch.
-- [Video Compressor](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/video-compressor): Compress MP4 videos to a fraction of their size with quality and resolution controls   no uploads, no file-size limits from a server.
-- [Video Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/video-converter): Convert videos between MP4, WebM and MOV formats right in your browser.
-- [Video Frame Capture](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/video-frame-capture): Grab still frames and thumbnails from any moment of a video as PNG or JPG images.
-- [Video to GIF Converter](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/video-to-gif): Turn video clips into high-quality animated GIFs with trim, width and frame-rate controls   palette-optimized for small files.
-- [Video to MP3](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/video-to-mp3): Extract the audio from any video as MP3, WAV, M4A or OGG at up to 320 kbps.
-- [Video Trimmer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/video-trimmer): Cut any section from a video with precise re-encoding or fast stream-copy trimming.
-- [Voice Recorder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/voice-recorder): Record voice notes and audio from your microphone with a live level meter   save unlimited takes.
-- [Webcam Recorder](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/webcam-recorder): Record video from your webcam with a live preview and instant download.
+- [Audio Converter](https://freeomnitools.online/en/tool/audio-converter): Convert audio between MP3, WAV, M4A and OGG with bitrate control.
+- [Audio Joiner](https://freeomnitools.online/en/tool/audio-joiner): Merge multiple audio files into one track   mixed formats welcome, output as MP3, WAV, M4A or OGG.
+- [Audio Speed Changer](https://freeomnitools.online/en/tool/audio-speed-changer): Speed up or slow down audio from 0.25× to 3× without changing the pitch.
+- [Audio Trimmer](https://freeomnitools.online/en/tool/audio-trimmer): Trim audio with a visual waveform, precise start/end points and fade-in/fade-out effects.
+- [Audio Volume Booster](https://freeomnitools.online/en/tool/audio-volume-booster): Make quiet audio louder with gain control up to +30 dB, or normalize speech properly with loudnorm.
+- [Screen Recorder](https://freeomnitools.online/en/tool/screen-recorder): Record your screen, a window or a browser tab   with microphone and system audio   and download the video. Nothing is uploaded.
+- [Speech to Text](https://freeomnitools.online/en/tool/speech-to-text): Dictate in English   live transcription in your browser with copy and download.
+- [Text to Speech](https://freeomnitools.online/en/tool/text-to-speech): Listen to any text read aloud with natural system voices   choose voice, speed and pitch.
+- [Video Compressor](https://freeomnitools.online/en/tool/video-compressor): Compress MP4 videos to a fraction of their size with quality and resolution controls   no uploads, no file-size limits from a server.
+- [Video Converter](https://freeomnitools.online/en/tool/video-converter): Convert videos between MP4, WebM and MOV formats right in your browser.
+- [Video Frame Capture](https://freeomnitools.online/en/tool/video-frame-capture): Grab still frames and thumbnails from any moment of a video as PNG or JPG images.
+- [Video to GIF Converter](https://freeomnitools.online/en/tool/video-to-gif): Turn video clips into high-quality animated GIFs with trim, width and frame-rate controls   palette-optimized for small files.
+- [Video to MP3](https://freeomnitools.online/en/tool/video-to-mp3): Extract the audio from any video as MP3, WAV, M4A or OGG at up to 320 kbps.
+- [Video Trimmer](https://freeomnitools.online/en/tool/video-trimmer): Cut any section from a video with precise re-encoding or fast stream-copy trimming.
+- [Voice Recorder](https://freeomnitools.online/en/tool/voice-recorder): Record voice notes and audio from your microphone with a live level meter   save unlimited takes.
+- [Webcam Recorder](https://freeomnitools.online/en/tool/webcam-recorder): Record video from your webcam with a live preview and instant download.
 
 ### Word Tools
 
-- [Compare Word Documents](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/compare-word): Compare two versions of a Word document and highlight the words that were added or removed.
-- [Compress Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/compress-word): Shrink a Word document by recompressing and downscaling its embedded images.
-- [Extract Images from Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/extract-word-images): Pull every embedded picture out of a Word document at its original quality, in one zip.
-- [Merge Word Documents](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/merge-word): Combine multiple Word documents into a single .docx, one after another with page breaks.
-- [ODT to Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/odt-to-word): Convert OpenDocument Text (.odt) files into editable Word (.docx) documents.
-- [Protect Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/protect-word): Restrict editing in a Word document   read-only, comments only, tracked changes or form filling.
-- [Repair Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/repair-word): Repair a damaged Word document   rebuilds the file structure, or recovers its text into a clean .docx.
-- [Split Word Document](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/split-word): Split a Word document into separate files   at every chapter heading or every N paragraphs.
-- [Text to Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/text-to-word): Turn plain text or Markdown into a formatted Word document   paste text or upload a .txt/.md file.
-- [Unlock Word](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/unlock-word): Remove editing restrictions (read-only / forms protection) from a Word document so it can be edited again.
-- [Word Document Analyzer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-analyzer): Full statistics for a Word document   words, characters, headings, tables, images, reading time and top words.
-- [Word Editor](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-editor): Edit a Word document online   change text, headings and formatting, then download the updated .docx.
-- [Word Find & Replace](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-find-replace): Find and replace text across a whole Word document   including headers and footers   in one pass.
-- [Word Metadata Editor](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-metadata-editor): View, edit or remove a Word document's properties   title, author, subject, keywords and more.
-- [Word to EPUB](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-epub): Turn a Word document into an EPUB eBook, with a chapter created at every top-level heading.
-- [Word to HTML](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-html): Convert a Word document into a clean, standalone HTML file with a live preview.
-- [Word to JPG](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-jpg): Render a Word document into JPG or PNG images   one image per page, zipped for download.
-- [Word to Markdown](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-markdown): Convert a Word document to clean Markdown with headings, lists and emphasis preserved.
-- [Word to ODT](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-odt): Convert Word (.docx) documents to OpenDocument Text (.odt) for LibreOffice and OpenOffice.
-- [Word to Text](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-to-text): Extract the plain text from a Word document and download it as a .txt file.
-- [Word Viewer](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-viewer): Open and read any Word (.docx) document right in your browser   no Microsoft Word needed.
-- [Word Watermark](https://ais-dev-mb6kxrssbsl3owvmcbb7wm-851298616605.asia-southeast1.run.app/en/tool/word-watermark): Stamp a diagonal text watermark (CONFIDENTIAL, DRAFT…) across every page of a Word document.
+- [Compare Word Documents](https://freeomnitools.online/en/tool/compare-word): Compare two versions of a Word document and highlight the words that were added or removed.
+- [Compress Word](https://freeomnitools.online/en/tool/compress-word): Shrink a Word document by recompressing and downscaling its embedded images.
+- [Extract Images from Word](https://freeomnitools.online/en/tool/extract-word-images): Pull every embedded picture out of a Word document at its original quality, in one zip.
+- [Merge Word Documents](https://freeomnitools.online/en/tool/merge-word): Combine multiple Word documents into a single .docx, one after another with page breaks.
+- [ODT to Word](https://freeomnitools.online/en/tool/odt-to-word): Convert OpenDocument Text (.odt) files into editable Word (.docx) documents.
+- [Protect Word](https://freeomnitools.online/en/tool/protect-word): Restrict editing in a Word document   read-only, comments only, tracked changes or form filling.
+- [Repair Word](https://freeomnitools.online/en/tool/repair-word): Repair a damaged Word document   rebuilds the file structure, or recovers its text into a clean .docx.
+- [Split Word Document](https://freeomnitools.online/en/tool/split-word): Split a Word document into separate files   at every chapter heading or every N paragraphs.
+- [Text to Word](https://freeomnitools.online/en/tool/text-to-word): Turn plain text or Markdown into a formatted Word document   paste text or upload a .txt/.md file.
+- [Unlock Word](https://freeomnitools.online/en/tool/unlock-word): Remove editing restrictions (read-only / forms protection) from a Word document so it can be edited again.
+- [Word Document Analyzer](https://freeomnitools.online/en/tool/word-analyzer): Full statistics for a Word document   words, characters, headings, tables, images, reading time and top words.
+- [Word Editor](https://freeomnitools.online/en/tool/word-editor): Edit a Word document online   change text, headings and formatting, then download the updated .docx.
+- [Word Find & Replace](https://freeomnitools.online/en/tool/word-find-replace): Find and replace text across a whole Word document   including headers and footers   in one pass.
+- [Word Metadata Editor](https://freeomnitools.online/en/tool/word-metadata-editor): View, edit or remove a Word document's properties   title, author, subject, keywords and more.
+- [Word to EPUB](https://freeomnitools.online/en/tool/word-to-epub): Turn a Word document into an EPUB eBook, with a chapter created at every top-level heading.
+- [Word to HTML](https://freeomnitools.online/en/tool/word-to-html): Convert a Word document into a clean, standalone HTML file with a live preview.
+- [Word to JPG](https://freeomnitools.online/en/tool/word-to-jpg): Render a Word document into JPG or PNG images   one image per page, zipped for download.
+- [Word to Markdown](https://freeomnitools.online/en/tool/word-to-markdown): Convert a Word document to clean Markdown with headings, lists and emphasis preserved.
+- [Word to ODT](https://freeomnitools.online/en/tool/word-to-odt): Convert Word (.docx) documents to OpenDocument Text (.odt) for LibreOffice and OpenOffice.
+- [Word to Text](https://freeomnitools.online/en/tool/word-to-text): Extract the plain text from a Word document and download it as a .txt file.
+- [Word Viewer](https://freeomnitools.online/en/tool/word-viewer): Open and read any Word (.docx) document right in your browser   no Microsoft Word needed.
+- [Word Watermark](https://freeomnitools.online/en/tool/word-watermark): Stamp a diagonal text watermark (CONFIDENTIAL, DRAFT…) across every page of a Word document.

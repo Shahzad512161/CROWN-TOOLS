@@ -65,8 +65,8 @@ export const LoanCalculator: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
-      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <span>💵</span> {s('loanTitle')}
@@ -105,7 +105,7 @@ export const LoanCalculator: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                 {s('loanAprLabel')}
@@ -163,7 +163,7 @@ export const LoanCalculator: React.FC = () => {
               <span className="text-xs uppercase font-bold tracking-wider text-emerald-600 dark:text-emerald-400">
                 {s('monthlyPayment')}
               </span>
-              <div className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
                 ${Math.round(standardMonthlyPayment).toLocaleString(lang)}
                 <span className="text-sm font-medium text-gray-500">{s('perMonth')}</span>
               </div>
@@ -177,7 +177,7 @@ export const LoanCalculator: React.FC = () => {
                 <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 mb-2">
                   <ShieldCheck className="w-4 h-4" /> {s('accelBenefit')}
                 </span>
-                <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                   <div>
                     <span className="text-gray-500 dark:text-gray-400 block text-[11px]">{s('interestSavedLabel')}</span>
                     <span className="font-extrabold text-emerald-600 text-sm">

@@ -60,8 +60,8 @@ export const CurrencyConverter: React.FC = () => {
   const benchmarkAmounts = [10, 50, 100, 500, 1000, 250];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
-      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <span>💱</span> {s('curTitle')}
@@ -145,7 +145,7 @@ export const CurrencyConverter: React.FC = () => {
             <span className="text-xs font-bold text-gray-700 dark:text-gray-300 block mb-2">
               {s('quickTableLabel')}
             </span>
-            <div className="grid grid-cols-3 gap-2 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
               {benchmarkAmounts.map((amt) => (
                 <div key={amt} className="p-2 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
                   <div className="text-gray-500 text-[10px]">{amt} {fromCurrency}</div>
@@ -165,7 +165,7 @@ export const CurrencyConverter: React.FC = () => {
               <span className="text-xs uppercase font-bold tracking-wider text-blue-600 dark:text-blue-400">
                 {s('convertedValueLabel')}
               </span>
-              <div className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mt-1 break-words">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-black text-gray-900 dark:text-white mt-1 break-words">
                 {convertedResult.toLocaleString(lang, { maximumFractionDigits: 2 })} {toCurrency}
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-300 font-semibold mt-1">

@@ -301,7 +301,7 @@ export const RandomGenerator: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     <StudentCard tool={tool} note={s('randomNote')}>
       <div>
         <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('randomNumbers')}</h3>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <div>
             <OptLabel>{s('minLabel')}</OptLabel>
             <OptInput type="number" value={min} onChange={(e) => setMin(Number(e.target.value) || 0)} />
@@ -588,7 +588,7 @@ export const StopwatchTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
 
       <div className="border-t border-slate-200 dark:border-slate-700 pt-4">
         <h3 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-2">{s('countdownTitle')}</h3>
-        <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xs mx-auto">
           <div>
             <OptLabel>{s('minutesLabel')}</OptLabel>
             <OptInput type="number" min={0} max={999} value={cdMin} onChange={(e) => cdSetDuration(Math.max(0, Number(e.target.value) || 0), cdSec)} />
@@ -726,7 +726,7 @@ export const PomodoroTimer: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         <OptLabel>{s('currentTaskLabel')}</OptLabel>
         <OptInput type="text" value={task} onChange={(e) => setTask(e.target.value)} placeholder="e.g. Revise chemistry chapter 4" />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
         <div>
           <OptLabel>{s('focusMin')}</OptLabel>
           <OptInput type="number" min={1} value={focusIn} onChange={(e) => setFocusIn(Number(e.target.value) || 0)} />
@@ -993,7 +993,7 @@ export const TextToHandwriting: React.FC<{ tool: ToolItem }> = ({ tool }) => {
         onChange={(e) => setText(e.target.value)}
         placeholder={s('hwPlaceholder')}
       />
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <div>
           <OptLabel>{s('hwStyleLabel')}</OptLabel>
           <OptSelect value={fontId} onChange={(e) => setFontId(e.target.value)}>

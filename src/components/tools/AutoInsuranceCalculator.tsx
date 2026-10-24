@@ -110,8 +110,8 @@ export const AutoInsuranceCalculator: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
-      <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
             <span>🚗</span> {s('insTitle')}
@@ -132,7 +132,7 @@ export const AutoInsuranceCalculator: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Inputs */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
                 {s('selectStateLabel')}
@@ -218,7 +218,7 @@ export const AutoInsuranceCalculator: React.FC = () => {
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
               {s('coverageLevelLabel')}
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {[
                 { id: 'minimum', label: s('tierMinimum'), desc: s('tierMinimumDesc') },
                 { id: 'standard', label: s('tierStandard'), desc: s('tierStandardDesc') },
@@ -246,7 +246,7 @@ export const AutoInsuranceCalculator: React.FC = () => {
             <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
               {s('deductibleLabel')}
             </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {[250, 500, 1000, 2000].map((d) => (
                 <button
                   key={d}
@@ -277,7 +277,7 @@ export const AutoInsuranceCalculator: React.FC = () => {
               <span className="text-xs uppercase font-bold tracking-wider text-blue-600 dark:text-blue-400">
                 {s('estimatedPremium')}
               </span>
-              <div className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
+              <div className="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 dark:text-white mt-1">
                 ${estimatedMonthly.toLocaleString(lang)}
                 <span className="text-sm font-medium text-gray-500">{s('perMonth')}</span>
               </div>

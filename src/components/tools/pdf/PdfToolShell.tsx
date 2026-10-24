@@ -83,7 +83,7 @@ export const PdfToolShell: React.FC<Props> = ({
   const busy = status === 'working';
 
   return (
-    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-none">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-4 sm:p-6 shadow-none">
       <div className="flex items-center gap-2 mb-4">
         <FileText className="w-5 h-5 text-orange-500" />
         <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
@@ -106,7 +106,7 @@ export const PdfToolShell: React.FC<Props> = ({
               addFiles(e.dataTransfer.files);
             }}
             onClick={() => inputRef.current?.click()}
-            className={`border-2 border-dashed rounded-[28px] p-6 text-center cursor-pointer transition-colors ${
+            className={`border-2 border-dashed rounded-[28px] p-4 sm:p-6 text-center cursor-pointer transition-colors ${
               dragOver
                 ? 'border-orange-500 bg-orange-50 dark:bg-orange-950/30'
                 : 'border-orange-300 dark:border-orange-800 hover:border-orange-500 bg-orange-50/40 dark:bg-orange-950/10'
@@ -201,14 +201,14 @@ export const OptLabel: React.FC<{ children: React.ReactNode }> = ({ children }) 
 export const OptInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
   <input
     {...props}
-    className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white"
+    className="w-full min-h-[44px] px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-base sm:text-sm font-semibold text-gray-900 dark:text-white"
   />
 );
 
 export const OptSelect = (props: React.SelectHTMLAttributes<HTMLSelectElement>) => (
   <select
     {...props}
-    className="w-full px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-semibold text-gray-900 dark:text-white"
+    className="w-full min-h-[44px] px-3 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-base sm:text-sm font-semibold text-gray-900 dark:text-white"
   />
 );
 

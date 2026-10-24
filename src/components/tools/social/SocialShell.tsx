@@ -3,7 +3,7 @@ import { Share2 } from 'lucide-react';
 import type { ToolItem } from '../../../lib/tools-data';
 
 export const SocialCard: React.FC<{ tool: ToolItem; children: React.ReactNode; note?: string }> = ({ tool, children, note }) => (
-  <div className="bg-white dark:bg-slate-900 rounded-[28px] border border-slate-200 dark:border-slate-700 shadow-none p-5 space-y-4">
+  <div className="bg-white dark:bg-slate-900 rounded-[28px] border border-slate-200 dark:border-slate-700 shadow-none p-4 sm:p-6 space-y-4">
     <div className="flex items-center gap-3">
       <span className="p-2 rounded-full bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400">
         <Share2 className="w-5 h-5" />

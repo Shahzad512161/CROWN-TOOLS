@@ -121,7 +121,7 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl">
       <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-700 pb-4 mb-6">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -185,7 +185,7 @@ This Agreement shall be interpreted and governed in accordance with the laws of 
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-center">
               <span className="text-[10px] text-gray-500 block">{s('wordsLabel')}</span>
               <span className="text-sm font-bold text-gray-900 dark:text-white">{wordsCount.toLocaleString(lang)}</span>

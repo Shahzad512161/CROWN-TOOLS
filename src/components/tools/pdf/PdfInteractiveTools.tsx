@@ -1686,7 +1686,7 @@ export const PdfFormsTool: React.FC<{ tool: ToolItem }> = ({ tool }) => {
                 <h3 className="text-sm font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-3">
                   <Plus className="w-4 h-4 text-orange-500" /> {s('addNewField')}
                 </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
                     <OptLabel>{s('fieldNameLabel')}</OptLabel>
                     <OptInput value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="e.g. signature_date" />

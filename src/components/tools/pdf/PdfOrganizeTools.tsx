@@ -259,7 +259,7 @@ export const SplitPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     >
       {() => (
         <div className="mt-4 space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <OptLabel>{s('splitModeLabel')}</OptLabel>
               <OptSelect value={mode} onChange={(e) => setMode(e.target.value as SplitMode)}>
@@ -357,7 +357,7 @@ export const RotatePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('rotateClockwise')}</OptLabel>
             <OptSelect value={angle} onChange={(e) => setAngle(Number(e.target.value))}>
@@ -511,7 +511,7 @@ export const OrganizePdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </span>
             </div>
 
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
               {items.map((it, i) =>
                 it.kind === 'page' ? (
                   <div
@@ -664,7 +664,7 @@ export const CropPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     >
       {() => (
         <div className="space-y-4 mt-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <OptLabel>{s('unitLabel')}</OptLabel>
               <OptSelect value={unit} onChange={(e) => setUnit(e.target.value as 'percent' | 'mm')}>
@@ -686,7 +686,7 @@ export const CropPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
             )}
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div>
               <OptLabel>{s('sideTop')} {unit === 'percent' ? '%' : 'mm'}</OptLabel>
               <OptInput type="number" min={0} value={top} onChange={(e) => setTop(Number(e.target.value))} />
@@ -774,7 +774,7 @@ export const PageNumbersPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     >
       {() => (
         <div className="mt-4 space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <OptLabel>{s('positionLabel')}</OptLabel>
               <OptSelect value={position} onChange={(e) => setPosition(e.target.value as NumberPosition)}>
@@ -928,7 +928,7 @@ export const WatermarkPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     >
       {() => (
         <div className="mt-4 space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <OptLabel>{s('watermarkType')}</OptLabel>
               <OptSelect value={mode} onChange={(e) => setMode(e.target.value as 'text' | 'image')}>
@@ -967,7 +967,7 @@ export const WatermarkPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
           </div>
 
           {mode === 'text' ? (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <OptLabel>{s('textSizeLabel').replace('{size}', String(size))}</OptLabel>
                 <input
@@ -994,7 +994,7 @@ export const WatermarkPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <OptLabel>{s('widthPageLabel').replace('{pct}', String(imgScale))}</OptLabel>
                 <input
@@ -1075,7 +1075,7 @@ export const ProtectPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
     >
       {() => (
         <div className="mt-4 space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <OptLabel>{s('passwordLabel')}</OptLabel>
               <OptInput
@@ -1182,7 +1182,7 @@ export const UnlockPdf: React.FC<{ tool: ToolItem }> = ({ tool }) => {
       }}
     >
       {() => (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
           <div>
             <OptLabel>{s('unlockPasswordLabel')}</OptLabel>
             <OptInput

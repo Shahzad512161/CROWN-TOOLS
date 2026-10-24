@@ -103,7 +103,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
   const bmiCat = getBmiCategory(bmiValue);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl space-y-6">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 shadow-xl space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-700 gap-3">
         <div>
@@ -126,7 +126,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-gray-100 dark:border-gray-700">
+      <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:overflow-x-auto pb-2 scrollbar-none border-b border-gray-100 dark:border-gray-700">
         {[
           { id: 'age', label: s('tabAge'), icon: <Calendar className="w-4 h-4" /> },
           { id: 'bmi', label: s('tabBmi'), icon: <Activity className="w-4 h-4" /> },
@@ -186,7 +186,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 pt-4 border-t border-orange-200 dark:border-gray-700 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-orange-200 dark:border-gray-700 text-xs">
               <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl">
                 <span className="text-gray-500 block text-[11px]">{s('totalDaysLived')}</span>
                 <strong className="text-base text-gray-900 dark:text-white">{ageData.totalDays.toLocaleString(lang)}</strong>
@@ -204,7 +204,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
       {activeTab === 'bmi' && (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pt-2">
           <div className="md:col-span-6 space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('weightLabel')}</label>
                 <input
@@ -225,7 +225,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('ageFieldLabel')}</label>
                 <input
@@ -316,7 +316,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
 
             <div>
               <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('tipPctLabel')}</label>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {[15, 18, 20, 25].map((t) => (
                   <button
                     key={t}
@@ -384,7 +384,7 @@ export const MultiCalculator: React.FC<MultiCalculatorProps> = ({ initialTab, to
                 className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm font-bold"
               />
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1">{s('annualReturnLabel')}</label>
                 <input

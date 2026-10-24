@@ -12,7 +12,7 @@ export { OptLabel, OptInput, OptSelect, OptCheck } from '../pdf/PdfToolShell';
 export const SeoCard: React.FC<{ tool: ToolItem; children: React.ReactNode; note?: string }> = ({ tool, children, note }) => {
   const s = useStrings(SEO_STRINGS);
   return (
-    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-5 sm:p-6 shadow-none">
+    <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-[28px] p-4 sm:p-6 shadow-none">
       <div className="flex items-center gap-2 mb-4">
         <Search className="w-5 h-5 text-green-600" />
         <h2 className="text-base font-bold text-gray-900 dark:text-white">{tool.name}</h2>
@@ -60,7 +60,7 @@ export const CopyBtn: React.FC<{ text: string; label?: string }> = ({ text, labe
           setTimeout(() => setCopied(false), 1600);
         } catch { /* clipboard unavailable */ }
       }}
-      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer"
+      className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer"
     >
       {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
       {copied ? c('copied') : (label ?? c('copy'))}
@@ -79,7 +79,7 @@ export const DownloadBtn: React.FC<{ content: string; filename: string; mime?: s
     <button
       type="button"
       onClick={() => downloadBlob(new Blob([content], { type: mime }), filename)}
-      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer"
+      className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 cursor-pointer"
     >
       <Download className="w-3.5 h-3.5" />
       {label ?? c('download')}
@@ -88,9 +88,9 @@ export const DownloadBtn: React.FC<{ content: string; filename: string; mime?: s
 };
 
 export const Stat: React.FC<{ label: string; value: string | number }> = ({ label, value }) => (
-  <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2.5 text-center">
-    <div className="text-lg font-extrabold text-gray-900 dark:text-white leading-tight">{value}</div>
-    <div className="text-[10px] font-semibold uppercase tracking-wide text-gray-500">{label}</div>
+  <div className="min-w-0 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-2 py-2 sm:px-3 sm:py-2.5 text-center">
+    <div className="text-base sm:text-lg font-extrabold text-gray-900 dark:text-white leading-tight break-words">{value}</div>
+    <div className="text-[10px] font-semibold uppercase tracking-wide text-gray-500 leading-tight break-words">{label}</div>
   </div>
 );
 
