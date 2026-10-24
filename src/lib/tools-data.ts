@@ -3254,7 +3254,18 @@ function generateFullToolsCatalog(): ToolItem[] {
     }
   });
 
-  // Category target counts
+  // 2026-10-24 TRIM (user decision): keep only the hand-curated tools
+  // (TOP_8_TOOLS + CURATED_ADDITIONAL_TOOLS = 251). The programmatic
+  // fill below used to pad every category up to its TARGET, producing
+  // 7,300 total pages — 7,049 of them template pages whose generic
+  // category engine did not match their specific names. Returning here
+  // removes those pages from ALL_TOOLS, and therefore from routing, the
+  // homepage grid, the sitemap and the SEO catalog. The fill code is
+  // left below but unreachable, so the decision can be reversed by
+  // deleting this return. No kept tool's slug or URL changes.
+  return result;
+
+  // Category target counts (no longer reached — see trim note above)
   const TARGETS: Record<ToolItem['category'], number> = {
     'Daily Calculators': 1000,
     'Image Tools': 1000,

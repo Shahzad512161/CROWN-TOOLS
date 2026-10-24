@@ -363,7 +363,7 @@ export function Header({
               </span>
 
               <span className="mt-0.5 hidden text-[10px] font-medium text-slate-500 dark:text-slate-400 sm:block sm:text-xs">
-                7,300+ Free Online Tools
+                250+ Free Online Tools
               </span>
             </span>
           </SpaLink>

@@ -11,10 +11,10 @@
 // more, nothing less, so there are no broken or orphan sitemap URLs:
 //   /<lang>                      home
 //   /<lang>/about  /privacy  /contact  /blog
-//   /<lang>/tool/<slug>      for EVERY slug in ALL_TOOLS (7,300 at last count:
-//                           251 hand-curated + programmatic catalog — the
-//                           old generator only listed the 251, which is why
-//                           the sitemap looked "not correct")
+//   /<lang>/tool/<slug>      for EVERY slug in ALL_TOOLS (251 hand-curated
+//                           tools since the 2026-10-24 trim; the old generator
+//                           only listed the 251, which is why the sitemap
+//                           looked "not correct" before the catalog was padded)
 //   /<lang>/blog/<slug>      for EVERY tool slug (BlogPostDetail renders a
 //                           generated guide for any valid tool slug)
 // NOT included on purpose (they are not routes):
@@ -94,7 +94,7 @@ writeFileSync(
 // ---- llms.txt -------------------------------------------------------------------
 // The curated tools are the ones with hand-written names/descriptions in
 // TOP_8 + CURATED_ADDITIONAL_TOOLS; the programmatic catalog tools share a
-// template description, so listing all 7,300 here would be noise. llms.txt
+// template description, so listing all tools here would be noise. llms.txt
 // therefore lists the curated set + main pages, and points at the sitemap
 // index for the complete catalog (that is the file crawlers should use for
 // completeness, and it is what keeps llms.txt honest about its scope).

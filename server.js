@@ -5,7 +5,7 @@
 // SEO shell (Ahrefs fixes, 2026-10-24): the static index.html shipped for
 // every URL used to carry ONE canonical (https://freeomnitools.online/en),
 // ONE title and ONE meta description, so any crawler that does not run JS
-// saw all 73,025 sitemap URLs as non-canonical duplicates of the homepage,
+// saw every sitemap URL as a non-canonical duplicate of the homepage,
 // with no H1 and no links. The fallback below injects, per requested URL:
 //   - a self-canonical <link rel="canonical"> matching the sitemap URL
 //   - hreflang alternates for the same page in all 5 languages
@@ -31,11 +31,11 @@ const app = express();
 const BASE = 'https://freeomnitools.online';
 const LANGS = ['en', 'es', 'fr', 'ar', 'ru'];
 const OG_LOCALE = { en: 'en_US', es: 'es_ES', fr: 'fr_FR', ar: 'ar_SA', ru: 'ru_RU' };
-const HOME_TITLE = 'Free Omni Tools | 7,300+ Free Online Tools';
+const HOME_TITLE = 'Free Omni Tools | 250+ Free Online Tools';
 const HOME_DESC =
-  '7,300+ free online tools, calculators, PDF converters and image utilities. 100% unlocked, no sign-up, no paywalls, everything runs in your browser.';
+  '250+ free online tools, calculators, PDF converters and image utilities. 100% unlocked, no sign-up, no paywalls, everything runs in your browser.';
 const STATIC_PAGES = {
-  about: { title: 'About Us | Free Omni Tools', desc: 'Learn about Free Omni Tools, the free online toolkit with 7,300+ calculators, converters and utilities that run entirely in your browser.' },
+  about: { title: 'About Us | Free Omni Tools', desc: 'Learn about Free Omni Tools, the free online toolkit with 250+ calculators, converters and utilities that run entirely in your browser.' },
   privacy: { title: 'Privacy Policy | Free Omni Tools', desc: 'Free Omni Tools privacy policy: tools run in your browser, no sign-up required, and your inputs are not stored on our servers.' },
   contact: { title: 'Contact Us | Free Omni Tools', desc: 'Contact Free Omni Tools for support, tool requests or feedback on our free online calculators, converters and utilities.' },
   blog: { title: 'Blog | Free Omni Tools', desc: 'Free Omni Tools guides: how-to articles and explanations for our calculators, converters, PDF tools and everyday utilities.' },
@@ -156,7 +156,7 @@ function seoPage(urlPath) {
       // Unknown slug: JS renders the not-found view (which has an H1).
       // Keep the canonical self-referential and do not invent a tool page.
       title = 'Page Not Found | Free Omni Tools';
-      desc = 'This page does not exist on Free Omni Tools. Browse 7,300+ free online tools, calculators and converters instead.';
+      desc = 'This page does not exist on Free Omni Tools. Browse 250+ free online tools, calculators and converters instead.';
       h1 = 'Page Not Found';
       links = [link(`/${lang}`, 'Free Omni Tools'), link(`/${lang}/blog`, 'Blog'), link(`/${lang}/about`, 'About Us'), link(`/${lang}/contact`, 'Contact Us')].join(' | ');
     }

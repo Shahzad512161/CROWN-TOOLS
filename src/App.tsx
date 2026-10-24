@@ -217,11 +217,12 @@ export default function App() {
                   ? '/contact'
                   : '/';
     // SEO caps (Ahrefs flags titles >60 chars and descriptions >160):
-    // 1,056 tool titles and all 7,300 blog titles exceeded 60 chars, and
-    // 7,120 blog descriptions exceeded 160, because the raw name/title
-    // was used verbatim. Truncate at a word boundary so every page's
-    // title/description fits, in every language. The visible H1 and the
-    // blog article title are NOT truncated — only the <title> / meta.
+    // Before the 2026-10-24 trim, 1,056 tool titles and all 7,300 blog
+    // titles exceeded 60 chars and 7,120 blog descriptions exceeded 160,
+    // because the raw name/title was used verbatim. Truncation at a word
+    // boundary is kept as a safety net so every page's title/description
+    // fits, in every language. The visible H1 and the blog article title
+    // are NOT truncated — only the <title> / meta.
     const trunc = (s: string, max: number): string => {
       if (s.length <= max) return s;
       const cut = s.slice(0, max).replace(/\s+\S*$/, '').trim();

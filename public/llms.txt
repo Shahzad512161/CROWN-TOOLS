@@ -1,8 +1,8 @@
 # Free Omni Tools
 
-> Free online tools that run 100% in the browser — no sign-up, no uploads, no tracking. 7300 tool pages and 7300 matching blog guides, published in five languages: English (/en), Spanish (/es), French (/fr), Arabic (/ar, right-to-left) and Russian (/ru). Every page exists under each locale prefix; swap the prefix to read the same page in another language.
+> Free online tools that run 100% in the browser — no sign-up, no uploads, no tracking. 251 tool pages and 251 matching blog guides, published in five languages: English (/en), Spanish (/es), French (/fr), Arabic (/ar, right-to-left) and Russian (/ru). Every page exists under each locale prefix; swap the prefix to read the same page in another language.
 
-> Complete catalog: the full list of all 7300 tools (and their blog guides) in every language is in the sitemap index at https://freeomnitools.online/sitemap.xml — one sitemap per language (sitemap-en.xml, sitemap-es.xml, sitemap-fr.xml, sitemap-ar.xml, sitemap-ru.xml). The 251 curated tools listed below are the hand-written set; the remaining pages are the programmatic catalog, each with a working in-browser tool.
+> Complete catalog: the full list of all 251 tools (and their blog guides) in every language is in the sitemap index at https://freeomnitools.online/sitemap.xml — one sitemap per language (sitemap-en.xml, sitemap-es.xml, sitemap-fr.xml, sitemap-ar.xml, sitemap-ru.xml). The 251 curated tools listed below are the hand-written set; the remaining pages are the programmatic catalog, each with a working in-browser tool.
 
 ## Languages
 
