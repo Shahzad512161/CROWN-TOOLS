@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ToolItem, ALL_TOOLS, TOOLS_BY_SLUG } from '../lib/tools-data';
 import { FAQSection } from './FAQSection';
+import { SpaLink } from './SpaLink';
 import { 
   ArrowLeft, ChevronRight, CheckCircle2, ShieldCheck, 
   Share2, Bookmark, BookOpen, Star, Sparkles, ExternalLink,
@@ -157,6 +158,16 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
     .filter(item => item.category === tool.category && item.slug !== tool.slug)
     .slice(0, 4);
 
+  // Prev/next chain in the same category (circular). Related tools only
+  // ever link to the first 4 tools in a category, so without this chain
+  // every tool past position 5 in its category is an orphan in the
+  // crawled link graph, even once links are real <a> tags. With the
+  // chain, every tool is reachable from every other tool in its category.
+  const categoryTools = ALL_TOOLS.filter(item => item.category === tool.category);
+  const categoryIndex = categoryTools.findIndex(item => item.slug === tool.slug);
+  const prevTool = categoryTools.length > 1 ? categoryTools[(categoryIndex - 1 + categoryTools.length) % categoryTools.length] : null;
+  const nextTool = categoryTools.length > 1 ? categoryTools[(categoryIndex + 1) % categoryTools.length] : null;
+
   // Render the corresponding unlocked tool (lazy-loaded per suite)
   const renderInteractiveTool = () => <ToolBody tool={tool} lang={lang} />;
 
@@ -167,13 +178,14 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
       <div className="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xs sticky top-[104px] z-30">
         <div className=" mx-auto px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
           <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden whitespace-nowrap">
-            <button
-              onClick={onNavigateHome}
+            <SpaLink
+              href={`/${lang}`}
+              onNavigate={onNavigateHome}
               className="flex shrink-0 items-center gap-1 hover:text-blue-600 font-medium transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5 rtl:rotate-180" />
               <span className="hidden min-[400px]:inline">{c('crumbTools')}</span>
-            </button>
+            </SpaLink>
             <ChevronRight className="hidden w-3 h-3 shrink-0 text-slate-400 rtl:rotate-180 sm:block" />
             <span className="hidden shrink-0 text-slate-500 dark:text-slate-400 sm:inline">{catLabel}</span>
             <ChevronRight className="hidden w-3 h-3 shrink-0 text-slate-400 sm:block" />
@@ -282,13 +294,14 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
                 <div className="text-xs text-slate-500">
                   {c('guideTeaser')}
                 </div>
-                <button
-                  onClick={() => onNavigateBlogGuide(tool.slug)}
+                <SpaLink
+                  href={`/${lang}/blog/${tool.slug}`}
+                  onNavigate={() => onNavigateBlogGuide(tool.slug)}
                   className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>{t.readCompleteGuideBtn || 'Read Complete Guide'}</span>
-                </button>
+                </SpaLink>
               </div>
             </div>
 
@@ -337,12 +350,13 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
                 {c('guideCardText')}
               </p>
-              <button
-                onClick={() => onNavigateBlogGuide(tool.slug)}
+              <SpaLink
+                href={`/${lang}/blog/${tool.slug}`}
+                onNavigate={() => onNavigateBlogGuide(tool.slug)}
                 className="w-full py-2 px-3 text-xs font-bold rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer text-center block"
               >
                 {t.readCompleteGuideBtn}
-              </button>
+              </SpaLink>
             </div>
 
             {/* Related Tools */}
@@ -353,10 +367,11 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
               </h3>
               <div className="space-y-2">
                 {relatedTools.map(rt => { const rlt = localizedTool(rt, lang); return (
-                  <button
+                  <SpaLink
                     key={rt.slug}
-                    onClick={() => onNavigateTool(rt.slug)}
-                    className="w-full text-left p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-500 transition-all cursor-pointer group"
+                    href={`/${lang}/tool/${rt.slug}`}
+                    onNavigate={() => onNavigateTool(rt.slug)}
+                    className="w-full text-left p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-500 transition-all cursor-pointer group block"
                   >
                     <p className="text-xs font-bold text-slate-900 dark:text-white transition-colors">
                       {rlt.name}
@@ -364,10 +379,38 @@ export const ToolWrapper: React.FC<ToolWrapperProps> = ({
                     <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
                       {rlt.description}
                     </p>
-                  </button>
+                  </SpaLink>
                 ); })}
               </div>
             </div>
+
+            {/* Prev / Next tool in this category — the chain that ends
+                orphan pages. Link text is the neighbouring tool's name,
+                so no new translation strings are needed. */}
+            {(prevTool || nextTool) && (
+              <nav className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs space-y-2" aria-label="More tools">
+                {prevTool && (
+                  <SpaLink
+                    href={`/${lang}/tool/${prevTool.slug}`}
+                    onNavigate={() => onNavigateTool(prevTool.slug)}
+                    className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors"
+                  >
+                    <span aria-hidden="true">←</span>
+                    <span className="min-w-0 truncate">{localizedTool(prevTool, lang).name}</span>
+                  </SpaLink>
+                )}
+                {nextTool && (
+                  <SpaLink
+                    href={`/${lang}/tool/${nextTool.slug}`}
+                    onNavigate={() => onNavigateTool(nextTool.slug)}
+                    className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors"
+                  >
+                    <span className="min-w-0 truncate">{localizedTool(nextTool, lang).name}</span>
+                    <span aria-hidden="true">→</span>
+                  </SpaLink>
+                )}
+              </nav>
+            )}
 
           </div>
 

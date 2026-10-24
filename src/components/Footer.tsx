@@ -1,9 +1,10 @@
 import React from 'react';
 import { ShieldCheck, Heart, Sparkles, Mail, Globe, CheckCircle2, BookOpen } from 'lucide-react';
 import { Translations, TRANSLATIONS } from '../lib/i18n';
-import { useStrings } from '../lib/LangContext';
+import { useStrings, useLang } from '../lib/LangContext';
 import { PAGES_STRINGS } from '../lib/strings/pages';
 import { LogoMark } from './LogoMark';
+import { SpaLink } from './SpaLink';
 
 interface FooterProps {
   onOpenModal: (type: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer' | 'legal-safe') => void;
@@ -18,6 +19,7 @@ export const Footer: React.FC<FooterProps> = ({
   t = TRANSLATIONS.en
 }) => {
   const s = useStrings(PAGES_STRINGS);
+  const lang = useLang();
   const handleNav = (page: 'home' | 'about' | 'privacy' | 'contact' | 'blog' | 'terms' | 'disclaimer', modalFallback: 'about' | 'privacy' | 'terms' | 'contact' | 'disclaimer') => {
     if (onNavigatePage) {
       onNavigatePage(page);
@@ -57,12 +59,13 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2">
               <li>
-                <button
-                  onClick={() => handleNav('privacy', 'privacy')}
+                <SpaLink
+                  href={`/${lang}/privacy`}
+                  onNavigate={() => handleNav('privacy', 'privacy')}
                   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
                   {t.navPrivacy || 'Privacy Policy'} {s('footerGdprCcpa')}
-                </button>
+                </SpaLink>
               </li>
               <li>
                 <button
@@ -98,29 +101,32 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2">
               <li>
-                <button
-                  onClick={() => handleNav('about', 'about')}
+                <SpaLink
+                  href={`/${lang}/about`}
+                  onNavigate={() => handleNav('about', 'about')}
                   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
                   {t.navAbout || 'About Us'}
-                </button>
+                </SpaLink>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('blog', 'about')}
+                <SpaLink
+                  href={`/${lang}/blog`}
+                  onNavigate={() => handleNav('blog', 'about')}
                   className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors cursor-pointer text-start flex items-center gap-1.5 font-bold text-amber-600 dark:text-amber-400"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>{s('footerBlogGuides')}</span>
-                </button>
+                </SpaLink>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('contact', 'contact')}
+                <SpaLink
+                  href={`/${lang}/contact`}
+                  onNavigate={() => handleNav('contact', 'contact')}
                   className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer text-start"
                 >
                   {t.navContact || 'Contact Us'}
-                </button>
+                </SpaLink>
               </li>
             </ul>
           </div>

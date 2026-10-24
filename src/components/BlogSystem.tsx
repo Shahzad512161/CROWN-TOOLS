@@ -13,6 +13,7 @@ import { localizedCategory } from '../lib/strings-chrome';
 import { localizedTool } from '../lib/tools-fr';
 import { localizedFaqs } from '../lib/tool-content';
 import { FAQSection } from './FAQSection';
+import { SpaLink } from './SpaLink';
 
 interface BlogIndexProps {
   onSelectPost: (slug: string) => void;
@@ -59,9 +60,9 @@ export const BlogIndex: React.FC<BlogIndexProps> = ({
 
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs text-slate-500 mb-6">
-          <button onClick={onNavigateHome} className="hover:text-blue-600 transition-colors cursor-pointer">
+          <SpaLink href={`/${lang}`} onNavigate={onNavigateHome} className="hover:text-blue-600 transition-colors cursor-pointer">
             {s('crumbHome')}
-          </button>
+          </SpaLink>
           <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />
           <span className="font-bold text-slate-900 dark:text-white">{s('indexCrumb')}</span>
         </div>
@@ -128,9 +129,9 @@ export const BlogIndex: React.FC<BlogIndexProps> = ({
                 </div>
 
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white leading-snug line-clamp-2 hover:text-blue-600 transition-colors">
-                  <button onClick={() => onSelectPost(post.slug)} className="text-start cursor-pointer">
+                  <SpaLink href={`/${lang}/blog/${post.slug}`} onNavigate={() => onSelectPost(post.slug)} className="text-start cursor-pointer block">
                     {post.title}
-                  </button>
+                  </SpaLink>
                 </h2>
 
                 <p className="mt-2.5 text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
@@ -152,20 +153,22 @@ export const BlogIndex: React.FC<BlogIndexProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => onSelectTool(post.toolSlug)}
+                  <SpaLink
+                    href={`/${lang}/tool/${post.toolSlug}`}
+                    onNavigate={() => onSelectTool(post.toolSlug)}
                     className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer"
                     title={s('openToolTitle')}
                   >
                     {s('openTool')}
-                  </button>
-                  <button
-                    onClick={() => onSelectPost(post.slug)}
-                    className="p-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer"
+                  </SpaLink>
+                  <SpaLink
+                    href={`/${lang}/blog/${post.slug}`}
+                    onNavigate={() => onSelectPost(post.slug)}
+                    className="p-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer inline-flex"
                     title={s('readGuideTitle')}
                   >
                     <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                  </button>
+                  </SpaLink>
                 </div>
               </div>
             </article>
@@ -182,13 +185,15 @@ interface BlogPostDetailProps {
   onNavigateHome: () => void;
   onNavigateBlog: () => void;
   onSelectTool: (slug: string) => void;
+  onSelectPost: (slug: string) => void;
 }
 
 export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
   slug,
   onNavigateHome,
   onNavigateBlog,
-  onSelectTool
+  onSelectTool,
+  onSelectPost
 }) => {
   const lang = useLang();
   const s = useStrings(BLOG_STRINGS);
@@ -196,6 +201,13 @@ export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
   const tool: ToolItem = TOOLS_BY_SLUG[slug] || ALL_TOOLS[0];
   const lt = localizedTool(tool, lang);
   const post: BlogPost = getBlogPostForTool(tool, lang);
+  // Prev/next guide chain in the same category (circular), mirroring the
+  // tool chain: without it, guides beyond the first 30 in the blog index
+  // are orphans, linked only from their tool page.
+  const categoryToolsForBlog = ALL_TOOLS.filter((item) => item.category === tool.category);
+  const blogIndexInCategory = categoryToolsForBlog.findIndex((item) => item.slug === tool.slug);
+  const prevBlogTool = categoryToolsForBlog.length > 1 ? categoryToolsForBlog[(blogIndexInCategory - 1 + categoryToolsForBlog.length) % categoryToolsForBlog.length] : null;
+  const nextBlogTool = categoryToolsForBlog.length > 1 ? categoryToolsForBlog[(blogIndexInCategory + 1) % categoryToolsForBlog.length] : null;
 
   return (
     <article className="min-h-screen bg-white dark:bg-[#111827] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
@@ -203,13 +215,13 @@ export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
 
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6 flex-wrap">
-          <button onClick={onNavigateHome} className="hover:text-blue-600 transition-colors cursor-pointer">
+          <SpaLink href={`/${lang}`} onNavigate={onNavigateHome} className="hover:text-blue-600 transition-colors cursor-pointer">
             {s('crumbHome')}
-          </button>
+          </SpaLink>
           <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />
-          <button onClick={onNavigateBlog} className="hover:text-blue-600 transition-colors cursor-pointer">
+          <SpaLink href={`/${lang}/blog`} onNavigate={onNavigateBlog} className="hover:text-blue-600 transition-colors cursor-pointer">
             {s('crumbBlog')}
-          </button>
+          </SpaLink>
           <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />
           <span className="font-semibold text-slate-700 dark:text-slate-300 truncate max-w-[200px] sm:max-w-md">
             {post.title}
@@ -253,12 +265,13 @@ export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
           </div>
 
           {/* Quick CTA to open unlocked tool */}
-          <button
-            onClick={() => onSelectTool(post.toolSlug)}
+          <SpaLink
+            href={`/${lang}/tool/${post.toolSlug}`}
+            onNavigate={() => onSelectTool(post.toolSlug)}
             className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <span>{s('openToolCta').replaceAll('{name}', lt.name)}</span>
-          </button>
+          </SpaLink>
         </div>
 
         {/* Table of Contents */}
@@ -330,23 +343,43 @@ export const BlogPostDetail: React.FC<BlogPostDetailProps> = ({
         {/* FAQ Section with Google FAQ Schema */}
         <FAQSection toolName={lt.name} faqs={localizedFaqs(tool, lang, lt.name)} />
 
+        {/* Prev / Next guide in this category */}
+        {(prevBlogTool || nextBlogTool) && (
+          <nav className="mt-10 flex items-center justify-between flex-wrap gap-4" aria-label="More guides">
+            {prevBlogTool ? (
+              <SpaLink href={`/${lang}/blog/${prevBlogTool.slug}`} onNavigate={() => onSelectPost(prevBlogTool.slug)} className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors">
+                <span aria-hidden="true">←</span>
+                <span className="truncate max-w-[160px] sm:max-w-xs">{localizedTool(prevBlogTool, lang).name}</span>
+              </SpaLink>
+            ) : <span />}
+            {nextBlogTool && (
+              <SpaLink href={`/${lang}/blog/${nextBlogTool.slug}`} onNavigate={() => onSelectPost(nextBlogTool.slug)} className="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-blue-600 transition-colors">
+                <span className="truncate max-w-[160px] sm:max-w-xs">{localizedTool(nextBlogTool, lang).name}</span>
+                <span aria-hidden="true">→</span>
+              </SpaLink>
+            )}
+          </nav>
+        )}
+
         {/* Bottom Navigation */}
         <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between flex-wrap gap-4">
-          <button
-            onClick={onNavigateBlog}
+          <SpaLink
+            href={`/${lang}/blog`}
+            onNavigate={onNavigateBlog}
             className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
             <span>{s('backToGuides')}</span>
-          </button>
+          </SpaLink>
 
-          <button
-            onClick={() => onSelectTool(post.toolSlug)}
+          <SpaLink
+            href={`/${lang}/tool/${post.toolSlug}`}
+            onNavigate={() => onSelectTool(post.toolSlug)}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition-all cursor-pointer"
           >
             <span>{s('launchToolCta').replaceAll('{name}', lt.name)}</span>
             <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-          </button>
+          </SpaLink>
         </div>
 
       </div>

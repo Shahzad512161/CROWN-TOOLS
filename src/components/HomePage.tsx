@@ -13,6 +13,7 @@ import {
 import { SupportedLanguage, Translations, TRANSLATIONS } from '../lib/i18n';
 import { localizedTool } from '../lib/tools-fr';
 import { useStrings } from '../lib/LangContext';
+import { SpaLink } from './SpaLink';
 import { PAGES_STRINGS, HOME_GROUP_TEXT, PLATFORM_FAQ_TEXT, HOME_POPULAR_LABELS } from '../lib/strings/pages';
 import { LogoMark } from './LogoMark';
 
@@ -546,10 +547,11 @@ export const HomePage: React.FC<HomePageProps> = ({
             };
 
             return (
-              <div
+              <SpaLink
                 key={tool.id}
-                onClick={() => onSelectTool(tool.slug)}
-                className={`relative group rounded-[28px] p-6 cursor-pointer border ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[310px] shadow-sm`}
+                href={`/${lang}/tool/${tool.slug}`}
+                onNavigate={() => onSelectTool(tool.slug)}
+                className={`relative group rounded-[28px] p-6 cursor-pointer border ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[310px] shadow-sm block`}
               >
                 {/* Header Row: Icon + Popular Badge */}
                 <div>
@@ -588,7 +590,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                   </span>
                   <span className="text-[11px] font-normal text-slate-500 dark:text-slate-400">{t.freeLabel}</span>
                 </div>
-              </div>
+              </SpaLink>
             );
           })}
         </div>
@@ -723,17 +725,15 @@ export const HomePage: React.FC<HomePageProps> = ({
                       {group.popularTools.map((pt) => {
                         const ptLabel = HOME_POPULAR_LABELS[pt.name]?.[lang] ?? pt.name;
                         return (
-                        <button
+                        <SpaLink
                           key={pt.name}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onSelectTool(pt.slug);
-                          }}
-                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
+                          href={`/${lang}/tool/${pt.slug}`}
+                          onNavigate={() => onSelectTool(pt.slug)}
+                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-200 hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 border border-slate-200 dark:border-slate-700 transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95 inline-block"
                           title={s('homeOpenTool').replace('{name}', ptLabel)}
                         >
                           {ptLabel}
-                        </button>
+                        </SpaLink>
                         );
                       })}
                     </div>
@@ -850,10 +850,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               };
 
               return (
-                <div
+                <SpaLink
                   key={tool.id}
-                  onClick={() => onSelectTool(tool.slug)}
-                  className={`rounded-[28px] p-5 cursor-pointer border ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[235px] group shadow-2xs`}
+                  href={`/${lang}/tool/${tool.slug}`}
+                  onNavigate={() => onSelectTool(tool.slug)}
+                  className={`rounded-[28px] p-5 cursor-pointer border ${theme.borderColor} ${theme.borderHover} ${theme.cardBg} hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[235px] group shadow-2xs block`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -884,7 +885,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <span>{t.useToolFree}</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </div>
+                </SpaLink>
               );
             })}
           </div>

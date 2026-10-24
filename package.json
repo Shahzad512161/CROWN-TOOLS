@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "vite build",
+    "build": "vite build && tsx scripts/generate-seo-catalog.mjs",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
     "start": "node server.js",
-    "sitemap": "tsx scripts/generate-sitemap.mjs"
+    "sitemap": "tsx scripts/generate-sitemap.mjs",
+    "seo-catalog": "tsx scripts/generate-seo-catalog.mjs"
   },
   "dependencies": {
     "@cantoo/pdf-lib": "^2.11.1",

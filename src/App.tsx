@@ -27,6 +27,7 @@ import { localizedTool } from './lib/tools-fr';
 import { getBlogPostForTool } from './lib/blog-data';
 import { CHROME } from './lib/strings-chrome';
 import { X } from 'lucide-react';
+import { SpaLink } from './components/SpaLink';
 
 export type AppView = 'home' | 'tool' | 'blog' | 'blog-post' | 'about' | 'privacy' | 'contact' | 'terms' | 'disclaimer' | 'not-found';
 
@@ -215,27 +216,40 @@ export default function App() {
                 : currentView === 'contact'
                   ? '/contact'
                   : '/';
-    let title = `${SITE_NAME}   ${t.logoSubtitle}`;
+    // SEO caps (Ahrefs flags titles >60 chars and descriptions >160):
+    // 1,056 tool titles and all 7,300 blog titles exceeded 60 chars, and
+    // 7,120 blog descriptions exceeded 160, because the raw name/title
+    // was used verbatim. Truncate at a word boundary so every page's
+    // title/description fits, in every language. The visible H1 and the
+    // blog article title are NOT truncated — only the <title> / meta.
+    const trunc = (s: string, max: number): string => {
+      if (s.length <= max) return s;
+      const cut = s.slice(0, max).replace(/\s+\S*$/, '').trim();
+      return cut || s.slice(0, max).trim();
+    };
+    let title = `${SITE_NAME} | ${t.logoSubtitle}`;
     let description = t.heroSubtitle;
     if (currentView === 'tool' && activeToolSlug && TOOLS_BY_SLUG[activeToolSlug]) {
       const lt = localizedTool(TOOLS_BY_SLUG[activeToolSlug], currentLang);
-      title = `${lt.name}   ${SITE_NAME}`;
+      title = `${lt.name} | ${SITE_NAME}`;
       description = lt.description;
     } else if (currentView === 'blog') {
-      title = `${t.navBlog}   ${SITE_NAME}`;
+      title = `${t.navBlog} | ${SITE_NAME}`;
     } else if (currentView === 'blog-post' && activeBlogSlug && TOOLS_BY_SLUG[activeBlogSlug]) {
       const post = getBlogPostForTool(TOOLS_BY_SLUG[activeBlogSlug], currentLang);
-      title = `${post.title}   ${SITE_NAME}`;
+      title = `${post.title} | ${SITE_NAME}`;
       description = post.metaDescription;
     } else if (currentView === 'about') {
-      title = `${t.navAbout}   ${SITE_NAME}`;
+      title = `${t.navAbout} | ${SITE_NAME}`;
     } else if (currentView === 'privacy') {
-      title = `${t.navPrivacy}   ${SITE_NAME}`;
+      title = `${t.navPrivacy} | ${SITE_NAME}`;
     } else if (currentView === 'contact') {
-      title = `${t.navContact}   ${SITE_NAME}`;
+      title = `${t.navContact} | ${SITE_NAME}`;
     } else if (currentView === 'not-found') {
-      title = `${lookup(CHROME, currentLang, 'notFoundTitle')}   ${SITE_NAME}`;
+      title = `${lookup(CHROME, currentLang, 'notFoundTitle')} | ${SITE_NAME}`;
     }
+    title = trunc(title, 60);
+    description = trunc(description, 160);
     document.title = title;
 
     const suffix = path === '/' ? '' : path;
@@ -324,6 +338,7 @@ export default function App() {
             onNavigateHome={handleNavigateHome}
             onNavigateBlog={handleNavigateBlog}
             onSelectTool={handleSelectTool}
+            onSelectPost={handleSelectBlogPost}
           />
         ) : currentView === 'about' ? (
           <AboutPage
@@ -352,12 +367,13 @@ export default function App() {
             <p className="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
               {lookup(CHROME, currentLang, 'notFoundText')}
             </p>
-            <button
-              onClick={handleNavigateHome}
-              className="mt-8 px-6 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold hover:opacity-90 transition-opacity cursor-pointer"
+            <SpaLink
+              href={`/${currentLang}`}
+              onNavigate={handleNavigateHome}
+              className="mt-8 px-6 py-3 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold hover:opacity-90 transition-opacity cursor-pointer inline-block"
             >
               {lookup(CHROME, currentLang, 'backHomeBtn')}
-            </button>
+            </SpaLink>
           </div>
         ) : (
           <HomePage

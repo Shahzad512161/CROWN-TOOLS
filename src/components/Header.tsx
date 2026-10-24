@@ -24,6 +24,7 @@ import type {
 } from '../lib/i18n';
 
 import { DonationHeart } from './DonationHeart';
+import { SpaLink } from './SpaLink';
 import { LogoMark } from './LogoMark';
 
 export interface HeaderProps {
@@ -345,9 +346,9 @@ export function Header({
       <div className="border-b border-slate-200 bg-white transition-colors duration-200 dark:border-slate-800 dark:bg-[#0f172a]">
         <div className="mx-auto flex min-h-[64px] w-full max-w-[1500px] items-center justify-between gap-3 px-3 py-2 sm:min-h-[72px] sm:px-5 lg:gap-5 lg:px-6">
           {/* Brand */}
-          <button
-            type="button"
-            onClick={navigateHome}
+          <SpaLink
+            href={`/${currentLang}`}
+            onNavigate={navigateHome}
             className="group flex min-w-0 shrink items-center gap-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 sm:gap-3"
             title="Free Omni Tools Home"
             aria-label="Free Omni Tools Home"
@@ -362,10 +363,10 @@ export function Header({
               </span>
 
               <span className="mt-0.5 hidden text-[10px] font-medium text-slate-500 dark:text-slate-400 sm:block sm:text-xs">
-                250+ Free Online Tools
+                7,300+ Free Online Tools
               </span>
             </span>
-          </button>
+          </SpaLink>
 
           {/* Desktop navigation: visible at lg and above */}
           <nav
@@ -377,10 +378,10 @@ export function Header({
               const isBlog = item.page === 'blog';
 
               return (
-                <button
+                <SpaLink
                   key={item.page}
-                  type="button"
-                  onClick={() => navigateToPage(item.page)}
+                  href={`/${currentLang}/${item.page}`}
+                  onNavigate={() => navigateToPage(item.page)}
                   aria-current={
                     isActive ? 'page' : undefined
                   }
@@ -405,7 +406,7 @@ export function Header({
                   {isActive && (
                     <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-current" />
                   )}
-                </button>
+                </SpaLink>
               );
             })}
           </nav>
@@ -462,14 +463,13 @@ export function Header({
               const isBlog = item.page === 'blog';
 
               return (
-                <button
+                <SpaLink
                   key={item.page}
-                  type="button"
-                  onClick={() => navigateToPage(item.page)}
+                  href={`/${currentLang}/${item.page}`}
+                  onNavigate={() => navigateToPage(item.page)}
                   aria-current={
                     isActive ? 'page' : undefined
                   }
-                  tabIndex={mobileMenuOpen ? 0 : -1}
                   className={`flex min-h-12 w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
                     isActive
                       ? isBlog
@@ -490,7 +490,7 @@ export function Header({
                       aria-hidden="true"
                     />
                   )}
-                </button>
+                </SpaLink>
               );
             })}
           </nav>
